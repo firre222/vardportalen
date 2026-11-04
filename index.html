@@ -340,6 +340,40 @@ td.c, th.c { text-align: center; }
 .hrow-main small { color: var(--muted); font-size: .82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 560px) { .dx-sec { grid-template-columns: 1fr; } .dx-num { display: none; } }
 
+/* Nästa steg, flikar och att göra */
+.next { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); border-left-width: 4px; flex-wrap: wrap; }
+.next p { font-weight: 600; font-size: .93rem; }
+.next-label { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.next.tone-urgent { border-left-color: var(--t-rod); background: var(--danger-soft); }
+.next.tone-todo { border-left-color: var(--accent); background: var(--accent-soft); }
+.next.tone-wait { border-left-color: var(--t-orange); }
+.next.tone-done { border-left-color: var(--muted); }
+.d-tabs { display: flex; gap: 2px; background: var(--surface); border-bottom: 1px solid var(--line); padding-left: 16px; padding-right: max(16px, env(safe-area-inset-right, 0px)); overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+.d-tabs button { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; padding: 12px 12px 10px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.d-tabs button:hover { color: var(--fg); }
+.d-tabs button[aria-selected="true"] { color: var(--fg); border-color: var(--accent); }
+.tcount { min-width: 20px; padding: 0 6px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--line); font-size: .72rem; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.tcount.alert { background: var(--t-rod); border-color: var(--t-rod); color: #fff; }
+.d-pane { display: grid; gap: 16px; align-content: start; }
+.d-pane > div:empty { display: none; }
+.d-head { gap: 8px; }
+.todos { display: grid; }
+.todo { display: grid; grid-template-columns: 5px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 18px 12px 0; border-bottom: 1px solid var(--line); }
+.todos > :last-child { border-bottom: 0; }
+.todo-bar { align-self: stretch; border-radius: 0 3px 3px 0; background: var(--accent); }
+.todo.tone-urgent .todo-bar:not([class*="tri-"]) { background: var(--t-rod); }
+.todo.tone-info .todo-bar:not([class*="tri-"]) { background: var(--line); }
+.todo-main { display: grid; gap: 1px; min-width: 0; }
+.todo-kind { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.todo.tone-urgent .todo-kind { color: var(--t-rod); }
+.todo.tone-info .todo-kind { color: var(--muted); }
+.todo-main b { font-weight: 600; }
+.todo-main small { color: var(--muted); font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.todo-btns { display: flex; gap: 6px; }
+.crow-next { font-size: .82rem; font-weight: 600; }
+.crow-next.tone-urgent { color: var(--t-rod); } .crow-next.tone-todo { color: var(--accent); } .crow-next.tone-wait { color: var(--t-orange); } .crow-next.tone-done { color: var(--muted); }
+@media (max-width: 560px) { .todo { grid-template-columns: 5px minmax(0, 1fr); } .todo-btns { grid-column: 2; } .todo-main small { white-space: normal; } }
+
 /* Bildvisare och toast */
 .lightbox { position: fixed; inset: 0; z-index: 40; background: rgba(5, 10, 12, .9); display: grid; place-items: center; padding: 24px; }
 .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
@@ -869,7 +903,7 @@ function refreshMe() {
 var VIEWS = {};
 function navItems() {
   var items = [
-    { id: 'mina', label: 'Ärenden jag har', badge: myOpenCount() },
+    { id: 'mina', label: 'Att göra', badge: todoCount(), red: true },
     can('diagnose') && { id: 'inkorg', label: 'Läkarinkorg', badge: inboxCount(), red: true },
     can('create') && { id: 'nytt', label: 'Ny konsultation' },
     { id: 'belaggning', label: 'Patienter på sjukhuset', badge: inpatients().length, muted: true },
@@ -974,7 +1008,8 @@ function caseRow(c) {
   return '<button type="button" class="crow" data-open="' + esc(c.id) + '">' +
     '<span class="tri tri-' + t + '" title="Prioritet ' + TRI[t].label + '"></span>' +
     '<span class="crow-main"><span class="crow-top"><b>' + esc(c.title) + '</b><span class="mono muted">' + esc(c.caseNo) + '</span></span>' +
-    '<span class="crow-sub">' + esc((c.patient && c.patient.name) || 'Okänd patient') + (c.patient && c.patient.pnr ? ' · ' + esc(c.patient.pnr) : '') + ' · Från ' + esc(userName(c.createdBy)) + ' · ' + esc(who) + '</span></span>' +
+    '<span class="crow-sub">' + esc((c.patient && c.patient.name) || 'Okänd patient') + (c.patient && c.patient.pnr ? ' · ' + esc(c.patient.pnr) : '') + ' · Från ' + esc(userName(c.createdBy)) + ' · ' + esc(who) + '</span>' +
+    (function () { var n = nextStep(c); return '<span class="crow-next tone-' + n.tone + '">' + esc(n.text) + '</span>'; })() + '</span>' +
     '<span class="crow-meta">' + statusPill(c.status) + stayHtml(c) + '<small>' + ago(c.createdAt) + '</small></span></button>';
 }
 function canToggleTask(t) { return t.assignee === S.me.id || t.by === S.me.id || can('manage'); }
@@ -1034,38 +1069,68 @@ function updateCase(caseId, patch, ev) {
 }
 
 /* ---------- Vy: Ärenden jag har ---------- */
+function todoItems() {
+  if (!S.me || !S.loaded.cases) return [];
+  var out = [], now = Date.now(), seen = seenMap();
+  var rank = { urgent: 0, todo: 1, info: 2 };
+  if (can('diagnose')) {
+    S.cases.forEach(function (c) {
+      var hot = c.triage === 'rod' || c.triage === 'orange';
+      if (c.status === 'inkommen' && (!c.doctorId || c.doctorId === S.me.id) && c.createdBy !== S.me.id)
+        out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ny konsultation', title: c.title, sub: ((c.patient && c.patient.name) || '') + ' · från ' + userName(c.createdBy) + ' · ' + ago(c.createdAt), tri: c.triage, at: c.createdAt, btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '">Bedöm</button>' });
+      else if (c.status === 'bedoms' && c.doctorId === S.me.id)
+        out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ställ diagnos', title: c.title, sub: ((c.patient && c.patient.name) || '') + ' · tagen ' + ago(c.updatedAt || c.createdAt), tri: c.triage, at: c.createdAt, btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="bedomning">Fortsätt</button>' });
+      else if (c.status === 'diagnos' && c.doctorId === S.me.id && !S.tasks.some(function (t) { return t.caseId === c.id && t.status !== 'klar'; }) && !(c.call && new Date(c.call.at) > new Date()) && !(c.stay && c.stay.status === 'inne'))
+        out.push({ tone: 'info', kind: 'Klart att avsluta', title: c.title, sub: ((c.patient && c.patient.name) || '') + ' · diagnos satt', tri: c.triage, at: c.updatedAt, btn: '<button type="button" class="btn sm" data-open="' + esc(c.id) + '">Öppna</button>' });
+    });
+  }
+  myTasks().forEach(function (t) {
+    var c = t.caseId && S.cases.find(function (x) { return x.id === t.caseId; });
+    var late = t.due && new Date(t.due) < new Date();
+    out.push({ tone: t.prio === 'hog' || late ? 'urgent' : 'todo', kind: 'Uppdrag', title: t.title, sub: (c ? c.caseNo + ' · ' + ((c.patient && c.patient.name) || '') + ' · ' : '') + 'från ' + userName(t.by) + (t.due ? ' · ' + (late ? 'försenat, skulle vara klart ' : 'klart senast ') + dt(t.due) : ''), at: t.due || t.createdAt,
+      btn: (c ? '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '">Ärendet</button>' : '') + '<button type="button" class="btn sm primary" data-task-finish="' + esc(t.id) + '">Klart</button>' });
+  });
+  upcomingCalls().forEach(function (c) {
+    var at = new Date(c.call.at).getTime(); if (at - now > 864e5) return;
+    out.push({ tone: at - now < 3600e3 ? 'urgent' : 'todo', kind: 'Samtal', title: c.call.type + ' kl ' + fmtT.format(new Date(c.call.at)), sub: 'med ' + (c.call.withLabel || '') + ' · ' + c.caseNo + ' ' + c.title, at: c.call.at, btn: '<button type="button" class="btn sm" data-open="' + esc(c.id) + '">Öppna</button>' });
+  });
+  S.cases.forEach(function (c) {
+    if (c.createdBy !== S.me.id || !c.diagnosis || c.diagnosis.by === S.me.id) return;
+    if (seen[c.id] && seen[c.id] >= c.diagnosis.at) return;
+    out.push({ tone: 'todo', kind: 'Läkaren har svarat', title: c.title, sub: (c.diagnosis.code ? c.diagnosis.code + ' ' : '') + c.diagnosis.text + ' · ' + userName(c.diagnosis.by), at: c.diagnosis.at, btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '">Läs</button>' });
+  });
+  var un = totalUnread();
+  if (un) out.push({ tone: 'info', kind: 'Chatt', title: un + (un === 1 ? ' oläst meddelande' : ' olästa meddelanden'), sub: 'Från dina kollegor', at: nowIso(), btn: '<button type="button" class="btn sm" data-nav="chatt">Läs</button>' });
+  return out.sort(function (a, b) { return rank[a.tone] - rank[b.tone] || ((TRI[a.tri] || { rank: 5 }).rank - (TRI[b.tri] || { rank: 5 }).rank) || String(a.at).localeCompare(String(b.at)); });
+}
+function todoCount() { return todoItems().filter(function (t) { return t.tone !== 'info'; }).length; }
 VIEWS.mina = {
   mount: function (el) {
-    var doc = can('diagnose');
     el.innerHTML =
-      '<header class="page-head"><div><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Ärenden jag har</h1><p class="sub">Hej ' + esc(firstName(S.me.name)) + '. Här är det som väntar på dig.</p></div>' +
+      '<header class="page-head"><div><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p class="sub" id="m-sub"></p></div>' +
       (can('create') ? '<button class="btn primary" type="button" data-nav="nytt">Ny konsultation</button>' : '') + '</header>' +
-      '<div class="stats" id="r-stats"></div>' +
-      '<div class="cols"><section class="panel"><div class="panel-head"><h2>Mina uppdrag</h2><span class="muted" id="r-tcount"></span></div><div class="list" id="r-tasks"></div></section>' +
-      '<section class="panel"><div class="panel-head"><h2>Kommande samtal</h2></div><div class="list" id="r-calls"></div></section></div>' +
-      (doc ? '<section class="panel"><div class="panel-head"><h2>Ärenden jag ansvarar för</h2></div><div class="list" id="r-resp"></div></section>' : '') +
-      '<section class="panel"><div class="panel-head"><h2>Ärenden jag skickat in</h2></div><div class="list" id="r-sent"></div></section>';
+      '<section class="panel"><div class="panel-head"><h2>Att göra nu</h2><span class="muted" id="m-count" style="font-size:.85rem"></span></div><div class="todos" id="r-todo"></div></section>' +
+      '<div class="cols">' +
+        '<div style="display:grid;gap:20px;min-width:0">' +
+          (can('diagnose') ? '<section class="panel"><div class="panel-head"><h2>Ärenden jag ansvarar för</h2></div><div class="list" id="r-resp"></div></section>' : '') +
+          '<section class="panel"><div class="panel-head"><h2>Ärenden jag skickat in</h2></div><div class="list" id="r-sent"></div></section>' +
+        '</div>' +
+        '<section class="panel"><div class="panel-head"><h2>Kommande samtal</h2></div><div class="list" id="r-calls"></div></section>' +
+      '</div>';
   },
   update: function () {
-    var w = waiting();
-    var tasks = myTasks().sort(function (a, b) { return (a.prio === 'hog' ? 0 : 1) - (b.prio === 'hog' ? 0 : 1) || (new Date(a.due || 8e15) - new Date(b.due || 8e15)); });
+    var w = waiting(), items = todoItems(), n = items.filter(function (t) { return t.tone !== 'info'; }).length;
+    $('#m-sub').textContent = w ? 'Hämtar dina ärenden…' : n ? 'Du har ' + n + (n === 1 ? ' sak' : ' saker') + ' att göra.' : 'Du har inget som väntar på dig just nu.';
+    $('#m-count').textContent = items.length ? items.length + (items.length === 1 ? ' punkt' : ' punkter') : '';
+    $('#r-todo').innerHTML = w || (items.length ? items.map(function (t) {
+      return '<div class="todo tone-' + t.tone + '"><span class="todo-bar' + (t.tri ? ' tri-' + esc(t.tri) : '') + '"></span><div class="todo-main"><span class="todo-kind">' + esc(t.kind) + '</span><b>' + esc(t.title) + '</b><small>' + esc(t.sub) + '</small></div><div class="todo-btns">' + t.btn + '</div></div>';
+    }).join('') : '<div class="empty"><b>Inget att göra just nu</b><span>Nya konsultationer, uppdrag och samtal som gäller dig dyker upp här.</span></div>');
     var sent = byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; }));
     var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
     var calls = upcomingCalls();
-    var waitingDoc = sent.filter(function (c) { return c.status === 'inkommen' || c.status === 'bedoms'; }).length;
-    var stats = [
-      { n: tasks.length, l: 'Öppna uppdrag', t: 'r-tasks' },
-      { n: calls.length, l: 'Kommande samtal', t: 'r-calls' },
-      { n: waitingDoc, l: 'Väntar på läkare', t: 'r-sent' }
-    ];
-    if (can('diagnose')) stats.push({ n: inboxCount(), l: 'Nya i inkorgen', nav: 'inkorg', alert: inboxCount() > 0 });
-    else stats.push({ n: sent.filter(function (c) { return c.status === 'diagnos'; }).length, l: 'Diagnos satt', t: 'r-sent' });
-    $('#r-stats').innerHTML = stats.map(function (s) { return '<button type="button" class="stat' + (s.alert ? ' alert' : '') + '" ' + (s.nav ? 'data-nav="' + s.nav + '"' : 'data-scroll="' + s.t + '"') + '><b>' + (w ? '–' : s.n) + '</b><span>' + s.l + '</span></button>'; }).join('');
-    $('#r-tcount').textContent = tasks.length ? tasks.length + ' öppna' : '';
-    $('#r-tasks').innerHTML = w || (tasks.length ? tasks.map(function (t) { return taskRow(t, { showAssignee: false }); }).join('') : emptyBox('Inga öppna uppdrag', 'Uppdrag som en läkare eller administratör tilldelar dig visas här.'));
-    $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyBox('Inga bokade samtal', 'När en läkare bokar ett samtal i något av dina ärenden visas det här.'));
+    $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyBox('Inga bokade samtal', 'Samtal som bokas i dina ärenden visas här.'));
     if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? resp.map(caseRow).join('') : emptyBox('Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
-    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 30).map(caseRow).join('') : emptyBox('Du har inte skickat in något ärende', can('create') ? 'Välj Ny konsultation för att skicka symtom och bilder till en läkare.' : ''));
+    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 20).map(caseRow).join('') : emptyBox('Du har inte skickat in något ärende', can('create') ? 'Välj Ny konsultation för att skicka symtom och bilder till en läkare.' : ''));
   }
 };
 function callRow(c) {
@@ -1737,27 +1802,40 @@ function openCase(id) {
   S.openCase = id; var wrap = $('#drawer');
   var c = S.cases.find(function (x) { return x.id === id; });
   wrap.hidden = false;
+  if (S.drawerCase !== id) { S.drawerTab = 'oversikt'; S.drawerCase = id; }
   wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer" role="dialog" aria-modal="true" aria-label="Ärende">' +
-    '<header class="d-head" id="d-head"></header><div class="d-body" id="d-body">' +
-      '<div id="d-info"></div>' +
-      '<div id="d-hist"></div>' +
-      '<section class="panel"><div class="panel-head"><h2>Patientens vistelse</h2><span id="d-stay-now"></span></div><div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
-        '<form id="f-stay" style="display:grid;gap:12px"><div class="grid3">' +
+    '<header class="d-head" id="d-head"></header>' +
+    '<nav class="d-tabs" id="d-tabs" role="tablist" aria-label="Delar av ärendet"></nav>' +
+    '<div class="d-body" id="d-body">' +
+      '<div class="d-pane" data-pane="oversikt">' +
+        '<div id="d-diag"></div>' +
+        '<div id="d-info"></div>' +
+        '<section class="panel" id="d-stay"><div class="panel-head"><h2>Patientens vistelse</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="d-stay-now"></span><button type="button" class="btn sm" id="sy-toggle">Ändra</button></div></div>' +
+        '<div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
+        '<form id="f-stay" hidden style="display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px"><div class="grid3">' +
           '<label class="field"><span>Ändra till</span><select id="sy-st">' + Object.keys(STAY).map(function (k) { return '<option value="' + k + '">' + STAY[k].l + '</option>'; }).join('') + '</select></label>' +
           '<label class="field" data-sy="inne"><span>Avdelning</span><select id="sy-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
           '<label class="field" data-sy="inne"><span>Sal och säng</span><input id="sy-room" placeholder="T.ex. Sal 3, säng 2"></label>' +
           '<label class="field" data-sy="left"><span>Lämnade till</span><select id="sy-dest">' + DESTS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
         '</div><label class="field"><span>Notering</span><input id="sy-note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka"></label>' +
-        '<div class="form-actions"><button class="btn primary" type="submit">Uppdatera vistelse</button></div></form></div></section>' +
-      '<div id="d-images"></div>' +
-      '<div id="d-diag"></div>' +
-      '<div id="d-doc"></div>' +
-      '<section class="panel"><div class="panel-head"><h2>Uppdrag i ärendet</h2></div><div class="list" id="d-tasks"></div></section>' +
-      '<section class="panel"><div class="panel-head"><h2>Journalanteckningar och händelser</h2></div><div class="panel-body"><div class="log" id="d-log"></div>' +
-        '<form id="f-note" style="display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
-        '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form></div></section>' +
-      '<div id="d-admin"></div>' +
+        '<div class="form-actions"><button class="btn ghost" type="button" id="sy-cancel">Avbryt</button><button class="btn primary" type="submit">Spara vistelse</button></div></form></div></section>' +
+        '<div id="d-images"></div>' +
+        '<div id="d-hist"></div>' +
+        '<div id="d-admin"></div>' +
+      '</div>' +
+      '<div class="d-pane" data-pane="bedomning"><div id="d-doc"></div></div>' +
+      '<div class="d-pane" data-pane="uppdrag"><section class="panel"><div class="panel-head"><h2>Uppdrag i ärendet</h2>' + (can('assign') ? '<button type="button" class="btn sm" data-dtab="bedomning">Ge nytt uppdrag</button>' : '') + '</div><div class="list" id="d-tasks"></div></section></div>' +
+      '<div class="d-pane" data-pane="journal"><section class="panel"><div class="panel-head"><h2>Journal och händelser</h2></div><div class="panel-body">' +
+        '<form id="f-note" style="display:grid;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
+        '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form>' +
+        '<div class="log" id="d-log"></div></div></section></div>' +
     '</div></section>';
+  $('#d-tabs').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
+  $('#d-body').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
+  $('#d-head').addEventListener('click', function (e) {
+    var n = e.target.closest('[data-next]'); if (!n) return;
+    var cur = S.cases.find(function (x) { return x.id === id; }); if (cur) caseAction(cur, n.dataset.next);
+  });
   var notePicker = imagePicker($('#d-npick'), 6);
   $('#f-note').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -1781,6 +1859,8 @@ function openCase(id) {
     $$('[data-sy="left"]').forEach(function (x) { x.hidden = !(v === 'utskriven' || v === 'avviken' || v === 'overflyttad'); });
   }
   $('#sy-st').addEventListener('change', drawSy); drawSy();
+  $('#sy-toggle').addEventListener('click', function () { var f = $('#f-stay'); f.hidden = !f.hidden; this.textContent = f.hidden ? 'Ändra' : 'Stäng'; });
+  $('#sy-cancel').addEventListener('click', function () { $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; });
   $('#f-stay').addEventListener('submit', function (e) {
     e.preventDefault();
     var cur = S.cases.find(function (x) { return x.id === id; }); if (!cur) return;
@@ -1792,7 +1872,7 @@ function openCase(id) {
       admittedAt: inne ? (prev.status === 'inne' && prev.admittedAt ? prev.admittedAt : nowIso()) : (prev.admittedAt || null)
     };
     var txt = 'Vistelse: ' + STAY[v].l + (inne ? ', ' + stay.ward + (stay.room ? ' ' + stay.room : '') : '') + (stay.dest ? ', till ' + stay.dest.toLowerCase() : '') + (stay.note ? '. ' + stay.note : '.');
-    updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
+    updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
   });
   mountDoctorTools(c); mountAdminTools(c); updateDrawer();
   document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
@@ -1814,7 +1894,12 @@ function updateDrawer() {
       if (c.createdBy && c.createdBy !== S.me.id) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.createdBy)) + '" data-chat-case="' + esc(c.id) + '">Ge feedback till ' + esc(firstName(userName(c.createdBy))) + (S.online[c.createdBy] ? ' (aktiv)' : '') + '</button>');
       if (c.doctorId && c.doctorId !== S.me.id && c.doctorId !== c.createdBy) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.doctorId)) + '" data-chat-case="' + esc(c.id) + '">Chatta med ' + esc(userName(c.doctorId)) + '</button>');
       return b.length ? '<div class="d-tags">' + b.join('') + '</div>' : '';
+    })() + (function () {
+      var n = nextStep(c);
+      return '<div class="next tone-' + n.tone + '"><div style="min-width:0"><span class="next-label">' + (n.tone === 'done' ? 'Status' : 'Nästa steg') + '</span><p>' + esc(n.text) + '</p></div>' +
+        (n.act ? '<button type="button" class="btn sm ' + (n.tone === 'wait' || n.tone === 'done' ? '' : 'primary') + '" data-next="' + esc(n.act.a) + '">' + esc(n.act.l) + '</button>' : '') + '</div>';
     })();
+  drawTabs(c);
   var sy = c.stay;
   $('#d-stay-now').innerHTML = sy ? stayHtml(c) : '<span class="muted" style="font-size:.85rem">Ej angiven</span>';
   $('#d-stay-info').innerHTML = sy ? esc(STAY[sy.status] ? STAY[sy.status].d : '') +
@@ -1845,7 +1930,7 @@ function updateDrawer() {
       (d.assessment ? '<div><span class="eyebrow">Bedömning</span><p class="prose">' + esc(d.assessment) + '</p></div>' : '') + (d.plan ? '<div><span class="eyebrow">Ordination och plan</span><p class="prose">' + esc(d.plan) + '</p></div>' : '') + '</div>' : '') +
     (call ? '<section class="panel" style="margin-top:' + (d ? '16px' : '0') + '"><div class="panel-head"><h2>Bokat samtal</h2>' + (new Date(call.at) < new Date() ? '<span class="pill st-avslutad">Passerat</span>' : '<span class="pill st-diagnos">Bokat</span>') + '</div><div class="panel-body"><dl class="kv"><dt>Tid</dt><dd><b>' + esc(fmtWd.format(new Date(call.at))) + ' ' + dt(call.at) + '</b></dd><dt>Typ</dt><dd>' + esc(call.type) + '</dd><dt>Med</dt><dd>' + esc(call.withLabel || '') + '</dd><dt>Bokat av</dt><dd>' + esc(userName(call.by)) + '</dd>' + (call.note ? '<dt>Notering</dt><dd class="prose">' + esc(call.note) + '</dd>' : '') + '</dl></div></section>' : '');
   var ctasks = byNewest(S.tasks.filter(function (t) { return t.caseId === c.id; }));
-  $('#d-tasks').innerHTML = ctasks.length ? ctasks.map(function (t) { return taskRow(t, { manage: can('manage') || t.by === S.me.id }); }).join('') : emptyBox('Inga uppdrag', can('assign') ? 'Tilldela uppdrag under läkarverktygen ovan.' : 'Uppdrag som läkaren delar ut i ärendet visas här.');
+  $('#d-tasks').innerHTML = ctasks.length ? ctasks.map(function (t) { return taskRow(t, { manage: can('manage') || t.by === S.me.id }); }).join('') : emptyBox('Inga uppdrag', can('assign') ? 'Välj Ge nytt uppdrag för att fördela arbete i ärendet.' : 'Uppdrag som läkaren delar ut i ärendet visas här.');
   var evs = (c.events || []).slice().reverse();
   $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
     var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) });
@@ -1858,6 +1943,65 @@ function updateDrawer() {
   $('#d-hist').innerHTML = hist.length ? '<section class="panel"><div class="panel-head"><h2>Patientens tidigare ärenden (' + hist.length + ')</h2></div><div class="list">' + hist.slice(0, 6).map(function (h) {
     return '<button type="button" class="hrow" data-open="' + esc(h.id) + '"><span class="mono muted">' + esc(fmtD.format(new Date(h.createdAt))) + '</span><span class="hrow-main"><b>' + esc(h.title) + '</b><small>' + (h.diagnosis ? esc((h.diagnosis.code ? h.diagnosis.code + ' ' : '') + h.diagnosis.text) : 'Ingen diagnos') + '</small></span>' + statusPill(h.status) + '</button>';
   }).join('') + '</div></section>' : '';
+  markSeen(c);
+}
+function drawTabs(c) {
+  var open = S.tasks.filter(function (t) { return t.caseId === c.id && t.status !== 'klar'; }).length;
+  var tabs = [['oversikt', 'Översikt', '']];
+  if (can('diagnose')) tabs.push(['bedomning', 'Läkarbedömning', c.status === 'inkommen' || c.status === 'bedoms' ? '!' : '']);
+  else if (can('assign')) tabs.push(['bedomning', 'Ge uppdrag', '']);
+  tabs.push(['uppdrag', 'Uppdrag', open ? String(open) : '']);
+  tabs.push(['journal', 'Journal', String((c.events || []).length)]);
+  if (!tabs.some(function (t) { return t[0] === S.drawerTab; })) S.drawerTab = 'oversikt';
+  $('#d-tabs').innerHTML = tabs.map(function (t) {
+    return '<button type="button" role="tab" data-dtab="' + t[0] + '" aria-selected="' + (S.drawerTab === t[0]) + '">' + t[1] + (t[2] ? '<span class="tcount' + (t[2] === '!' ? ' alert' : '') + '">' + t[2] + '</span>' : '') + '</button>';
+  }).join('');
+  $$('.d-pane').forEach(function (p) { p.hidden = p.dataset.pane !== S.drawerTab; });
+}
+function showPane(tab) {
+  S.drawerTab = tab;
+  $$('#d-tabs [data-dtab]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.dtab === tab); });
+  $$('.d-pane').forEach(function (p) { p.hidden = p.dataset.pane !== tab; });
+  var body = $('#d-body'); if (body) body.scrollTop = 0;
+}
+function seenMap() { if (!S.seen) S.seen = load('lsvp.seen.' + S.me.id) || {}; return S.seen; }
+function markSeen(c) { var m = seenMap(), v = c.updatedAt || c.createdAt; if (m[c.id] !== v) { m[c.id] = v; store('lsvp.seen.' + S.me.id, m); } }
+function nextStep(c) {
+  var openT = S.tasks.filter(function (t) { return t.caseId === c.id && t.status !== 'klar'; });
+  var mineT = openT.filter(function (t) { return t.assignee === S.me.id; });
+  var docMe = c.doctorId === S.me.id, canD = can('diagnose'), hot = c.triage === 'rod' || c.triage === 'orange';
+  if (c.status === 'avslutad') return { tone: 'done', text: 'Ärendet är avslutat.', act: canD ? { l: 'Återöppna', a: 'reopen' } : null };
+  if (c.status === 'inkommen') return { tone: hot ? 'urgent' : 'todo', text: c.doctorId ? 'Väntar på att ' + userName(c.doctorId) + ' tar ärendet.' : 'Väntar på att en läkare tar ärendet.', act: canD ? { l: 'Ta ärendet', a: 'claim' } : null };
+  if (c.status === 'bedoms') {
+    if (docMe) return { tone: hot ? 'urgent' : 'todo', text: 'Ställ diagnos och bestäm vad som händer med patienten.', act: { l: 'Gör bedömning', a: 'tab:bedomning' } };
+    return { tone: 'wait', text: userName(c.doctorId) + ' bedömer patienten.', act: canD ? { l: 'Ta över', a: 'claim' } : null };
+  }
+  if (mineT.length) return { tone: 'todo', text: 'Du har ' + mineT.length + (mineT.length === 1 ? ' uppdrag' : ' uppdrag') + ' i ärendet: ' + mineT[0].title + '.', act: { l: 'Visa uppdrag', a: 'tab:uppdrag' } };
+  if (openT.length) return { tone: 'wait', text: openT.length + (openT.length === 1 ? ' uppdrag pågår' : ' uppdrag pågår') + ' hos personalen.', act: { l: 'Visa uppdrag', a: 'tab:uppdrag' } };
+  if (c.call && new Date(c.call.at) > new Date()) return { tone: 'wait', text: c.call.type + ' bokat ' + dt(c.call.at) + ' med ' + (c.call.withLabel || '') + '.', act: null };
+  if (c.stay && c.stay.status === 'inne') return { tone: 'todo', text: 'Patienten ligger kvar på ' + (c.stay.ward || 'sjukhuset') + '. Skriv ut när patienten är klar.', act: { l: 'Skriv ut', a: 'discharge' } };
+  if (c.stay && c.stay.status === 'prehosp') return { tone: 'todo', text: 'Patienten är inte registrerad på sjukhuset ännu.', act: { l: 'Ange vistelse', a: 'stay' } };
+  return { tone: 'todo', text: 'Diagnosen är satt och inget återstår.', act: (canD || docMe) ? { l: 'Avsluta ärendet', a: 'close' } : null };
+}
+function caseAction(c, a) {
+  if (a.indexOf('tab:') === 0) { showPane(a.slice(4)); return; }
+  if (a === 'stay' || a === 'discharge') {
+    showPane('oversikt'); $('#f-stay').hidden = false; $('#sy-toggle').textContent = 'Stäng';
+    if (a === 'discharge') { $('#sy-st').value = 'utskriven'; $('#sy-st').dispatchEvent(new Event('change')); }
+    $('#d-stay').scrollIntoView({ behavior: 'smooth', block: 'start' }); return;
+  }
+  var p, ev, msg;
+  if (a === 'claim') { p = { doctorId: S.me.id, status: c.status === 'inkommen' ? 'bedoms' : c.status }; ev = userName(S.me.id) + ' tog ärendet.'; msg = 'Du är nu ansvarig läkare.'; }
+  if (a === 'return') { p = { doctorId: null, status: 'inkommen' }; ev = 'Ärendet lämnades tillbaka till inkorgen.'; msg = 'Ärendet ligger i inkorgen igen.'; }
+  if (a === 'uncall') { p = { call: null }; ev = 'Bokat samtal avbokades.'; msg = 'Samtalet avbokades.'; }
+  if (a === 'close') { p = { status: 'avslutad' }; ev = 'Ärendet avslutades.'; msg = 'Ärendet avslutades.'; }
+  if (a === 'reopen') { p = { status: c.diagnosis ? 'diagnos' : 'bedoms' }; ev = 'Ärendet återöppnades.'; msg = 'Ärendet återöppnades.'; }
+  if (!p) return;
+  updateCase(c.id, p, { type: 'sys', text: ev }).then(function () {
+    toast(msg);
+    if (a === 'claim') { showPane('bedomning'); }
+    if (a === 'uncall' || a === 'claim') { var cc = S.cases.find(function (y) { return y.id === c.id; }); if (cc) mountDoctorTools(cc); }
+  }).catch(function () {});
 }
 
 /* Läkarverktyg i panelen: ett flöde i tre steg som sparas med en knapp */
@@ -2022,7 +2166,7 @@ function mountDoctorTools(c) {
     try {
       await updateCase(c.id, patch, evs);
       if (task) await createTask(Object.assign(task, { caseId: c.id }));
-      toast('Bedömningen sparades.');
+      toast('Bedömningen sparades.'); showPane('oversikt');
       mountDoctorTools(S.cases.find(function (x) { return x.id === c.id; }) || cur);
     } catch (x) { btn.disabled = false; btn.textContent = 'Spara bedömning'; }
   });
@@ -2045,16 +2189,7 @@ function drawDoctorState(c) {
   if (c.call) b.push('<button class="btn sm ghost" type="button" data-dx="uncall">Avboka samtal</button>');
   b.push(c.status === 'avslutad' ? '<button class="btn sm" type="button" data-dx="reopen">Återöppna</button>' : '<button class="btn sm" type="button" data-dx="close">Avsluta</button>');
   st.innerHTML = b.join('');
-  st.onclick = function (e) {
-    var x = e.target.closest('[data-dx]'); if (!x) return;
-    var a = x.dataset.dx, p, ev, msg;
-    if (a === 'claim') { p = { doctorId: S.me.id, status: c.status === 'inkommen' ? 'bedoms' : c.status }; ev = userName(S.me.id) + ' tog ärendet.'; msg = 'Du är nu ansvarig läkare.'; }
-    if (a === 'return') { p = { doctorId: null, status: 'inkommen' }; ev = 'Ärendet lämnades tillbaka till inkorgen.'; msg = 'Ärendet ligger i inkorgen igen.'; }
-    if (a === 'uncall') { p = { call: null }; ev = 'Bokat samtal avbokades.'; msg = 'Samtalet avbokades.'; }
-    if (a === 'close') { p = { status: 'avslutad' }; ev = 'Ärendet avslutades.'; msg = 'Ärendet avslutades.'; }
-    if (a === 'reopen') { p = { status: c.diagnosis ? 'diagnos' : 'bedoms' }; ev = 'Ärendet återöppnades.'; msg = 'Ärendet återöppnades.'; }
-    updateCase(c.id, p, { type: 'sys', text: ev }).then(function () { toast(msg); if (a === 'uncall') mountDoctorTools(S.cases.find(function (y) { return y.id === c.id; })); }).catch(function () {});
-  };
+  st.onclick = function (e) { var x = e.target.closest('[data-dx]'); if (x) caseAction(S.cases.find(function (y) { return y.id === c.id; }) || c, x.dataset.dx); };
 }
 
 /* Administratörens verktyg i panelen */
@@ -2104,7 +2239,8 @@ document.addEventListener('click', function (e) {
   var t = e.target;
   var nav = t.closest('[data-nav]'); if (nav && S.me) { e.preventDefault(); closeDrawer(); go(nav.dataset.nav); return; }
   if (t.closest('[data-logout]')) { logout(); return; }
-  var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); return; }
+  var fin = t.closest('[data-task-finish]'); if (fin) { fin.disabled = true; setTaskStatus(fin.dataset.taskFinish, 'klar').then(function () { toast('Uppdraget är klart.'); }).catch(function () { fin.disabled = false; }); return; }
+  var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); if (opd.dataset.openTab) showPane(opd.dataset.openTab); return; }
   if (t.closest('#dock')) return;
   var ch = t.closest('[data-chat]'); if (ch && S.me) { openChat(ch.dataset.chat, ch.dataset.chatCase || null); return; }
   if (t.closest('[data-close]')) { closeDrawer(); return; }
