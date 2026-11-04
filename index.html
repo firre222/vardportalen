@@ -483,6 +483,84 @@ td.c, th.c { text-align: center; }
 .reply-ack { color: var(--ok); font-weight: 600; font-size: .8rem; }
 .reply-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
 
+/* Hjälp, termer, guide och uppdragsstatus */
+.term-q { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid currentColor; background: transparent; color: var(--accent); font-size: .68rem; font-weight: 800; line-height: 1; cursor: help; padding: 0; vertical-align: middle; margin-left: 2px; font-family: var(--sans); letter-spacing: 0; text-transform: none; }
+.term-q:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.vt-l { border: 0; background: none; padding: 0; font-size: .72rem; font-weight: 600; color: var(--muted); cursor: help; text-decoration: underline dotted; text-underline-offset: 2px; font-family: var(--sans); }
+.term-pop { position: fixed; z-index: 60; width: min(300px, calc(100vw - 24px)); background: var(--fg); color: var(--bg); border-radius: 12px; padding: 14px 16px; box-shadow: 0 12px 40px rgba(0,0,0,.25); display: grid; gap: 6px; }
+.term-pop p { font-size: .9rem; line-height: 1.45; }
+.term-pop .btn { justify-self: end; background: var(--bg); color: var(--fg); border-color: var(--bg); }
+.hint { color: var(--muted); font-size: .9rem; margin-top: -6px; }
+.wiz { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 14px 16px; gap: 6px; border-bottom: 1px solid var(--line); background: var(--surface-2); border-radius: 12px 12px 0 0; }
+.wiz button { width: 100%; display: flex; align-items: center; gap: 8px; border: 0; background: transparent; padding: 6px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--muted); font-size: .88rem; text-align: left; }
+.wiz button span { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--line); background: var(--surface); font-size: .8rem; }
+.wiz li.on button { color: var(--fg); }
+.wiz li.on button span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.wiz li.done button { color: var(--fg); }
+.wiz li.done button span { border-color: var(--accent); color: var(--accent); }
+.wiz-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--line); background: var(--surface-2); border-radius: 0 0 12px 12px; }
+.wiz-nav .btn[hidden] + .wiz-count { margin-left: 0; }
+.wiz-count { color: var(--muted); font-size: .85rem; margin: 0 auto; }
+@media (max-width: 640px) { .wiz { grid-template-columns: repeat(4, auto); overflow-x: auto; } .wiz button { font-size: 0; gap: 0; } .wiz li.on button { font-size: .85rem; gap: 6px; } }
+.sugg { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: .9rem; }
+.tri-ex { font-size: .88rem; color: var(--muted); min-height: 1.3em; }
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.flow-step { display: grid; gap: 10px; padding: 18px; border-right: 1px solid var(--line); align-content: start; }
+.flow-step:last-child { border-right: 0; }
+.flow-step b { display: block; font-size: 1rem; }
+.flow-step p { color: var(--muted); font-size: .88rem; margin-top: 4px; }
+.flow-n { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+@media (max-width: 980px) { .flow { grid-template-columns: 1fr; } .flow-step { grid-template-columns: 40px minmax(0, 1fr); border-right: 0; border-bottom: 1px solid var(--line); } .flow-step:last-child { border-bottom: 0; } }
+.roles { gap: 16px; }
+.roles ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); display: grid; gap: 3px; font-size: .92rem; }
+.roles em { font-style: normal; font-weight: 600; color: var(--fg); }
+.tri-legend { display: grid; }
+.tl-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.tl-row:last-child { border-bottom: 0; }
+.tl-row .tchip { justify-content: center; }
+.tl-row b { display: block; }
+.tl-row small { color: var(--muted); font-size: .86rem; }
+.glossary { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.glossary > div { padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.glossary > div:nth-child(odd) { border-right: 1px solid var(--line); }
+.glossary dt { font-weight: 700; }
+.glossary dd { margin: 2px 0 0; color: var(--muted); font-size: .9rem; }
+@media (max-width: 760px) { .glossary { grid-template-columns: 1fr; } .glossary > div:nth-child(odd) { border-right: 0; } }
+.welcome { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; padding: 20px 22px; border-radius: 14px; background: var(--accent); color: var(--accent-ink); }
+.welcome .eyebrow { color: inherit; opacity: .8; }
+.welcome h2 { font-size: 1.3rem; margin: 2px 0 8px; }
+.welcome ol { margin: 0 0 8px; padding-left: 20px; display: grid; gap: 3px; }
+.welcome .muted { color: inherit; opacity: .8; font-size: .88rem; }
+.welcome .term-q { color: inherit; }
+.welcome-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.welcome .btn.primary { background: var(--accent-ink); color: var(--accent); border-color: var(--accent-ink); }
+.welcome .btn.ghost { color: inherit; }
+.seen-by { color: var(--ok) !important; font-weight: 600; }
+.trow { grid-template-columns: 12px minmax(0, 1fr); gap: 12px; padding: 14px 18px; }
+.tdot { width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; background: currentColor; }
+.trow-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.tcase { display: inline-flex; gap: 8px; align-items: center; justify-self: start; border: 1px solid var(--line); background: var(--surface-2); border-radius: 7px; padding: 4px 9px; font-size: .84rem; font-weight: 600; cursor: pointer; margin-top: 4px; text-align: left; max-width: 100%; }
+.tcase:hover { border-color: var(--accent); }
+.tseg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); flex-wrap: wrap; }
+.tseg button { border: 0; border-right: 1px solid var(--line); background: transparent; padding: 6px 12px; font-size: .84rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+.tseg button:last-child { border-right: 0; }
+.tseg button:hover { color: var(--fg); background: var(--surface-2); }
+.tseg button[aria-pressed="true"][class] { color: #fff; }
+.tseg button.ts-sett[aria-pressed="true"] { background: var(--t-bla); }
+.tseg button.ts-pagar[aria-pressed="true"] { background: var(--t-orange); }
+.tseg button.ts-upptagen[aria-pressed="true"] { background: #8a5cc4; }
+.tseg button.ts-klar[aria-pressed="true"] { background: var(--ok); }
+.tseg button.ts-klar:not([aria-pressed="true"]) { color: var(--ok); }
+.tpill { display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .04em; padding: 1px 7px; border-radius: 99px; color: #fff; vertical-align: middle; text-transform: none; }
+.ts-oppen { color: var(--muted); } .tpill.ts-oppen { background: var(--muted); color: var(--bg); }
+.ts-sett { color: var(--t-bla); } .tpill.ts-sett { background: var(--t-bla); color: #fff; }
+.ts-pagar { color: var(--t-orange); } .tpill.ts-pagar { background: var(--t-orange); color: #fff; }
+.ts-upptagen { color: #8a5cc4; } .tpill.ts-upptagen { background: #8a5cc4; color: #fff; }
+.ts-klar { color: var(--ok); } .tpill.ts-klar { background: var(--ok); color: #fff; }
+.tseg button.ts-sett, .tseg button.ts-pagar, .tseg button.ts-upptagen { color: var(--muted); }
+.todo-seg { grid-column: 2; margin-top: -4px; }
+@media (max-width: 560px) { .todo-seg { grid-column: 1; } }
+
 /* Bildvisare och toast */
 .lightbox { position: fixed; inset: 0; z-index: 40; background: rgba(5, 10, 12, .9); display: grid; place-items: center; padding: 24px; }
 .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
@@ -635,7 +713,14 @@ var TRI = {
   bla: { label: 'Blå', desc: 'Ej akut', rank: 4, cls: 'b' }
 };
 var STATUS = { inkommen: 'Inkommen', bedoms: 'Under bedömning', diagnos: 'Diagnos satt', avslutad: 'Avslutad' };
-var TSTATUS = { oppen: 'Ej påbörjad', pagar: 'Pågår', klar: 'Klar' };
+var TSTATUS = { oppen: 'Ny', sett: 'Sett', pagar: 'Påbörjad', upptagen: 'Upptagen, fixar snart', klar: 'Klar' };
+var TBTN = [['sett', 'Sett'], ['pagar', 'Påbörjar'], ['upptagen', 'Upptagen'], ['klar', 'Klart']];
+function taskSeg(t) {
+  if (!canToggleTask(t)) return '<span class="tpill ts-' + esc(t.status) + '">' + esc(TSTATUS[t.status] || t.status) + '</span>';
+  return '<div class="tseg" role="group" aria-label="Status för uppdraget">' + TBTN.map(function (b) {
+    return '<button type="button" class="ts-' + b[0] + '" data-tset="' + esc(t.id) + '|' + b[0] + '" aria-pressed="' + (t.status === b[0]) + '">' + b[1] + '</button>';
+  }).join('') + '</div>';
+}
 var STAY = {
   prehosp: { l: 'Prehospitalt', d: 'På plats eller i ambulans', cls: 'sy-prehosp' },
   inne: { l: 'Inneliggande', d: 'Kvar på sjukhuset', cls: 'sy-inne' },
@@ -923,6 +1008,7 @@ var IC = {
   personal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>',
   roller: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
   profil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  hjalp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17h.01"/></svg>',
   belaggning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10.5" r="2"/></svg>',
   chatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
 };
@@ -1020,7 +1106,8 @@ function navItems() {
     { id: 'alla', label: 'Alla ärenden' },
     { id: 'chatt', label: 'Chatt', badge: totalUnread(), red: true },
     { id: 'personal', label: 'Personal' },
-    can('manage') && { id: 'roller', label: 'Roller och behörighet' }
+    can('manage') && { id: 'roller', label: 'Roller och behörighet' },
+    { id: 'hjalp', label: 'Hjälp och ordlista' }
   ];
   return items.filter(Boolean);
 }
@@ -1136,19 +1223,18 @@ function taskRow(t, opts) {
   var c = t.caseId ? S.cases.find(function (x) { return x.id === t.caseId; }) : null;
   var late = t.due && t.status !== 'klar' && new Date(t.due) < new Date();
   var sub = [];
-  if (opts.showAssignee !== false) sub.push('Till ' + esc(userName(t.assignee)));
-  sub.push('Från ' + esc(userName(t.by)));
-  if (t.due) sub.push('<span class="' + (late ? 'due-late' : '') + '">Klart senast ' + dt(t.due) + '</span>');
-  if (c) sub.push('<button type="button" class="link" data-open="' + esc(c.id) + '">' + esc(c.caseNo) + ' ' + esc(c.title) + '</button>');
-  var actions = '';
-  if (opts.manage) actions = '<button type="button" class="btn sm ghost" data-task-del="' + esc(t.id) + '">Ta bort</button>';
-  var stSel = canToggleTask(t)
-    ? '<select class="btn sm" data-task-status="' + esc(t.id) + '" aria-label="Status">' + Object.keys(TSTATUS).map(function (k) { return '<option value="' + k + '"' + (t.status === k ? ' selected' : '') + '>' + TSTATUS[k] + '</option>'; }).join('') + '</select>'
-    : '<span class="pill st-' + esc(t.status) + '">' + TSTATUS[t.status] + '</span>';
-  return '<div class="trow' + (t.status === 'klar' ? ' done' : '') + '">' +
-    (canToggleTask(t) ? '<input type="checkbox" class="tbox" data-task-done="' + esc(t.id) + '"' + (t.status === 'klar' ? ' checked' : '') + ' aria-label="Markera som klar">' : '<span style="width:20px"></span>') +
-    '<div class="trow-main"><b>' + esc(t.title) + (t.prio === 'hog' ? ' <span class="prio-hog">Hög prio</span>' : '') + '</b>' + (t.desc ? '<span class="prose muted" style="font-size:.9rem">' + esc(t.desc) + '</span>' : '') + '<span class="trow-sub">' + sub.join('<span aria-hidden="true">·</span>') + '</span></div>' +
-    '<div class="trow-side">' + stSel + actions + '</div></div>';
+  if (opts.showAssignee !== false) sub.push('Till <b>' + esc(userName(t.assignee)) + '</b>');
+  sub.push('från ' + esc(userName(t.by)));
+  if (t.due) sub.push('<span class="' + (late ? 'due-late' : '') + '">' + (late ? 'Försenat · ' : 'Klart senast ') + dt(t.due) + '</span>');
+  if (t.statusAt && t.status !== 'oppen') sub.push('<span class="muted">' + esc(TSTATUS[t.status] || '') + ' ' + esc(ago(t.statusAt)) + '</span>');
+  return '<div class="trow ts-row-' + esc(t.status) + (t.status === 'klar' ? ' done' : '') + '">' +
+    '<span class="tdot ts-' + esc(t.status) + '" title="' + esc(TSTATUS[t.status] || '') + '"></span>' +
+    '<div class="trow-main"><b>' + esc(t.title) + (t.prio === 'hog' ? ' <span class="prio-hog">Hög prioritet</span>' : '') + '</b>' +
+      (t.desc ? '<span class="prose muted" style="font-size:.9rem">' + esc(t.desc) + '</span>' : '') +
+      '<span class="trow-sub">' + sub.join('<span aria-hidden="true">·</span>') + '</span>' +
+      (c ? '<button type="button" class="tcase" data-open="' + esc(c.id) + '"><span class="mini-tri tri-' + esc(TRI[c.triage] ? c.triage : 'bla') + '">' + (TRI[c.triage] || TRI.bla).label + '</span>' + esc(c.title) + ' · ' + esc((c.patient && c.patient.name) || '') + '</button>' : '') +
+      '<div class="trow-actions">' + taskSeg(t) + (opts.manage ? '<button type="button" class="btn sm ghost" data-task-del="' + esc(t.id) + '">Ta bort</button>' : '') + '</div>' +
+    '</div></div>';
 }
 function emptyBox(title, text) { return '<div class="empty"><b>' + esc(title) + '</b><span>' + esc(text) + '</span></div>'; }
 function waiting() { return S.loaded.cases && S.loaded.tasks ? null : emptyBox('Hämtar uppgifter…', 'Uppgifterna laddas från journalservern.'); }
@@ -1160,8 +1246,9 @@ function staffOptions(perm, selected, emptyLabel) {
 /* ---------- Uppdrag: åtgärder ---------- */
 async function setTaskStatus(id, status) {
   var t = S.tasks.find(function (x) { return x.id === id; }); if (!t) return;
-  await write('tasks/' + id, function () { return S.db.doc('tasks/' + id).update({ status: status, doneAt: status === 'klar' ? nowIso() : null, updatedAt: nowIso() }); });
-  if (status === 'klar' && t.caseId) addEvent(t.caseId, { type: 'sys', text: 'Uppdraget "' + t.title + '" markerades som klart.' });
+  if (t.status === status) return;
+  await write('tasks/' + id, function () { return S.db.doc('tasks/' + id).update({ status: status, statusBy: S.me.id, statusAt: nowIso(), doneAt: status === 'klar' ? nowIso() : null, updatedAt: nowIso() }); });
+  if (t.caseId) addEvent(t.caseId, { type: 'sys', text: 'Uppdraget "' + t.title + '": ' + TSTATUS[status].toLowerCase() + ' (' + userName(S.me.id) + ').' });
 }
 async function createTask(data) {
   var id = 't' + uid();
@@ -1231,9 +1318,10 @@ function todoItems() {
   myTasks().forEach(function (t) {
     var c = t.caseId && S.cases.find(function (x) { return x.id === t.caseId; });
     var late = t.due && new Date(t.due) < new Date();
-    var meta = []; if (c) meta.push(pt(c)); meta.push('från ' + userName(t.by)); if (t.due) meta.push((late ? 'försenat, skulle vara klart ' : 'klart senast ') + dt(t.due));
+    var meta = ['Status: ' + (TSTATUS[t.status] || 'Ny').toLowerCase()]; if (c) meta.push(pt(c)); meta.push('från ' + userName(t.by)); if (t.due) meta.push((late ? 'försenat, skulle vara klart ' : 'klart senast ') + dt(t.due));
     out.push({ tone: t.prio === 'hog' || late ? 'urgent' : 'todo', kind: t.prio === 'hog' ? 'Uppdrag · hög prioritet' : 'Uppdrag', ic: 'uppdrag', title: t.title, quote: t.desc || '', meta: meta, tri: c ? c.triage : '', at: t.due || t.createdAt,
-      btn: (c ? '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '">Ärendet</button>' : '') + '<button type="button" class="btn sm primary" data-task-finish="' + esc(t.id) + '">Klart</button>' });
+      status: t.status, seg: taskSeg(t),
+      btn: (c ? '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '">Ärendet</button>' : '') });
   });
   upcomingCalls().forEach(function (c) {
     var at = new Date(c.call.at).getTime(); if (at - now > 864e5) return;
@@ -1247,16 +1335,18 @@ function todoItems() {
 function todoCount() { return todoItems().filter(function (t) { return t.tone !== 'info'; }).length; }
 function todoHtml(t) {
   return '<div class="todo tone-' + t.tone + '">' + kindIcon(t.ic) +
-    '<div class="todo-main"><span class="todo-kind">' + esc(t.kind) + '</span><b class="todo-title">' + esc(t.title) + '</b>' +
+    '<div class="todo-main"><span class="todo-kind">' + esc(t.kind) + (t.status ? ' <span class="tpill ts-' + esc(t.status) + '">' + esc(TSTATUS[t.status] || '') + '</span>' : '') + '</span><b class="todo-title">' + esc(t.title) + '</b>' +
       (t.quote ? '<q class="todo-quote">' + esc(t.quote) + '</q>' : '') +
       '<span class="todo-meta">' + (t.tri && TRI[t.tri] ? '<span class="mini-tri tri-' + t.tri + '">' + TRI[t.tri].label + '</span>' : '') + t.meta.filter(Boolean).map(function (m) { return '<span>' + esc(m) + '</span>'; }).join('') + '</span></div>' +
-    '<div class="todo-btns">' + t.btn + '</div></div>';
+    '<div class="todo-btns">' + t.btn + '</div>' +
+    (t.seg ? '<div class="todo-seg">' + t.seg + '</div>' : '') + '</div>';
 }
 VIEWS.mina = {
   mount: function (el) {
     el.innerHTML =
       '<header class="page-head"><div><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p class="sub" id="m-sub"></p></div>' +
       (can('create') ? '<button class="btn primary" type="button" data-nav="nytt">Ny konsultation</button>' : '') + '</header>' +
+      welcomeCard() +
       '<div class="mina-grid">' +
         '<section class="panel"><div class="panel-head"><h2>Att göra</h2><span class="muted" id="m-count" style="font-size:.85rem"></span></div><div class="todos" id="r-todo"></div></section>' +
         '<aside class="mina-side">' +
@@ -1326,6 +1416,103 @@ VIEWS.inkorg = {
   }
 };
 
+/* ---------- Förklaringar av termer ---------- */
+var TERMS = {
+  remiss: ['Remiss', 'Ett meddelande där du ber en läkare att bedöma en patient. Här kallas det också konsultation.'],
+  fragestallning: ['Frågeställning', 'Den fråga du vill att läkaren svarar på, till exempel "Behöver patienten opereras?".'],
+  kontaktorsak: ['Kontaktorsak', 'Varför patienten behöver vård, kort och tydligt. Till exempel "Skottskada vänster lår".'],
+  mekanism: ['Skademekanism', 'Hur skadan uppstod, till exempel kniv, trafikolycka eller fall. Det hjälper läkaren att förstå vilka skador som kan finnas.'],
+  anamnes: ['Anamnes (Aktuellt)', 'Patientens berättelse: vad som har hänt, när det började och hur symtomen har utvecklats.'],
+  cave: ['CAVE', 'Latin för "se upp". Här skriver du det patienten inte tål, till exempel penicillin. Det visas alltid i rött så att ingen missar det.'],
+  status: ['Status', 'Det du har mätt och sett hos patienten just nu, till exempel puls och blodtryck.'],
+  af: ['AF (andningsfrekvens)', 'Hur många andetag patienten tar per minut. Normalt är 12–20. Mer än 25 eller mindre än 9 är farligt.'],
+  spo2: ['SpO₂ (saturation)', 'Hur mycket syre blodet bär, i procent. Normalt är 96–100 %. 91 % eller lägre är farligt.'],
+  puls: ['Puls', 'Hur många gånger hjärtat slår per minut. Normalt i vila är 51–90.'],
+  bt: ['BT (blodtryck)', 'Det övre talet (systoliskt) är trycket när hjärtat slår. Under 90 är lågt och farligt, till exempel vid stor blödning.'],
+  temp: ['Temp (temperatur)', 'Kroppstemperaturen. Normalt är 36,1–38 °C. Över 38 är feber, under 35 är nedkylning.'],
+  acvpu: ['ACVPU', 'Hur vaken patienten är. A = vaken. C = nyligen förvirrad. V = svarar bara när man pratar. P = reagerar bara på smärta. U = reagerar inte alls.'],
+  vas: ['VAS (smärtskala)', 'Patienten säger hur ont det gör från 0 till 10. 0 är ingen smärta och 10 är värsta tänkbara.'],
+  syrgas: ['Syrgas', 'Extra syre som patienten andas in genom slang eller mask. Ger 2 extra poäng i NEWS2.'],
+  news2: ['NEWS2', 'Ett poängsystem som visar hur sjuk patienten är. Varje mätvärde ger 0–3 poäng som läggs ihop. 0–4 är låg risk, 5–6 medelhög och 7 eller mer hög risk.'],
+  triage: ['Prioritet (triage)', 'Färgen visar hur bråttom det är. Röd = livshotande, orange = allvarligt, gul = brådskande, grön = kan vänta, blå = inte akut.'],
+  vistelse: ['Vistelse', 'Var patienten är just nu: på väg in, inlagd på sjukhuset eller har lämnat.'],
+  prehosp: ['Prehospitalt', 'Innan patienten har kommit till sjukhuset, alltså på olycksplatsen eller i ambulansen.'],
+  inneliggande: ['Inneliggande', 'Patienten är inlagd och ligger kvar på sjukhuset.'],
+  avviken: ['Avviken', 'Patienten gick från sjukhuset utan att ha blivit utskriven.'],
+  icd: ['ICD-10', 'En internationell kod för varje diagnos. S52.5 betyder till exempel handledsfraktur.'],
+  bedomning: ['Bedömning', 'Läkarens slutsats om vad som är fel och hur allvarligt det är.'],
+  ordination: ['Ordination', 'Läkarens beslut om behandling, till exempel vilket läkemedel patienten ska få och hur mycket.'],
+  iv: ['iv och im', 'iv (intravenöst) betyder att läkemedlet ges direkt i blodet via en nål. im betyder att det sprutas in i en muskel.'],
+  kvittera: ['Kvittera', 'Bekräfta att du har läst och förstått svaret. Det gör du med knappen Uppfattat.'],
+  bilagor: ['Bilagor', 'Bilder som skickas med remissen, till exempel på ett sår.']
+};
+function termQ(k) { return TERMS[k] ? '<button type="button" class="term-q" data-term="' + k + '" aria-label="Vad betyder ' + esc(TERMS[k][0]) + '?">?</button>' : ''; }
+function showTerm(btn) {
+  closeTerm();
+  var t = TERMS[btn.dataset.term]; if (!t) return;
+  var pop = document.createElement('div'); pop.className = 'term-pop'; pop.setAttribute('role', 'dialog');
+  pop.innerHTML = '<b>' + esc(t[0]) + '</b><p>' + esc(t[1]) + '</p><button type="button" class="btn sm" data-term-close>Okej</button>';
+  document.body.appendChild(pop);
+  var r = btn.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+  var left = Math.max(12, Math.min(window.innerWidth - w - 12, r.left + r.width / 2 - w / 2));
+  var top = r.bottom + 8; if (top + h > window.innerHeight - 12) top = Math.max(12, r.top - h - 8);
+  pop.style.left = left + 'px'; pop.style.top = top + 'px';
+  $('[data-term-close]', pop).focus();
+}
+function closeTerm() { $$('.term-pop').forEach(function (p) { p.remove(); }); }
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-term]');
+  if (b) { e.preventDefault(); e.stopPropagation(); showTerm(b); return; }
+  if (e.target.closest('[data-term-close]') || !e.target.closest('.term-pop')) closeTerm();
+}, true);
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeTerm(); });
+
+/* ---------- Vy: Hjälp ---------- */
+var FLOW = [
+  ['konsult', 'Skicka en remiss', 'Sjuksköterskan eller ambulansen fyller i Ny konsultation: vem patienten är, vad som hänt och mätvärden. Remissen hamnar i Läkarinkorgen.'],
+  ['diagnos', 'Läkaren tar ärendet', 'En läkare öppnar remissen och trycker Ta ärendet. Då vet alla vem som ansvarar.'],
+  ['svar', 'Läkaren svarar', 'Läkaren skickar ett snabbsvar, till exempel "Ge Paracetamol till patienten", och ställer diagnos med en plan.'],
+  ['uppdrag', 'Personalen gör sitt', 'Den som skrev remissen trycker Uppfattat. Uppdrag som läkaren delat ut bockas av med Klart under Att göra.'],
+  ['klar', 'Patienten skrivs ut', 'När patienten är klar ändras vistelsen till Utskriven och läkaren avslutar ärendet.']
+];
+var TRI_EX = { rod: 'Andas inte, kraftig blödning, skott i huvud eller bål, medvetslös.', orange: 'Svåra smärtor, stora brännskador, misstänkt inre skada.', gul: 'Benbrott, djupa sår, hög feber.', gron: 'Små sår, stukningar, lätta brännskador.', bla: 'Ingen akut skada, behöver intyg eller råd.' };
+VIEWS.hjalp = {
+  mount: function (el) {
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Hjälp</p><h1>Så funkar portalen</h1><p class="sub">Allt du behöver veta för att komma igång. Tryck på ett <span class="term-q" style="display:inline-grid;cursor:default">?</span> var som helst i portalen för att få en term förklarad.</p></div></header>' +
+      '<section class="panel"><div class="panel-head"><h2>Så går ett ärende till</h2></div><ol class="flow">' + FLOW.map(function (f, i) {
+        return '<li class="flow-step">' + kindIcon(f[0]) + '<div><span class="flow-n">Steg ' + (i + 1) + '</span><b>' + esc(f[1]) + '</b><p>' + esc(f[2]) + '</p></div></li>';
+      }).join('') + '</ol></section>' +
+      '<div class="cols2">' +
+        '<section class="panel"><div class="panel-head"><h2>Vad gör jag?</h2></div><div class="panel-body roles">' +
+          '<div><b>Sjuksköterska, undersköterska eller ambulans</b><ul><li>Skicka remisser med <em>Ny konsultation</em>.</li><li>Kolla <em>Att göra</em> ofta. Där kommer svar och uppdrag.</li><li>Tryck <em>Uppfattat</em> när läkaren har svarat och <em>Klart</em> när ett uppdrag är gjort.</li><li>Uppdatera var patienten är under <em>Patientens vistelse</em>.</li></ul></div>' +
+          '<div><b>Läkare</b><ul><li>Öppna <em>Läkarinkorgen</em> och ta ärenden, de röda först.</li><li>Skicka snabbsvar och gör bedömningen i fliken <em>Läkarbedömning</em>.</li><li>Dela ut uppdrag och boka samtal vid behov.</li><li>Avsluta ärendet när patienten är klar.</li></ul></div>' +
+          '<div><b>Administratör</b><ul><li>Skapa konton under <em>Personal</em>.</li><li>Bestäm vad varje roll får göra under <em>Roller och behörighet</em>.</li></ul></div>' +
+        '</div></section>' +
+        '<section class="panel"><div class="panel-head"><h2>Färgerna betyder</h2>' + termQ('triage') + '</div><div class="tri-legend">' + Object.keys(TRI).map(function (k) {
+          return '<div class="tl-row"><span class="tchip tri-' + k + '">' + TRI[k].label + '</span><div><b>' + TRI[k].desc + '</b><small>' + esc(TRI_EX[k]) + '</small></div></div>';
+        }).join('') + '</div></section>' +
+      '</div>' +
+      '<section class="panel"><div class="panel-head"><h2>Ordlista</h2><input id="h-q" type="search" placeholder="Sök term" aria-label="Sök term" style="padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:0;flex:0 1 220px"></div><dl class="glossary" id="h-gl"></dl></section>';
+    function draw() {
+      var q = $('#h-q').value.trim().toLowerCase();
+      var keys = Object.keys(TERMS).filter(function (k) { return !q || (TERMS[k][0] + ' ' + TERMS[k][1]).toLowerCase().indexOf(q) !== -1; })
+        .sort(function (a, b) { return TERMS[a][0].localeCompare(TERMS[b][0], 'sv'); });
+      $('#h-gl').innerHTML = keys.length ? keys.map(function (k) { return '<div><dt>' + esc(TERMS[k][0]) + '</dt><dd>' + esc(TERMS[k][1]) + '</dd></div>'; }).join('') : '<p class="muted" style="padding:16px 18px">Ingen term matchar.</p>';
+    }
+    $('#h-q').addEventListener('input', draw); draw();
+  }
+};
+function welcomeCard() {
+  var key = 'lsvp.welcome.' + S.me.id;
+  if (load(key)) return '';
+  var doc = can('diagnose');
+  return '<section class="welcome" id="welcome"><div><p class="eyebrow">Ny i portalen?</p><h2>Så kommer du igång</h2><ol>' +
+    (doc ? '<li>Nya remisser hamnar i <b>Läkarinkorgen</b> och här under <b>Att göra</b>.</li><li>Öppna en remiss och tryck <b>Ta ärendet</b>.</li><li>Skicka ett <b>snabbsvar</b> och gör bedömningen. Allt sparas med en knapp.</li>'
+      : '<li>Tryck <b>Ny konsultation</b> för att skicka en remiss till läkaren.</li><li>Läkarens svar och dina uppdrag dyker upp här under <b>Att göra</b>.</li><li>Tryck <b>Uppfattat</b> på svar och <b>Klart</b> på uppdrag när du är färdig.</li>') +
+    '</ol><p class="muted">Ser du ett <span class="term-q" style="display:inline-grid;cursor:default">?</span> kan du trycka på det för att få en term förklarad.</p></div>' +
+    '<div class="welcome-btns"><button type="button" class="btn primary" data-nav="hjalp">Visa hela guiden</button><button type="button" class="btn ghost" id="welcome-hide">Jag fattar, dölj</button></div></section>';
+}
+
 /* ---------- Konsultationsremiss som dokument ---------- */
 var MECH = ['Ingen skada (sjukdom)', 'Skottskada', 'Knivskada', 'Trafikolycka', 'Fallolycka', 'Misshandel', 'Brand eller brännskada', 'Drunkning', 'Förgiftning', 'Annat'];
 var QUESTIONS = ['Behöver patienten opereras?', 'Kan patienten skrivas ut?', 'Vilken smärtlindring ska ges?', 'Behövs röntgen eller DT?', 'Ska patienten läggas in?'];
@@ -1348,15 +1535,15 @@ function ensureImage(id) {
 }
 function vitalsLine(v) {
   v = v || {}; var parts = [];
-  function it(label, val, flag) { if (val === '' || val == null) return; parts.push('<span class="vt' + (flag ? ' flag' : '') + '"><span>' + label + '</span>' + esc(val) + '</span>'); }
+  function it(label, val, flag, k) { if (val === '' || val == null) return; parts.push('<span class="vt' + (flag ? ' flag' : '') + '">' + (k ? '<button type="button" class="vt-l" data-term="' + k + '">' + label + '</button>' : '<span>' + label + '</span>') + esc(val) + '</span>'); }
   var af = num(v.af), sp = num(v.spo2), pu = num(v.puls), bt = num(v.bts), t = num(v.temp);
-  it('AF', v.af ? v.af + '/min' : '', af != null && (af <= 8 || af >= 25));
-  it('SpO₂', v.spo2 ? v.spo2 + ' %' + (v.o2 ? ' med O₂' : '') : '', sp != null && sp <= 91);
-  it('Puls', v.puls ? v.puls + '/min' : '', pu != null && (pu <= 40 || pu >= 131));
-  it('BT', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') + ' mmHg' : '', bt != null && (bt <= 90 || bt >= 220));
-  it('Temp', v.temp ? String(v.temp).replace('.', ',') + ' °C' : '', t != null && (t <= 35 || t >= 39.1));
-  it('ACVPU', v.avpu || '', v.avpu && v.avpu !== 'A');
-  it('VAS', v.vas ? v.vas + '/10' : '', num(v.vas) >= 8);
+  it('AF', v.af ? v.af + '/min' : '', af != null && (af <= 8 || af >= 25), 'af');
+  it('SpO₂', v.spo2 ? v.spo2 + ' %' + (v.o2 ? ' med O₂' : '') : '', sp != null && sp <= 91, 'spo2');
+  it('Puls', v.puls ? v.puls + '/min' : '', pu != null && (pu <= 40 || pu >= 131), 'puls');
+  it('BT', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') + ' mmHg' : '', bt != null && (bt <= 90 || bt >= 220), 'bt');
+  it('Temp', v.temp ? String(v.temp).replace('.', ',') + ' °C' : '', t != null && (t <= 35 || t >= 39.1), 'temp');
+  it('ACVPU', v.avpu || '', v.avpu && v.avpu !== 'A', 'acvpu');
+  it('VAS', v.vas ? v.vas + '/10' : '', num(v.vas) >= 8, 'vas');
   return parts.length ? '<div class="vline">' + parts.join('') + '</div>' : '<span class="muted">Inga vitalparametrar angivna.</span>';
 }
 function docRow(label, html) { return html ? '<div class="doc-row"><dt>' + label + '</dt><dd>' + html + '</dd></div>' : ''; }
@@ -1374,26 +1561,28 @@ function renderRemiss(c, opts) {
   return '<article class="doc">' +
     '<header class="doc-head"><div class="doc-org">' + CROSS + '<span><b>Konsultationsremiss</b><small>Los Santos Sjukvård</small></span></div>' +
       '<div class="doc-meta"><span class="mono">' + esc(c.caseNo || 'Utkast') + '</span><span>' + esc(fmtFull.format(c.createdAt ? new Date(c.createdAt) : new Date())) + '</span></div></header>' +
-    '<div class="doc-prio tri-' + tri + '"><b>Prioritet ' + TRI[tri].label.toLowerCase() + '</b><span>' + TRI[tri].desc + (nw ? ' · NEWS2 ' + nw.s + ', ' + nw.label.split(' – ')[0].toLowerCase() : '') + '</span></div>' +
+    '<div class="doc-prio tri-' + tri + '"><b>Prioritet ' + TRI[tri].label.toLowerCase() + '</b>' + termQ('triage') + '<span>' + TRI[tri].desc + (nw ? ' · NEWS2 ' + nw.s + ', ' + nw.label.split(' – ')[0].toLowerCase() : '') + '</span></div>' +
     '<div class="doc-pat">' +
       '<div><small>Patient</small><b>' + (p.name ? esc(p.name) : '<span class="muted">Ej angivet</span>') + '</b></div>' +
       '<div><small>Personnummer</small><span class="mono">' + (p.pnr ? esc(p.pnr) : '–') + '</span></div>' +
       '<div><small>Ålder och kön</small><span>' + (pi ? pi.age + ' år, ' + pi.sex : '–') + '</span></div>' +
       '<div><small>Telefon</small><span class="mono">' + (p.phone ? esc(p.phone) : '–') + '</span></div>' +
     '</div>' +
-    (c.cave ? '<div class="cave"><b>CAVE</b><span>' + esc(c.cave) + '</span></div>' : '') +
+    (c.cave ? '<div class="cave"><b>CAVE</b>' + termQ('cave') + '<span>' + esc(c.cave) + '</span></div>' : '') +
     '<dl class="doc-body">' +
-      docRow('Frågeställning', c.question ? '<p class="doc-q">' + esc(c.question) + '</p>' : '') +
+      docRow('Frågeställning ' + termQ('fragestallning'), c.question ? '<p class="doc-q">' + esc(c.question) + '</p>' : '') +
       docRow('Kontaktorsak', c.title ? esc(c.title) + (mech ? '<span class="doc-tag">' + esc(mech) + '</span>' : '') : '') +
-      docRow('Aktuellt', c.symptoms ? '<p class="prose">' + esc(c.symptoms) + '</p>' + (c.onset ? '<p class="muted doc-small">Symtomdebut: ' + esc(c.onset.toLowerCase()) + '</p>' : '') : '') +
-      docRow('Status', vitalsLine(c.vitals) + (nw ? '<p class="doc-small news-' + nw.risk + '">NEWS2 <b>' + nw.s + '</b> · ' + esc(nw.label) + (nw.partial ? ' (ofullständigt underlag)' : '') + '</p>' : '')) +
+      docRow('Aktuellt ' + termQ('anamnes'), c.symptoms ? '<p class="prose">' + esc(c.symptoms) + '</p>' + (c.onset ? '<p class="muted doc-small">Symtomdebut: ' + esc(c.onset.toLowerCase()) + '</p>' : '') : '') +
+      docRow('Status ' + termQ('status'), vitalsLine(c.vitals) + (nw ? '<p class="doc-small news-' + nw.risk + '">NEWS2 <b>' + nw.s + '</b> · ' + esc(nw.label) + (nw.partial ? ' (ofullständigt underlag)' : '') + '</p>' : '')) +
       docRow('Aktuella läkemedel', c.meds ? esc(c.meds) : '') +
       docRow('Läkemedel och allergier', c.allergies ? esc(c.allergies) : '') +
       docRow('Given behandling', c.given ? esc(c.given) : '') +
       docRow('Bilagor', thumbs ? '<div class="thumbs">' + thumbs + '</div>' : '') +
     '</dl>' +
     '<footer class="doc-sign">' + avatarHtml(by, '', true) + '<div><span>Utfärdad av <b>' + esc(by.name) + '</b>' + (by.title ? ', ' + esc(by.title) : '') + (by.dept ? ' · ' + esc(by.dept) : '') + '</span>' +
-      '<small>Mottagare: ' + (c.doctorId ? esc(userName(c.doctorId)) : 'Alla läkare i tjänst') + '</small></div></footer>' +
+      '<small>Mottagare: ' + (c.doctorId ? esc(userName(c.doctorId)) : 'Alla läkare i tjänst') + '</small>' +
+      (function () { var sb = c.seenBy || {}, ids = Object.keys(sb); return ids.length ? '<small class="seen-by">Läst av ' + ids.map(function (u) { return esc(userName(u)) + ' ' + esc(fmtT.format(new Date(sb[u]))); }).join(', ') + '</small>' : ''; })() +
+      '</div></footer>' +
   '</article>';
 }
 function renderSvar(c) {
@@ -1410,9 +1599,9 @@ function renderSvar(c) {
     '<header class="doc-head"><div class="doc-org"><span class="ans-mark">Svar</span><span><b>Konsultationssvar</b><small>Avser remiss ' + esc(c.caseNo) + '</small></span></div>' +
       '<div class="doc-meta"><span>' + esc(fmtFull.format(new Date(d ? d.at : call.at))) + '</span></div></header>' +
     '<dl class="doc-body">' +
-      docRow('Diagnos', d ? '<p class="doc-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b></p>' : '<span class="muted">Ingen diagnos ställd ännu.</span>') +
+      docRow('Diagnos ' + termQ('icd'), d ? '<p class="doc-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b></p>' : '<span class="muted">Ingen diagnos ställd ännu.</span>') +
       docRow('Bedömning', d && d.assessment ? '<p class="prose">' + esc(d.assessment) + '</p>' : '') +
-      docRow('Ordination och plan', d && d.plan ? '<p class="prose">' + esc(d.plan) + '</p>' : '') +
+      docRow('Ordination ' + termQ('ordination'), d && d.plan ? '<p class="prose">' + esc(d.plan) + '</p>' : '') +
       docRow('Uppföljning', follow) +
     '</dl>' +
     '<footer class="doc-sign">' + avatarHtml(doc, '', true) + '<div><span>Signerat av <b>' + esc(doc.name) + '</b>' + (doc.title ? ', ' + esc(doc.title) : '') + '</span><small>' + esc(fmtFull.format(new Date(d ? d.at : call.at))) + '</small></div></footer>' +
@@ -1423,52 +1612,81 @@ function renderSvar(c) {
 VIEWS.nytt = {
   mount: function (el) {
     el.innerHTML =
-      '<header class="page-head"><div><p class="eyebrow">Konsultationsremiss</p><h1>Skicka till läkare</h1><p class="sub">Fyll i det du vet. Till höger ser du remissen precis som läkaren kommer att se den.</p></div></header>' +
+      '<header class="page-head"><div><p class="eyebrow">Konsultationsremiss ' + termQ('remiss') + '</p><h1>Skicka till läkare</h1><p class="sub">Fyll i fyra korta steg. Till höger ser du remissen precis som läkaren kommer att se den.</p></div></header>' +
       '<div class="new-grid">' +
       '<form class="panel" id="f-new" novalidate>' +
-        '<div class="form-sec"><h2>Patient</h2><div class="grid3">' +
+        '<ol class="wiz" id="wiz">' + ['Patient', 'Vad har hänt', 'Mätvärden', 'Skicka'].map(function (l, i) { return '<li><button type="button" data-wiz="' + (i + 1) + '"><span>' + (i + 1) + '</span>' + l + '</button></li>'; }).join('') + '</ol>' +
+        '<div class="form-sec" data-step="1"><h2>Vem är patienten?</h2><p class="hint">Skriv patientens namn. Personnumret räknar automatiskt ut ålder och kön.</p><div class="grid3">' +
           '<label class="field"><span>Namn *</span><input id="n-name" required autocomplete="off"></label>' +
           '<label class="field"><span>Personnummer</span><input id="n-pnr" placeholder="ÅÅÅÅMMDD-XXXX" class="mono" autocomplete="off"><small class="muted" id="n-pnr-hint" style="font-size:.78rem;min-height:1.1em"></small></label>' +
           '<label class="field"><span>Telefonnummer</span><input id="n-phone" autocomplete="off"></label></div></div>' +
-        '<div class="form-sec"><h2>Kontaktorsak och frågeställning</h2>' +
-          '<label class="field"><span>Kontaktorsak *</span><input id="n-title" placeholder="T.ex. Skottskada vänster lår" required></label>' +
-          '<div class="grid2"><label class="field"><span>Skademekanism</span><select id="n-mech">' + MECH.map(function (m) { return '<option>' + m + '</option>'; }).join('') + '</select></label>' +
+        '<div class="form-sec" data-step="2"><h2>Varför behöver patienten vård?</h2><p class="hint">Skriv kort vad det gäller och vad du vill att läkaren svarar på.</p>' +
+          '<label class="field"><span>Kontaktorsak * ' + termQ('kontaktorsak') + '</span><input id="n-title" placeholder="T.ex. Skottskada vänster lår" required></label>' +
+          '<div class="grid2"><label class="field"><span>Skademekanism ' + termQ('mekanism') + '</span><select id="n-mech">' + MECH.map(function (m) { return '<option>' + m + '</option>'; }).join('') + '</select></label>' +
           '<label class="field"><span>Symtomdebut</span><select id="n-onset"><option value="">Välj</option><option>Inom en timme</option><option>Idag</option><option>1–3 dygn</option><option>Mer än 3 dygn</option><option>Okänt</option></select></label></div>' +
-          '<label class="field"><span>Frågeställning till läkaren</span><input id="n-q" placeholder="Vad vill du att läkaren tar ställning till?"></label>' +
+          '<label class="field"><span>Frågeställning till läkaren ' + termQ('fragestallning') + '</span><input id="n-q" placeholder="Vad vill du att läkaren tar ställning till?"></label>' +
           '<div class="qchips">' + QUESTIONS.map(function (q) { return '<button type="button" class="qchip" data-q="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div></div>' +
-        '<div class="form-sec"><h2>Anamnes</h2>' +
+        '<div class="form-sec" data-step="2"><h2>Vad har hänt? ' + termQ('anamnes') + '</h2><p class="hint">Berätta med egna ord: vad hände, när började det och hur mår patienten nu?</p>' +
           '<label class="field"><span>Aktuellt *</span><textarea id="n-sym" rows="5" placeholder="Vad har hänt, vilka symtom har patienten och hur har det utvecklats?" required></textarea></label>' +
           '<div class="grid2"><label class="field"><span>Aktuella läkemedel</span><input id="n-meds" placeholder="T.ex. Waran, Alvedon vid behov"></label>' +
-          '<label class="field"><span>Överkänslighet (CAVE)</span><input id="n-cave" placeholder="T.ex. Penicillin, nötter"></label></div>' +
+          '<label class="field"><span>Överkänslighet (CAVE) ' + termQ('cave') + '</span><input id="n-cave" placeholder="T.ex. Penicillin, nötter"></label></div>' +
           '<label class="field"><span>Given behandling</span><input id="n-given" placeholder="T.ex. Tryckförband, 1 g paracetamol, syrgas 2 l"></label></div>' +
-        '<div class="form-sec"><div class="sec-title"><h2>Status</h2><span class="muted" style="font-size:.85rem">NEWS2 räknas ut automatiskt</span></div>' +
+        '<div class="form-sec" data-step="3"><div class="sec-title"><h2>Mätvärden ' + termQ('status') + '</h2><span class="muted" style="font-size:.85rem">NEWS2 räknas ut automatiskt ' + termQ('news2') + '</span></div><p class="hint">Fyll i det du har mätt. Tomma fält går bra. Avvikande värden blir röda i förhandsvisningen.</p>' +
           '<div class="grid4">' +
-            '<label class="field"><span>Andningsfrekvens /min</span><input id="v-af" inputmode="numeric"></label>' +
-            '<label class="field"><span>Saturation %</span><input id="v-spo2" inputmode="numeric"></label>' +
-            '<label class="field"><span>Puls /min</span><input id="v-puls" inputmode="numeric"></label>' +
-            '<label class="field"><span>Temp °C</span><input id="v-temp" inputmode="decimal"></label>' +
-            '<label class="field"><span>BT systoliskt</span><input id="v-bts" inputmode="numeric"></label>' +
+            '<label class="field"><span>Andningsfrekvens /min ' + termQ('af') + '</span><input id="v-af" inputmode="numeric"></label>' +
+            '<label class="field"><span>Saturation % ' + termQ('spo2') + '</span><input id="v-spo2" inputmode="numeric"></label>' +
+            '<label class="field"><span>Puls /min ' + termQ('puls') + '</span><input id="v-puls" inputmode="numeric"></label>' +
+            '<label class="field"><span>Temp °C ' + termQ('temp') + '</span><input id="v-temp" inputmode="decimal"></label>' +
+            '<label class="field"><span>BT systoliskt ' + termQ('bt') + '</span><input id="v-bts" inputmode="numeric"></label>' +
             '<label class="field"><span>BT diastoliskt</span><input id="v-btd" inputmode="numeric"></label>' +
-            '<label class="field"><span>Medvetande (ACVPU)</span><select id="v-avpu"><option value="">Välj</option><option value="A">A – Vaken</option><option value="C">C – Nytillkommen förvirring</option><option value="V">V – Reagerar på tilltal</option><option value="P">P – Reagerar på smärta</option><option value="U">U – Medvetslös</option></select></label>' +
-            '<label class="field"><span>Smärta VAS 0–10</span><input id="v-vas" inputmode="numeric"></label>' +
+            '<label class="field"><span>Medvetande (ACVPU) ' + termQ('acvpu') + '</span><select id="v-avpu"><option value="">Välj</option><option value="A">A – Vaken</option><option value="C">C – Nytillkommen förvirring</option><option value="V">V – Reagerar på tilltal</option><option value="P">P – Reagerar på smärta</option><option value="U">U – Medvetslös</option></select></label>' +
+            '<label class="field"><span>Smärta VAS 0–10 ' + termQ('vas') + '</span><input id="v-vas" inputmode="numeric"></label>' +
           '</div>' +
-          '<label class="check"><input type="checkbox" id="v-o2"> Patienten får syrgas</label>' +
-          '<div class="news" id="n-news"></div>' +
-          '<span class="dx-label">Prioritet</span><div class="tri-pick">' +
+          '<label class="check"><input type="checkbox" id="v-o2"> Patienten får syrgas ' + termQ('syrgas') + '</label>' +
+          '<div class="news" id="n-news"></div><div id="n-sugg"></div>' +
+          '<span class="dx-label">Hur bråttom är det? ' + termQ('triage') + '</span><div class="tri-pick">' +
           Object.keys(TRI).map(function (k) { return '<label class="' + TRI[k].cls + '"><input type="radio" name="tri" value="' + k + '"' + (k === 'gul' ? ' checked' : '') + '><span>' + TRI[k].label + '<small>' + TRI[k].desc + '</small></span></label>'; }).join('') +
-        '</div></div>' +
-        '<div class="form-sec"><h2>Var är patienten nu?</h2><div class="grid3">' +
+        '</div><p class="tri-ex" id="n-triex"></p></div>' +
+        '<div class="form-sec" data-step="4"><h2>Var är patienten nu? ' + termQ('vistelse') + '</h2><p class="hint">Välj Inneliggande om patienten är på sjukhuset och Prehospitalt om ni är på väg in.</p><div class="grid3">' +
           '<label class="field"><span>Vistelse</span><select id="n-stay">' + ['prehosp', 'inne', 'ejinlagd'].map(function (k) { return '<option value="' + k + '"' + (k === 'inne' ? ' selected' : '') + '>' + STAY[k].l + '</option>'; }).join('') + '</select></label>' +
           '<label class="field" data-ward><span>Avdelning</span><select id="n-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
           '<label class="field" data-ward><span>Sal och säng</span><input id="n-room" placeholder="T.ex. Sal 3, säng 2"></label></div></div>' +
-        '<div class="form-sec" id="n-pick"><div class="sec-title"><h2>Bilagor</h2><span class="muted" style="font-size:.85rem">Bilder, högst 6</span></div>' + PICKER_HTML + '</div>' +
-        '<div class="form-sec"><div class="grid2"><label class="field"><span>Mottagare</span><select id="n-doc"></select></label></div>' +
+        '<div class="form-sec" id="n-pick" data-step="4"><div class="sec-title"><h2>Bilagor ' + termQ('bilagor') + '</h2><span class="muted" style="font-size:.85rem">Bilder, högst 6</span></div>' + PICKER_HTML + '</div>' +
+        '<div class="form-sec" data-step="4"><h2>Vem ska få remissen?</h2><p class="hint">Välj Alla läkare i tjänst om du inte vet. Kontrollera förhandsvisningen och tryck Skicka remissen.</p><div class="grid2"><label class="field"><span>Mottagare</span><select id="n-doc"></select></label></div>' +
           '<p class="err" id="n-err"></p><div class="form-actions"><button class="btn" type="reset">Rensa</button><button class="btn primary" type="submit" id="n-send">Skicka remissen</button></div></div>' +
+        '<div class="wiz-nav" id="wiz-nav"><button type="button" class="btn" id="wiz-back">Tillbaka</button><span class="wiz-count" id="wiz-count"></span><button type="button" class="btn primary" id="wiz-next">Nästa</button></div>' +
       '</form>' +
       '<aside class="preview" aria-label="Förhandsvisning"><p class="eyebrow">Förhandsvisning</p><div id="n-prev"></div></aside>' +
       '</div>';
     var picker = imagePicker($('#n-pick'), 6);
-    var f = $('#f-new');
+    var f = $('#f-new'), step = 1, STEPS = ['Patient', 'Vad har hänt', 'Mätvärden', 'Skicka'];
+    function wizGo(n) {
+      if (n > step) {
+        if (n > 1 && !$('#n-name').value.trim()) { toast('Skriv patientens namn först.', true); goStep(1); $('#n-name').focus(); return; }
+        if (n > 2 && (!$('#n-title').value.trim() || !$('#n-sym').value.trim())) { toast('Fyll i kontaktorsak och vad som har hänt.', true); goStep(2); (!$('#n-title').value.trim() ? $('#n-title') : $('#n-sym')).focus(); return; }
+      }
+      goStep(n);
+    }
+    function goStep(n) {
+      step = n;
+      $$('[data-step]', f).forEach(function (sec) { sec.hidden = +sec.dataset.step !== n; });
+      $$('#wiz [data-wiz]').forEach(function (b) { var k = +b.dataset.wiz; b.parentNode.className = k === n ? 'on' : k < n ? 'done' : ''; b.setAttribute('aria-current', k === n ? 'step' : 'false'); });
+      $('#wiz-back').hidden = n === 1;
+      $('#wiz-next').hidden = n === 4;
+      $('#wiz-next').textContent = n < 4 ? 'Nästa: ' + STEPS[n].toLowerCase() : '';
+      $('#wiz-count').textContent = 'Steg ' + n + ' av 4';
+      var top = f.getBoundingClientRect().top; if (top < 0) window.scrollBy(0, top - 16);
+    }
+    $('#wiz').addEventListener('click', function (e) { var b = e.target.closest('[data-wiz]'); if (b) wizGo(+b.dataset.wiz); });
+    $('#wiz-next').addEventListener('click', function () { wizGo(step + 1); });
+    $('#wiz-back').addEventListener('click', function () { goStep(step - 1); });
+    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT' && step < 4) { e.preventDefault(); wizGo(step + 1); } });
+    function drawTriEx() { var k = (f.querySelector('input[name=tri]:checked') || {}).value; $('#n-triex').innerHTML = k ? '<b>' + TRI[k].label + ':</b> ' + esc(TRI_EX[k]) : ''; }
+    f.addEventListener('change', function (e) { if (e.target.name === 'tri') { drawTriEx(); drawNews(); } });
+    f.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-apply-tri]'); if (!a) return;
+      var r = f.querySelector('input[name=tri][value="' + a.dataset.applyTri + '"]'); if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+    });
     function draft() {
       var docId = $('#n-doc').value || null;
       return {
@@ -1491,6 +1709,10 @@ VIEWS.nytt = {
       var r = news2(readVitals());
       $('#n-news').className = 'news' + (r ? ' ' + r.risk : '');
       $('#n-news').innerHTML = r ? '<span class="news-score">' + r.s + '</span><div><b>NEWS2 ' + r.s + '</b><br><small>' + esc(r.label) + (r.partial ? '. Alla parametrar är inte ifyllda.' : '') + '</small></div>' : '<span class="news-score muted">–</span><small>Fyll i vitalparametrar för att räkna ut NEWS2.</small>';
+      var sug = r ? (r.risk === 'hog' ? 'rod' : r.risk === 'medel' ? 'orange' : r.s > 0 ? 'gul' : 'gron') : '';
+      var cur = (f.querySelector('input[name=tri]:checked') || {}).value;
+      var sh = sug && sug !== cur ? '<div class="sugg"><span>Utifrån NEWS2 föreslås prioritet <b>' + TRI[sug].label.toLowerCase() + '</b>.</span><button type="button" class="btn sm" data-apply-tri="' + sug + '">Använd ' + TRI[sug].label.toLowerCase() + '</button></div>' : '';
+      if ($('#n-sugg').dataset.h !== sh) { $('#n-sugg').innerHTML = sh; $('#n-sugg').dataset.h = sh; }
     }
     f.addEventListener('input', function (e) { if (e.target.id && e.target.id.indexOf('v-') === 0) drawNews(); drawPrev(); });
     f.addEventListener('change', function (e) { if (e.target.id && e.target.id.indexOf('v-') === 0) drawNews(); drawPrev(); });
@@ -1498,13 +1720,14 @@ VIEWS.nytt = {
     new MutationObserver(drawPrev).observe($('.thumbs', $('#n-pick')), { childList: true });
     function drawStay() { var inne = $('#n-stay').value === 'inne'; $$('[data-ward]', f).forEach(function (x) { x.hidden = !inne; }); }
     $('#n-stay').addEventListener('change', drawStay);
-    f.addEventListener('reset', function () { setTimeout(function () { picker.reset(); drawNews(); drawStay(); drawPrev(); }, 0); });
-    drawNews();
+    f.addEventListener('reset', function () { setTimeout(function () { picker.reset(); drawNews(); drawStay(); drawPrev(); goStep(1); drawTriEx(); }, 0); });
+    drawNews(); goStep(1); drawTriEx();
     f.addEventListener('submit', async function (e) {
       e.preventDefault();
       var err = $('#n-err'); err.textContent = '';
       var dr = draft();
-      if (!dr.patient.name || !dr.title || !dr.symptoms) { err.textContent = 'Fyll i patientens namn, kontaktorsak och aktuellt.'; return; }
+      if (!dr.patient.name) { goStep(1); toast('Skriv patientens namn.', true); return; }
+      if (!dr.title || !dr.symptoms) { goStep(2); toast('Fyll i kontaktorsak och vad som har hänt.', true); return; }
       if (!S.db) { err.textContent = 'Ingen anslutning till journalservern. Försök igen om en stund.'; return; }
       var btn = $('#n-send'); btn.disabled = true; btn.textContent = 'Skickar…';
       try {
@@ -2052,7 +2275,7 @@ document.addEventListener('click', function (e) {
 /* ---------- Aviseringar ---------- */
 function primeKnown() {
   if (S.loaded.cases && !S.knownCases) { S.knownCases = {}; S.knownReplies = {}; S.cases.forEach(function (c) { S.knownCases[c.id] = 1; (c.replies || []).forEach(function (r) { S.knownReplies[r.id] = 1; }); }); }
-  if (S.loaded.tasks && !S.knownTasks) { S.knownTasks = {}; S.tasks.forEach(function (t) { S.knownTasks[t.id] = 1; }); }
+  if (S.loaded.tasks && !S.knownTasks) { S.knownTasks = {}; S.knownTaskSt = {}; S.tasks.forEach(function (t) { S.knownTasks[t.id] = 1; S.knownTaskSt[t.id] = t.status; }); }
   if (S.loaded.chat && !S.seenMsgs) { S.seenMsgs = {}; S.chatDocs.forEach(function (d) { (d.msgs || []).forEach(function (m) { S.seenMsgs[m.id] = 1; }); }); }
 }
 function notify() {
@@ -2068,6 +2291,10 @@ function notify() {
       if (S.knownReplies[r.id]) return; S.knownReplies[r.id] = 1;
       if (c.createdBy === S.me.id && r.by !== S.me.id) toast('Svar från ' + userName(r.by) + ': ' + c.title, false, { open: c.id, sub: r.text });
     });
+  });
+  S.tasks.forEach(function (t) {
+    var prevSt = S.knownTaskSt[t.id]; S.knownTaskSt[t.id] = t.status;
+    if (prevSt && prevSt !== t.status && t.by === S.me.id && t.statusBy && t.statusBy !== S.me.id) toast(userName(t.statusBy) + ': ' + (TSTATUS[t.status] || t.status).toLowerCase(), false, { open: t.caseId || '', sub: t.title });
   });
   S.tasks.forEach(function (t) {
     if (S.knownTasks[t.id]) return; S.knownTasks[t.id] = 1;
@@ -2098,7 +2325,7 @@ function renderReplies(c) {
         '<div class="reply-main"><div class="reply-top"><b>' + esc(u.name) + '</b><small>' + esc(u.title || roleName(u.role)) + ' · ' + esc(dt(r.at)) + '</small></div>' +
         '<p class="reply-text">' + esc(r.text) + '</p>' +
         (r.ack ? '<small class="reply-ack">Uppfattat av ' + esc(userName(r.ack.by)) + ' ' + esc(dt(r.ack.at)) + '</small>'
-          : canAck ? '<div class="reply-btns"><button type="button" class="btn sm primary" data-ack="' + esc(c.id) + '">Uppfattat</button><button type="button" class="btn sm" data-chat="' + esc(dmConv(r.by)) + '" data-chat-case="' + esc(c.id) + '">Svara i chatten</button></div>'
+          : canAck ? '<div class="reply-btns">' + termQ('kvittera') + '<button type="button" class="btn sm primary" data-ack="' + esc(c.id) + '">Uppfattat</button><button type="button" class="btn sm" data-chat="' + esc(dmConv(r.by)) + '" data-chat-case="' + esc(c.id) + '">Svara i chatten</button></div>'
           : '<small class="muted">Inte kvitterat ännu</small>') +
         '</div></div>';
     }).join('') + '</div></section>';
@@ -2150,7 +2377,7 @@ function openCase(id) {
         '<div id="d-replies"></div>' +
         '<div id="d-diag"></div>' +
         '<div id="d-info"></div>' +
-        '<section class="panel" id="d-stay"><div class="panel-head"><h2>Patientens vistelse</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="d-stay-now"></span><button type="button" class="btn sm" id="sy-toggle">Ändra</button></div></div>' +
+        '<section class="panel" id="d-stay"><div class="panel-head"><h2>Patientens vistelse ' + termQ('vistelse') + '</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="d-stay-now"></span><button type="button" class="btn sm" id="sy-toggle">Ändra</button></div></div>' +
         '<div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
         '<form id="f-stay" hidden style="display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px"><div class="grid3">' +
           '<label class="field"><span>Ändra till</span><select id="sy-st">' + Object.keys(STAY).map(function (k) { return '<option value="' + k + '">' + STAY[k].l + '</option>'; }).join('') + '</select></label>' +
@@ -2215,6 +2442,7 @@ function openCase(id) {
     updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
   });
   mountDoctorTools(c); mountAdminTools(c); mountReplyBox(c); updateDrawer();
+  if (can('diagnose') && c.createdBy !== S.me.id && !(c.seenBy || {})[S.me.id] && c.status !== 'avslutad') { var sb = Object.assign({}, c.seenBy || {}); sb[S.me.id] = nowIso(); updateCase(c.id, { seenBy: sb }).catch(function () {}); }
   document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
   setTimeout(function () { var b = $('#d-head [data-close]'); if (b) b.focus(); }, 50);
 }
@@ -2292,7 +2520,8 @@ function nextStep(c) {
   var unr = c.createdBy === S.me.id ? unackedReplies(c) : [];
   if (unr.length) return { tone: 'urgent', text: 'Svar från ' + userName(unr[unr.length - 1].by) + ': "' + unr[unr.length - 1].text + '"', act: { l: 'Uppfattat', a: 'ack' } };
   if (c.status === 'avslutad') return { tone: 'done', text: 'Ärendet är avslutat.', act: canD ? { l: 'Återöppna', a: 'reopen' } : null };
-  if (c.status === 'inkommen') return { tone: hot ? 'urgent' : 'todo', text: c.doctorId ? 'Väntar på att ' + userName(c.doctorId) + ' tar ärendet.' : 'Väntar på att en läkare tar ärendet.', act: canD ? { l: 'Ta ärendet', a: 'claim' } : null };
+  var seenIds = Object.keys(c.seenBy || {});
+  if (c.status === 'inkommen') return { tone: hot ? 'urgent' : 'todo', text: (seenIds.length ? 'Sett av ' + userName(seenIds[seenIds.length - 1]) + '. ' : '') + (c.doctorId ? 'Väntar på att ' + userName(c.doctorId) + ' tar ärendet.' : 'Väntar på att en läkare tar ärendet.'), act: canD ? { l: 'Ta ärendet', a: 'claim' } : null };
   if (c.status === 'bedoms') {
     if (docMe) return { tone: hot ? 'urgent' : 'todo', text: 'Ställ diagnos och bestäm vad som händer med patienten.', act: { l: 'Gör bedömning', a: 'tab:bedomning' } };
     return { tone: 'wait', text: userName(c.doctorId) + ' bedömer patienten.', act: canD ? { l: 'Ta över', a: 'claim' } : null };
@@ -2562,6 +2791,8 @@ document.addEventListener('click', function (e) {
   var t = e.target;
   var nav = t.closest('[data-nav]'); if (nav && S.me) { e.preventDefault(); closeDrawer(); go(nav.dataset.nav); return; }
   if (t.closest('[data-logout]')) { logout(); return; }
+  if (t.closest('#welcome-hide')) { store('lsvp.welcome.' + S.me.id, 1); var wc = $('#welcome'); if (wc) wc.remove(); return; }
+  var ts = t.closest('[data-tset]'); if (ts) { var sp = ts.dataset.tset.split('|'); ts.disabled = true; setTaskStatus(sp[0], sp[1]).then(function () { toast('Status: ' + TSTATUS[sp[1]].toLowerCase() + '.'); }).catch(function () { ts.disabled = false; }); return; }
   var ak = t.closest('[data-ack]'); if (ak) { var ac = S.cases.find(function (x) { return x.id === ak.dataset.ack; }); if (ac) ackCase(ac); return; }
   var fin = t.closest('[data-task-finish]'); if (fin) { fin.disabled = true; setTaskStatus(fin.dataset.taskFinish, 'klar').then(function () { toast('Uppdraget är klart.'); }).catch(function () { fin.disabled = false; }); return; }
   var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); if (opd.dataset.openTab) showPane(opd.dataset.openTab); return; }
