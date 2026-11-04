@@ -21,6 +21,8 @@
   --accent: #0b6b78;
   --accent-ink: #ffffff;
   --accent-soft: #e0eff1;
+  --hero-bg: #0b4f5a;
+  --tint1: #e3f1f2; --ink1: #0b6b78; --tint2: #e5edfa; --ink2: #2f5fb3; --tint3: #e2f3e9; --ink3: #23804c; --tint4: #efe7f9; --ink4: #7a4cb8;
   --danger: #bf3a2e;
   --danger-soft: #fbe9e7;
   --ok: #2c8a52;
@@ -36,13 +38,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0a1317; --surface: #101c21; --surface-2: #15242a; --fg: #e1eaed; --muted: #8ea2aa; --line: #22353c;
-    --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+    --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --hero-bg: #0d3940; --tint1: #12313a; --ink1: #63cbd6; --tint2: #17283f; --ink2: #93b5f0; --tint3: #132d1f; --ink3: #6fd29a; --tint4: #261b38; --ink4: #c3a2f0; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0a1317; --surface: #101c21; --surface-2: #15242a; --fg: #e1eaed; --muted: #8ea2aa; --line: #22353c;
-  --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+  --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --hero-bg: #0d3940; --tint1: #12313a; --ink1: #63cbd6; --tint2: #17283f; --ink2: #93b5f0; --tint3: #132d1f; --ink3: #6fd29a; --tint4: #261b38; --ink4: #c3a2f0; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark;
 }
 html, body { height: 100%; }
@@ -561,6 +563,75 @@ td.c, th.c { text-align: center; }
 .todo-seg { grid-column: 2; margin-top: -4px; }
 @media (max-width: 560px) { .todo-seg { grid-column: 1; } }
 
+/* Startsida i ny stil */
+.hero { position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: 28px 30px; border-radius: 16px; background: var(--hero-bg); color: #fff; min-height: 150px; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--hero-bg) 30%, transparent 85%); pointer-events: none; }
+.hero-art { position: absolute; right: 0; bottom: 0; height: 100%; width: auto; max-width: 70%; }
+.hero-text, .hero-btn { position: relative; z-index: 1; }
+.hero-text .eyebrow { color: #fff; opacity: .75; }
+.hero h1 { font-size: clamp(1.8rem, 3.4vw, 2.4rem); font-weight: 700; letter-spacing: -.01em; margin: 4px 0 6px; }
+.hero p#m-sub { opacity: .9; max-width: 60ch; }
+.hero-btn { background: rgba(255, 255, 255, .14); color: #fff; border-color: rgba(255, 255, 255, .4); backdrop-filter: blur(4px); padding: 11px 18px; }
+.hero-btn:hover { background: rgba(255, 255, 255, .24); }
+.hero-btn svg { width: 20px; height: 20px; }
+.quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.qcard { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 14px 14px 14px 16px; border-radius: 14px; border: 1px solid var(--line); text-align: left; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+.qcard:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+@media (prefers-reduced-motion: reduce) { .qcard { transition: none; } .qcard:hover { transform: none; } }
+.qc-ic { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: var(--surface); }
+.qc-ic svg { width: 24px; height: 24px; }
+.qc-t { display: grid; gap: 1px; min-width: 0; }
+.qc-t b { font-size: .98rem; }
+.qc-t small { color: var(--muted); font-size: .82rem; }
+.qc-chev { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); }
+.qc-chev svg { width: 15px; height: 15px; }
+.qk1 { background: var(--tint1); } .qk1 .qc-ic, .qk1 b, .qk1 .qc-chev { color: var(--ink1); } .qk1 .badge { background: var(--ink1); color: var(--surface); }
+.qk2 { background: var(--tint2); } .qk2 .qc-ic, .qk2 b, .qk2 .qc-chev { color: var(--ink2); } .qk2 .badge { background: var(--ink2); color: var(--surface); }
+.qk3 { background: var(--tint3); } .qk3 .qc-ic, .qk3 b, .qk3 .qc-chev { color: var(--ink3); } .qk3 .badge { background: var(--ink3); color: var(--surface); }
+.qk4 { background: var(--tint4); } .qk4 .qc-ic, .qk4 b, .qk4 .qc-chev { color: var(--ink4); } .qk4 .badge { background: var(--ink4); color: var(--surface); }
+.ph { display: flex; align-items: center; gap: 10px; }
+.ph-ic { display: grid; place-items: center; color: var(--fg); }
+.ph-ic svg { width: 20px; height: 20px; }
+.see-all { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--accent); font-weight: 600; font-size: .85rem; cursor: pointer; padding: 4px 0; }
+.see-all svg { width: 15px; height: 15px; }
+.mina-main { display: grid; gap: 20px; min-width: 0; }
+.empty-art { padding: 34px 18px; gap: 6px; }
+.ea-ic { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); margin-bottom: 6px; }
+.ea-ic svg { width: 30px; height: 30px; }
+.glance { padding: 6px; gap: 4px; }
+.glance-row { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; border: 0; border-radius: 9px; background: var(--surface-2); padding: 10px 12px; }
+.gl-ic { color: var(--muted); display: grid; }
+.gl-ic svg { width: 18px; height: 18px; }
+.gl-l { font-size: .92rem; }
+.glance-row b { font-size: 1.05rem; }
+.me-actions .btn svg { width: 16px; height: 16px; }
+.duty-ut { color: var(--muted); }
+@media (max-width: 640px) { .hero { padding: 22px 18px; } .hero-art { opacity: .5; } }
+
+.qcard { position: relative; grid-template-columns: 48px minmax(0, 1fr) 16px; gap: 12px; padding: 16px; }
+.qcard .badge { position: absolute; top: 8px; left: 52px; min-width: 20px; box-shadow: 0 0 0 2px var(--surface); }
+.qc-chev { width: 16px; height: 16px; background: none; }
+.qc-t b { font-size: .95rem; line-height: 1.25; }
+.qc-t small { line-height: 1.3; }
+@media (min-width: 1200px) { .quick { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Samma bannerstil på alla sidor */
+.page-head { position: relative; overflow: hidden; background-color: var(--hero-bg); color: #fff; padding: 22px 26px; border-radius: 16px; align-items: center;
+  background-image: linear-gradient(90deg, var(--hero-bg) 35%, rgba(0,0,0,0) 90%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 120'%3E%3Cdefs%3E%3Cpattern id='w' width='20' height='18' patternUnits='userSpaceOnUse'%3E%3Crect x='4' y='5' width='11' height='8' rx='1.5' fill='%23fff' opacity='.25'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='20' y='50' width='90' height='70' fill='%23fff' opacity='.07'/%3E%3Crect x='20' y='50' width='90' height='70' fill='url(%23w)'/%3E%3Crect x='110' y='14' width='190' height='106' fill='%23fff' opacity='.1'/%3E%3Crect x='110' y='14' width='190' height='106' fill='url(%23w)'/%3E%3Crect x='300' y='40' width='100' height='80' fill='%23fff' opacity='.07'/%3E%3Crect x='300' y='40' width='100' height='80' fill='url(%23w)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 0 0, right bottom; background-size: 100% 100%, auto 100%; }
+.page-head h1 { color: #fff; }
+.page-head .eyebrow, .page-head .sub { color: #fff; opacity: .82; }
+.page-head .term-q { color: #fff; }
+.page-head .btn { position: relative; background: rgba(255, 255, 255, .14); color: #fff; border-color: rgba(255, 255, 255, .4); }
+.page-head .btn:hover { background: rgba(255, 255, 255, .24); }
+.page-head .btn.primary { background: #fff; color: var(--hero-bg); border-color: #fff; }
+.chips .chip { border-radius: 10px; padding: 7px 14px; background: var(--surface); }
+.chips .chip[aria-pressed="true"] { background: var(--tint1); color: var(--ink1); border-color: var(--ink1); }
+.panel { border-radius: 14px; }
+.panel-head h2 { font-size: 1.02rem; }
+.toolbar .field input, .toolbar .field select { border-radius: 10px; }
+@media (max-width: 640px) { .page-head { padding: 18px; background-size: 100% 100%, auto 70%; } }
+
 /* Bildvisare och toast */
 .lightbox { position: fixed; inset: 0; z-index: 40; background: rgba(5, 10, 12, .9); display: grid; place-items: center; padding: 24px; }
 .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
@@ -1008,6 +1079,15 @@ var IC = {
   personal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>',
   roller: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
   profil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  logout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20v-6M10 20V9M15 20v-9M20 20V4"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
+  send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>',
+  person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="7.5" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  steth: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6a5 5 0 0 0 10 0V3"/><path d="M10 14v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="12" r="2"/><path d="M4 3h2M14 3h2"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  plusc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
   hjalp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17h.01"/></svg>',
   belaggning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10.5" r="2"/></svg>',
   chatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
@@ -1130,14 +1210,11 @@ function drawSide() {
     if (i.id === 'chatt') return '<li class="nav-label">Organisation</li>' + navBtn(i);
     return navBtn(i);
   }).join('');
-  if (document.activeElement && document.activeElement.id === 'me-duty') return;
   var me = S.me, oc = onlineCount();
-  var dutySel = '<select class="duty-sel" id="me-duty" aria-label="Tjänstestatus">' + Object.keys(DUTY).map(function (k) { return '<option value="' + k + '"' + ((me.duty || 'ut') === k ? ' selected' : '') + '>' + DUTY[k] + '</option>'; }).join('') + '</select>';
   $('#me').innerHTML =
     (oc ? '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' aktiv' : ' aktiva') + ' i portalen just nu</p>' : '') +
     '<div class="me-row">' + avatarHtml(me) + '<div><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></div></div>' +
-    '<div class="me-duty">' + dutySel + '</div>' +
-    '<div class="me-actions"><button class="btn sm" type="button" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '><span class="lbl">Min profil</span><span class="sr" hidden>Profil</span></button><button class="btn sm ghost" type="button" data-logout>Logga ut</button></div>';
+    '<div class="me-actions"><button class="btn sm" type="button" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + IC.profil + '<span class="lbl">Min profil</span></button><button class="btn sm ghost" type="button" data-logout>' + IC.logout + '<span class="lbl">Logga ut</span></button></div>';
   if (window.matchMedia('(max-width: 900px)').matches) { var b = $('[data-nav="profil"]', $('#me')); if (b) b.innerHTML = avatarHtml(me); b && b.classList.add('ghost'); }
 }
 function navBtn(i) {
@@ -1341,48 +1418,66 @@ function todoHtml(t) {
     '<div class="todo-btns">' + t.btn + '</div>' +
     (t.seg ? '<div class="todo-seg">' + t.seg + '</div>' : '') + '</div>';
 }
+var HERO_ART = '<svg class="hero-art" viewBox="0 0 560 170" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="hw" width="24" height="22" patternUnits="userSpaceOnUse"><rect x="5" y="6" width="13" height="10" rx="1.5" fill="#fff" opacity=".28"/></pattern></defs>' +
+  '<rect x="40" y="88" width="120" height="82" fill="#fff" opacity=".07"/><rect x="40" y="88" width="120" height="82" fill="url(#hw)" opacity=".6"/>' +
+  '<rect x="160" y="34" width="250" height="136" fill="#fff" opacity=".1"/><rect x="160" y="34" width="250" height="136" fill="url(#hw)"/>' +
+  '<rect x="410" y="70" width="150" height="100" fill="#fff" opacity=".07"/><rect x="410" y="70" width="150" height="100" fill="url(#hw)" opacity=".6"/>' +
+  '<rect x="250" y="142" width="70" height="28" fill="#fff" opacity=".18"/>' +
+  '<g transform="translate(272 4)"><rect width="26" height="26" rx="6" fill="#fff" opacity=".92"/><path d="M10 5h6v6h6v6h-6v6h-6v-6H4v-6h6z" fill="#c8372b"/></g></svg>';
+function phead(ic, title, extra) { return '<div class="panel-head"><h2 class="ph"><span class="ph-ic">' + (IC[ic] || '') + '</span>' + esc(title) + '</h2>' + (extra || '') + '</div>'; }
+function seeAll(nav, label) { return '<button type="button" class="see-all" data-nav="' + nav + '">' + esc(label || 'Se alla ärenden') + IC.arrow + '</button>'; }
+function emptyArt(ic, title, text) { return '<div class="empty empty-art"><span class="ea-ic">' + (IC[ic] || '') + '</span><b>' + esc(title) + '</b><span>' + esc(text) + '</span></div>'; }
 VIEWS.mina = {
   mount: function (el) {
+    var doc = can('diagnose');
     el.innerHTML =
-      '<header class="page-head"><div><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p class="sub" id="m-sub"></p></div>' +
-      (can('create') ? '<button class="btn primary" type="button" data-nav="nytt">Ny konsultation</button>' : '') + '</header>' +
+      '<section class="hero">' + HERO_ART + '<div class="hero-text"><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p id="m-sub"></p></div>' +
+        (can('create') ? '<button class="btn hero-btn" type="button" data-nav="nytt">' + IC.plusc + 'Ny konsultation</button>' : '') + '</section>' +
       welcomeCard() +
+      '<div class="quick" id="r-quick"></div>' +
       '<div class="mina-grid">' +
-        '<section class="panel"><div class="panel-head"><h2>Att göra</h2><span class="muted" id="m-count" style="font-size:.85rem"></span></div><div class="todos" id="r-todo"></div></section>' +
+        '<div class="mina-main">' +
+          '<section class="panel">' + phead('mina', 'Att göra', seeAll('alla')) + '<div class="todos" id="r-todo"></div></section>' +
+          (doc ? '<section class="panel">' + phead('person', 'Ärenden jag ansvarar för', seeAll('alla')) + '<div class="list" id="r-resp"></div></section>'
+               : '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>') +
+        '</div>' +
         '<aside class="mina-side">' +
-          '<section class="panel"><div class="panel-head"><h2>Läget just nu</h2></div><div class="glance" id="r-glance"></div></section>' +
-          '<section class="panel"><div class="panel-head"><h2>Kommande samtal</h2></div><div class="list" id="r-calls"></div></section>' +
+          '<section class="panel">' + phead('chart', 'Läget just nu') + '<div class="glance" id="r-glance"></div></section>' +
+          '<section class="panel">' + phead('calendar', 'Kommande samtal') + '<div class="list" id="r-calls"></div></section>' +
+          (doc ? '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>' : '') +
         '</aside>' +
-      '</div>' +
-      '<div class="cols2">' +
-        (can('diagnose') ? '<section class="panel"><div class="panel-head"><h2>Ärenden jag ansvarar för</h2><span class="muted" id="m-rc" style="font-size:.85rem"></span></div><div class="list" id="r-resp"></div></section>' : '') +
-        '<section class="panel"><div class="panel-head"><h2>Ärenden jag skickat in</h2><span class="muted" id="m-sc" style="font-size:.85rem"></span></div><div class="list" id="r-sent"></div></section>' +
       '</div>';
   },
   update: function () {
     var w = waiting(), items = todoItems(), n = items.filter(function (t) { return t.tone !== 'info'; }).length;
-    $('#m-sub').textContent = w ? 'Hämtar dina ärenden…' : n ? 'Du har ' + n + (n === 1 ? ' sak' : ' saker') + ' att göra.' : 'Du har inget som väntar på dig just nu.';
-    $('#m-count').textContent = items.length ? items.length + (items.length === 1 ? ' punkt' : ' punkter') : '';
-    var groups = [
-      { label: 'Brådskande', tone: 'urgent', items: [] }, { label: 'Att göra', tone: 'todo', items: [] }, { label: 'Bra att veta', tone: 'info', items: [] }
-    ];
-    items.forEach(function (t) { groups[t.tone === 'urgent' ? 0 : t.tone === 'todo' ? 1 : 2].items.push(todoHtml(t)); });
-    $('#r-todo').innerHTML = w || (items.length ? groupHtml(groups) : '<div class="empty empty-big"><b>Inget att göra just nu</b><span>Nya konsultationer, svar från läkare, uppdrag och samtal som gäller dig dyker upp här.</span></div>');
-    var glance = [
-      { n: inpatients().length, l: 'Patienter på sjukhuset', nav: 'belaggning' },
-      can('diagnose') ? { n: inboxCount(), l: 'Nya i läkarinkorgen', nav: 'inkorg', alert: inboxCount() > 0 } : null,
-      { n: myTasks().length, l: 'Mina öppna uppdrag', nav: 'mina' },
-      { n: S.cases.filter(function (c) { return c.status !== 'avslutad'; }).length, l: 'Aktiva ärenden', nav: 'alla' },
-      { n: onlineCount(), l: 'Kollegor i portalen', nav: 'chatt' }
+    $('#m-sub').textContent = w ? 'Hämtar dina ärenden…' : n ? 'Du har ' + n + (n === 1 ? ' sak' : ' saker') + ' att göra. Börja uppifrån i listan.' : 'Du har inget som väntar på dig just nu. Här är en översikt över dina ärenden och snabbåtgärder.';
+    var quick = [
+      can('create') && { nav: 'nytt', ic: 'steth', t: 'Ny konsultation', s: 'Skicka en remiss till läkare', k: 1 },
+      can('diagnose') && { nav: 'inkorg', ic: 'inkorg', t: 'Läkarinkorg', s: 'Bedöm nya remisser', b: inboxCount(), k: 2 },
+      { nav: 'belaggning', ic: 'belaggning', t: 'Patienter på sjukhuset', s: 'Se vilka som ligger inne', b: inpatients().length, k: 3 },
+      (can('assign') || can('manage')) ? { nav: 'uppdrag', ic: 'uppdrag', t: 'Uppdrag', s: 'Fördela och följ upp', b: S.tasks.filter(function (t) { return t.status !== 'klar'; }).length, k: 4 } : { nav: 'chatt', ic: 'chatt', t: 'Chatt', s: 'Prata med kollegor', b: totalUnread(), k: 4 }
     ].filter(Boolean);
-    $('#r-glance').innerHTML = glance.map(function (g) { return '<button type="button" class="glance-row' + (g.alert ? ' alert' : '') + '" data-nav="' + g.nav + '"><span>' + esc(g.l) + '</span><b>' + (w ? '–' : g.n) + '</b></button>'; }).join('');
+    $('#r-quick').innerHTML = quick.map(function (q) {
+      return '<button type="button" class="qcard qk' + q.k + '" data-nav="' + q.nav + '"><span class="qc-ic">' + IC[q.ic] + '</span><span class="qc-t"><b>' + esc(q.t) + '</b><small>' + esc(q.s) + '</small></span>' + (q.b ? '<span class="badge">' + q.b + '</span>' : '') + '<span class="qc-chev">' + IC.chev + '</span></button>';
+    }).join('');
+    var groups = [{ label: 'Brådskande', tone: 'urgent', items: [] }, { label: 'Att göra', tone: 'todo', items: [] }, { label: 'Bra att veta', tone: 'info', items: [] }];
+    items.forEach(function (t) { groups[t.tone === 'urgent' ? 0 : t.tone === 'todo' ? 1 : 2].items.push(todoHtml(t)); });
+    $('#r-todo').innerHTML = w || (items.length ? groupHtml(groups) : emptyArt('mina', 'Inget att göra just nu', 'Nya konsultationer, svar från läkare, uppdrag och samtal som gäller dig dyker upp här.'));
+    var glance = [
+      { ic: 'belaggning', n: inpatients().length, l: 'Patienter på sjukhuset', nav: 'belaggning' },
+      can('diagnose') ? { ic: 'inkorg', n: inboxCount(), l: 'Nya i läkarinkorgen', nav: 'inkorg', alert: inboxCount() > 0 } : null,
+      { ic: 'uppdrag', n: myTasks().length, l: 'Mina öppna uppdrag', nav: (can('assign') || can('manage')) ? 'uppdrag' : 'mina' },
+      { ic: 'alla', n: S.cases.filter(function (c) { return c.status !== 'avslutad'; }).length, l: 'Aktiva ärenden', nav: 'alla' },
+      { ic: 'personal', n: onlineCount(), l: 'Kollegor aktiva nu', nav: 'personal' }
+    ].filter(Boolean);
+    $('#r-glance').innerHTML = glance.map(function (g) { return '<button type="button" class="glance-row' + (g.alert ? ' alert' : '') + '" data-nav="' + g.nav + '"><span class="gl-ic">' + IC[g.ic] + '</span><span class="gl-l">' + esc(g.l) + '</span><b>' + (w ? '–' : g.n) + '</b></button>'; }).join('');
     var sent = byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; }));
     var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
     var calls = upcomingCalls();
-    $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyBox('Inga bokade samtal', 'Samtal i dina ärenden visas här.'));
-    if ($('#r-resp')) { $('#m-rc').textContent = resp.length ? resp.length + ' aktiva' : ''; $('#r-resp').innerHTML = w || (resp.length ? resp.map(caseRow).join('') : emptyBox('Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.')); }
+    $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyArt('calendar', 'Inga bokade samtal', 'Samtal i dina ärenden visas här.'));
+    if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? resp.map(caseRow).join('') : emptyArt('alla', 'Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
     $('#m-sc').textContent = sent.length ? sent.length + ' totalt' : '';
-    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 15).map(caseRow).join('') : emptyBox('Du har inte skickat in något ärende', can('create') ? 'Välj Ny konsultation för att skicka en remiss till läkare.' : ''));
+    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 8).map(caseRow).join('') : emptyArt('send', 'Inga skickade remisser', can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : ''));
   }
 };
 function callRow(c) {
@@ -1857,7 +1952,7 @@ VIEWS.personal = {
     $('#r-staff').innerHTML = list.length ? list.map(function (u) {
       return '<article class="scard' + (u.active === false ? ' inactive' : '') + '">' +
         '<div class="scard-top">' + avatarHtml(u, 'lg') + '<div><b>' + esc(u.name) + '</b><small>' + esc(u.title || '') + '</small><span class="role-tag">' + esc(roleName(u.role)) + '</span></div></div>' +
-        '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + dutyHtml(u) + (S.online[u.id] ? '<span class="duty duty-in">Aktiv i portalen</span>' : '') + '</div>' +
+        '<div>' + (S.online[u.id] ? '<span class="duty duty-in">Aktiv nu</span>' : '<span class="duty duty-ut">Inte aktiv</span>') + '</div>' +
         (u.bio ? '<p>' + esc(u.bio) + '</p>' : '') +
         '<dl class="kv">' + (u.dept ? '<dt>Avdelning</dt><dd>' + esc(u.dept) + '</dd>' : '') + (u.phone ? '<dt>Telefon</dt><dd class="mono">' + esc(u.phone) + '</dd>' : '') + (u.empNo ? '<dt>Anst.nr</dt><dd class="mono">' + esc(u.empNo) + '</dd>' : '') + (u.active === false ? '<dt>Status</dt><dd>Inaktiverat konto</dd>' : '') + '</dl>' +
         '<div style="display:flex;gap:6px;flex-wrap:wrap">' + (u.id !== S.me.id ? '<button class="btn sm" type="button" data-chat="' + esc(dmConv(u.id)) + '">Skicka meddelande</button>' : '') +
@@ -1965,9 +2060,8 @@ VIEWS.profil = {
     el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Konto</p><h1>Min profil</h1><p class="sub">Uppgifterna visas för dina kollegor under Personal och i ärenden.</p></div></header>' +
       '<div class="cols"><form class="panel" id="f-prof"><div class="panel-head"><h2>Profiluppgifter</h2></div><div class="panel-body">' +
         '<div class="profile-head"><span id="pf-av">' + avatarHtml(u, 'xl') + '</span><div style="display:grid;gap:8px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn sm" id="pf-up">Byt profilbild</button><button type="button" class="btn sm ghost" id="pf-rm">Ta bort bild</button></div><small class="muted">Bilden beskärs till en cirkel.</small><input type="file" id="pf-file" accept="image/*" hidden></div></div>' +
-        '<div class="grid3"><label class="field"><span>Namn *</span><input id="pf-name" value="' + esc(u.name) + '" required></label>' +
-        '<label class="field"><span>Telefon</span><input id="pf-phone" value="' + esc(u.phone || '') + '"></label>' +
-        '<label class="field"><span>Tjänstestatus</span><select id="pf-duty">' + Object.keys(DUTY).map(function (k) { return '<option value="' + k + '"' + ((u.duty || 'ut') === k ? ' selected' : '') + '>' + DUTY[k] + '</option>'; }).join('') + '</select></label></div>' +
+        '<div class="grid2"><label class="field"><span>Namn *</span><input id="pf-name" value="' + esc(u.name) + '" required></label>' +
+        '<label class="field"><span>Telefon</span><input id="pf-phone" value="' + esc(u.phone || '') + '"></label></div>' +
         '<div class="grid2"><label class="field"><span>Titel eller grad</span><input id="pf-title" value="' + esc(u.title || '') + '"' + (can('manage') ? '' : ' disabled') + '></label>' +
         '<label class="field"><span>Avdelning</span><input id="pf-dept" value="' + esc(u.dept || '') + '"></label></div>' +
         '<label class="field"><span>Om mig</span><textarea id="pf-bio" rows="4" placeholder="Inriktning, erfarenhet, språk, när du brukar arbeta">' + esc(u.bio || '') + '</textarea></label>' +
@@ -1996,7 +2090,6 @@ VIEWS.profil = {
       var name = $('#pf-name').value.trim(); if (!name) { $('#pf-err').textContent = 'Namn måste fyllas i.'; return; }
       var body = { name: name, phone: $('#pf-phone').value.trim(), dept: $('#pf-dept').value.trim(), bio: $('#pf-bio').value.trim(), avatar: avatar, updatedAt: nowIso() };
       if (can('manage')) body.title = $('#pf-title').value.trim();
-      body.duty = $('#pf-duty').value;
       try { await saveMe(body); toast('Profilen sparades.'); } catch (x) {}
     });
     var fp = $('#f-pw');
@@ -2065,7 +2158,7 @@ function convSub(conv) {
   if (typers.length) return typers.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…';
   if (isDm(conv)) {
     var o = userById(convOther(conv));
-    return (S.online[convOther(conv)] ? 'Aktiv nu' : 'Inte aktiv') + (o ? ' · ' + (DUTY[o.duty || 'ut']) : '');
+    return (S.online[convOther(conv)] ? 'Aktiv nu' : 'Inte aktiv') + (o && o.title ? ' · ' + o.title : '');
   }
   var ch = CH.find(function (c) { return c.id === conv; });
   var n = activeStaff().filter(function (u) { return S.online[u.id] && (!ch.perm || can(ch.perm, u)); }).length;
@@ -2194,7 +2287,7 @@ VIEWS.chatt = {
     $('#cp-list').innerHTML = (q ? '' : '<h3>Kanaler</h3>' + CH.filter(function (c) { return convVisible(c.id); }).map(function (c) { return item(c.id, '<span class="ch-icon">#</span>', c.name, esc(c.desc)); }).join('')) +
       '<h3>Personal</h3>' + (people.length ? people.map(function (u) {
         var c = dmConv(u.id), typ = typingIn(c).length;
-        return item(c, avatarHtml(u), u.name, typ ? 'Skriver…' : (S.online[u.id] ? 'Aktiv nu' : esc(u.title || roleName(u.role))) + ' · ' + DUTY[u.duty || 'ut']);
+        return item(c, avatarHtml(u), u.name, typ ? 'Skriver…' : (S.online[u.id] ? 'Aktiv nu' : 'Inte aktiv') + ' · ' + esc(u.title || roleName(u.role)));
       }).join('') : '<p class="muted" style="padding:8px;font-size:.85rem">Ingen kollega hittades.</p>');
     $('#cp-head').innerHTML = '<div class="chat-head-who">' + convAvatar(conv) + '<div style="min-width:0"><b>' + esc(convTitle(conv)) + '</b><small>' + esc(convSub(conv)) + '</small></div></div>' +
       '<div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn sm" data-chat="' + esc(conv) + '">Öppna som fönster</button>' +
@@ -2809,7 +2902,6 @@ document.addEventListener('click', function (e) {
   }
 });
 document.addEventListener('change', function (e) {
-  if (e.target.id === 'me-duty') { var dv = e.target.value; saveMe({ duty: dv, dutySince: nowIso() }).then(function () { toast('Din status är nu: ' + DUTY[dv].toLowerCase() + '.'); }).catch(function () {}); return; }
   var cb = e.target.closest('[data-task-done]'); if (cb) { setTaskStatus(cb.dataset.taskDone, cb.checked ? 'klar' : 'oppen'); return; }
   var ss = e.target.closest('[data-task-status]'); if (ss) setTaskStatus(ss.dataset.taskStatus, ss.value);
 });
