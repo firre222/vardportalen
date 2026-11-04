@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Portalen använder egen inloggning, så databasen är öppen för de samlingar portalen behöver.
+    match /{coll}/{id} {
+      allow read, write: if coll in ['users', 'cases', 'tasks', 'images', 'config', 'chat', 'presence'];
+    }
+  }
+}

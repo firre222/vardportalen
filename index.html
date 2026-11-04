@@ -1,0 +1,2066 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%230b6b78%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
+<title>Los Santos Vårdportal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: inloggning delad i varumärkespanel + formulär; appen är sidomeny + arbetsyta + ärendepanel som glider in från höger */
+:root {
+  --bg: #edf1f3;
+  --surface: #ffffff;
+  --surface-2: #f5f8f9;
+  --fg: #0e1b22;
+  --muted: #5a6b74;
+  --line: #d6dfe4;
+  --accent: #0b6b78;
+  --accent-ink: #ffffff;
+  --accent-soft: #e0eff1;
+  --danger: #bf3a2e;
+  --danger-soft: #fbe9e7;
+  --ok: #2c8a52;
+  --t-rod: #cf3a2e;
+  --t-orange: #dd7a1d;
+  --t-gul: #dcb10f;
+  --t-gron: #2e9658;
+  --t-bla: #2f6ccc;
+  --shadow: 0 1px 2px rgba(14, 27, 34, .06), 0 8px 24px rgba(14, 27, 34, .06);
+  --sans: "Instrument Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1317; --surface: #101c21; --surface-2: #15242a; --fg: #e1eaed; --muted: #8ea2aa; --line: #22353c;
+    --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a1317; --surface: #101c21; --surface-2: #15242a; --fg: #e1eaed; --muted: #8ea2aa; --line: #22353c;
+  --accent: #43b6c3; --accent-ink: #04161a; --accent-soft: #12313a; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3); color-scheme: dark;
+}
+html, body { height: 100%; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+p { margin: 0; }
+.mono { font-family: var(--mono); font-size: .86em; letter-spacing: .01em; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* Kontroller */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.danger { color: var(--danger); border-color: var(--danger); background: transparent; }
+.btn.danger.solid { background: var(--danger); color: #fff; }
+.btn.sm { padding: 5px 10px; font-size: .85rem; border-radius: 6px; }
+.btn.ghost { border-color: transparent; background: transparent; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.field { display: grid; gap: 5px; min-width: 0; }
+.field > span { font-size: .8rem; font-weight: 600; color: var(--muted); }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); min-width: 0;
+}
+.field textarea { resize: vertical; min-height: 90px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.form-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; cursor: pointer; }
+.check input { width: 16px; height: 16px; accent-color: var(--accent); }
+.err { color: var(--danger); font-size: .88rem; min-height: 1.2em; }
+
+/* Inloggning */
+.login { min-height: 100vh; min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.login-brand {
+  background: var(--accent); color: var(--accent-ink); display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+  padding-block: 40px; padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: 40px; position: relative; overflow: hidden;
+}
+.login-brand .ecg { position: absolute; left: 0; right: 0; top: 46%; width: 100%; height: 120px; opacity: .25; }
+.login-brand .ecg path { fill: none; stroke: currentColor; stroke-width: 2; }
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-mark { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-ink); display: grid; place-items: center; flex-shrink: 0; }
+.logo-mark svg { width: 22px; height: 22px; }
+.logo b { display: block; font-size: 1.05rem; }
+.logo small { display: block; font-size: .78rem; opacity: .8; }
+.login-brand h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 600; max-width: 16ch; position: relative; }
+.login-brand p { opacity: .85; max-width: 42ch; position: relative; }
+.login-brand .legal { font-size: .78rem; opacity: .7; }
+.login-main { display: grid; place-items: center; padding-block: 40px; padding-left: 24px; padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+.login-card { width: 100%; max-width: 380px; display: grid; gap: 22px; }
+.login-card h1 { font-size: 1.7rem; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 4px; }
+.tabs button { border: 0; background: transparent; padding: 8px; border-radius: 7px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--fg); box-shadow: var(--shadow); }
+.login-card form { display: grid; gap: 14px; }
+.code-input { font-family: var(--mono); letter-spacing: .5em; text-align: center; font-size: 1.3rem !important; }
+.conn { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+.dot.on { background: var(--ok); }
+.dot.off { background: var(--danger); }
+@media (max-width: 820px) {
+  .login { grid-template-columns: 1fr; }
+  .login-brand { padding-block: 28px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); gap: 18px; }
+  .login-brand .ecg, .login-brand .legal { display: none; }
+  .login-main { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); place-items: start center; }
+}
+
+/* App-skal */
+.shell { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100%; }
+.side { background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 18px; padding-block: 20px; padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: 14px; position: sticky; top: 0; height: 100vh; height: 100dvh; }
+.side .logo { padding: 0 6px; }
+.side .logo-mark { background: var(--accent); }
+.side .logo-mark svg path { fill: var(--accent-ink); }
+.nav { display: grid; gap: 2px; list-style: none; margin: 0; padding: 0; }
+.nav button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 9px 10px; border: 0; border-radius: 8px; background: transparent; cursor: pointer; text-align: left; font-weight: 500; color: var(--muted); }
+.nav button:hover { background: var(--surface-2); color: var(--fg); }
+.nav button[aria-current="page"] { background: var(--accent-soft); color: var(--fg); font-weight: 600; }
+.nav svg { width: 18px; height: 18px; flex-shrink: 0; }
+.nav .badge { margin-left: auto; }
+.badge { min-width: 20px; padding: 1px 7px; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-size: .74rem; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+.badge.red { background: var(--t-rod); color: #fff; }
+.nav-label { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 10px 10px 4px; }
+.me { margin-top: auto; border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 10px; }
+.me-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.me-row div { min-width: 0; }
+.me-row b, .me-row small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.me-row small { color: var(--muted); font-size: .8rem; }
+.me-actions { display: flex; gap: 6px; }
+.me-actions .btn { flex: 1; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: .85rem; flex-shrink: 0; overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar.lg { width: 72px; height: 72px; font-size: 1.4rem; }
+.avatar.xl { width: 96px; height: 96px; font-size: 1.8rem; }
+.main { min-width: 0; padding-block: 28px 64px; padding-left: 32px; padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+.main-inner { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; }
+.conn-banner { background: var(--danger-soft); color: var(--danger); border: 1px solid var(--danger); border-radius: 8px; padding: 10px 14px; font-size: .9rem; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .side { position: sticky; top: env(safe-area-inset-top, 0px); height: auto; z-index: 5; flex-direction: row; align-items: center; gap: 10px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); border-right: 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .side .logo small, .nav-label { display: none; }
+  .nav { order: 3; width: 100%; display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  .nav li { flex-shrink: 0; }
+  .nav button { padding: 7px 10px; white-space: nowrap; }
+  .me { margin: 0 0 0 auto; border: 0; padding: 0; display: flex; align-items: center; }
+  .me-row div, .me-actions .lbl, .me-duty, .online-line { display: none; }
+  .main { padding-block: 20px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+}
+
+/* Sidhuvud och paneler */
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.page-head h1 { font-size: clamp(1.6rem, 3vw, 2rem); font-weight: 700; letter-spacing: -.01em; }
+.page-head .sub { color: var(--muted); margin-top: 4px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.panel-head h2 { font-size: 1rem; font-weight: 700; }
+.panel-body { padding: 18px; display: grid; gap: 14px; }
+.cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 980px) { .cols { grid-template-columns: 1fr; } }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 2px; text-align: left; cursor: pointer; }
+.stat:hover { border-color: var(--accent); }
+.stat b { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat span { color: var(--muted); font-size: .85rem; }
+.stat.alert b { color: var(--t-rod); }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.empty { padding: 26px 18px; text-align: center; color: var(--muted); font-size: .92rem; display: grid; gap: 4px; justify-items: center; }
+.empty b { color: var(--fg); font-weight: 600; }
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.toolbar .field { flex: 1 1 200px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); font-size: .85rem; font-weight: 500; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+/* Listor */
+.list { display: grid; }
+.crow { display: grid; grid-template-columns: 6px minmax(0, 1fr) auto; gap: 14px; align-items: center; width: 100%; padding: 12px 18px 12px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
+.list > :last-child { border-bottom: 0; }
+.crow:hover { background: var(--surface-2); }
+.crow .tri { align-self: stretch; border-radius: 0 3px 3px 0; }
+.crow-main { min-width: 0; display: grid; gap: 2px; }
+.crow-top { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.crow-top b { font-weight: 600; }
+.crow-sub { color: var(--muted); font-size: .86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crow-meta { display: grid; justify-items: end; gap: 4px; }
+.crow-meta small { color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.tri-rod { background: var(--t-rod); } .tri-orange { background: var(--t-orange); } .tri-gul { background: var(--t-gul); } .tri-gron { background: var(--t-gron); } .tri-bla { background: var(--t-bla); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 99px; font-size: .76rem; font-weight: 600; white-space: nowrap; background: var(--surface-2); border: 1px solid var(--line); }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.st-inkommen { color: var(--t-bla); } .st-bedoms { color: var(--t-orange); } .st-diagnos { color: var(--ok); } .st-avslutad { color: var(--muted); }
+.st-oppen { color: var(--t-bla); } .st-pagar { color: var(--t-orange); } .st-klar { color: var(--ok); }
+.tchip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 5px; font-size: .76rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .04em; }
+.tchip.tri-gul { color: #221a00; }
+.trow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.trow .tbox { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+.trow-main { min-width: 0; display: grid; gap: 3px; }
+.trow-main b { font-weight: 600; }
+.trow.done .trow-main b { text-decoration: line-through; color: var(--muted); }
+.trow-sub { color: var(--muted); font-size: .85rem; display: flex; gap: 6px 12px; flex-wrap: wrap; }
+.trow-sub a, .link { color: var(--accent); cursor: pointer; background: none; border: 0; padding: 0; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.trow-side { display: grid; gap: 6px; justify-items: end; }
+.due-late { color: var(--danger); font-weight: 600; }
+.prio-hog { color: var(--danger); font-weight: 700; font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+.call-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); align-items: start; }
+.call-date { border: 1px solid var(--line); border-radius: 8px; text-align: center; padding: 4px 0; background: var(--surface-2); }
+.call-date b { display: block; font-size: 1.2rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.call-date small { display: block; font-size: .7rem; text-transform: uppercase; color: var(--muted); letter-spacing: .06em; }
+
+/* Ny konsultation */
+.form-sec { display: grid; gap: 14px; padding: 20px; border-bottom: 1px solid var(--line); }
+.form-sec:last-child { border-bottom: 0; }
+.form-sec h2 { font-size: 1rem; }
+.sec-title { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.tri-pick { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.tri-pick label { position: relative; cursor: pointer; }
+.tri-pick input { position: absolute; opacity: 0; }
+.tri-pick span { display: grid; gap: 1px; padding: 10px; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); font-weight: 700; font-size: .9rem; }
+.tri-pick span small { font-weight: 400; color: var(--muted); font-size: .76rem; }
+.tri-pick span::before { content: ""; height: 6px; border-radius: 3px; margin-bottom: 6px; }
+.tri-pick .r span::before { background: var(--t-rod); } .tri-pick .o span::before { background: var(--t-orange); } .tri-pick .y span::before { background: var(--t-gul); } .tri-pick .g span::before { background: var(--t-gron); } .tri-pick .b span::before { background: var(--t-bla); }
+.tri-pick input:checked + span { border-color: var(--fg); }
+.tri-pick input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 640px) { .tri-pick { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.news { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); flex-wrap: wrap; }
+.news-score { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; min-width: 2ch; }
+.news.lag .news-score { color: var(--ok); } .news.lagmedel .news-score, .news.medel .news-score { color: var(--t-orange); } .news.hog .news-score { color: var(--t-rod); }
+.news small { color: var(--muted); }
+.drop { border: 2px dashed var(--line); border-radius: 10px; padding: 18px; text-align: center; color: var(--muted); display: grid; gap: 8px; justify-items: center; cursor: pointer; }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.thumbs { display: flex; gap: 10px; flex-wrap: wrap; }
+.thumb { position: relative; width: 96px; height: 96px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: var(--surface-2); padding: 0; cursor: pointer; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb .x { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; border: 0; background: rgba(0,0,0,.65); color: #fff; cursor: pointer; font-size: 14px; line-height: 1; }
+
+/* Ärendepanel */
+.drawer-wrap { position: fixed; inset: 0; z-index: 20; display: flex; justify-content: flex-end; }
+.scrim { position: absolute; inset: 0; background: rgba(8, 18, 22, .45); }
+.drawer { position: relative; width: min(760px, 100%); height: 100%; background: var(--bg); box-shadow: var(--shadow); display: flex; flex-direction: column; animation: slide .22s ease-out; }
+@keyframes slide { from { transform: translateX(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .drawer { animation: none; } }
+.d-head { background: var(--surface); border-bottom: 1px solid var(--line); padding-block: calc(16px + env(safe-area-inset-top, 0px)) 16px; padding-left: 22px; padding-right: max(22px, env(safe-area-inset-right, 0px)); display: grid; gap: 10px; }
+.d-head-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.d-head h2 { font-size: 1.4rem; }
+.d-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.d-body { overflow-y: auto; padding-block: 18px calc(40px + env(safe-area-inset-bottom, 0px)); padding-left: 22px; padding-right: max(22px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; align-content: start; }
+@media (max-width: 640px) { .d-head, .d-body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
+.d-body > div:empty { display: none; }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; font-size: .92rem; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.prose { white-space: pre-wrap; overflow-wrap: anywhere; }
+.vitals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.vital { background: var(--surface); padding: 10px 12px; display: grid; gap: 1px; }
+.vital small { color: var(--muted); font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.vital b { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.vital b.flag { color: var(--t-rod); }
+@media (max-width: 560px) { .vitals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.diag-box { border-left: 4px solid var(--ok); background: var(--surface); border-radius: 0 10px 10px 0; padding: 14px 16px; display: grid; gap: 8px; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.diag-code { font-family: var(--mono); font-weight: 500; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 7px; }
+.seg { display: flex; gap: 4px; border-bottom: 1px solid var(--line); padding: 0 18px; overflow-x: auto; }
+.seg button { border: 0; background: none; padding: 12px 10px; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.seg button[aria-selected="true"] { color: var(--fg); border-color: var(--accent); }
+.log { display: grid; gap: 0; }
+.ev { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.ev:last-child { border-bottom: 0; }
+.ev .avatar { width: 30px; height: 30px; font-size: .72rem; }
+.ev-top { display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; font-size: .88rem; }
+.ev-top b { font-weight: 600; }
+.ev-top small { color: var(--muted); }
+.ev-sys { color: var(--muted); font-size: .88rem; }
+.confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--danger-soft); border: 1px solid var(--danger); border-radius: 8px; padding: 10px 12px; font-size: .9rem; }
+
+/* Personal */
+.staff { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.scard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.scard.inactive { opacity: .55; }
+.scard-top { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.scard-top div { min-width: 0; }
+.scard-top b { display: block; }
+.scard-top small { color: var(--muted); display: block; font-size: .84rem; }
+.scard p { color: var(--muted); font-size: .88rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.scard .kv { font-size: .84rem; }
+.role-tag { display: inline-block; font-size: .74rem; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 640px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); font-size: .9rem; vertical-align: middle; }
+th { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+td.c, th.c { text-align: center; }
+.profile-head { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+
+/* Bildvisare och toast */
+.lightbox { position: fixed; inset: 0; z-index: 40; background: rgba(5, 10, 12, .9); display: grid; place-items: center; padding: 24px; }
+.lightbox img { max-width: 100%; max-height: 90vh; border-radius: 6px; }
+.lightbox button { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); }
+#toast { position: fixed; left: 50%; top: calc(16px + env(safe-area-inset-top, 0px)); transform: translateX(-50%); z-index: 50; display: grid; gap: 8px; width: min(440px, calc(100% - 32px)); pointer-events: none; }
+.toast { background: var(--fg); color: var(--bg); padding: 11px 16px; border-radius: 10px; box-shadow: var(--shadow); font-size: .92rem; pointer-events: auto; }
+.toast[data-open], .toast[data-chat] { cursor: pointer; }
+.toast small { display: block; opacity: .75; font-size: .8rem; }
+
+/* Närvaro och tjänstestatus */
+.av { position: relative; display: inline-flex; flex-shrink: 0; }
+.av .odot { position: absolute; right: -1px; bottom: -1px; width: 31%; height: 31%; min-width: 9px; min-height: 9px; max-width: 16px; max-height: 16px; border-radius: 50%; background: var(--ok); border: 2px solid var(--surface); }
+.duty { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 600; color: var(--muted); }
+.duty::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.duty-in { color: var(--ok); } .duty-rast { color: var(--t-orange); } .duty-ut { color: var(--muted); }
+.duty-sel { width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font-size: .85rem; }
+.online-line { display: flex; align-items: center; gap: 8px; font-size: .8rem; color: var(--muted); padding: 0 6px; }
+.online-line i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+
+/* Vistelse och beläggning */
+.stay { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 600; padding: 2px 9px; border-radius: 5px; border: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.sy-inne { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.sy-prehosp { color: var(--t-orange); }
+.sy-left { color: var(--muted); }
+.sy-avliden { color: var(--fg); }
+.stay-box { display: grid; gap: 12px; }
+.stay-now { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.wards { display: grid; gap: 20px; }
+.ward h2 { font-size: 1rem; display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; }
+.beds { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.bed { display: grid; grid-template-columns: 5px minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; text-align: left; padding: 0; cursor: pointer; }
+.bed:hover { border-color: var(--accent); }
+.bed-body { padding: 12px 14px; display: grid; gap: 4px; min-width: 0; }
+.bed-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.bed-room { font-family: var(--mono); font-size: .8rem; color: var(--muted); }
+.bed small { color: var(--muted); font-size: .82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Chatt */
+.chat { display: grid; grid-template-columns: 290px minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; height: min(720px, calc(100dvh - 190px)); min-height: 480px; }
+.chat-side { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+.chat-side .field { padding: 12px; border-bottom: 1px solid var(--line); }
+.chat-list { overflow-y: auto; flex: 1; padding: 6px; }
+.chat-list h3 { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 10px 8px 4px; }
+.cl-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; padding: 8px; border: 0; border-radius: 8px; background: transparent; text-align: left; cursor: pointer; }
+.cl-item:hover { background: var(--surface-2); }
+.cl-item[aria-current="true"] { background: var(--accent-soft); }
+.cl-item b { display: block; font-weight: 600; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cl-item small { display: block; color: var(--muted); font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ch-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; font-weight: 700; color: var(--accent); }
+.chat-main { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.chat-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.chat-head-who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.chat-head-who b { display: block; }
+.chat-head-who small { color: var(--muted); font-size: .8rem; }
+.msgs { flex: 1; overflow-y: auto; padding: 14px 18px; display: flex; flex-direction: column; gap: 2px; min-height: 0; }
+.msg { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 8px; align-items: end; margin-top: 8px; }
+.msg.grp { margin-top: 0; }
+.msg .avatar { width: 30px; height: 30px; font-size: .7rem; }
+.msg.mine { grid-template-columns: minmax(0, 1fr); justify-items: end; }
+.bub-wrap { display: grid; gap: 2px; min-width: 0; max-width: 78%; }
+.msg.mine .bub-wrap { justify-items: end; }
+.msg-name { font-size: .76rem; color: var(--muted); font-weight: 600; padding-left: 4px; }
+.bub { background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px 14px 14px 4px; padding: 8px 12px; white-space: pre-wrap; overflow-wrap: anywhere; display: grid; gap: 6px; }
+.msg.mine .bub { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); border-radius: 14px 14px 4px 14px; }
+.msg small.time { font-size: .7rem; color: var(--muted); padding: 0 4px; }
+.mref { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-size: .8rem; font-weight: 600; cursor: pointer; text-align: left; justify-self: start; }
+.mref::before { content: ""; width: 6px; align-self: stretch; border-radius: 2px; background: var(--accent); }
+.day-div { text-align: center; font-size: .74rem; color: var(--muted); margin: 14px 0 4px; font-weight: 600; }
+.typing { font-size: .8rem; color: var(--muted); padding: 0 18px 6px; min-height: 1.4em; font-style: italic; }
+.composer { border-top: 1px solid var(--line); padding: 10px 12px; display: grid; gap: 8px; }
+.composer-row { display: flex; gap: 8px; align-items: flex-end; }
+.composer textarea { flex: 1; min-width: 0; resize: none; max-height: 140px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.composer textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.composer select { max-width: 100%; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font-size: .82rem; }
+.refchip { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 600; padding: 3px 4px 3px 9px; border-radius: 6px; background: var(--accent-soft); color: var(--fg); max-width: 100%; }
+.refchip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.refchip button { border: 0; background: none; cursor: pointer; padding: 0 4px; font-size: 1rem; line-height: 1; color: var(--muted); }
+@media (max-width: 760px) {
+  .chat { grid-template-columns: 1fr; height: auto; min-height: 0; }
+  .chat-side { border-right: 0; border-bottom: 1px solid var(--line); max-height: 260px; }
+  .chat-main { height: 70vh; }
+}
+
+/* Chattfönster längst ner */
+#dock { position: fixed; bottom: 0; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 30; display: flex; gap: 12px; align-items: flex-end; pointer-events: none; }
+.cw { pointer-events: auto; width: 330px; background: var(--surface); border: 1px solid var(--line); border-bottom: 0; border-radius: 12px 12px 0 0; box-shadow: 0 -2px 8px rgba(14,27,34,.08), 0 12px 40px rgba(14,27,34,.22); display: flex; flex-direction: column; overflow: hidden; }
+.cw-head { display: flex; align-items: center; gap: 10px; padding: 9px 10px 9px 12px; background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+.cw-head .avatar, .cw-head .ch-icon { width: 30px; height: 30px; font-size: .7rem; }
+.cw-head .av .odot { border-color: var(--accent); }
+.cw-title { flex: 1; min-width: 0; }
+.cw-title b { display: block; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cw-title small { display: block; font-size: .74rem; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cw-btn { width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; color: inherit; cursor: pointer; display: grid; place-items: center; font-size: 1rem; }
+.cw-btn:hover { background: rgba(255,255,255,.18); }
+.cw-btn svg { width: 16px; height: 16px; }
+.cw .badge { background: var(--t-rod); color: #fff; }
+.cw-body { display: flex; flex-direction: column; height: min(420px, calc(100dvh - 140px)); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.cw.min .cw-body { display: none; }
+.cw .msgs { padding: 10px 12px; }
+.cw .typing { padding: 0 12px 4px; }
+.cw .bub-wrap { max-width: 86%; }
+body.drawer-open #dock { right: calc(min(760px, 100%) + 16px); }
+@media (max-width: 1180px) { body.drawer-open #dock { right: max(16px, env(safe-area-inset-right, 0px)); } }
+@media (max-width: 640px) {
+  #dock { left: max(8px, env(safe-area-inset-left, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); }
+  body.drawer-open #dock { right: max(8px, env(safe-area-inset-right, 0px)); }
+  .cw { width: 100%; }
+  .cw:not(:last-child) { display: none; }
+}
+.toast.bad { background: var(--danger); color: #fff; }
+</style>
+
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="drawer" class="drawer-wrap" hidden></div>
+<div id="dock" aria-label="Chattfönster"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+(function () {
+'use strict';
+
+/* ---------- Konstanter ---------- */
+var ADMIN_HASH = '3122003ca9bff3110796925c10f3864a73bc06bab1e99a69dc096431cf86fca9';
+var SESSION_KEY = 'lsvp.session';
+var PERMS = [
+  ['create', 'Skicka in ärenden till läkare'],
+  ['diagnose', 'Ställa diagnos och boka samtal'],
+  ['assign', 'Skapa och fördela uppdrag'],
+  ['receive', 'Kan tilldelas uppdrag'],
+  ['manage', 'Administrera personal, roller och alla ärenden']
+];
+var DEFAULT_ROLES = [
+  { id: 'lakare', name: 'Läkare', perms: { create: true, diagnose: true, assign: true, receive: true, manage: false } },
+  { id: 'ssk', name: 'Sjuksköterska', perms: { create: true, diagnose: false, assign: false, receive: true, manage: false } },
+  { id: 'usk', name: 'Undersköterska', perms: { create: true, diagnose: false, assign: false, receive: true, manage: false } },
+  { id: 'amb', name: 'Ambulanssjukvårdare', perms: { create: true, diagnose: false, assign: false, receive: true, manage: false } },
+  { id: 'admin', name: 'Administratör', perms: { create: true, diagnose: true, assign: true, receive: true, manage: true } }
+];
+var TRI = {
+  rod: { label: 'Röd', desc: 'Livshotande', rank: 0, cls: 'r' },
+  orange: { label: 'Orange', desc: 'Allvarligt', rank: 1, cls: 'o' },
+  gul: { label: 'Gul', desc: 'Brådskande', rank: 2, cls: 'y' },
+  gron: { label: 'Grön', desc: 'Kan vänta', rank: 3, cls: 'g' },
+  bla: { label: 'Blå', desc: 'Ej akut', rank: 4, cls: 'b' }
+};
+var STATUS = { inkommen: 'Inkommen', bedoms: 'Under bedömning', diagnos: 'Diagnos satt', avslutad: 'Avslutad' };
+var TSTATUS = { oppen: 'Ej påbörjad', pagar: 'Pågår', klar: 'Klar' };
+var STAY = {
+  prehosp: { l: 'Prehospitalt', d: 'På plats eller i ambulans', cls: 'sy-prehosp' },
+  inne: { l: 'Inneliggande', d: 'Kvar på sjukhuset', cls: 'sy-inne' },
+  ejinlagd: { l: 'Ej inlagd', d: 'Bedömd utan inläggning', cls: '' },
+  utskriven: { l: 'Utskriven', d: 'Har lämnat sjukhuset', cls: 'sy-left', left: true },
+  avviken: { l: 'Avviken', d: 'Lämnade utan att skrivas ut', cls: 'sy-left', left: true },
+  overflyttad: { l: 'Överflyttad', d: 'Flyttad till annan vårdenhet', cls: 'sy-left', left: true },
+  avliden: { l: 'Avliden', d: '', cls: 'sy-avliden', left: true }
+};
+var WARDS = ['Akutmottagningen', 'Akutrum och trauma', 'Operation', 'IVA', 'Vårdavdelning', 'Observationsavdelning', 'Psykiatrisk akutvård', 'Röntgen'];
+var DESTS = ['Hemmet', 'Polisen eller häktet', 'Annat sjukhus', 'Rehabilitering', 'Okänt'];
+var CH = [
+  { id: 'allmant', name: 'Allmänt', desc: 'Hela personalen' },
+  { id: 'lakare', name: 'Läkargruppen', desc: 'Läkare och administratörer', perm: 'diagnose' }
+];
+var DUTY = { in: 'I tjänst', rast: 'På rast', ut: 'Ej i tjänst' };
+var ICD = [
+  ['S06.0', 'Hjärnskakning'], ['S06.5', 'Traumatisk subduralblödning'], ['S09.9', 'Huvudskada, ospecificerad'],
+  ['S22.3', 'Revbensfraktur'], ['S27.0', 'Traumatisk pneumothorax'], ['S36.1', 'Leverskada'],
+  ['S42.0', 'Nyckelbensfraktur'], ['S52.5', 'Distal radiusfraktur'], ['S72.0', 'Collumfraktur'],
+  ['S82.2', 'Skenbensfraktur'], ['S93.4', 'Fotledsdistorsion'], ['T14.1', 'Öppet sår, ospecificerad lokalisation'],
+  ['T14.9', 'Skada, ospecificerad'], ['T30.0', 'Brännskada, ospecificerad grad'], ['T51.0', 'Etanolförgiftning'],
+  ['T40.2', 'Opioidförgiftning'], ['T75.1', 'Drunkningstillbud'], ['W34', 'Skottskada'],
+  ['I21.9', 'Akut hjärtinfarkt'], ['I46.9', 'Hjärtstopp'], ['I63.9', 'Hjärninfarkt'],
+  ['J18.9', 'Pneumoni'], ['J45.9', 'Astma'], ['K35.8', 'Akut appendicit'], ['R55.9', 'Svimning'],
+  ['R07.4', 'Bröstsmärta, ospecificerad'], ['R10.4', 'Buksmärta'], ['F41.0', 'Panikångest'],
+  ['E16.2', 'Hypoglykemi'], ['A09.9', 'Gastroenterit'], ['T78.2', 'Anafylaktisk chock']
+];
+
+/* ---------- Tillstånd ---------- */
+var S = {
+  db: null, dbState: 'connecting',
+  users: [], cases: [], tasks: [], rolesDoc: null, chatDocs: [], chatLocal: {},
+  loaded: { users: false, cases: false, tasks: false, config: false, chat: false },
+  room: null, online: {}, typing: {}, dock: [], dockRef: {}, chatConv: 'allmant', chatRef: '', lastRead: {}, loginAt: '',
+  seenMsgs: null, knownCases: null, knownTasks: null,
+  me: null, view: 'mina', openCase: null,
+  imgCache: {}, inkorgFilter: 'alla', allaFilter: { q: '', status: 'aktiva' }, uppdragFilter: 'aktiva',
+  dirtyRoles: false, editUser: null
+};
+
+/* ---------- Hjälpfunktioner ---------- */
+function $(s, r) { return (r || document).querySelector(s); }
+function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function nowIso() { return new Date().toISOString(); }
+function num(v) { if (v == null || v === '') return null; var n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+var fmtDT = new Intl.DateTimeFormat('sv-SE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+var fmtD = new Intl.DateTimeFormat('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
+var fmtT = new Intl.DateTimeFormat('sv-SE', { hour: '2-digit', minute: '2-digit' });
+var fmtDay = new Intl.DateTimeFormat('sv-SE', { day: 'numeric' });
+var fmtMon = new Intl.DateTimeFormat('sv-SE', { month: 'short' });
+var fmtWd = new Intl.DateTimeFormat('sv-SE', { weekday: 'long' });
+function dt(iso) { if (!iso) return ''; var d = new Date(iso); return isNaN(d) ? '' : fmtDT.format(d); }
+function ago(iso) {
+  if (!iso) return ''; var d = new Date(iso); var s = (Date.now() - d.getTime()) / 1000;
+  if (s < 60) return 'nyss'; if (s < 3600) return Math.floor(s / 60) + ' min sedan';
+  if (s < 86400) return Math.floor(s / 3600) + ' tim sedan'; return fmtD.format(d);
+}
+function toLocalInput(iso) { if (!iso) return ''; var d = new Date(iso); var p = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()); }
+function fromLocalInput(v) { if (!v) return null; var d = new Date(v); return isNaN(d) ? null : d.toISOString(); }
+function initials(name) { var p = String(name || '?').trim().split(/\s+/); return ((p[0] || '?')[0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); }
+function firstName(name) { return String(name || '').trim().split(/\s+/)[0] || ''; }
+function sha256js(str) {
+  var bytes = Array.prototype.slice.call(new TextEncoder().encode(str));
+  var K = [], H = [], p = 0, n = 2;
+  function frac(x) { return ((x - Math.floor(x)) * 4294967296) | 0; }
+  while (p < 64) { var prime = true; for (var d = 2; d * d <= n; d++) if (n % d === 0) { prime = false; break; } if (prime) { if (p < 8) H[p] = frac(Math.pow(n, 1 / 2)); K[p] = frac(Math.pow(n, 1 / 3)); p++; } n++; }
+  var l = bytes.length * 8; bytes.push(0x80); while (bytes.length % 64 !== 56) bytes.push(0);
+  for (var i = 7; i >= 0; i--) bytes.push(i >= 4 ? 0 : (l >>> (i * 8)) & 255);
+  function r(x, k) { return (x >>> k) | (x << (32 - k)); }
+  for (var o = 0; o < bytes.length; o += 64) {
+    var w = [], a = H.slice();
+    for (var t = 0; t < 64; t++) {
+      if (t < 16) w[t] = (bytes[o + t * 4] << 24) | (bytes[o + t * 4 + 1] << 16) | (bytes[o + t * 4 + 2] << 8) | bytes[o + t * 4 + 3];
+      else { var s0 = r(w[t - 15], 7) ^ r(w[t - 15], 18) ^ (w[t - 15] >>> 3), s1 = r(w[t - 2], 17) ^ r(w[t - 2], 19) ^ (w[t - 2] >>> 10); w[t] = (w[t - 16] + s0 + w[t - 7] + s1) | 0; }
+      var S1 = r(a[4], 6) ^ r(a[4], 11) ^ r(a[4], 25), ch = (a[4] & a[5]) ^ (~a[4] & a[6]), t1 = (a[7] + S1 + ch + K[t] + w[t]) | 0;
+      var S0 = r(a[0], 2) ^ r(a[0], 13) ^ r(a[0], 22), mj = (a[0] & a[1]) ^ (a[0] & a[2]) ^ (a[1] & a[2]), t2 = (S0 + mj) | 0;
+      a = [(t1 + t2) | 0, a[0], a[1], a[2], (a[3] + t1) | 0, a[4], a[5], a[6]];
+    }
+    for (var j = 0; j < 8; j++) H[j] = (H[j] + a[j]) | 0;
+  }
+  return H.map(function (x) { return (x >>> 0).toString(16).padStart(8, '0'); }).join('');
+}
+async function sha(s) {
+  if (window.crypto && crypto.subtle) {
+    try {
+      var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.prototype.map.call(new Uint8Array(b), function (x) { return x.toString(16).padStart(2, '0'); }).join('');
+    } catch (e) {}
+  }
+  return sha256js(s);
+}
+function passHash(username, pw) { return sha('lsvp1:' + username.toLowerCase() + ':' + pw); }
+function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function load(k) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+
+function toast(msg, bad, opts) {
+  opts = opts || {};
+  var t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg;
+  if (opts.sub) { var s = document.createElement('small'); s.textContent = opts.sub; t.appendChild(s); }
+  if (opts.open) t.dataset.open = opts.open;
+  if (opts.chat) t.dataset.chat = opts.chat;
+  t.addEventListener('click', function () { setTimeout(function () { t.remove(); }, 0); });
+  var box = $('#toast'); box.appendChild(t); while (box.children.length > 4) box.firstChild.remove();
+  setTimeout(function () { t.remove(); }, bad ? 6000 : (opts.open || opts.chat) ? 7000 : 3200);
+}
+function errMsg(e) {
+  var c = e && e.code;
+  if (c === 'invalid_argument') return 'Ändringen sparades inte. Ditt konto saknar skrivbehörighet, eller så är innehållet för stort.';
+  if (c === 'quota_exceeded') return 'Lagringsutrymmet är fullt. Ta bort gamla ärenden eller bilder och försök igen.';
+  if (c === 'resource_exhausted') return 'För många ändringar på kort tid. Vänta en stund och försök igen.';
+  if (c === 'revoked') return 'Din åtkomst till portalen har ändrats. Ladda om sidan.';
+  if (c === 'permission-denied') return 'Databasen nekade ändringen. Kontrollera databasens regler.';
+  return 'Ändringen kunde inte sparas. Kontrollera anslutningen och försök igen.';
+}
+var chains = {};
+function write(path, fn) {
+  if (!S.db) { toast('Ingen anslutning till databasen.', true); return Promise.reject({ code: 'unavailable' }); }
+  var prev = chains[path] || Promise.resolve();
+  var p = prev.catch(function () {}).then(fn);
+  chains[path] = p;
+  return p.catch(function (e) { toast(errMsg(e), true); throw e; });
+}
+
+/* ---------- Roller och behörighet ---------- */
+function roles() {
+  var list = (S.rolesDoc && Array.isArray(S.rolesDoc.list) && S.rolesDoc.list.length) ? S.rolesDoc.list : DEFAULT_ROLES;
+  if (!list.some(function (r) { return r.id === 'admin'; })) list = list.concat([DEFAULT_ROLES[4]]);
+  return list;
+}
+function roleOf(id) { return roles().find(function (r) { return r.id === id; }); }
+function roleName(id) { var r = roleOf(id); return r ? r.name : 'Ingen roll'; }
+function can(p, u) {
+  u = u || S.me; if (!u) return false;
+  if (u.id === 'admin' || u.role === 'admin') return true;
+  var r = roleOf(u.role); return !!(r && r.perms && (r.perms[p] || r.perms.manage));
+}
+function userById(id) { return S.users.find(function (u) { return u.id === id; }); }
+function userName(id) { if (!id) return '–'; var u = userById(id); if (u) return u.name || u.username; return id === 'admin' ? 'Administratör' : 'Tidigare användare'; }
+function avatarHtml(u, cls, noDot) {
+  cls = cls || '';
+  var inner = (u && u.avatar) ? '<span class="avatar ' + cls + '"><img src="' + esc(u.avatar) + '" alt=""></span>'
+    : '<span class="avatar ' + cls + '">' + esc(initials(u ? u.name : '?')) + '</span>';
+  var on = !noDot && u && u.id && S.online[u.id];
+  return '<span class="av">' + inner + (on ? '<i class="odot" title="Aktiv nu"></i>' : '') + '</span>';
+}
+function dutyHtml(u) { if (!u) return ''; var d = u.duty || 'ut'; return '<span class="duty duty-' + d + '">' + DUTY[d] + '</span>'; }
+function stayHtml(c) { var s = c && c.stay; if (!s || !STAY[s.status]) return ''; return '<span class="stay ' + STAY[s.status].cls + '">' + STAY[s.status].l + (s.status === 'inne' && s.ward ? ' · ' + esc(s.ward) : '') + '</span>'; }
+function onlineCount() { return Object.keys(S.online).length; }
+function saveMe(patch) {
+  var id = S.me.id;
+  if (id === 'admin' && !userById('admin')) {
+    var base = { username: 'admin', name: 'Administratör', role: 'admin', title: 'Systemadministratör', active: true, passHash: null, createdAt: nowIso() };
+    return write('users/admin', function () { return S.db.doc('users/admin').set(Object.assign(base, patch, { updatedAt: nowIso() })); });
+  }
+  return write('users/' + id, function () { return S.db.doc('users/' + id).update(Object.assign({}, patch, { updatedAt: nowIso() })); });
+}
+function activeStaff(filterPerm) {
+  return S.users.filter(function (u) { return u.active !== false && (!filterPerm || can(filterPerm, u)); })
+    .sort(function (a, b) { return (a.name || '').localeCompare(b.name || '', 'sv'); });
+}
+
+/* ---------- NEWS2 ---------- */
+function news2(v) {
+  if (!v) return null; var s = 0, n = 0, three = false;
+  function add(x) { s += x; n++; if (x === 3) three = true; }
+  var af = num(v.af); if (af != null) add(af <= 8 ? 3 : af <= 11 ? 1 : af <= 20 ? 0 : af <= 24 ? 2 : 3);
+  var sp = num(v.spo2); if (sp != null) add(sp <= 91 ? 3 : sp <= 93 ? 2 : sp <= 95 ? 1 : 0);
+  if (v.o2) { s += 2; }
+  var bt = num(v.bts); if (bt != null) add(bt <= 90 ? 3 : bt <= 100 ? 2 : bt <= 110 ? 1 : bt <= 219 ? 0 : 3);
+  var p = num(v.puls); if (p != null) add(p <= 40 ? 3 : p <= 50 ? 1 : p <= 90 ? 0 : p <= 110 ? 1 : p <= 130 ? 2 : 3);
+  if (v.avpu) add(v.avpu === 'A' ? 0 : 3);
+  var t = num(v.temp); if (t != null) add(t <= 35 ? 3 : t <= 36 ? 1 : t <= 38 ? 0 : t <= 39 ? 1 : 2);
+  if (!n) return null;
+  var risk = s >= 7 ? 'hog' : s >= 5 ? 'medel' : three ? 'lagmedel' : 'lag';
+  var label = { hog: 'Hög risk – omedelbar läkarbedömning', medel: 'Medelhög risk – skyndsam bedömning', lagmedel: 'Låg till medel – en parameter avviker kraftigt', lag: 'Låg risk' }[risk];
+  return { s: s, risk: risk, label: label, partial: n < 6 };
+}
+
+/* ---------- Bilder ---------- */
+function compress(file, max, maxLen) {
+  return new Promise(function (resolve, reject) {
+    var url = URL.createObjectURL(file); var img = new Image();
+    img.onload = function () {
+      var w = img.naturalWidth, h = img.naturalHeight, scale = Math.min(1, max / Math.max(w, h)), q = 0.82, data = '';
+      for (var k = 0; k < 8; k++) {
+        var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * scale)); c.height = Math.max(1, Math.round(h * scale));
+        var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height);
+        data = c.toDataURL('image/jpeg', q);
+        if (data.length <= maxLen) break;
+        q -= 0.1; if (q < 0.5) { scale *= 0.75; q = 0.72; }
+      }
+      URL.revokeObjectURL(url); resolve(data);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('bild')); };
+    img.src = url;
+  });
+}
+async function saveImages(list, caseId) {
+  var ids = [];
+  for (var i = 0; i < list.length; i++) {
+    var id = 'img' + uid();
+    await write('images/' + id, function () { return S.db.doc('images/' + id).set({ caseId: caseId, data: list[i], by: S.me.id, at: nowIso() }); });
+    S.imgCache[id] = list[i]; ids.push(id);
+  }
+  return ids;
+}
+function loadImage(id) {
+  if (S.imgCache[id] !== undefined) return Promise.resolve(S.imgCache[id]);
+  if (!S.db) return Promise.resolve(null);
+  return S.db.doc('images/' + id).get().then(function (snap) {
+    var d = snap.exists ? snap.data().data : null; S.imgCache[id] = d; return d;
+  }).catch(function () { return null; });
+}
+function lightbox(src) {
+  var el = document.createElement('div'); el.className = 'lightbox';
+  el.innerHTML = '<img alt="Bild i ärendet" src="' + esc(src) + '"><button class="btn" type="button">Stäng</button>';
+  el.addEventListener('click', function () { el.remove(); });
+  document.body.appendChild(el);
+}
+/* Bildväljare som går att återanvända: dropzon, klistra in, miniatyrer */
+function imagePicker(root, maxCount) {
+  var state = { list: [] };
+  var drop = $('.drop', root), input = $('input[type=file]', root), thumbs = $('.thumbs', root);
+  function draw() {
+    thumbs.innerHTML = state.list.map(function (d, i) { return '<span class="thumb"><img alt="" src="' + d + '"><button type="button" class="x" data-rm="' + i + '" aria-label="Ta bort bild">×</button></span>'; }).join('');
+  }
+  async function add(files) {
+    var arr = Array.prototype.slice.call(files || []).filter(function (f) { return /^image\//.test(f.type); });
+    for (var i = 0; i < arr.length; i++) {
+      if (state.list.length >= maxCount) { toast('Högst ' + maxCount + ' bilder per tillfälle.', true); break; }
+      try { state.list.push(await compress(arr[i], 1400, 190000)); } catch (e) { toast('En bild kunde inte läsas.', true); }
+    }
+    draw();
+  }
+  drop.addEventListener('click', function () { input.click(); });
+  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+  input.addEventListener('change', function () { add(input.files); input.value = ''; });
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) { e.preventDefault(); drop.classList.remove('over'); add(e.dataTransfer.files); });
+  root.addEventListener('paste', function (e) { if (e.clipboardData && e.clipboardData.files.length) { e.preventDefault(); add(e.clipboardData.files); } });
+  thumbs.addEventListener('click', function (e) { var b = e.target.closest('[data-rm]'); if (b) { state.list.splice(+b.dataset.rm, 1); draw(); } });
+  state.reset = function () { state.list = []; draw(); };
+  return state;
+}
+var PICKER_HTML = '<div class="drop" tabindex="0" role="button"><b>Dra hit bilder, klistra in eller klicka för att välja</b><small>JPG, PNG eller HEIC. Bilderna komprimeras automatiskt.</small></div><input type="file" accept="image/*" multiple hidden><div class="thumbs"></div>';
+
+/* ---------- Ikoner ---------- */
+var IC = {
+  mina: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>',
+  inkorg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></svg>',
+  nytt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  uppdrag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6l1 1 2-2M3 12l1 1 2-2M3 18l1 1 2-2"/></svg>',
+  alla: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4zM4 12h16v8H4z"/></svg>',
+  personal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg>',
+  roller: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  profil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  belaggning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10.5" r="2"/></svg>',
+  chatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
+};
+var CROSS = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="var(--accent)"/></svg>';
+
+/* ---------- Inloggning ---------- */
+function renderLogin(tab) {
+  tab = tab || 'personal';
+  S.me = null; closeDrawer(true);
+  var conn = S.dbState === 'on' ? '<span class="dot on"></span>Ansluten till journalservern'
+    : S.dbState === 'off' ? '<span class="dot off"></span>' + (window.LSVP_FIREBASE ? 'Portalen är inte kopplad till någon databas ännu. Fyll i firebase-config.js.' : 'Ingen anslutning till journalservern. Du behöver vara inloggad och ha behörighet till portalen.')
+    : '<span class="dot"></span>Ansluter till journalservern…';
+  $('#app').innerHTML =
+    '<div class="login">' +
+      '<aside class="login-brand">' +
+        '<div class="logo"><span class="logo-mark">' + CROSS + '</span><span><b>Los Santos Sjukvård</b><small>Vårdportal</small></span></div>' +
+        '<svg class="ecg" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 H150 L165 70 L175 40 L188 100 L200 10 L214 110 L226 70 H330 L345 70 L355 50 L368 85 L378 70 H600"/></svg>' +
+        '<div style="display:grid;gap:12px"><h2>Konsultation, diagnos och uppföljning på ett ställe.</h2><p>Skicka in symtom och bilder till ansvarig läkare, följ ärendet och se vilka uppdrag du har tilldelats.</p></div>' +
+        '<p class="legal">Systemet är endast avsett för behörig vårdpersonal. All åtkomst loggas.</p>' +
+      '</aside>' +
+      '<main class="login-main"><div class="login-card">' +
+        '<div style="display:grid;gap:6px"><h1>Logga in</h1><p class="muted">Använd de uppgifter du fått av din administratör.</p></div>' +
+        '<div class="tabs" role="tablist"><button type="button" role="tab" data-ltab="personal" aria-selected="' + (tab === 'personal') + '">Personal</button><button type="button" role="tab" data-ltab="admin" aria-selected="' + (tab === 'admin') + '">Administratör</button></div>' +
+        (tab === 'personal'
+          ? '<form id="f-login" autocomplete="on"><label class="field"><span>Användarnamn</span><input id="l-user" name="username" autocomplete="username" required></label>' +
+            '<label class="field"><span>Lösenord</span><input id="l-pass" type="password" name="password" autocomplete="current-password" required></label>' +
+            '<p class="err" id="l-err"></p><button class="btn primary" type="submit">Logga in</button></form>'
+          : '<form id="f-admin" autocomplete="off"><label class="field"><span>Behörighetskod</span><input id="l-code" class="code-input" type="password" inputmode="numeric" maxlength="12" required></label>' +
+            '<p class="err" id="l-err"></p><button class="btn primary" type="submit">Logga in som administratör</button></form>') +
+        '<p class="conn">' + conn + '</p>' +
+      '</div></main>' +
+    '</div>';
+  var f = $('#f-login');
+  if (f) f.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var un = $('#l-user').value.trim().toLowerCase(), pw = $('#l-pass').value, err = $('#l-err');
+    if (!S.loaded.users) { err.textContent = 'Personalregistret har inte laddats ännu. Vänta ett ögonblick och försök igen.'; return; }
+    var u = S.users.find(function (x) { return (x.username || '').toLowerCase() === un; });
+    var h; try { h = await passHash(un, pw); } catch (x) { err.textContent = 'Webbläsaren stöds inte. Använd en uppdaterad webbläsare.'; return; }
+    if (!u || !u.passHash || u.passHash !== h) { err.textContent = 'Fel användarnamn eller lösenord.'; return; }
+    if (u.active === false) { err.textContent = 'Kontot är inaktiverat. Kontakta din administratör.'; return; }
+    loginAs(u.id);
+  });
+  var fa = $('#f-admin');
+  if (fa) fa.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var err = $('#l-err'), h;
+    try { h = await sha('lsvp-admin:' + $('#l-code').value.trim()); } catch (x) { err.textContent = 'Webbläsaren stöds inte.'; return; }
+    if (h !== ADMIN_HASH) { err.textContent = 'Felaktig behörighetskod.'; $('#l-code').value = ''; return; }
+    loginAs('admin');
+  });
+  $$('[data-ltab]').forEach(function (b) { b.addEventListener('click', function () { renderLogin(b.dataset.ltab); }); });
+  var first = $('#l-user') || $('#l-code'); if (first) first.focus();
+}
+function adminSelf() {
+  var doc = userById('admin');
+  return Object.assign({ id: 'admin', username: 'admin', name: 'Administratör', role: 'admin', title: 'Systemadministratör', active: true }, doc || {}, { id: 'admin', role: 'admin' });
+}
+function loginAs(id) {
+  store(SESSION_KEY, { uid: id });
+  S.me = id === 'admin' ? adminSelf() : userById(id);
+  S.loginAt = nowIso();
+  S.lastRead = load('lsvp.read.' + id) || {};
+  S.dock = (load('lsvp.dock.' + id) || []).filter(function (w) { return w && w.conv; }).slice(-3);
+  S.seenMsgs = null; S.knownCases = null; S.knownTasks = null;
+  primeKnown();
+  var h = (location.hash || '').slice(1);
+  S.view = VIEWS[h] && viewAllowed(h) ? h : 'mina';
+  if (S.room) S.room.presence({ uid: id, typing: null }).catch(function () {});
+  renderShell(); renderDock();
+}
+function logout() {
+  if (S.room) S.room.presence({ uid: null, typing: null }).catch(function () {});
+  store(SESSION_KEY, null); S.me = null; S.dock = []; renderDock();
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  renderLogin();
+}
+function refreshMe() {
+  if (!S.me) return;
+  if (S.me.id === 'admin') { S.me = adminSelf(); return; }
+  var u = userById(S.me.id);
+  if (!u || u.active === false) { toast('Ditt konto är inte längre aktivt.', true); logout(); return; }
+  S.me = u;
+}
+
+/* ---------- Skal ---------- */
+var VIEWS = {};
+function navItems() {
+  var items = [
+    { id: 'mina', label: 'Ärenden jag har', badge: myOpenCount() },
+    can('diagnose') && { id: 'inkorg', label: 'Läkarinkorg', badge: inboxCount(), red: true },
+    can('create') && { id: 'nytt', label: 'Ny konsultation' },
+    { id: 'belaggning', label: 'Patienter på sjukhuset', badge: inpatients().length, muted: true },
+    (can('assign') || can('manage')) && { id: 'uppdrag', label: 'Uppdrag' },
+    { id: 'alla', label: 'Alla ärenden' },
+    { id: 'chatt', label: 'Chatt', badge: totalUnread(), red: true },
+    { id: 'personal', label: 'Personal' },
+    can('manage') && { id: 'roller', label: 'Roller och behörighet' }
+  ];
+  return items.filter(Boolean);
+}
+function viewAllowed(v) { return v === 'profil' || navItems().some(function (i) { return i.id === v; }); }
+function renderShell() {
+  $('#app').innerHTML =
+    '<div class="shell">' +
+      '<aside class="side">' +
+        '<div class="logo"><span class="logo-mark">' + CROSS.replace('var(--accent)', 'var(--accent-ink)') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
+        '<ul class="nav" id="nav"></ul>' +
+        '<div class="me" id="me"></div>' +
+      '</aside>' +
+      '<main class="main"><div class="main-inner" id="main"></div></main>' +
+    '</div>';
+  drawSide(); mountView();
+}
+function drawSide() {
+  var nav = $('#nav'); if (!nav) return;
+  nav.innerHTML = '<li class="nav-label">Arbete</li>' + navItems().map(function (i) {
+    if (i.id === 'chatt') return '<li class="nav-label">Organisation</li>' + navBtn(i);
+    return navBtn(i);
+  }).join('');
+  if (document.activeElement && document.activeElement.id === 'me-duty') return;
+  var me = S.me, oc = onlineCount();
+  var dutySel = '<select class="duty-sel" id="me-duty" aria-label="Tjänstestatus">' + Object.keys(DUTY).map(function (k) { return '<option value="' + k + '"' + ((me.duty || 'ut') === k ? ' selected' : '') + '>' + DUTY[k] + '</option>'; }).join('') + '</select>';
+  $('#me').innerHTML =
+    (oc ? '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' aktiv' : ' aktiva') + ' i portalen just nu</p>' : '') +
+    '<div class="me-row">' + avatarHtml(me) + '<div><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></div></div>' +
+    '<div class="me-duty">' + dutySel + '</div>' +
+    '<div class="me-actions"><button class="btn sm" type="button" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '><span class="lbl">Min profil</span><span class="sr" hidden>Profil</span></button><button class="btn sm ghost" type="button" data-logout>Logga ut</button></div>';
+  if (window.matchMedia('(max-width: 900px)').matches) { var b = $('[data-nav="profil"]', $('#me')); if (b) b.innerHTML = avatarHtml(me); b && b.classList.add('ghost'); }
+}
+function navBtn(i) {
+  var badge = i.badge ? '<span class="badge' + (i.red ? ' red' : '') + '">' + i.badge + '</span>' : '';
+  return '<li><button type="button" data-nav="' + i.id + '"' + (S.view === i.id ? ' aria-current="page"' : '') + '>' + (IC[i.id] || '') + '<span>' + esc(i.label) + '</span>' + badge + '</button></li>';
+}
+function go(v) {
+  if (!viewAllowed(v)) v = 'mina';
+  S.view = v; try { history.replaceState(null, '', '#' + v); } catch (e) {}
+  if (v === 'chatt' && S.dock.length) { S.dock.forEach(function (w) { w.min = true; }); saveDock(); renderDock(); }
+  mountView(); drawSide(); window.scrollTo(0, 0);
+}
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && S.me) afterData(); });
+function mountView() {
+  var m = $('#main'); if (!m) return;
+  var banner = S.dbState === 'off' ? '<div class="conn-banner">Ingen anslutning till journalservern. Ändringar kan inte sparas just nu.</div>'
+    : S.dbState === 'slow' ? '<div class="conn-banner">Journalservern svarar inte just nu. Uppgifterna kan vara inaktuella.</div>' : '';
+  m.innerHTML = banner + '<div id="view" style="display:grid;gap:24px"></div>';
+  var v = VIEWS[S.view] || VIEWS.mina; v.mount($('#view')); if (v.update) v.update();
+}
+function onData() {
+  if (!S.me) return;
+  var prevRole = S.me.role; refreshMe(); if (!S.me) return;
+  drawSide();
+  if (prevRole !== S.me.role && !viewAllowed(S.view)) { go('mina'); return; }
+  notify();
+  var v = VIEWS[S.view]; if (v && v.update) v.update();
+  if (S.openCase) updateDrawer();
+  updateDock();
+  drawSide();
+}
+
+/* ---------- Räknare ---------- */
+function myTasks() { return S.tasks.filter(function (t) { return t.assignee === S.me.id && t.status !== 'klar'; }); }
+function inboxCases() {
+  return S.cases.filter(function (c) {
+    return (c.status === 'inkommen' || c.status === 'bedoms') && (!c.doctorId || c.doctorId === S.me.id || (can('manage') && S.me.id === 'admin'));
+  });
+}
+function inboxCount() { return inboxCases().filter(function (c) { return c.status === 'inkommen'; }).length; }
+function myOpenCount() { return myTasks().length; }
+function upcomingCalls() {
+  var now = Date.now() - 3600e3;
+  return S.cases.filter(function (c) {
+    return c.call && c.call.at && new Date(c.call.at).getTime() > now && c.status !== 'avslutad' &&
+      (c.createdBy === S.me.id || c.doctorId === S.me.id || c.call.by === S.me.id || c.call.withUser === S.me.id);
+  }).sort(function (a, b) { return new Date(a.call.at) - new Date(b.call.at); });
+}
+function sortCases(list) {
+  return list.slice().sort(function (a, b) {
+    var ta = (TRI[a.triage] || TRI.bla).rank, tb = (TRI[b.triage] || TRI.bla).rank;
+    if (ta !== tb) return ta - tb; return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+}
+function inpatients() { return S.cases.filter(function (c) { return c.stay && c.stay.status === 'inne'; }); }
+function byNewest(list) { return list.slice().sort(function (a, b) { return new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt); }); }
+
+/* ---------- Komponenter ---------- */
+function statusPill(s) { return '<span class="pill st-' + esc(s) + '">' + esc(STATUS[s] || s) + '</span>'; }
+function triChip(t) { var x = TRI[t] || TRI.bla; return '<span class="tchip tri-' + esc(t || 'bla') + '">' + x.label + '</span>'; }
+function caseRow(c) {
+  var t = TRI[c.triage] ? c.triage : 'bla';
+  var who = c.doctorId ? 'Ansvarig: ' + userName(c.doctorId) : 'Ej tilldelad läkare';
+  return '<button type="button" class="crow" data-open="' + esc(c.id) + '">' +
+    '<span class="tri tri-' + t + '" title="Prioritet ' + TRI[t].label + '"></span>' +
+    '<span class="crow-main"><span class="crow-top"><b>' + esc(c.title) + '</b><span class="mono muted">' + esc(c.caseNo) + '</span></span>' +
+    '<span class="crow-sub">' + esc((c.patient && c.patient.name) || 'Okänd patient') + (c.patient && c.patient.pnr ? ' · ' + esc(c.patient.pnr) : '') + ' · Från ' + esc(userName(c.createdBy)) + ' · ' + esc(who) + '</span></span>' +
+    '<span class="crow-meta">' + statusPill(c.status) + stayHtml(c) + '<small>' + ago(c.createdAt) + '</small></span></button>';
+}
+function canToggleTask(t) { return t.assignee === S.me.id || t.by === S.me.id || can('manage'); }
+function taskRow(t, opts) {
+  opts = opts || {};
+  var c = t.caseId ? S.cases.find(function (x) { return x.id === t.caseId; }) : null;
+  var late = t.due && t.status !== 'klar' && new Date(t.due) < new Date();
+  var sub = [];
+  if (opts.showAssignee !== false) sub.push('Till ' + esc(userName(t.assignee)));
+  sub.push('Från ' + esc(userName(t.by)));
+  if (t.due) sub.push('<span class="' + (late ? 'due-late' : '') + '">Klart senast ' + dt(t.due) + '</span>');
+  if (c) sub.push('<button type="button" class="link" data-open="' + esc(c.id) + '">' + esc(c.caseNo) + ' ' + esc(c.title) + '</button>');
+  var actions = '';
+  if (opts.manage) actions = '<button type="button" class="btn sm ghost" data-task-del="' + esc(t.id) + '">Ta bort</button>';
+  var stSel = canToggleTask(t)
+    ? '<select class="btn sm" data-task-status="' + esc(t.id) + '" aria-label="Status">' + Object.keys(TSTATUS).map(function (k) { return '<option value="' + k + '"' + (t.status === k ? ' selected' : '') + '>' + TSTATUS[k] + '</option>'; }).join('') + '</select>'
+    : '<span class="pill st-' + esc(t.status) + '">' + TSTATUS[t.status] + '</span>';
+  return '<div class="trow' + (t.status === 'klar' ? ' done' : '') + '">' +
+    (canToggleTask(t) ? '<input type="checkbox" class="tbox" data-task-done="' + esc(t.id) + '"' + (t.status === 'klar' ? ' checked' : '') + ' aria-label="Markera som klar">' : '<span style="width:20px"></span>') +
+    '<div class="trow-main"><b>' + esc(t.title) + (t.prio === 'hog' ? ' <span class="prio-hog">Hög prio</span>' : '') + '</b>' + (t.desc ? '<span class="prose muted" style="font-size:.9rem">' + esc(t.desc) + '</span>' : '') + '<span class="trow-sub">' + sub.join('<span aria-hidden="true">·</span>') + '</span></div>' +
+    '<div class="trow-side">' + stSel + actions + '</div></div>';
+}
+function emptyBox(title, text) { return '<div class="empty"><b>' + esc(title) + '</b><span>' + esc(text) + '</span></div>'; }
+function waiting() { return S.loaded.cases && S.loaded.tasks ? null : emptyBox('Hämtar uppgifter…', 'Uppgifterna laddas från journalservern.'); }
+function staffOptions(perm, selected, emptyLabel) {
+  var opts = emptyLabel != null ? '<option value="">' + esc(emptyLabel) + '</option>' : '';
+  return opts + activeStaff(perm).map(function (u) { return '<option value="' + esc(u.id) + '"' + (u.id === selected ? ' selected' : '') + '>' + esc(u.name) + ' – ' + esc(u.title || roleName(u.role)) + '</option>'; }).join('');
+}
+
+/* ---------- Uppdrag: åtgärder ---------- */
+async function setTaskStatus(id, status) {
+  var t = S.tasks.find(function (x) { return x.id === id; }); if (!t) return;
+  await write('tasks/' + id, function () { return S.db.doc('tasks/' + id).update({ status: status, doneAt: status === 'klar' ? nowIso() : null, updatedAt: nowIso() }); });
+  if (status === 'klar' && t.caseId) addEvent(t.caseId, { type: 'sys', text: 'Uppdraget "' + t.title + '" markerades som klart.' });
+}
+async function createTask(data) {
+  var id = 't' + uid();
+  var doc = Object.assign({ title: '', desc: '', caseId: null, assignee: null, by: S.me.id, due: null, prio: 'normal', status: 'oppen', createdAt: nowIso(), updatedAt: nowIso() }, data);
+  await write('tasks/' + id, function () { return S.db.doc('tasks/' + id).set(doc); });
+  if (doc.caseId) addEvent(doc.caseId, { type: 'sys', text: 'Uppdrag tilldelat ' + userName(doc.assignee) + ': ' + doc.title });
+  return id;
+}
+function addEvent(caseId, ev) {
+  return write('cases/' + caseId, function () {
+    var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+    var events = (c.events || []).concat([Object.assign({ at: nowIso(), by: S.me.id }, ev)]).slice(-300);
+    return S.db.doc('cases/' + caseId).update({ events: events, updatedAt: nowIso() });
+  });
+}
+function updateCase(caseId, patch, ev) {
+  return write('cases/' + caseId, function () {
+    var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+    var body = Object.assign({}, patch, { updatedAt: nowIso() });
+    if (ev) body.events = (c.events || []).concat([Object.assign({ at: nowIso(), by: S.me.id }, ev)]).slice(-300);
+    return S.db.doc('cases/' + caseId).update(body);
+  });
+}
+
+/* ---------- Vy: Ärenden jag har ---------- */
+VIEWS.mina = {
+  mount: function (el) {
+    var doc = can('diagnose');
+    el.innerHTML =
+      '<header class="page-head"><div><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Ärenden jag har</h1><p class="sub">Hej ' + esc(firstName(S.me.name)) + '. Här är det som väntar på dig.</p></div>' +
+      (can('create') ? '<button class="btn primary" type="button" data-nav="nytt">Ny konsultation</button>' : '') + '</header>' +
+      '<div class="stats" id="r-stats"></div>' +
+      '<div class="cols"><section class="panel"><div class="panel-head"><h2>Mina uppdrag</h2><span class="muted" id="r-tcount"></span></div><div class="list" id="r-tasks"></div></section>' +
+      '<section class="panel"><div class="panel-head"><h2>Kommande samtal</h2></div><div class="list" id="r-calls"></div></section></div>' +
+      (doc ? '<section class="panel"><div class="panel-head"><h2>Ärenden jag ansvarar för</h2></div><div class="list" id="r-resp"></div></section>' : '') +
+      '<section class="panel"><div class="panel-head"><h2>Ärenden jag skickat in</h2></div><div class="list" id="r-sent"></div></section>';
+  },
+  update: function () {
+    var w = waiting();
+    var tasks = myTasks().sort(function (a, b) { return (a.prio === 'hog' ? 0 : 1) - (b.prio === 'hog' ? 0 : 1) || (new Date(a.due || 8e15) - new Date(b.due || 8e15)); });
+    var sent = byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; }));
+    var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
+    var calls = upcomingCalls();
+    var waitingDoc = sent.filter(function (c) { return c.status === 'inkommen' || c.status === 'bedoms'; }).length;
+    var stats = [
+      { n: tasks.length, l: 'Öppna uppdrag', t: 'r-tasks' },
+      { n: calls.length, l: 'Kommande samtal', t: 'r-calls' },
+      { n: waitingDoc, l: 'Väntar på läkare', t: 'r-sent' }
+    ];
+    if (can('diagnose')) stats.push({ n: inboxCount(), l: 'Nya i inkorgen', nav: 'inkorg', alert: inboxCount() > 0 });
+    else stats.push({ n: sent.filter(function (c) { return c.status === 'diagnos'; }).length, l: 'Diagnos satt', t: 'r-sent' });
+    $('#r-stats').innerHTML = stats.map(function (s) { return '<button type="button" class="stat' + (s.alert ? ' alert' : '') + '" ' + (s.nav ? 'data-nav="' + s.nav + '"' : 'data-scroll="' + s.t + '"') + '><b>' + (w ? '–' : s.n) + '</b><span>' + s.l + '</span></button>'; }).join('');
+    $('#r-tcount').textContent = tasks.length ? tasks.length + ' öppna' : '';
+    $('#r-tasks').innerHTML = w || (tasks.length ? tasks.map(function (t) { return taskRow(t, { showAssignee: false }); }).join('') : emptyBox('Inga öppna uppdrag', 'Uppdrag som en läkare eller administratör tilldelar dig visas här.'));
+    $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyBox('Inga bokade samtal', 'När en läkare bokar ett samtal i något av dina ärenden visas det här.'));
+    if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? resp.map(caseRow).join('') : emptyBox('Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
+    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 30).map(caseRow).join('') : emptyBox('Du har inte skickat in något ärende', can('create') ? 'Välj Ny konsultation för att skicka symtom och bilder till en läkare.' : ''));
+  }
+};
+function callRow(c) {
+  var d = new Date(c.call.at);
+  return '<button type="button" class="call-row crow" style="grid-template-columns:64px minmax(0,1fr);padding:12px 18px" data-open="' + esc(c.id) + '">' +
+    '<span class="call-date"><small>' + esc(fmtMon.format(d)) + '</small><b>' + esc(fmtDay.format(d)) + '</b><small>' + esc(fmtT.format(d)) + '</small></span>' +
+    '<span class="crow-main"><span class="crow-top"><b>' + esc(c.call.type || 'Samtal') + '</b><span class="mono muted">' + esc(c.caseNo) + '</span></span>' +
+    '<span class="crow-sub">' + esc((c.patient && c.patient.name) || '') + ' · med ' + esc(c.call.withLabel || '') + '</span>' +
+    (c.call.note ? '<span class="crow-sub">' + esc(c.call.note) + '</span>' : '') + '</span></button>';
+}
+
+/* ---------- Vy: Läkarinkorg ---------- */
+VIEWS.inkorg = {
+  mount: function (el) {
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Läkare</p><h1>Läkarinkorg</h1><p class="sub">Konsultationer som väntar på bedömning, sorterade efter prioritet.</p></div></header>' +
+      '<div class="chips" id="ink-chips"></div><section class="panel"><div class="list" id="r-inbox"></div></section>';
+    $('#ink-chips').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (b) { S.inkorgFilter = b.dataset.f; VIEWS.inkorg.update(); } });
+  },
+  update: function () {
+    var all = inboxCases();
+    var sets = {
+      alla: all, nya: all.filter(function (c) { return c.status === 'inkommen'; }),
+      mina: all.filter(function (c) { return c.doctorId === S.me.id; }),
+      akut: all.filter(function (c) { return c.triage === 'rod' || c.triage === 'orange'; })
+    };
+    var labels = { alla: 'Alla', nya: 'Nya', mina: 'Tilldelade mig', akut: 'Röd och orange' };
+    $('#ink-chips').innerHTML = Object.keys(labels).map(function (k) { return '<button type="button" class="chip" data-f="' + k + '" aria-pressed="' + (S.inkorgFilter === k) + '">' + labels[k] + ' (' + sets[k].length + ')</button>'; }).join('');
+    var list = sortCases(sets[S.inkorgFilter] || all);
+    $('#r-inbox').innerHTML = waiting() || (list.length ? list.map(caseRow).join('') : emptyBox('Inkorgen är tom', 'Nya konsultationer från sjuksköterskor och ambulanspersonal hamnar här.'));
+  }
+};
+
+/* ---------- Vy: Ny konsultation ---------- */
+VIEWS.nytt = {
+  mount: function (el) {
+    el.innerHTML =
+      '<header class="page-head"><div><p class="eyebrow">Konsultation</p><h1>Skicka till läkare</h1><p class="sub">Beskriv patientens tillstånd så noggrant du kan. Läkaren ser allt du fyller i här.</p></div></header>' +
+      '<form class="panel" id="f-new" novalidate>' +
+        '<div class="form-sec"><h2>Patient</h2><div class="grid3">' +
+          '<label class="field"><span>Namn *</span><input id="n-name" required autocomplete="off"></label>' +
+          '<label class="field"><span>Personnummer</span><input id="n-pnr" placeholder="ÅÅÅÅMMDD-XXXX" class="mono" autocomplete="off"></label>' +
+          '<label class="field"><span>Telefonnummer</span><input id="n-phone" autocomplete="off"></label></div></div>' +
+        '<div class="form-sec"><h2>Sökorsak och symtom</h2>' +
+          '<div class="grid2"><label class="field"><span>Sökorsak *</span><input id="n-title" placeholder="T.ex. Skottskada vänster lår" required></label>' +
+          '<label class="field"><span>Symtomdebut</span><select id="n-onset"><option value="">Välj</option><option>Inom en timme</option><option>Idag</option><option>1–3 dygn</option><option>Mer än 3 dygn</option><option>Okänt</option></select></label></div>' +
+          '<label class="field"><span>Anamnes och symtom *</span><textarea id="n-sym" rows="5" placeholder="Vad har hänt, hur mår patienten, vad har gjorts hittills?" required></textarea></label>' +
+          '<div class="grid2"><label class="field"><span>Allergier och läkemedel</span><input id="n-allergy" placeholder="T.ex. Penicillinallergi, tar Waran"></label>' +
+          '<label class="field"><span>Given behandling</span><input id="n-given" placeholder="T.ex. Tryckförband, 1 g paracetamol"></label></div></div>' +
+        '<div class="form-sec"><div class="sec-title"><h2>Vitalparametrar</h2><span class="muted" style="font-size:.85rem">NEWS2 räknas ut automatiskt</span></div>' +
+          '<div class="grid4">' +
+            '<label class="field"><span>Andningsfrekvens /min</span><input id="v-af" inputmode="numeric"></label>' +
+            '<label class="field"><span>Saturation %</span><input id="v-spo2" inputmode="numeric"></label>' +
+            '<label class="field"><span>Puls /min</span><input id="v-puls" inputmode="numeric"></label>' +
+            '<label class="field"><span>Temp °C</span><input id="v-temp" inputmode="decimal"></label>' +
+            '<label class="field"><span>BT systoliskt</span><input id="v-bts" inputmode="numeric"></label>' +
+            '<label class="field"><span>BT diastoliskt</span><input id="v-btd" inputmode="numeric"></label>' +
+            '<label class="field"><span>Medvetande (ACVPU)</span><select id="v-avpu"><option value="">Välj</option><option value="A">A – Vaken</option><option value="C">C – Nytillkommen förvirring</option><option value="V">V – Reagerar på tilltal</option><option value="P">P – Reagerar på smärta</option><option value="U">U – Medvetslös</option></select></label>' +
+            '<label class="field"><span>Smärta VAS 0–10</span><input id="v-vas" inputmode="numeric"></label>' +
+          '</div>' +
+          '<label class="check"><input type="checkbox" id="v-o2"> Patienten får syrgas</label>' +
+          '<div class="news" id="n-news"></div></div>' +
+        '<div class="form-sec"><h2>Var är patienten nu?</h2><div class="grid3">' +
+          '<label class="field"><span>Vistelse</span><select id="n-stay">' + ['prehosp', 'inne', 'ejinlagd'].map(function (k) { return '<option value="' + k + '"' + (k === 'inne' ? ' selected' : '') + '>' + STAY[k].l + ' – ' + STAY[k].d.toLowerCase() + '</option>'; }).join('') + '</select></label>' +
+          '<label class="field" data-ward><span>Avdelning</span><select id="n-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
+          '<label class="field" data-ward><span>Sal och säng</span><input id="n-room" placeholder="T.ex. Sal 3, säng 2"></label></div></div>' +
+        '<div class="form-sec"><h2>Prioritet</h2><div class="tri-pick">' +
+          Object.keys(TRI).map(function (k) { return '<label class="' + TRI[k].cls + '"><input type="radio" name="tri" value="' + k + '"' + (k === 'gul' ? ' checked' : '') + '><span>' + TRI[k].label + '<small>' + TRI[k].desc + '</small></span></label>'; }).join('') +
+        '</div></div>' +
+        '<div class="form-sec" id="n-pick"><div class="sec-title"><h2>Bilder</h2><span class="muted" style="font-size:.85rem">Högst 6 bilder</span></div>' + PICKER_HTML + '</div>' +
+        '<div class="form-sec"><div class="grid2"><label class="field"><span>Skicka till</span><select id="n-doc"></select></label></div>' +
+          '<p class="err" id="n-err"></p><div class="form-actions"><button class="btn" type="reset">Rensa</button><button class="btn primary" type="submit" id="n-send">Skicka till läkare</button></div></div>' +
+      '</form>';
+    var picker = imagePicker($('#n-pick'), 6);
+    var f = $('#f-new');
+    function drawNews() {
+      var r = news2(readVitals());
+      $('#n-news').className = 'news' + (r ? ' ' + r.risk : '');
+      $('#n-news').innerHTML = r ? '<span class="news-score">' + r.s + '</span><div><b>NEWS2 ' + r.s + '</b><br><small>' + esc(r.label) + (r.partial ? '. Alla parametrar är inte ifyllda.' : '') + '</small></div>' : '<span class="news-score muted">–</span><small>Fyll i vitalparametrar för att räkna ut NEWS2.</small>';
+    }
+    f.addEventListener('input', function (e) { if (e.target.id && e.target.id.indexOf('v-') === 0) drawNews(); });
+    f.addEventListener('change', function (e) { if (e.target.id && e.target.id.indexOf('v-') === 0) drawNews(); });
+    function drawStay() { var inne = $('#n-stay').value === 'inne'; $$('[data-ward]', f).forEach(function (x) { x.hidden = !inne; }); }
+    $('#n-stay').addEventListener('change', drawStay);
+    f.addEventListener('reset', function () { setTimeout(function () { picker.reset(); drawNews(); drawStay(); }, 0); });
+    drawNews();
+    f.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var err = $('#n-err'); err.textContent = '';
+      var name = $('#n-name').value.trim(), title = $('#n-title').value.trim(), sym = $('#n-sym').value.trim();
+      if (!name || !title || !sym) { err.textContent = 'Fyll i patientens namn, sökorsak och symtom.'; return; }
+      if (!S.db) { err.textContent = 'Ingen anslutning till journalservern. Försök igen om en stund.'; return; }
+      var btn = $('#n-send'); btn.disabled = true; btn.textContent = 'Skickar…';
+      try {
+        var id = 'c' + uid();
+        var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
+        var caseNo = 'KON-' + String(d.getFullYear()).slice(2) + p(d.getMonth() + 1) + p(d.getDate()) + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+        var imgs = await saveImages(picker.list, id);
+        var docId = $('#n-doc').value || null;
+        var doc = {
+          caseNo: caseNo, title: title, symptoms: sym, onset: $('#n-onset').value, allergies: $('#n-allergy').value.trim(), given: $('#n-given').value.trim(),
+          patient: { name: name, pnr: $('#n-pnr').value.trim(), phone: $('#n-phone').value.trim() },
+          vitals: readVitals(), triage: (f.querySelector('input[name=tri]:checked') || {}).value || 'gul',
+          imageIds: imgs, createdBy: S.me.id, doctorId: docId, status: 'inkommen', diagnosis: null, call: null,
+          stay: (function () { var st = $('#n-stay').value; return { status: st, ward: st === 'inne' ? $('#n-ward').value : '', room: st === 'inne' ? $('#n-room').value.trim() : '', note: '', dest: '', at: nowIso(), by: S.me.id, admittedAt: st === 'inne' ? nowIso() : null }; })(),
+          events: [{ at: nowIso(), by: S.me.id, type: 'sys', text: 'Konsultationen skickades till ' + (docId ? userName(docId) : 'alla läkare') + '.' }],
+          createdAt: nowIso(), updatedAt: nowIso()
+        };
+        await write('cases/' + id, function () { return S.db.doc('cases/' + id).set(doc); });
+        toast('Konsultationen skickades. Ärendenummer ' + caseNo + '.');
+        f.reset(); picker.reset();
+        openCase(id);
+      } catch (x) { /* toast visas redan */ }
+      btn.disabled = false; btn.textContent = 'Skicka till läkare';
+    });
+  },
+  update: function () {
+    var sel = $('#n-doc'); if (!sel || document.activeElement === sel) return; var cur = sel.value;
+    sel.innerHTML = staffOptions('diagnose', cur, 'Alla läkare i tjänst');
+  }
+};
+function readVitals() {
+  var g = function (id) { var e = $('#' + id); return e ? e.value.trim() : ''; };
+  return { af: g('v-af'), spo2: g('v-spo2'), puls: g('v-puls'), temp: g('v-temp'), bts: g('v-bts'), btd: g('v-btd'), avpu: g('v-avpu'), vas: g('v-vas'), o2: !!($('#v-o2') && $('#v-o2').checked) };
+}
+
+/* ---------- Vy: Uppdrag ---------- */
+VIEWS.uppdrag = {
+  mount: function (el) {
+    el.innerHTML =
+      '<header class="page-head"><div><p class="eyebrow">Arbetsfördelning</p><h1>Uppdrag</h1><p class="sub">Skapa uppdrag och fördela dem till personalen. Uppdrag kan kopplas till ett ärende.</p></div></header>' +
+      '<div class="cols">' +
+        '<section class="panel"><div class="panel-head"><h2>Alla uppdrag</h2><div class="chips" id="u-chips"></div></div><div class="list" id="r-all-tasks"></div></section>' +
+        '<form class="panel" id="f-task"><div class="panel-head"><h2>Nytt uppdrag</h2></div><div class="panel-body">' +
+          '<label class="field"><span>Uppdrag *</span><input id="u-title" placeholder="T.ex. Omläggning av sår kl 14" required></label>' +
+          '<label class="field"><span>Beskrivning</span><textarea id="u-desc" rows="3"></textarea></label>' +
+          '<label class="field"><span>Tilldela *</span><select id="u-to" required></select></label>' +
+          '<div class="grid2"><label class="field"><span>Klart senast</span><input id="u-due" type="datetime-local"></label>' +
+          '<label class="field"><span>Prioritet</span><select id="u-prio"><option value="normal">Normal</option><option value="hog">Hög</option></select></label></div>' +
+          '<label class="field"><span>Koppla till ärende</span><select id="u-case"></select></label>' +
+          '<p class="err" id="u-err"></p><div class="form-actions"><button class="btn primary" type="submit">Skapa uppdrag</button></div>' +
+        '</div></form>' +
+      '</div>';
+    $('#u-chips').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (b) { S.uppdragFilter = b.dataset.f; VIEWS.uppdrag.update(); } });
+    $('#f-task').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var title = $('#u-title').value.trim(), to = $('#u-to').value;
+      if (!title || !to) { $('#u-err').textContent = 'Skriv vad uppdraget gäller och välj vem som ska utföra det.'; return; }
+      $('#u-err').textContent = '';
+      try {
+        await createTask({ title: title, desc: $('#u-desc').value.trim(), assignee: to, due: fromLocalInput($('#u-due').value), prio: $('#u-prio').value, caseId: $('#u-case').value || null });
+        toast('Uppdraget skapades och tilldelades ' + userName(to) + '.');
+        e.target.reset();
+      } catch (x) {}
+    });
+  },
+  update: function () {
+    var to = $('#u-to'), cs = $('#u-case');
+    if (to && document.activeElement !== to) { var v = to.value; to.innerHTML = staffOptions('receive', v, 'Välj person'); }
+    if (cs && document.activeElement !== cs) { var v2 = cs.value; cs.innerHTML = '<option value="">Inget ärende</option>' + byNewest(S.cases.filter(function (c) { return c.status !== 'avslutad'; })).map(function (c) { return '<option value="' + esc(c.id) + '"' + (c.id === v2 ? ' selected' : '') + '>' + esc(c.caseNo + ' – ' + c.title) + '</option>'; }).join(''); }
+    var sets = { aktiva: S.tasks.filter(function (t) { return t.status !== 'klar'; }), mina: S.tasks.filter(function (t) { return t.by === S.me.id; }), klara: S.tasks.filter(function (t) { return t.status === 'klar'; }), alla: S.tasks };
+    var labels = { aktiva: 'Aktiva', mina: 'Skapade av mig', klara: 'Klara', alla: 'Alla' };
+    $('#u-chips').innerHTML = Object.keys(labels).map(function (k) { return '<button type="button" class="chip" data-f="' + k + '" aria-pressed="' + (S.uppdragFilter === k) + '">' + labels[k] + ' (' + sets[k].length + ')</button>'; }).join('');
+    var list = byNewest(sets[S.uppdragFilter] || sets.aktiva);
+    $('#r-all-tasks').innerHTML = waiting() || (list.length ? list.map(function (t) { return taskRow(t, { manage: can('manage') || t.by === S.me.id }); }).join('') : emptyBox('Inga uppdrag här', 'Skapa ett uppdrag i formuläret.'));
+  }
+};
+
+/* ---------- Vy: Alla ärenden ---------- */
+VIEWS.alla = {
+  mount: function (el) {
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Register</p><h1>Alla ärenden</h1><p class="sub">Sök på patient, personnummer, ärendenummer eller sökorsak.</p></div></header>' +
+      '<div class="toolbar"><label class="field"><span>Sök</span><input id="a-q" type="search" value="' + esc(S.allaFilter.q) + '" placeholder="Sök i ärenden"></label>' +
+      '<label class="field" style="flex:0 1 220px"><span>Status</span><select id="a-st"><option value="aktiva">Alla aktiva</option><option value="alla">Alla, även avslutade</option>' + Object.keys(STATUS).map(function (k) { return '<option value="' + k + '">' + STATUS[k] + '</option>'; }).join('') + '</select></label></div>' +
+      '<section class="panel"><div class="panel-head"><h2 id="a-count">Ärenden</h2></div><div class="list" id="r-alla"></div></section>';
+    $('#a-st').value = S.allaFilter.status;
+    $('#a-q').addEventListener('input', function () { S.allaFilter.q = this.value; VIEWS.alla.update(); });
+    $('#a-st').addEventListener('change', function () { S.allaFilter.status = this.value; VIEWS.alla.update(); });
+  },
+  update: function () {
+    var q = S.allaFilter.q.trim().toLowerCase(), st = S.allaFilter.status;
+    var list = S.cases.filter(function (c) {
+      if (st === 'aktiva' && c.status === 'avslutad') return false;
+      if (st !== 'aktiva' && st !== 'alla' && c.status !== st) return false;
+      if (!q) return true;
+      return [c.caseNo, c.title, c.symptoms, c.patient && c.patient.name, c.patient && c.patient.pnr, c.diagnosis && c.diagnosis.text, c.diagnosis && c.diagnosis.code].join(' ').toLowerCase().indexOf(q) !== -1;
+    });
+    list = byNewest(list);
+    $('#a-count').textContent = list.length + (list.length === 1 ? ' ärende' : ' ärenden');
+    $('#r-alla').innerHTML = waiting() || (list.length ? list.map(caseRow).join('') : emptyBox(S.cases.length ? 'Inga träffar' : 'Inga ärenden ännu', S.cases.length ? 'Prova en annan sökning eller status.' : 'Ärenden som skickas in visas här.'));
+  }
+};
+
+/* ---------- Vy: Personal ---------- */
+VIEWS.personal = {
+  mount: function (el) {
+    var admin = can('manage');
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Organisation</p><h1>Personal</h1><p class="sub">' + (admin ? 'Lägg till personal, ändra roller och hantera konton.' : 'Kollegor i tjänst och deras kontaktuppgifter.') + '</p></div>' +
+      (admin ? '<button class="btn primary" type="button" id="p-add-btn">Lägg till personal</button>' : '') + '</header>' +
+      '<div id="r-edit"></div>' +
+      '<div class="toolbar"><label class="field"><span>Sök</span><input id="p-q" type="search" placeholder="Namn, titel eller avdelning"></label>' +
+      '<label class="field" style="flex:0 1 220px"><span>Roll</span><select id="p-role"><option value="">Alla roller</option></select></label></div>' +
+      '<div class="staff" id="r-staff"></div>';
+    if (admin) $('#p-add-btn').addEventListener('click', function () { openUserEditor(null); });
+    $('#p-q').addEventListener('input', VIEWS.personal.update);
+    $('#p-role').addEventListener('change', VIEWS.personal.update);
+    $('#r-staff').addEventListener('click', function (e) { var b = e.target.closest('[data-edit-user]'); if (b) openUserEditor(b.dataset.editUser); });
+  },
+  update: function () {
+    var sel = $('#p-role'), cur = sel.value;
+    sel.innerHTML = '<option value="">Alla roller</option>' + roles().map(function (r) { return '<option value="' + esc(r.id) + '"' + (r.id === cur ? ' selected' : '') + '>' + esc(r.name) + '</option>'; }).join('');
+    var q = $('#p-q').value.trim().toLowerCase(), admin = can('manage');
+    var list = S.users.filter(function (u) {
+      if (!admin && u.active === false) return false;
+      if (cur && u.role !== cur) return false;
+      return !q || [u.name, u.title, u.dept, u.username].join(' ').toLowerCase().indexOf(q) !== -1;
+    }).sort(function (a, b) { return (a.name || '').localeCompare(b.name || '', 'sv'); });
+    if (!S.loaded.users) { $('#r-staff').innerHTML = emptyBox('Hämtar personal…', ''); return; }
+    $('#r-staff').innerHTML = list.length ? list.map(function (u) {
+      return '<article class="scard' + (u.active === false ? ' inactive' : '') + '">' +
+        '<div class="scard-top">' + avatarHtml(u, 'lg') + '<div><b>' + esc(u.name) + '</b><small>' + esc(u.title || '') + '</small><span class="role-tag">' + esc(roleName(u.role)) + '</span></div></div>' +
+        '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + dutyHtml(u) + (S.online[u.id] ? '<span class="duty duty-in">Aktiv i portalen</span>' : '') + '</div>' +
+        (u.bio ? '<p>' + esc(u.bio) + '</p>' : '') +
+        '<dl class="kv">' + (u.dept ? '<dt>Avdelning</dt><dd>' + esc(u.dept) + '</dd>' : '') + (u.phone ? '<dt>Telefon</dt><dd class="mono">' + esc(u.phone) + '</dd>' : '') + (u.empNo ? '<dt>Anst.nr</dt><dd class="mono">' + esc(u.empNo) + '</dd>' : '') + (u.active === false ? '<dt>Status</dt><dd>Inaktiverat konto</dd>' : '') + '</dl>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap">' + (u.id !== S.me.id ? '<button class="btn sm" type="button" data-chat="' + esc(dmConv(u.id)) + '">Skicka meddelande</button>' : '') +
+        (admin ? '<button class="btn sm ghost" type="button" data-edit-user="' + esc(u.id) + '">Hantera</button>' : '') + '</div>' +
+      '</article>';
+    }).join('') : emptyBox(S.users.length ? 'Ingen personal matchar' : 'Ingen personal registrerad', admin ? 'Välj Lägg till personal för att skapa det första kontot.' : '');
+  }
+};
+function openUserEditor(id) {
+  var u = id ? userById(id) : null, box = $('#r-edit'); if (!box) return;
+  var isAdminDoc = id === 'admin';
+  box.innerHTML = '<form class="panel" id="f-user"><div class="panel-head"><h2>' + (u ? 'Hantera ' + esc(u.name) : 'Lägg till personal') + '</h2><button class="btn sm ghost" type="button" id="ue-close">Stäng</button></div><div class="panel-body">' +
+    '<div class="grid3"><label class="field"><span>Namn *</span><input id="ue-name" value="' + esc(u ? u.name : '') + '" required></label>' +
+    '<label class="field"><span>Användarnamn *</span><input id="ue-user" value="' + esc(u ? u.username : '') + '" autocomplete="off"' + (isAdminDoc ? ' disabled' : '') + ' required></label>' +
+    '<label class="field"><span>' + (u ? 'Nytt lösenord' : 'Lösenord *') + '</span><input id="ue-pass" type="text" autocomplete="off" placeholder="' + (u ? 'Lämna tomt för att behålla' : 'Minst 6 tecken') + '"' + (isAdminDoc ? ' disabled' : '') + '></label></div>' +
+    '<div class="grid3"><label class="field"><span>Roll *</span><select id="ue-role"' + (isAdminDoc ? ' disabled' : '') + '>' + roles().map(function (r) { return '<option value="' + esc(r.id) + '"' + (u && u.role === r.id ? ' selected' : '') + '>' + esc(r.name) + '</option>'; }).join('') + '</select></label>' +
+    '<label class="field"><span>Titel eller grad</span><input id="ue-title" value="' + esc(u ? u.title : '') + '" placeholder="T.ex. Överläkare, akutmedicin"></label>' +
+    '<label class="field"><span>Avdelning</span><input id="ue-dept" value="' + esc(u ? u.dept : '') + '" placeholder="T.ex. Akutmottagningen"></label></div>' +
+    '<div class="grid3"><label class="field"><span>Anställningsnummer</span><input id="ue-emp" class="mono" value="' + esc(u ? u.empNo : '') + '"></label>' +
+    '<label class="field"><span>Telefon</span><input id="ue-phone" value="' + esc(u ? u.phone : '') + '"></label>' +
+    (u && !isAdminDoc ? '<label class="check" style="align-self:end;padding-bottom:10px"><input type="checkbox" id="ue-active"' + (u.active !== false ? ' checked' : '') + '> Kontot är aktivt</label>' : '<span></span>') + '</div>' +
+    '<p class="err" id="ue-err"></p>' +
+    '<div class="form-actions" id="ue-actions">' + (u && !isAdminDoc ? '<button class="btn danger" type="button" id="ue-del">Ta bort konto</button><span style="flex:1"></span>' : '') + '<button class="btn primary" type="submit">' + (u ? 'Spara ändringar' : 'Skapa konto') + '</button></div>' +
+    '</div></form>';
+  box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $('#ue-close').addEventListener('click', function () { box.innerHTML = ''; });
+  var del = $('#ue-del');
+  if (del) del.addEventListener('click', function () {
+    $('#ue-actions').innerHTML = '<div class="confirm" style="flex:1"><span>Ta bort ' + esc(u.name) + ' permanent? Ärenden och uppdrag finns kvar.</span><span style="flex:1"></span><button class="btn sm" type="button" id="ue-no">Avbryt</button><button class="btn sm danger solid" type="button" id="ue-yes">Ta bort</button></div>';
+    $('#ue-no').addEventListener('click', function () { openUserEditor(id); });
+    $('#ue-yes').addEventListener('click', async function () {
+      try { await write('users/' + id, function () { return S.db.doc('users/' + id).delete(); }); toast(u.name + ' togs bort.'); box.innerHTML = ''; } catch (x) {}
+    });
+  });
+  $('#f-user').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var err = $('#ue-err'); err.textContent = '';
+    var name = $('#ue-name').value.trim(), un = isAdminDoc ? 'admin' : $('#ue-user').value.trim().toLowerCase(), pw = isAdminDoc ? '' : $('#ue-pass').value;
+    if (!name || !un) { err.textContent = 'Namn och användarnamn måste fyllas i.'; return; }
+    if (!/^[a-z0-9._-]{2,32}$/.test(un)) { err.textContent = 'Användarnamnet får bara innehålla a–z, siffror, punkt, bindestreck och understreck.'; return; }
+    if (S.users.some(function (x) { return x.id !== id && (x.username || '').toLowerCase() === un; }) || (un === 'admin' && !isAdminDoc)) { err.textContent = 'Användarnamnet är redan upptaget.'; return; }
+    if (!u && pw.length < 6) { err.textContent = 'Lösenordet måste ha minst 6 tecken.'; return; }
+    if (u && pw && pw.length < 6) { err.textContent = 'Lösenordet måste ha minst 6 tecken.'; return; }
+    var body = { name: name, username: un, role: isAdminDoc ? 'admin' : $('#ue-role').value, title: $('#ue-title').value.trim(), dept: $('#ue-dept').value.trim(), empNo: $('#ue-emp').value.trim(), phone: $('#ue-phone').value.trim(), updatedAt: nowIso() };
+    if ($('#ue-active')) body.active = $('#ue-active').checked;
+    try {
+      if (pw) body.passHash = await passHash(un, pw);
+      else if (u && u.username !== un && u.passHash) { err.textContent = 'Ange ett nytt lösenord när du byter användarnamn.'; return; }
+    } catch (x) { err.textContent = 'Webbläsaren stöds inte.'; return; }
+    try {
+      if (u) { await write('users/' + id, function () { return S.db.doc('users/' + id).update(body); }); toast('Ändringarna för ' + name + ' sparades.'); }
+      else {
+        var nid = 'u' + uid();
+        body.active = true; body.createdAt = nowIso(); body.bio = ''; body.avatar = '';
+        if (!body.empNo) body.empNo = 'LS-' + String(1000 + S.users.length + Math.floor(Math.random() * 9000)).slice(0, 4);
+        await write('users/' + nid, function () { return S.db.doc('users/' + nid).set(body); });
+        toast('Kontot för ' + name + ' skapades. Användarnamn: ' + un + '.');
+      }
+      box.innerHTML = '';
+    } catch (x) {}
+  });
+}
+
+/* ---------- Vy: Roller och behörighet ---------- */
+VIEWS.roller = {
+  mount: function (el) {
+    S.dirtyRoles = false;
+    var list = roles();
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Administration</p><h1>Roller och behörighet</h1><p class="sub">Bestäm vilka roller som finns och vad varje roll får göra i portalen.</p></div></header>' +
+      '<form class="panel" id="f-roles"><div class="table-wrap"><table><thead><tr><th>Roll</th>' + PERMS.map(function (p) { return '<th class="c">' + esc(p[1]) + '</th>'; }).join('') + '<th class="c">Personal</th><th></th></tr></thead><tbody id="r-roles">' +
+      list.map(function (r) {
+        var fixed = r.id === 'admin', count = S.users.filter(function (u) { return u.role === r.id; }).length;
+        return '<tr data-role="' + esc(r.id) + '"><td><input class="rn" value="' + esc(r.name) + '" aria-label="Rollens namn" style="width:100%;min-width:150px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)"></td>' +
+          PERMS.map(function (p) { return '<td class="c"><input type="checkbox" class="rp" data-p="' + p[0] + '"' + (r.perms && r.perms[p[0]] ? ' checked' : '') + (fixed ? ' disabled checked' : '') + ' aria-label="' + esc(p[1]) + '" style="width:18px;height:18px;accent-color:var(--accent)"></td>'; }).join('') +
+          '<td class="c">' + count + '</td><td>' + (fixed ? '<span class="muted" style="font-size:.8rem">Fast roll</span>' : '<button type="button" class="btn sm ghost" data-role-del="' + esc(r.id) + '"' + (count ? ' disabled title="Flytta personalen till en annan roll först"' : '') + '>Ta bort</button>') + '</td></tr>';
+      }).join('') + '</tbody></table></div>' +
+      '<div class="panel-body" style="border-top:1px solid var(--line)"><div class="toolbar"><label class="field"><span>Ny roll</span><input id="r-new" placeholder="T.ex. Barnmorska, Psykolog, Ambulanschef"></label><button type="button" class="btn" id="r-add" style="align-self:end">Lägg till roll</button></div>' +
+      '<p class="err" id="r-err"></p><div class="form-actions"><button type="submit" class="btn primary">Spara roller</button></div></div></form>';
+    var f = $('#f-roles');
+    f.addEventListener('input', function () { S.dirtyRoles = true; });
+    $('#r-add').addEventListener('click', function () {
+      var n = $('#r-new').value.trim(); if (!n) return;
+      var tb = $('#r-roles'), id = 'r' + uid(), tr = document.createElement('tr'); tr.dataset.role = id;
+      tr.innerHTML = '<td><input class="rn" value="' + esc(n) + '" aria-label="Rollens namn" style="width:100%;min-width:150px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)"></td>' + PERMS.map(function (p) { return '<td class="c"><input type="checkbox" class="rp" data-p="' + p[0] + '"' + (p[0] === 'create' || p[0] === 'receive' ? ' checked' : '') + ' aria-label="' + esc(p[1]) + '" style="width:18px;height:18px;accent-color:var(--accent)"></td>'; }).join('') + '<td class="c">0</td><td><button type="button" class="btn sm ghost" data-role-del="' + id + '">Ta bort</button></td>';
+      tb.appendChild(tr); $('#r-new').value = ''; S.dirtyRoles = true;
+    });
+    f.addEventListener('click', function (e) { var b = e.target.closest('[data-role-del]'); if (b && !b.disabled) { b.closest('tr').remove(); S.dirtyRoles = true; } });
+    f.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var out = $$('#r-roles tr').map(function (tr) {
+        var perms = {}; $$('.rp', tr).forEach(function (c) { perms[c.dataset.p] = c.checked; });
+        return { id: tr.dataset.role, name: $('.rn', tr).value.trim() || 'Namnlös roll', perms: perms };
+      });
+      out.forEach(function (r) { if (r.id === 'admin') r.perms = { create: true, diagnose: true, assign: true, receive: true, manage: true }; });
+      try { await write('config/roles', function () { return S.db.doc('config/roles').set({ list: out, updatedAt: nowIso(), by: S.me.id }); }); S.dirtyRoles = false; toast('Rollerna sparades.'); } catch (x) {}
+    });
+  },
+  update: function () { if (!S.dirtyRoles && !$('#f-roles').contains(document.activeElement)) { var el = $('#view'); VIEWS.roller.mount(el); } }
+};
+
+/* ---------- Vy: Min profil ---------- */
+VIEWS.profil = {
+  mount: function (el) {
+    var u = S.me, isAdminDoc = u.id === 'admin';
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Konto</p><h1>Min profil</h1><p class="sub">Uppgifterna visas för dina kollegor under Personal och i ärenden.</p></div></header>' +
+      '<div class="cols"><form class="panel" id="f-prof"><div class="panel-head"><h2>Profiluppgifter</h2></div><div class="panel-body">' +
+        '<div class="profile-head"><span id="pf-av">' + avatarHtml(u, 'xl') + '</span><div style="display:grid;gap:8px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn sm" id="pf-up">Byt profilbild</button><button type="button" class="btn sm ghost" id="pf-rm">Ta bort bild</button></div><small class="muted">Bilden beskärs till en cirkel.</small><input type="file" id="pf-file" accept="image/*" hidden></div></div>' +
+        '<div class="grid3"><label class="field"><span>Namn *</span><input id="pf-name" value="' + esc(u.name) + '" required></label>' +
+        '<label class="field"><span>Telefon</span><input id="pf-phone" value="' + esc(u.phone || '') + '"></label>' +
+        '<label class="field"><span>Tjänstestatus</span><select id="pf-duty">' + Object.keys(DUTY).map(function (k) { return '<option value="' + k + '"' + ((u.duty || 'ut') === k ? ' selected' : '') + '>' + DUTY[k] + '</option>'; }).join('') + '</select></label></div>' +
+        '<div class="grid2"><label class="field"><span>Titel eller grad</span><input id="pf-title" value="' + esc(u.title || '') + '"' + (can('manage') ? '' : ' disabled') + '></label>' +
+        '<label class="field"><span>Avdelning</span><input id="pf-dept" value="' + esc(u.dept || '') + '"></label></div>' +
+        '<label class="field"><span>Om mig</span><textarea id="pf-bio" rows="4" placeholder="Inriktning, erfarenhet, språk, när du brukar arbeta">' + esc(u.bio || '') + '</textarea></label>' +
+        '<dl class="kv"><dt>Roll</dt><dd>' + esc(roleName(u.role)) + '</dd>' + (u.username ? '<dt>Användarnamn</dt><dd class="mono">' + esc(u.username) + '</dd>' : '') + (u.empNo ? '<dt>Anst.nr</dt><dd class="mono">' + esc(u.empNo) + '</dd>' : '') + '</dl>' +
+        (can('manage') ? '' : '<p class="muted" style="font-size:.85rem">Roll och titel ändras av en administratör.</p>') +
+        '<p class="err" id="pf-err"></p><div class="form-actions"><button class="btn primary" type="submit">Spara profil</button></div>' +
+      '</div></form>' +
+      (isAdminDoc ? '<section class="panel"><div class="panel-head"><h2>Inloggning</h2></div><div class="panel-body"><p class="muted">Du är inloggad med behörighetskoden. Den kan inte ändras här.</p></div></section>'
+        : '<form class="panel" id="f-pw"><div class="panel-head"><h2>Byt lösenord</h2></div><div class="panel-body">' +
+          '<label class="field"><span>Nuvarande lösenord</span><input id="pw-old" type="password" autocomplete="current-password" required></label>' +
+          '<label class="field"><span>Nytt lösenord</span><input id="pw-new" type="password" autocomplete="new-password" required></label>' +
+          '<label class="field"><span>Upprepa nytt lösenord</span><input id="pw-new2" type="password" autocomplete="new-password" required></label>' +
+          '<p class="err" id="pw-err"></p><div class="form-actions"><button class="btn primary" type="submit">Byt lösenord</button></div></div></form>') +
+      '</div>';
+    var avatar = u.avatar || '';
+    function drawAv() { $('#pf-av').innerHTML = avatarHtml({ name: $('#pf-name').value, avatar: avatar }, 'xl'); }
+    $('#pf-up').addEventListener('click', function () { $('#pf-file').click(); });
+    $('#pf-rm').addEventListener('click', function () { avatar = ''; drawAv(); });
+    $('#pf-file').addEventListener('change', async function () {
+      var f = this.files[0]; if (!f) return;
+      try { avatar = await compress(f, 200, 40000); drawAv(); } catch (x) { toast('Bilden kunde inte läsas.', true); }
+      this.value = '';
+    });
+    $('#f-prof').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var name = $('#pf-name').value.trim(); if (!name) { $('#pf-err').textContent = 'Namn måste fyllas i.'; return; }
+      var body = { name: name, phone: $('#pf-phone').value.trim(), dept: $('#pf-dept').value.trim(), bio: $('#pf-bio').value.trim(), avatar: avatar, updatedAt: nowIso() };
+      if (can('manage')) body.title = $('#pf-title').value.trim();
+      body.duty = $('#pf-duty').value;
+      try { await saveMe(body); toast('Profilen sparades.'); } catch (x) {}
+    });
+    var fp = $('#f-pw');
+    if (fp) fp.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var err = $('#pw-err'); err.textContent = '';
+      var me = userById(S.me.id);
+      var oldH = await passHash(me.username, $('#pw-old').value);
+      if (oldH !== me.passHash) { err.textContent = 'Nuvarande lösenord stämmer inte.'; return; }
+      var n1 = $('#pw-new').value, n2 = $('#pw-new2').value;
+      if (n1.length < 6) { err.textContent = 'Det nya lösenordet måste ha minst 6 tecken.'; return; }
+      if (n1 !== n2) { err.textContent = 'Lösenorden matchar inte.'; return; }
+      try { var h = await passHash(me.username, n1); await write('users/' + me.id, function () { return S.db.doc('users/' + me.id).update({ passHash: h, updatedAt: nowIso() }); }); toast('Lösenordet byttes.'); fp.reset(); } catch (x) {}
+    });
+  }
+};
+
+/* ---------- Vy: Patienter på sjukhuset ---------- */
+VIEWS.belaggning = {
+  mount: function (el) {
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Beläggning</p><h1>Patienter på sjukhuset</h1><p class="sub">Vilka patienter som är kvar, var de ligger och vilka som har lämnat.</p></div></header>' +
+      '<div class="stats" id="b-stats"></div><div class="wards" id="b-wards"></div>' +
+      '<section class="panel"><div class="panel-head"><h2>På väg in</h2><span class="muted" style="font-size:.85rem">Prehospitalt</span></div><div class="list" id="b-pre"></div></section>' +
+      '<section class="panel"><div class="panel-head"><h2>Har lämnat senaste dygnet</h2></div><div class="list" id="b-left"></div></section>';
+  },
+  update: function () {
+    var inne = inpatients(), pre = S.cases.filter(function (c) { return c.stay && c.stay.status === 'prehosp' && c.status !== 'avslutad'; });
+    var dayAgo = Date.now() - 864e5;
+    var left = byNewest(S.cases.filter(function (c) { return c.stay && STAY[c.stay.status] && STAY[c.stay.status].left && new Date(c.stay.at).getTime() > dayAgo; }));
+    var high = inne.filter(function (c) { var n = news2(c.vitals); return n && (n.risk === 'hog' || n.risk === 'medel'); });
+    $('#b-stats').innerHTML = [
+      { n: inne.length, l: 'Inneliggande' }, { n: pre.length, l: 'På väg in' }, { n: left.length, l: 'Lämnat senaste dygnet' }, { n: high.length, l: 'NEWS2 5 eller mer', alert: high.length > 0 }
+    ].map(function (s) { return '<div class="stat' + (s.alert ? ' alert' : '') + '" style="cursor:default"><b>' + (waiting() ? '–' : s.n) + '</b><span>' + s.l + '</span></div>'; }).join('');
+    var groups = {};
+    inne.forEach(function (c) { var w = c.stay.ward || 'Okänd avdelning'; (groups[w] = groups[w] || []).push(c); });
+    var order = WARDS.concat(Object.keys(groups).filter(function (w) { return WARDS.indexOf(w) === -1; }));
+    var html = order.filter(function (w) { return groups[w]; }).map(function (w) {
+      return '<section class="ward"><h2>' + esc(w) + ' <span class="muted" style="font-weight:500;font-size:.85rem">' + groups[w].length + ' patient' + (groups[w].length === 1 ? '' : 'er') + '</span></h2><div class="beds">' +
+        sortCases(groups[w]).map(function (c) {
+          var n = news2(c.vitals), t = TRI[c.triage] ? c.triage : 'bla';
+          return '<button type="button" class="bed" data-open="' + esc(c.id) + '"><span class="tri-' + t + '"></span><span class="bed-body">' +
+            '<span class="bed-top"><b>' + esc((c.patient && c.patient.name) || 'Okänd') + '</b><span class="bed-room">' + esc(c.stay.room || '') + '</span></span>' +
+            '<small>' + esc(c.diagnosis ? (c.diagnosis.code ? c.diagnosis.code + ' ' : '') + c.diagnosis.text : c.title) + '</small>' +
+            '<small>' + (c.doctorId ? esc(userName(c.doctorId)) : 'Ingen ansvarig läkare') + (n ? ' · NEWS2 ' + n.s : '') + '</small>' +
+            '<small>Inlagd ' + (c.stay.admittedAt ? ago(c.stay.admittedAt) : 'okänt') + '</small></span></button>';
+        }).join('') + '</div></section>';
+    }).join('');
+    $('#b-wards').innerHTML = waiting() || html || '<section class="panel">' + emptyBox('Inga inneliggande patienter', 'Ange vistelse i ett ärende för att patienten ska synas här.') + '</section>';
+    $('#b-pre').innerHTML = waiting() || (pre.length ? sortCases(pre).map(caseRow).join('') : emptyBox('Ingen på väg in', 'Ärenden där patienten är prehospital visas här.'));
+    $('#b-left').innerHTML = waiting() || (left.length ? left.map(caseRow).join('') : emptyBox('Ingen har lämnat senaste dygnet', ''));
+  }
+};
+
+/* ---------- Chatt: data ---------- */
+function dmConv(other) { return 'dm.' + [S.me.id, other].sort().join('.'); }
+function isDm(conv) { return conv.indexOf('dm.') === 0; }
+function convOther(conv) { var p = conv.split('.').slice(1); return p.find(function (x) { return x !== S.me.id; }) || S.me.id; }
+function convVisible(conv) {
+  if (!S.me) return false;
+  if (isDm(conv)) return conv.split('.').slice(1).indexOf(S.me.id) !== -1;
+  var ch = CH.find(function (c) { return c.id === conv; }); return !!ch && (!ch.perm || can(ch.perm));
+}
+function convTitle(conv) { if (isDm(conv)) return userName(convOther(conv)); var ch = CH.find(function (c) { return c.id === conv; }); return ch ? ch.name : 'Konversation'; }
+function convSub(conv) {
+  var typers = typingIn(conv);
+  if (typers.length) return typers.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…';
+  if (isDm(conv)) {
+    var o = userById(convOther(conv));
+    return (S.online[convOther(conv)] ? 'Aktiv nu' : 'Inte aktiv') + (o ? ' · ' + (DUTY[o.duty || 'ut']) : '');
+  }
+  var ch = CH.find(function (c) { return c.id === conv; });
+  var n = activeStaff().filter(function (u) { return S.online[u.id] && (!ch.perm || can(ch.perm, u)); }).length;
+  return (ch ? ch.desc : '') + ' · ' + n + ' aktiva';
+}
+function convAvatar(conv, cls) {
+  if (isDm(conv)) { var id = convOther(conv); var u = userById(id) || (id === 'admin' ? adminSelf() : { id: id, name: userName(id) }); return avatarHtml(u, cls); }
+  return '<span class="ch-icon">#</span>';
+}
+function typingIn(conv) { return Object.keys(S.typing).filter(function (u) { return u !== S.me.id && S.typing[u] === conv; }); }
+function messages(conv) {
+  var out = [];
+  S.chatDocs.forEach(function (d) { if (d.conv === conv) (d.msgs || []).forEach(function (m) { out.push(Object.assign({ uid: d.uid }, m)); }); });
+  return out.sort(function (a, b) { return a.at < b.at ? -1 : a.at > b.at ? 1 : 0; });
+}
+function lastReadOf(conv) { return S.lastRead[conv] || S.loginAt; }
+function markRead(conv) {
+  var ms = messages(conv); if (!ms.length) return;
+  var last = ms[ms.length - 1].at; if (S.lastRead[conv] && S.lastRead[conv] >= last) return;
+  S.lastRead[conv] = last; store('lsvp.read.' + S.me.id, S.lastRead);
+}
+function unread(conv) { var lr = lastReadOf(conv); return messages(conv).filter(function (m) { return m.uid !== S.me.id && m.at > lr; }).length; }
+function allConvs() {
+  var set = {}; CH.forEach(function (c) { if (convVisible(c.id)) set[c.id] = 1; });
+  S.chatDocs.forEach(function (d) { if (convVisible(d.conv)) set[d.conv] = 1; });
+  return Object.keys(set);
+}
+function totalUnread() { if (!S.me) return 0; return allConvs().reduce(function (s, c) { return s + unread(c); }, 0); }
+function sendMessage(conv, text, caseId) {
+  text = String(text || '').trim(); if (!text) return Promise.resolve();
+  var docId = conv + '__' + S.me.id, path = 'chat/' + docId;
+  setTyping(null);
+  return write(path, function () {
+    var cur = S.chatDocs.find(function (d) { return d.id === docId; });
+    var base = S.chatLocal[docId] || (cur && cur.msgs) || [];
+    var msgs = base.concat([{ id: uid(), t: text.slice(0, 2000), at: nowIso(), caseId: caseId || null }]).slice(-150);
+    S.chatLocal[docId] = msgs;
+    return S.db.doc(path).set({ conv: conv, uid: S.me.id, msgs: msgs, updatedAt: nowIso() });
+  });
+}
+var typingTimer = null, typingConv = null;
+function setTyping(conv) {
+  if (!S.room) return;
+  clearTimeout(typingTimer);
+  if (conv) typingTimer = setTimeout(function () { setTyping(null); }, 4000);
+  if (conv === typingConv) return;
+  typingConv = conv;
+  S.room.presence({ typing: conv || null, typingAt: conv ? Date.now() : null }).catch(function () {});
+}
+
+/* ---------- Chatt: rendering ---------- */
+var fmtDayLong = new Intl.DateTimeFormat('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' });
+function msgsHtml(conv) {
+  var ms = messages(conv);
+  if (!ms.length) return '<div class="empty" style="margin:auto"><b>Inga meddelanden ännu</b><span>' + (isDm(conv) ? 'Skriv det första meddelandet till ' + esc(firstName(convTitle(conv))) + '.' : 'Skriv det första meddelandet i kanalen.') + '</span></div>';
+  var out = '', prev = null, prevDay = '', channel = !isDm(conv);
+  ms.forEach(function (m) {
+    var d = new Date(m.at), day = d.toDateString();
+    if (day !== prevDay) { out += '<div class="day-div">' + (day === new Date().toDateString() ? 'Idag' : esc(fmtDayLong.format(d))) + '</div>'; prev = null; }
+    prevDay = day;
+    var mine = m.uid === S.me.id, grp = prev && prev.uid === m.uid && (d - new Date(prev.at)) < 5 * 60e3;
+    var u = userById(m.uid) || (m.uid === 'admin' ? adminSelf() : { id: m.uid, name: userName(m.uid) });
+    var ref = '';
+    if (m.caseId) { var c = S.cases.find(function (x) { return x.id === m.caseId; }); ref = c ? '<button type="button" class="mref" data-open="' + esc(c.id) + '">' + esc(c.caseNo) + ' · ' + esc(c.title) + '</button>' : '<span class="mref">Ärendet finns inte längre</span>'; }
+    out += '<div class="msg' + (mine ? ' mine' : '') + (grp ? ' grp' : '') + '">' +
+      (mine ? '' : (grp ? '<span></span>' : avatarHtml(u))) +
+      '<div class="bub-wrap">' + (!mine && !grp && channel ? '<span class="msg-name">' + esc(u.name) + (u.title ? ' · ' + esc(u.title) : '') + '</span>' : '') +
+      '<div class="bub">' + (ref ? ref : '') + '<span>' + esc(m.t) + '</span></div>' +
+      '<small class="time">' + esc(fmtT.format(d)) + '</small></div></div>';
+    prev = m;
+  });
+  return out;
+}
+function fillMsgs(box, conv) {
+  var nearBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80 || !box.dataset.filled;
+  var html = msgsHtml(conv);
+  if (box.dataset.html !== html) { box.innerHTML = html; box.dataset.html = html; }
+  box.dataset.filled = '1';
+  if (nearBottom) box.scrollTop = box.scrollHeight;
+}
+function caseOptions(selected) {
+  return '<option value="">Inget ärende kopplat</option>' + byNewest(S.cases.filter(function (c) { return c.status !== 'avslutad' || c.id === selected; })).slice(0, 80).map(function (c) {
+    return '<option value="' + esc(c.id) + '"' + (c.id === selected ? ' selected' : '') + '>' + esc(c.caseNo + ' – ' + c.title + ' (' + ((c.patient && c.patient.name) || '') + ')') + '</option>';
+  }).join('');
+}
+function bindComposer(form, getConv, getRef, afterSend) {
+  var ta = $('textarea', form);
+  function grow() { ta.style.height = 'auto'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; }
+  ta.addEventListener('input', function () { grow(); setTyping(ta.value.trim() ? getConv() : null); });
+  ta.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true })); } });
+  ta.addEventListener('blur', function () { setTyping(null); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = ta.value; if (!text.trim()) return;
+    var conv = getConv();
+    ta.value = ''; grow();
+    sendMessage(conv, text, getRef()).then(function () { markRead(conv); if (afterSend) afterSend(); }).catch(function () { ta.value = text; });
+  });
+}
+
+/* ---------- Vy: Chatt ---------- */
+VIEWS.chatt = {
+  mount: function (el) {
+    if (!convVisible(S.chatConv)) S.chatConv = 'allmant';
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Kommunikation</p><h1>Chatt</h1><p class="sub">Skriv till hela personalen eller direkt till en kollega. Grön prick betyder att personen har portalen öppen.</p></div></header>' +
+      '<div class="chat"><aside class="chat-side"><label class="field"><span>Sök kollega</span><input id="cp-q" type="search" placeholder="Namn eller titel"></label><div class="chat-list" id="cp-list"></div></aside>' +
+      '<section class="chat-main"><header class="chat-head" id="cp-head"></header><div class="msgs" id="cp-msgs" aria-live="polite"></div><div class="typing" id="cp-typing"></div>' +
+      '<form class="composer" id="cp-form"><div class="composer-row"><select id="cp-ref" aria-label="Koppla till ärende"></select></div>' +
+      '<div class="composer-row"><textarea id="cp-text" rows="1" placeholder="Skriv ett meddelande. Enter skickar, Shift+Enter ger ny rad."></textarea><button class="btn primary" type="submit">Skicka</button></div></form></section></div>';
+    $('#cp-q').addEventListener('input', VIEWS.chatt.update);
+    $('#cp-list').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-conv]'); if (!b) return;
+      S.chatConv = b.dataset.conv; S.chatRef = ''; $('#cp-msgs').dataset.filled = ''; VIEWS.chatt.update(); $('#cp-text').focus();
+    });
+    $('#cp-ref').addEventListener('change', function () { S.chatRef = this.value; });
+    bindComposer($('#cp-form'), function () { return S.chatConv; }, function () { return S.chatRef || null; }, function () { S.chatRef = ''; $('#cp-ref').value = ''; });
+  },
+  update: function () {
+    var q = $('#cp-q').value.trim().toLowerCase(), conv = S.chatConv;
+    var people = activeStaff().filter(function (u) { return u.id !== S.me.id && (!q || [u.name, u.title, u.dept].join(' ').toLowerCase().indexOf(q) !== -1); })
+      .sort(function (a, b) { return (S.online[b.id] ? 1 : 0) - (S.online[a.id] ? 1 : 0) || (a.name || '').localeCompare(b.name || '', 'sv'); });
+    function item(c, av, title, sub) {
+      var n = unread(c);
+      return '<button type="button" class="cl-item" data-conv="' + esc(c) + '" aria-current="' + (c === conv) + '">' + av + '<span style="min-width:0"><b>' + esc(title) + '</b><small>' + sub + '</small></span>' + (n ? '<span class="badge red">' + n + '</span>' : '<span></span>') + '</button>';
+    }
+    $('#cp-list').innerHTML = (q ? '' : '<h3>Kanaler</h3>' + CH.filter(function (c) { return convVisible(c.id); }).map(function (c) { return item(c.id, '<span class="ch-icon">#</span>', c.name, esc(c.desc)); }).join('')) +
+      '<h3>Personal</h3>' + (people.length ? people.map(function (u) {
+        var c = dmConv(u.id), typ = typingIn(c).length;
+        return item(c, avatarHtml(u), u.name, typ ? 'Skriver…' : (S.online[u.id] ? 'Aktiv nu' : esc(u.title || roleName(u.role))) + ' · ' + DUTY[u.duty || 'ut']);
+      }).join('') : '<p class="muted" style="padding:8px;font-size:.85rem">Ingen kollega hittades.</p>');
+    $('#cp-head').innerHTML = '<div class="chat-head-who">' + convAvatar(conv) + '<div style="min-width:0"><b>' + esc(convTitle(conv)) + '</b><small>' + esc(convSub(conv)) + '</small></div></div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn sm" data-chat="' + esc(conv) + '">Öppna som fönster</button>' +
+      (can('manage') ? '<button type="button" class="btn sm ghost" id="cp-clear">Rensa konversation</button>' : '') + '</div>';
+    var clr = $('#cp-clear');
+    if (clr) clr.onclick = function () {
+      if (!clr.dataset.c) { clr.dataset.c = '1'; clr.textContent = 'Bekräfta rensning'; clr.classList.add('danger'); return; }
+      var docs = S.chatDocs.filter(function (d) { return d.conv === conv; });
+      Promise.all(docs.map(function (d) { delete S.chatLocal[d.id]; return write('chat/' + d.id, function () { return S.db.doc('chat/' + d.id).delete(); }); })).then(function () { toast('Konversationen rensades.'); }).catch(function () {});
+    };
+    var ref = $('#cp-ref'); if (document.activeElement !== ref) ref.innerHTML = caseOptions(S.chatRef);
+    fillMsgs($('#cp-msgs'), conv);
+    var t = typingIn(conv); $('#cp-typing').textContent = t.length ? t.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : '';
+    if (document.visibilityState === 'visible') markRead(conv);
+  }
+};
+
+/* ---------- Chattfönster (dock) ---------- */
+var IC_MIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg>';
+var IC_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+var IC_EXP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/></svg>';
+function saveDock() { if (S.me) store('lsvp.dock.' + S.me.id, S.dock.map(function (w) { return { conv: w.conv, min: !!w.min }; })); }
+function openChat(conv, caseId, opts) {
+  opts = opts || {};
+  if (!S.me || !convVisible(conv)) return;
+  var w = S.dock.find(function (x) { return x.conv === conv; });
+  if (!w) { w = { conv: conv, min: false }; S.dock.push(w); var max = window.matchMedia('(max-width: 640px)').matches ? 1 : 3; while (S.dock.length > max) S.dock.shift(); }
+  else if (!opts.keepMin) w.min = false;
+  if (caseId) S.dockRef[conv] = caseId;
+  saveDock(); renderDock();
+  if (!opts.noFocus) { var ta = $('.cw[data-conv="' + conv + '"] textarea'); if (ta && !w.min) ta.focus(); }
+}
+function closeChat(conv) { S.dock = S.dock.filter(function (x) { return x.conv !== conv; }); delete S.dockRef[conv]; saveDock(); renderDock(); }
+function renderDock() {
+  var dock = $('#dock'); if (!dock) return;
+  if (!S.me) { dock.innerHTML = ''; return; }
+  S.dock = S.dock.filter(function (w) { return convVisible(w.conv); });
+  $$('.cw', dock).forEach(function (el) { if (!S.dock.some(function (w) { return w.conv === el.dataset.conv; })) el.remove(); });
+  S.dock.forEach(function (w, i) {
+    var el = $('.cw[data-conv="' + w.conv + '"]', dock);
+    if (!el) {
+      el = document.createElement('section'); el.className = 'cw'; el.dataset.conv = w.conv; el.setAttribute('aria-label', 'Chatt med ' + convTitle(w.conv));
+      el.innerHTML = '<header class="cw-head" data-cw-toggle></header><div class="cw-body"><div class="msgs"></div><div class="typing"></div>' +
+        '<form class="composer"><div class="cw-ref"></div><div class="composer-row"><textarea rows="1" placeholder="Skriv ett meddelande"></textarea><button class="btn primary sm" type="submit">Skicka</button></div></form></div>';
+      bindComposer($('form', el), function () { return w.conv; }, function () { return S.dockRef[w.conv] || null; }, function () { delete S.dockRef[w.conv]; updateCw(el, w); });
+      $('.cw-ref', el).addEventListener('click', function (e) { if (e.target.closest('[data-rmref]')) { delete S.dockRef[w.conv]; updateCw(el, w); } });
+    }
+    if (dock.children[i] !== el) dock.insertBefore(el, dock.children[i] || null);
+    updateCw(el, w);
+  });
+}
+function updateCw(el, w) {
+  el.classList.toggle('min', !!w.min);
+  var n = unread(w.conv);
+  $('.cw-head', el).innerHTML = convAvatar(w.conv) + '<div class="cw-title"><b>' + esc(convTitle(w.conv)) + '</b><small>' + esc(convSub(w.conv)) + '</small></div>' +
+    (w.min && n ? '<span class="badge">' + n + '</span>' : '') +
+    '<button type="button" class="cw-btn" data-cw-expand title="Öppna i chatten" aria-label="Öppna i chatten">' + IC_EXP + '</button>' +
+    '<button type="button" class="cw-btn" data-cw-min title="' + (w.min ? 'Visa' : 'Minimera') + '" aria-label="' + (w.min ? 'Visa' : 'Minimera') + '">' + IC_MIN + '</button>' +
+    '<button type="button" class="cw-btn" data-cw-close title="Stäng" aria-label="Stäng">' + IC_X + '</button>';
+  if (w.min) return;
+  fillMsgs($('.msgs', el), w.conv);
+  var t = typingIn(w.conv); $('.typing', el).textContent = t.length ? t.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : '';
+  var ref = S.dockRef[w.conv], c = ref && S.cases.find(function (x) { return x.id === ref; });
+  $('.cw-ref', el).innerHTML = c ? '<span class="refchip"><span>Gäller ' + esc(c.caseNo) + ' · ' + esc(c.title) + '</span><button type="button" data-rmref aria-label="Ta bort koppling">×</button></span>' : '';
+  if (document.visibilityState === 'visible') markRead(w.conv);
+}
+function updateDock() { if (!S.me) return; $$('#dock .cw').forEach(function (el) { var w = S.dock.find(function (x) { return x.conv === el.dataset.conv; }); if (w) updateCw(el, w); }); }
+document.addEventListener('click', function (e) {
+  var cw = e.target.closest('.cw'); if (!cw) return;
+  var w = S.dock.find(function (x) { return x.conv === cw.dataset.conv; }); if (!w) return;
+  if (e.target.closest('[data-cw-close]')) { closeChat(w.conv); return; }
+  if (e.target.closest('[data-cw-expand]')) { S.chatConv = w.conv; closeChat(w.conv); closeDrawer(); go('chatt'); return; }
+  if (e.target.closest('[data-cw-min]') || (e.target.closest('[data-cw-toggle]') && !e.target.closest('button'))) {
+    w.min = !w.min; saveDock(); updateCw(cw, w); if (!w.min) { var ta = $('textarea', cw); if (ta) ta.focus(); var m = $('.msgs', cw); m.scrollTop = m.scrollHeight; }
+  }
+});
+
+/* ---------- Aviseringar ---------- */
+function primeKnown() {
+  if (S.loaded.cases && !S.knownCases) { S.knownCases = {}; S.cases.forEach(function (c) { S.knownCases[c.id] = 1; }); }
+  if (S.loaded.tasks && !S.knownTasks) { S.knownTasks = {}; S.tasks.forEach(function (t) { S.knownTasks[t.id] = 1; }); }
+  if (S.loaded.chat && !S.seenMsgs) { S.seenMsgs = {}; S.chatDocs.forEach(function (d) { (d.msgs || []).forEach(function (m) { S.seenMsgs[m.id] = 1; }); }); }
+}
+function notify() {
+  if (!S.me) return;
+  if (!S.knownCases || !S.knownTasks || !S.seenMsgs) { primeKnown(); return; }
+  S.cases.forEach(function (c) {
+    if (S.knownCases[c.id]) return; S.knownCases[c.id] = 1;
+    if (c.createdBy === S.me.id) return;
+    if (can('diagnose') && (!c.doctorId || c.doctorId === S.me.id)) toast('Ny konsultation: ' + c.title, false, { open: c.id, sub: 'Prioritet ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' · från ' + userName(c.createdBy) });
+  });
+  S.tasks.forEach(function (t) {
+    if (S.knownTasks[t.id]) return; S.knownTasks[t.id] = 1;
+    if (t.assignee === S.me.id && t.by !== S.me.id) toast('Nytt uppdrag: ' + t.title, false, { open: t.caseId || '', sub: 'Från ' + userName(t.by) + (t.prio === 'hog' ? ' · hög prioritet' : '') });
+  });
+  S.chatDocs.forEach(function (d) {
+    (d.msgs || []).forEach(function (m) {
+      if (S.seenMsgs[m.id]) return; S.seenMsgs[m.id] = 1;
+      if (d.uid === S.me.id || !convVisible(d.conv)) return;
+      var w = S.dock.find(function (x) { return x.conv === d.conv; });
+      var visible = (w && !w.min) || (S.view === 'chatt' && S.chatConv === d.conv);
+      if (visible && document.visibilityState === 'visible') return;
+      if (isDm(d.conv) && !w) openChat(d.conv, null, { noFocus: true });
+      else toast(userName(d.uid) + (isDm(d.conv) ? '' : ' i ' + convTitle(d.conv)), false, { chat: d.conv, sub: m.t.length > 90 ? m.t.slice(0, 90) + '…' : m.t });
+    });
+  });
+}
+
+/* ---------- Ärendepanel ---------- */
+function openCase(id) {
+  S.openCase = id; var wrap = $('#drawer');
+  var c = S.cases.find(function (x) { return x.id === id; });
+  wrap.hidden = false;
+  wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer" role="dialog" aria-modal="true" aria-label="Ärende">' +
+    '<header class="d-head" id="d-head"></header><div class="d-body" id="d-body">' +
+      '<div id="d-info"></div>' +
+      '<section class="panel"><div class="panel-head"><h2>Patientens vistelse</h2><span id="d-stay-now"></span></div><div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
+        '<form id="f-stay" style="display:grid;gap:12px"><div class="grid3">' +
+          '<label class="field"><span>Ändra till</span><select id="sy-st">' + Object.keys(STAY).map(function (k) { return '<option value="' + k + '">' + STAY[k].l + '</option>'; }).join('') + '</select></label>' +
+          '<label class="field" data-sy="inne"><span>Avdelning</span><select id="sy-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
+          '<label class="field" data-sy="inne"><span>Sal och säng</span><input id="sy-room" placeholder="T.ex. Sal 3, säng 2"></label>' +
+          '<label class="field" data-sy="left"><span>Lämnade till</span><select id="sy-dest">' + DESTS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
+        '</div><label class="field"><span>Notering</span><input id="sy-note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka"></label>' +
+        '<div class="form-actions"><button class="btn primary" type="submit">Uppdatera vistelse</button></div></form></div></section>' +
+      '<div id="d-images"></div>' +
+      '<div id="d-diag"></div>' +
+      '<div id="d-doc"></div>' +
+      '<section class="panel"><div class="panel-head"><h2>Uppdrag i ärendet</h2></div><div class="list" id="d-tasks"></div></section>' +
+      '<section class="panel"><div class="panel-head"><h2>Journalanteckningar och händelser</h2></div><div class="panel-body"><div class="log" id="d-log"></div>' +
+        '<form id="f-note" style="display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
+        '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form></div></section>' +
+      '<div id="d-admin"></div>' +
+    '</div></section>';
+  var notePicker = imagePicker($('#d-npick'), 6);
+  $('#f-note').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var text = $('#d-note').value.trim(); if (!text && !notePicker.list.length) return;
+    try {
+      var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
+      var cur = S.cases.find(function (x) { return x.id === id; });
+      var patch = imgs.length ? { imageIds: (cur.imageIds || []).concat(imgs) } : {};
+      await updateCase(id, patch, { type: 'note', text: text || 'Bilder tillagda.', imageIds: imgs });
+      $('#d-note').value = ''; notePicker.reset(); toast('Anteckningen sparades.');
+    } catch (x) {}
+  });
+  if (!c) { $('#d-head').innerHTML = '<div class="d-head-top"><h2>Ärendet hittades inte</h2><button class="btn sm" data-close type="button">Stäng</button></div>'; return; }
+  var st0 = c.stay || {};
+  $('#sy-st').value = st0.status || 'inne';
+  if (st0.ward) $('#sy-ward').value = st0.ward;
+  $('#sy-room').value = st0.room || '';
+  function drawSy() {
+    var v = $('#sy-st').value;
+    $$('[data-sy="inne"]').forEach(function (x) { x.hidden = v !== 'inne'; });
+    $$('[data-sy="left"]').forEach(function (x) { x.hidden = !(v === 'utskriven' || v === 'avviken' || v === 'overflyttad'); });
+  }
+  $('#sy-st').addEventListener('change', drawSy); drawSy();
+  $('#f-stay').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var cur = S.cases.find(function (x) { return x.id === id; }); if (!cur) return;
+    var v = $('#sy-st').value, prev = cur.stay || {};
+    var inne = v === 'inne', leftWithDest = v === 'utskriven' || v === 'avviken' || v === 'overflyttad';
+    var stay = {
+      status: v, ward: inne ? $('#sy-ward').value : '', room: inne ? $('#sy-room').value.trim() : '',
+      dest: leftWithDest ? $('#sy-dest').value : '', note: $('#sy-note').value.trim(), at: nowIso(), by: S.me.id,
+      admittedAt: inne ? (prev.status === 'inne' && prev.admittedAt ? prev.admittedAt : nowIso()) : (prev.admittedAt || null)
+    };
+    var txt = 'Vistelse: ' + STAY[v].l + (inne ? ', ' + stay.ward + (stay.room ? ' ' + stay.room : '') : '') + (stay.dest ? ', till ' + stay.dest.toLowerCase() : '') + (stay.note ? '. ' + stay.note : '.');
+    updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
+  });
+  mountDoctorTools(c); mountAdminTools(c); updateDrawer();
+  document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
+  setTimeout(function () { var b = $('#d-head [data-close]'); if (b) b.focus(); }, 50);
+}
+function closeDrawer(silent) {
+  S.openCase = null; document.body.classList.remove('drawer-open');
+  var w = $('#drawer'); if (!w) return; w.hidden = true; w.innerHTML = ''; document.body.style.overflow = '';
+}
+function updateDrawer() {
+  var c = S.cases.find(function (x) { return x.id === S.openCase; });
+  if (!c) { if (S.loaded.cases) { closeDrawer(); toast('Ärendet finns inte längre.'); } return; }
+  var nw = news2(c.vitals), v = c.vitals || {};
+  $('#d-head').innerHTML = '<div class="d-head-top"><span class="mono muted">' + esc(c.caseNo) + '</span><button class="btn sm" type="button" data-close>Stäng</button></div>' +
+    '<h2>' + esc(c.title) + '</h2>' +
+    '<div class="d-tags">' + triChip(c.triage) + statusPill(c.status) + stayHtml(c) + (nw ? '<span class="pill">NEWS2 ' + nw.s + '</span>' : '') + '<span class="muted" style="font-size:.86rem">' + esc((c.patient && c.patient.name) || '') + (c.patient && c.patient.pnr ? ' · <span class="mono">' + esc(c.patient.pnr) + '</span>' : '') + '</span></div>' +
+    (function () {
+      var b = [];
+      if (c.createdBy && c.createdBy !== S.me.id) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.createdBy)) + '" data-chat-case="' + esc(c.id) + '">Ge feedback till ' + esc(firstName(userName(c.createdBy))) + (S.online[c.createdBy] ? ' (aktiv)' : '') + '</button>');
+      if (c.doctorId && c.doctorId !== S.me.id && c.doctorId !== c.createdBy) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.doctorId)) + '" data-chat-case="' + esc(c.id) + '">Chatta med ' + esc(userName(c.doctorId)) + '</button>');
+      return b.length ? '<div class="d-tags">' + b.join('') + '</div>' : '';
+    })();
+  var sy = c.stay;
+  $('#d-stay-now').innerHTML = sy ? stayHtml(c) : '<span class="muted" style="font-size:.85rem">Ej angiven</span>';
+  $('#d-stay-info').innerHTML = sy ? esc(STAY[sy.status] ? STAY[sy.status].d : '') +
+    (sy.status === 'inne' ? ' · ' + esc(sy.ward) + (sy.room ? ', ' + esc(sy.room) : '') + (sy.admittedAt ? ' · inlagd ' + dt(sy.admittedAt) : '') : '') +
+    (sy.dest ? ' · till ' + esc(sy.dest.toLowerCase()) : '') + ' · uppdaterad ' + dt(sy.at) + ' av ' + esc(userName(sy.by)) + (sy.note ? '<br>' + esc(sy.note) : '') : 'Ingen vistelse registrerad för ärendet.';
+  function vital(label, val, unit, flag) { return '<div class="vital"><small>' + label + '</small><b' + (flag ? ' class="flag"' : '') + '>' + (val ? esc(val) + (unit ? ' <span class="muted" style="font-size:.8rem;font-weight:400">' + unit + '</span>' : '') : '<span class="muted">–</span>') + '</b></div>'; }
+  var af = num(v.af), sp = num(v.spo2), pu = num(v.puls), bt = num(v.bts), t = num(v.temp);
+  $('#d-info').innerHTML = '<section class="panel"><div class="panel-body">' +
+    '<dl class="kv"><dt>Inskickat av</dt><dd>' + esc(userName(c.createdBy)) + ' · ' + dt(c.createdAt) + '</dd><dt>Ansvarig läkare</dt><dd>' + (c.doctorId ? esc(userName(c.doctorId)) : '<span class="muted">Ingen ännu</span>') + '</dd>' +
+    (c.patient && c.patient.phone ? '<dt>Telefon patient</dt><dd class="mono">' + esc(c.patient.phone) + '</dd>' : '') + (c.onset ? '<dt>Symtomdebut</dt><dd>' + esc(c.onset) + '</dd>' : '') +
+    (c.allergies ? '<dt>Allergier, läkemedel</dt><dd>' + esc(c.allergies) + '</dd>' : '') + (c.given ? '<dt>Given behandling</dt><dd>' + esc(c.given) + '</dd>' : '') + '</dl>' +
+    '<div style="display:grid;gap:4px"><span class="eyebrow">Anamnes och symtom</span><p class="prose">' + esc(c.symptoms) + '</p></div>' +
+    '<div class="vitals">' + vital('AF', v.af, '/min', af != null && (af <= 8 || af >= 25)) + vital('SpO₂', v.spo2, '%' + (v.o2 ? ' + O₂' : ''), sp != null && sp <= 91) + vital('Puls', v.puls, '/min', pu != null && (pu <= 40 || pu >= 131)) + vital('BT', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : '', 'mmHg', bt != null && (bt <= 90 || bt >= 220)) +
+      vital('Temp', v.temp, '°C', t != null && (t <= 35 || t >= 39.1)) + vital('ACVPU', v.avpu, '', v.avpu && v.avpu !== 'A') + vital('Smärta', v.vas ? v.vas + '/10' : '', '', num(v.vas) >= 8) + vital('NEWS2', nw ? String(nw.s) : '', '', nw && (nw.risk === 'hog' || nw.risk === 'medel')) + '</div>' +
+    '</div></section>';
+  var ids = c.imageIds || [];
+  var imgBox = $('#d-images');
+  if (!ids.length) imgBox.innerHTML = '';
+  else {
+    if (imgBox.dataset.ids !== ids.join(',')) {
+      imgBox.dataset.ids = ids.join(',');
+      imgBox.innerHTML = '<section class="panel"><div class="panel-head"><h2>Bilder (' + ids.length + ')</h2></div><div class="panel-body"><div class="thumbs">' + ids.map(function (i) { return '<button type="button" class="thumb" data-img="' + esc(i) + '" aria-label="Visa bild"><span class="muted" style="font-size:.75rem">Laddar…</span></button>'; }).join('') + '</div></div></section>';
+      ids.forEach(function (i) { loadImage(i).then(function (d) { var b = $('[data-img="' + i + '"]', imgBox); if (b) b.innerHTML = d ? '<img alt="" src="' + d + '">' : '<span class="muted" style="font-size:.75rem">Saknas</span>'; }); });
+    }
+  }
+  var d = c.diagnosis, call = c.call;
+  $('#d-diag').innerHTML = (d ? '<div class="diag-box"><span class="eyebrow">Läkarbedömning · ' + esc(userName(d.by)) + ' · ' + dt(d.at) + '</span><h3 style="font-size:1.15rem">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span> ' : '') + esc(d.text) + '</h3>' +
+      (d.assessment ? '<div><span class="eyebrow">Bedömning</span><p class="prose">' + esc(d.assessment) + '</p></div>' : '') + (d.plan ? '<div><span class="eyebrow">Ordination och plan</span><p class="prose">' + esc(d.plan) + '</p></div>' : '') + '</div>' : '') +
+    (call ? '<section class="panel" style="margin-top:' + (d ? '16px' : '0') + '"><div class="panel-head"><h2>Bokat samtal</h2>' + (new Date(call.at) < new Date() ? '<span class="pill st-avslutad">Passerat</span>' : '<span class="pill st-diagnos">Bokat</span>') + '</div><div class="panel-body"><dl class="kv"><dt>Tid</dt><dd><b>' + esc(fmtWd.format(new Date(call.at))) + ' ' + dt(call.at) + '</b></dd><dt>Typ</dt><dd>' + esc(call.type) + '</dd><dt>Med</dt><dd>' + esc(call.withLabel || '') + '</dd><dt>Bokat av</dt><dd>' + esc(userName(call.by)) + '</dd>' + (call.note ? '<dt>Notering</dt><dd class="prose">' + esc(call.note) + '</dd>' : '') + '</dl></div></section>' : '');
+  var ctasks = byNewest(S.tasks.filter(function (t) { return t.caseId === c.id; }));
+  $('#d-tasks').innerHTML = ctasks.length ? ctasks.map(function (t) { return taskRow(t, { manage: can('manage') || t.by === S.me.id }); }).join('') : emptyBox('Inga uppdrag', can('assign') ? 'Tilldela uppdrag under läkarverktygen ovan.' : 'Uppdrag som läkaren delar ut i ärendet visas här.');
+  var evs = (c.events || []).slice().reverse();
+  $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
+    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) });
+    return '<div class="ev">' + avatarHtml(u) + '<div style="min-width:0;display:grid;gap:3px"><div class="ev-top"><b>' + esc(u.name) + '</b><small>' + dt(e.at) + '</small></div>' +
+      (e.type === 'note' ? '<p class="prose">' + esc(e.text) + '</p>' + (e.imageIds && e.imageIds.length ? '<small class="muted">' + e.imageIds.length + ' bild' + (e.imageIds.length > 1 ? 'er' : '') + ' bifogad' + (e.imageIds.length > 1 ? 'e' : '') + '</small>' : '') : '<p class="ev-sys">' + esc(e.text) + '</p>') + '</div></div>';
+  }).join('') : '<p class="muted">Inga händelser.</p>';
+  var dt0 = $('#d-doc-state'); if (dt0) drawDoctorState(c);
+}
+
+/* Läkarverktyg i panelen */
+function mountDoctorTools(c) {
+  var box = $('#d-doc');
+  if (!can('diagnose') && !can('assign')) { box.innerHTML = ''; return; }
+  var d = c.diagnosis || {}, call = c.call || {};
+  var tabs = [];
+  if (can('diagnose')) tabs.push(['diag', 'Diagnos'], ['call', 'Boka samtal']);
+  if (can('assign')) tabs.push(['task', 'Tilldela uppdrag']);
+  if (can('diagnose')) tabs.push(['status', 'Status']);
+  box.innerHTML = '<section class="panel"><div class="panel-head"><h2>Läkarverktyg</h2><div id="d-doc-state"></div></div>' +
+    '<div class="seg" role="tablist">' + tabs.map(function (t, i) { return '<button type="button" role="tab" data-dtab="' + t[0] + '" aria-selected="' + (i === 0) + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+    (can('diagnose') ? '<form class="panel-body" data-dpane="diag" id="f-diag">' +
+      '<div class="grid2"><label class="field"><span>Diagnoskod (ICD-10)</span><input id="dg-code" list="icd" class="mono" value="' + esc(d.code || '') + '" placeholder="T.ex. S52.5"></label>' +
+      '<label class="field"><span>Diagnos *</span><input id="dg-text" value="' + esc(d.text || '') + '" required></label></div>' +
+      '<datalist id="icd">' + ICD.map(function (x) { return '<option value="' + x[0] + '">' + esc(x[1]) + '</option>'; }).join('') + '</datalist>' +
+      '<label class="field"><span>Bedömning</span><textarea id="dg-ass" rows="3">' + esc(d.assessment || '') + '</textarea></label>' +
+      '<label class="field"><span>Ordination och plan</span><textarea id="dg-plan" rows="3" placeholder="Läkemedel, fortsatt vård, uppföljning">' + esc(d.plan || '') + '</textarea></label>' +
+      '<div class="form-actions"><button class="btn primary" type="submit">' + (c.diagnosis ? 'Uppdatera diagnos' : 'Ställ diagnos') + '</button></div></form>' +
+    '<form class="panel-body" data-dpane="call" id="f-call" hidden>' +
+      '<div class="grid2"><label class="field"><span>Datum och tid *</span><input id="cl-at" type="datetime-local" value="' + esc(toLocalInput(call.at)) + '" required></label>' +
+      '<label class="field"><span>Typ</span><select id="cl-type">' + ['Telefonsamtal', 'Videosamtal', 'Återbesök på mottagningen', 'Hembesök'].map(function (x) { return '<option' + (call.type === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label></div>' +
+      '<label class="field"><span>Samtal med</span><select id="cl-with"><option value="remittent">Inskickande personal: ' + esc(userName(c.createdBy)) + '</option><option value="patient"' + (call.with === 'patient' ? ' selected' : '') + '>Patienten: ' + esc((c.patient && c.patient.name) || '') + '</option><option value="bada"' + (call.with === 'bada' ? ' selected' : '') + '>Både patient och personal</option></select></label>' +
+      '<label class="field"><span>Notering</span><input id="cl-note" value="' + esc(call.note || '') + '" placeholder="T.ex. Gå igenom röntgensvar"></label>' +
+      '<div class="form-actions">' + (c.call ? '<button class="btn ghost" type="button" id="cl-rm">Avboka samtal</button>' : '') + '<button class="btn primary" type="submit">' + (c.call ? 'Ändra bokning' : 'Boka samtal') + '</button></div></form>' : '') +
+    (can('assign') ? '<form class="panel-body" data-dpane="task" id="f-dtask"' + (can('diagnose') ? ' hidden' : '') + '>' +
+      '<label class="field"><span>Uppdrag *</span><input id="dt-title" placeholder="T.ex. Ta nya vitalparametrar om 30 min" required></label>' +
+      '<label class="field"><span>Beskrivning</span><textarea id="dt-desc" rows="2"></textarea></label>' +
+      '<div class="grid3"><label class="field"><span>Tilldela *</span><select id="dt-to"></select></label>' +
+      '<label class="field"><span>Klart senast</span><input id="dt-due" type="datetime-local"></label>' +
+      '<label class="field"><span>Prioritet</span><select id="dt-prio"><option value="normal">Normal</option><option value="hog">Hög</option></select></label></div>' +
+      '<div class="form-actions"><button class="btn primary" type="submit">Tilldela uppdrag</button></div></form>' : '') +
+    (can('diagnose') ? '<div class="panel-body" data-dpane="status" hidden id="d-status"></div>' : '') +
+  '</section>';
+  $$('[data-dtab]', box).forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('[data-dtab]', box).forEach(function (x) { x.setAttribute('aria-selected', x === b); });
+      $$('[data-dpane]', box).forEach(function (p) { p.hidden = p.dataset.dpane !== b.dataset.dtab; });
+    });
+  });
+  var dto = $('#dt-to'); if (dto) dto.innerHTML = staffOptions('receive', '', 'Välj person');
+  var fd = $('#f-diag');
+  if (fd) fd.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = $('#dg-text').value.trim(); if (!text) { $('#dg-text').focus(); return; }
+    var cur = S.cases.find(function (x) { return x.id === c.id; });
+    var code = $('#dg-code').value.trim().toUpperCase();
+    updateCase(c.id, { diagnosis: { code: code, text: text, assessment: $('#dg-ass').value.trim(), plan: $('#dg-plan').value.trim(), by: S.me.id, at: nowIso() }, status: cur.status === 'avslutad' ? 'avslutad' : 'diagnos', doctorId: cur.doctorId || S.me.id },
+      { type: 'sys', text: (cur.diagnosis ? 'Diagnos uppdaterad: ' : 'Diagnos ställd: ') + (code ? code + ' ' : '') + text }).then(function () { toast('Diagnosen sparades.'); });
+  });
+  var dc = $('#dg-code');
+  if (dc) dc.addEventListener('change', function () { var hit = ICD.find(function (x) { return x[0] === dc.value.trim().toUpperCase(); }); if (hit && !$('#dg-text').value.trim()) $('#dg-text').value = hit[1]; });
+  var fc = $('#f-call');
+  if (fc) fc.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var at = fromLocalInput($('#cl-at').value); if (!at) { $('#cl-at').focus(); return; }
+    var cur = S.cases.find(function (x) { return x.id === c.id; });
+    var w = $('#cl-with').value, pn = (cur.patient && cur.patient.name) || 'patienten';
+    var withLabel = w === 'patient' ? pn : w === 'bada' ? pn + ' och ' + userName(cur.createdBy) : userName(cur.createdBy);
+    var callObj = { at: at, type: $('#cl-type').value, with: w, withLabel: withLabel, withUser: w === 'patient' ? null : cur.createdBy, note: $('#cl-note').value.trim(), by: S.me.id };
+    updateCase(c.id, { call: callObj, doctorId: cur.doctorId || S.me.id }, { type: 'sys', text: callObj.type + ' bokat ' + dt(at) + ' med ' + withLabel + '.' }).then(function () { toast('Samtalet bokades.'); mountDoctorTools(S.cases.find(function (x) { return x.id === c.id; })); });
+  });
+  var rm = $('#cl-rm');
+  if (rm) rm.addEventListener('click', function () { updateCase(c.id, { call: null }, { type: 'sys', text: 'Bokat samtal avbokades.' }).then(function () { toast('Samtalet avbokades.'); mountDoctorTools(S.cases.find(function (x) { return x.id === c.id; })); }); });
+  var ft = $('#f-dtask');
+  if (ft) ft.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var title = $('#dt-title').value.trim(), to = $('#dt-to').value;
+    if (!title || !to) { toast('Skriv uppdraget och välj vem som ska utföra det.', true); return; }
+    try { await createTask({ title: title, desc: $('#dt-desc').value.trim(), assignee: to, due: fromLocalInput($('#dt-due').value), prio: $('#dt-prio').value, caseId: c.id }); toast('Uppdraget tilldelades ' + userName(to) + '.'); ft.reset(); } catch (x) {}
+  });
+  drawDoctorState(c);
+}
+function drawDoctorState(c) {
+  var st = $('#d-doc-state'), pane = $('#d-status');
+  if (st) st.innerHTML = can('diagnose') && c.doctorId !== S.me.id && c.status !== 'avslutad' ? '<button class="btn sm primary" type="button" id="d-claim">' + (c.doctorId ? 'Ta över ärendet' : 'Ta ärendet') + '</button>' : (c.doctorId === S.me.id ? '<span class="pill st-diagnos">Du är ansvarig</span>' : '');
+  var claim = $('#d-claim');
+  if (claim) claim.onclick = function () { updateCase(c.id, { doctorId: S.me.id, status: c.status === 'inkommen' ? 'bedoms' : c.status }, { type: 'sys', text: userName(S.me.id) + ' tog ärendet.' }).then(function () { toast('Du är nu ansvarig läkare.'); }); };
+  if (pane) {
+    pane.innerHTML = '<p class="muted">Nuvarande status: ' + statusPill(c.status) + '</p><div class="form-actions" style="justify-content:flex-start">' +
+      Object.keys(STATUS).filter(function (k) { return k !== c.status; }).map(function (k) { return '<button type="button" class="btn sm" data-set-status="' + k + '">' + (k === 'avslutad' ? 'Avsluta ärendet' : k === 'inkommen' ? 'Skicka tillbaka till inkorgen' : 'Ändra till ' + STATUS[k].toLowerCase()) + '</button>'; }).join('') + '</div>';
+    $$('[data-set-status]', pane).forEach(function (b) {
+      b.onclick = function () {
+        var k = b.dataset.setStatus, patch = { status: k };
+        if (k === 'inkommen') patch.doctorId = null;
+        updateCase(c.id, patch, { type: 'sys', text: 'Status ändrad till ' + STATUS[k].toLowerCase() + '.' }).then(function () { toast('Status ändrad till ' + STATUS[k].toLowerCase() + '.'); });
+      };
+    });
+  }
+}
+
+/* Administratörens verktyg i panelen */
+function mountAdminTools(c) {
+  var box = $('#d-admin');
+  if (!can('manage')) { box.innerHTML = ''; return; }
+  var p = c.patient || {};
+  box.innerHTML = '<details class="panel"><summary class="panel-head" style="cursor:pointer;list-style:none"><h2>Administrera ärendet</h2><span class="muted" style="font-size:.85rem">Ändra alla uppgifter</span></summary>' +
+    '<form class="panel-body" id="f-aedit">' +
+      '<div class="grid3"><label class="field"><span>Patient</span><input id="ae-name" value="' + esc(p.name) + '"></label><label class="field"><span>Personnummer</span><input id="ae-pnr" class="mono" value="' + esc(p.pnr) + '"></label><label class="field"><span>Telefon</span><input id="ae-phone" value="' + esc(p.phone) + '"></label></div>' +
+      '<label class="field"><span>Sökorsak</span><input id="ae-title" value="' + esc(c.title) + '"></label>' +
+      '<label class="field"><span>Anamnes och symtom</span><textarea id="ae-sym" rows="4">' + esc(c.symptoms) + '</textarea></label>' +
+      '<div class="grid3"><label class="field"><span>Prioritet</span><select id="ae-tri">' + Object.keys(TRI).map(function (k) { return '<option value="' + k + '"' + (c.triage === k ? ' selected' : '') + '>' + TRI[k].label + '</option>'; }).join('') + '</select></label>' +
+      '<label class="field"><span>Status</span><select id="ae-st">' + Object.keys(STATUS).map(function (k) { return '<option value="' + k + '"' + (c.status === k ? ' selected' : '') + '>' + STATUS[k] + '</option>'; }).join('') + '</select></label>' +
+      '<label class="field"><span>Ansvarig läkare</span><select id="ae-doc">' + staffOptions('diagnose', c.doctorId, 'Ingen') + '</select></label></div>' +
+      '<label class="field"><span>Inskickat av</span><select id="ae-by">' + staffOptions(null, c.createdBy, null) + '</select></label>' +
+      '<div class="form-actions" id="ae-actions"><button class="btn danger" type="button" id="ae-del">Radera ärendet</button><span style="flex:1"></span>' + (c.diagnosis ? '<button class="btn" type="button" id="ae-rmdiag">Ta bort diagnos</button>' : '') + '<button class="btn primary" type="submit">Spara ändringar</button></div>' +
+    '</form></details>';
+  $('#f-aedit').addEventListener('submit', function (e) {
+    e.preventDefault();
+    updateCase(c.id, {
+      patient: { name: $('#ae-name').value.trim(), pnr: $('#ae-pnr').value.trim(), phone: $('#ae-phone').value.trim() },
+      title: $('#ae-title').value.trim() || c.title, symptoms: $('#ae-sym').value.trim(), triage: $('#ae-tri').value, status: $('#ae-st').value,
+      doctorId: $('#ae-doc').value || null, createdBy: $('#ae-by').value || c.createdBy
+    }, { type: 'sys', text: 'Ärendet redigerades av administratör.' }).then(function () { toast('Ärendet uppdaterades.'); });
+  });
+  var rd = $('#ae-rmdiag');
+  if (rd) rd.addEventListener('click', function () { updateCase(c.id, { diagnosis: null, status: c.doctorId ? 'bedoms' : 'inkommen' }, { type: 'sys', text: 'Diagnosen togs bort av administratör.' }).then(function () { toast('Diagnosen togs bort.'); mountAdminTools(S.cases.find(function (x) { return x.id === c.id; })); }); });
+  $('#ae-del').addEventListener('click', function () {
+    $('#ae-actions').innerHTML = '<div class="confirm" style="flex:1"><span>Radera ' + esc(c.caseNo) + ' med bilder och uppdrag permanent?</span><span style="flex:1"></span><button class="btn sm" type="button" id="ae-no">Avbryt</button><button class="btn sm danger solid" type="button" id="ae-yes">Radera</button></div>';
+    $('#ae-no').addEventListener('click', function () { mountAdminTools(S.cases.find(function (x) { return x.id === c.id; })); });
+    $('#ae-yes').addEventListener('click', async function () {
+      try {
+        var cur = S.cases.find(function (x) { return x.id === c.id; }) || c;
+        for (var i = 0; i < (cur.imageIds || []).length; i++) { var iid = cur.imageIds[i]; await write('images/' + iid, function () { return S.db.doc('images/' + iid).delete(); }); }
+        var ts = S.tasks.filter(function (t) { return t.caseId === c.id; });
+        for (var j = 0; j < ts.length; j++) { var tid = ts[j].id; await write('tasks/' + tid, function () { return S.db.doc('tasks/' + tid).delete(); }); }
+        await write('cases/' + c.id, function () { return S.db.doc('cases/' + c.id).delete(); });
+        closeDrawer(); toast(c.caseNo + ' raderades.');
+      } catch (x) {}
+    });
+  });
+}
+
+/* ---------- Globala händelser ---------- */
+document.addEventListener('click', function (e) {
+  var t = e.target;
+  var nav = t.closest('[data-nav]'); if (nav && S.me) { e.preventDefault(); closeDrawer(); go(nav.dataset.nav); return; }
+  if (t.closest('[data-logout]')) { logout(); return; }
+  var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); return; }
+  if (t.closest('#dock')) return;
+  var ch = t.closest('[data-chat]'); if (ch && S.me) { openChat(ch.dataset.chat, ch.dataset.chatCase || null); return; }
+  if (t.closest('[data-close]')) { closeDrawer(); return; }
+  var sc = t.closest('[data-scroll]'); if (sc) { var el = document.getElementById(sc.dataset.scroll); if (el) el.closest('.panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  var img = t.closest('[data-img]'); if (img) { var d = S.imgCache[img.dataset.img]; if (d) lightbox(d); return; }
+  var del = t.closest('[data-task-del]');
+  if (del) {
+    var id = del.dataset.taskDel, row = del.closest('.trow');
+    if (del.dataset.confirm) { write('tasks/' + id, function () { return S.db.doc('tasks/' + id).delete(); }).then(function () { toast('Uppdraget togs bort.'); }); }
+    else { del.dataset.confirm = '1'; del.textContent = 'Bekräfta'; del.classList.add('danger'); setTimeout(function () { if (del.isConnected) { del.dataset.confirm = ''; del.textContent = 'Ta bort'; del.classList.remove('danger'); } }, 4000); }
+  }
+});
+document.addEventListener('change', function (e) {
+  if (e.target.id === 'me-duty') { var dv = e.target.value; saveMe({ duty: dv, dutySince: nowIso() }).then(function () { toast('Din status är nu: ' + DUTY[dv].toLowerCase() + '.'); }).catch(function () {}); return; }
+  var cb = e.target.closest('[data-task-done]'); if (cb) { setTaskStatus(cb.dataset.taskDone, cb.checked ? 'klar' : 'oppen'); return; }
+  var ss = e.target.closest('[data-task-status]'); if (ss) setTaskStatus(ss.dataset.taskStatus, ss.value);
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { var lb = $('.lightbox'); if (lb) { lb.remove(); return; } if (S.openCase) closeDrawer(); }
+});
+window.addEventListener('hashchange', function () { if (!S.me) return; var h = location.hash.slice(1); if (h && h !== S.view && VIEWS[h]) { closeDrawer(); go(h); } });
+
+/* ---------- Anslutning ---------- */
+function setDbState(s) {
+  if (S.dbState === s) return; S.dbState = s;
+  if (!S.me) { var tab = $('#f-admin') ? 'admin' : 'personal'; var u = $('#l-user') ? $('#l-user').value : '', p = $('#l-pass') ? $('#l-pass').value : ''; renderLogin(tab); if ($('#l-user')) { $('#l-user').value = u; $('#l-pass').value = p; } }
+  else mountView();
+}
+function subscribe(name, apply) {
+  var timer = setTimeout(function () { if (!S.loaded[name]) setDbState('slow'); }, 10000);
+  S.db.collection(name).onSnapshot(function (snap) {
+    apply(snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); }));
+    if (!snap.metadata.fromCache) { clearTimeout(timer); S.loaded[name] = true; if (S.dbState !== 'on' && Object.keys(S.loaded).every(function (k) { return S.loaded[k]; })) setDbState('on'); }
+    else S.loaded[name] = S.loaded[name] || snap.size > 0;
+    afterData();
+  }, function (err) { clearTimeout(timer); S.loaded[name] = true; setDbState(err && err.code === 'revoked' ? 'off' : 'slow'); });
+}
+var pending = false;
+function afterData() {
+  if (pending) return; pending = true;
+  requestAnimationFrame(function () {
+    pending = false;
+    if (!S.me) { tryRestore(); return; }
+    onData();
+  });
+}
+var restored = false;
+function tryRestore() {
+  if (restored || !S.loaded.users) return; restored = true;
+  var sess = load(SESSION_KEY); if (!sess || !sess.uid) return;
+  if (sess.uid === 'admin') { loginAs('admin'); return; }
+  var u = userById(sess.uid); if (u && u.active !== false) loginAs(u.id); else store(SESSION_KEY, null);
+}
+/* Firebase-läge (GitHub Pages): samma gränssnitt som portalens databas och närvaro */
+function firebaseRoom(fs) {
+  var tab = 'p' + uid(), state = {}, ref = fs.collection('presence').doc(tab), hb = null, last = null, handler = null;
+  function push() { return ref.set(Object.assign({}, state, { at: Date.now() })); }
+  function emit() {
+    if (!last || !handler) return;
+    var now = Date.now(), peers = [];
+    last.docs.forEach(function (d) {
+      var x = d.data() || {}, age = now - (x.at || 0);
+      if (age > 864e5 && d.id !== tab) { fs.collection('presence').doc(d.id).delete().catch(function () {}); return; }
+      peers.push({ kind: 'viewer', isMe: d.id === tab, sameTab: d.id === tab, presence: age < 65000 ? x : {} });
+    });
+    handler({ peers: peers });
+  }
+  window.addEventListener('pagehide', function () { ref.delete().catch(function () {}); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && Object.keys(state).length) push().catch(function () {}); });
+  setInterval(emit, 30000);
+  return {
+    presence: function (patch) {
+      Object.keys(patch).forEach(function (k) { if (patch[k] === null) delete state[k]; else state[k] = patch[k]; });
+      if (!hb) hb = setInterval(function () { push().catch(function () {}); }, 25000);
+      return push();
+    },
+    onPeers: function (h) { handler = h; return fs.collection('presence').onSnapshot(function (snap) { last = snap; emit(); }, function () {}); }
+  };
+}
+async function connect() {
+  var cfg = window.LSVP_FIREBASE;
+  if (cfg && (!cfg.projectId || /FYLL/i.test(cfg.projectId))) return { db: null, room: null };
+  if (cfg && window.firebase && firebase.initializeApp) {
+    try {
+      var app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+      var fs = app.firestore();
+      try { fs.settings({ ignoreUndefinedProperties: true }); } catch (e) {}
+      return { db: fs, room: firebaseRoom(fs) };
+    } catch (e) { return { db: null, room: null }; }
+  }
+  if (!window.claude || typeof window.claude.use !== 'function') return { db: null, room: null };
+  var db = null, room = null;
+  try { db = await window.claude.use('db'); } catch (e) { db = null; }
+  if (db) { try { room = await window.claude.use('room'); } catch (e) { room = null; } }
+  return { db: db, room: room };
+}
+async function boot() {
+  renderLogin();
+  var conn = await connect();
+  var db = conn.db;
+  if (!db) { setDbState('off'); return; }
+  S.db = db;
+  subscribe('users', function (list) { S.users = list; });
+  subscribe('cases', function (list) { S.cases = list; });
+  subscribe('tasks', function (list) { S.tasks = list; });
+  subscribe('config', function (list) { S.rolesDoc = list.find(function (d) { return d.id === 'roles'; }) || null; });
+  subscribe('chat', function (list) {
+    S.chatDocs = list;
+    Object.keys(S.chatLocal).forEach(function (k) {
+      var d = list.find(function (x) { return x.id === k; });
+      if (!d) delete S.chatLocal[k];
+      else { var lm = S.chatLocal[k], dm = d.msgs || []; if (dm.length && lm.length && dm[dm.length - 1].id === lm[lm.length - 1].id) delete S.chatLocal[k]; }
+    });
+  });
+  var room = conn.room;
+  if (room) {
+    S.room = room;
+    room.onPeers(function (ch) {
+      var on = {}, typ = {};
+      ch.peers.forEach(function (p) {
+        if (p.kind !== 'viewer') return;
+        var pr = p.presence || {};
+        if (typeof pr.uid === 'string' && pr.uid) {
+          on[pr.uid] = true;
+          if (typeof pr.typing === 'string' && pr.typing && !(p.isMe && p.sameTab)) typ[pr.uid] = pr.typing;
+        }
+      });
+      S.online = on; S.typing = typ; afterData();
+    });
+    if (S.me) room.presence({ uid: S.me.id, typing: null }).catch(function () {});
+  }
+}
+boot();
+})();
+</script>
+
+</body>
+</html>
