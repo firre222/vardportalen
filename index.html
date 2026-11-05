@@ -1692,6 +1692,99 @@ button.pp-vt:hover { border-color: var(--accent); box-shadow: 0 0 0 2px var(--ac
 .dis-warn { padding: 9px 12px; border-radius: 10px; background: var(--danger-soft); color: var(--danger); font-weight: 600; font-size: .88rem; }
 #dis-go svg { width: 17px; height: 17px; }
 .dis .err:empty { display: none; }
+/* ===== Snabböversikt på journalbladet ===== */
+.pp-glance { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 4px 0 18px; }
+.gl-card { display: grid; gap: 2px; align-content: start; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; background: #fff; font: inherit; color: var(--ink); cursor: pointer; min-width: 0; }
+.gl-card:hover { box-shadow: 0 2px 10px rgba(14, 37, 35, .1); border-color: var(--accent); }
+.gl-card small { font-size: .62rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.gl-card b { font-size: .98rem; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.gl-card > span { font-size: .78rem; color: var(--muted); line-height: 1.3; overflow-wrap: anywhere; }
+.gl-card.warn { border-left-color: var(--danger); }
+.gl-card.warn b { color: var(--danger); }
+.gl-card.ok { border-left-color: var(--ok); }
+.gl-up { color: var(--danger); font-weight: 700; }
+.gl-down { color: var(--ok); font-weight: 700; }
+@media (max-width: 1100px) { .pp-glance { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .pp-glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ===== Innehållslistan i grupper ===== */
+.toc-g { font-size: .66rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); padding: 14px 10px 4px; }
+.toc-top { width: 100%; display: flex; gap: 10px; align-items: center; text-align: left; border: 0; background: var(--surface); box-shadow: var(--shadow); padding: 8px; border-radius: 10px; font: inherit; font-size: .87rem; font-weight: 700; color: var(--fg); cursor: pointer; }
+.toc-top .toc-num svg { width: 13px; height: 13px; }
+.toc-top:hover { color: var(--accent); }
+
+/* ===== Skadekarta ===== */
+.bm { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start; }
+.bm-figs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bm-figs figure { margin: 0; text-align: center; }
+.bm-figs figcaption { font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.bm-svg { width: 100%; height: auto; max-height: 300px; display: block; }
+.bm-r { fill: #e9ece9; stroke: #b7bfbb; stroke-width: 1.2; transition: fill .15s; }
+.bm-r.on { stroke: rgba(0, 0, 0, .35); }
+.bm-edit .bm-r { cursor: pointer; }
+.bm-edit .bm-r:hover, .bm-edit .bm-r:focus { fill: #c9ece4; outline: none; stroke: var(--accent); stroke-width: 2; }
+.bm-edit .bm-r.on:hover { filter: brightness(1.1); }
+.bm-mark circle { fill: #fff; stroke: #1a2830; stroke-width: 1.4; }
+.bm-mark text { font: 800 9px var(--sans); text-anchor: middle; fill: #1a2830; pointer-events: none; }
+.bm-mark { pointer-events: none; }
+.bm-side { font: 700 10px var(--sans); fill: #9aa3a0; text-anchor: middle; }
+.bm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; align-content: start; }
+.bm-list li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: start; padding: 6px 0; border-bottom: 1px dotted #cfcabb; }
+.bm-list li b { display: block; font-size: .92rem; }
+.bm-list p { margin: 2px 0 0; font-size: .86rem; }
+.bm-kind { font-size: .78rem; font-weight: 800; }
+.bm-num { width: 22px; height: 22px; border-radius: 50%; color: #fff; display: grid; place-items: center; font-size: .72rem; font-weight: 800; flex: none; }
+.bm-side-col { display: grid; gap: 10px; align-content: start; }
+.bm-help { margin: 0; font-size: .86rem; color: var(--muted); padding: 10px 12px; border-radius: 10px; background: var(--surface-2); }
+.bm-empty { margin: 0; color: var(--muted); font-style: italic; font-size: .88rem; }
+.bm-rows { display: grid; gap: 8px; }
+.bm-row { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.bm-row-main { display: grid; gap: 6px; min-width: 0; }
+.bm-row-main b { font-size: .9rem; }
+.bm-row-f { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 6px; }
+.bm-row-f select, .bm-row-f input { font: inherit; font-size: .86rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); min-width: 0; }
+.bm-rm { border: 0; background: transparent; color: var(--muted); font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+.bm-rm:hover { color: var(--danger); background: var(--danger-soft); }
+@media (max-width: 760px) { .bm { grid-template-columns: 1fr; } .bm-figs { max-width: 320px; margin: 0 auto; } .bm-row-f { grid-template-columns: 1fr; } }
+.inj { width: min(900px, 100%); display: flex; flex-direction: column; max-height: calc(100dvh - 32px); overflow: hidden !important; }
+.inj .modal-body { overflow-y: auto; flex: 1; }
+.pp-checks { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.doc-inj { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.doc-inj li { display: flex; gap: 8px; align-items: center; }
+.doc-inj i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.tx-prog { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-bottom: 8px; }
+.tx-prog span { display: block; height: 100%; background: var(--ok); border-radius: 3px; transition: width .3s; }
+
+/* ===== Journalskrivaren ===== */
+.pp-note { gap: 10px !important; padding: 14px !important; border: 1.5px solid var(--line) !important; border-style: solid !important; background: #fff !important; box-shadow: 0 2px 10px rgba(14, 37, 35, .05); }
+.pp-note:focus-within { border-color: var(--accent) !important; }
+.nw-head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.nw-t { font-weight: 800; font-size: .92rem; }
+.nw-kinds { display: flex; flex-wrap: wrap; gap: 4px; }
+.nk-pick { position: relative; cursor: pointer; }
+.nk-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.nk-pick span { display: inline-block; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--line); font-size: .8rem; font-weight: 700; color: var(--muted); background: #fff; }
+.nk-pick input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+.nk-pick input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+.nk-pick.nkp-lm input:checked + span { background: #7048e8; border-color: #7048e8; }
+.nw-tpl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .8rem; color: var(--muted); }
+.nw-tpl .qchip { font-size: .78rem; padding: 3px 10px; }
+.nw-lm { padding: 10px 12px; border-radius: 10px; background: #f3f0ff; border: 1px solid #d0c4fb; }
+.nw-lm .grid4 { gap: 8px; }
+.nw-foot { justify-content: space-between !important; align-items: center; }
+.lg-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin: 4px 0 8px; }
+.lg-f { display: flex; flex-wrap: wrap; gap: 4px; }
+.lg-f button { border: 1px solid var(--line); background: #fff; color: var(--muted); font: inherit; font-size: .8rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+.lg-f button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.lg-f button[aria-pressed="true"] .tf-n { background: rgba(255, 255, 255, .25); color: #fff; }
+#lg-q { font: inherit; font-size: .86rem; padding: 6px 12px; border: 1px solid #d9d5c8; border-radius: 999px; background: #fff; color: var(--ink); min-width: 200px; }
+#lg-q:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.pe-top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.nk { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: .64rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; background: var(--surface-2); color: var(--muted); }
+.nk-oms { background: #e3f2ed; color: #1f7a49; } .nk-lak { background: #e4eefb; color: #2f62a8; } .nk-amb { background: #fdf0e3; color: #b45c10; }
+.nk-us { background: #e6f6f8; color: #0c7285; } .nk-lm { background: #efeafd; color: #6741d9; } .nk-anh { background: #fbeaf1; color: #a61e4d; }
+.pp-entry mark { background: #fff1a8; color: inherit; border-radius: 2px; padding: 0 1px; }
+@media (max-width: 960px) { .drawer.jr { display: block; overflow-y: auto; } .drawer.jr .jr-layout { overflow: visible; } .jr-bar { gap: 10px; } }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -2523,7 +2616,7 @@ function drawSide() {
     return navBtn(i);
   }).join('');
   var me = S.me, oc = onlineCount();
-  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 5.0 · Los Santos Sjukvård</p>';
+  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 5.1 · Los Santos Sjukvård</p>';
   var tu = $('#tb-user');
   if (tu) tu.innerHTML = '<button type="button" class="tb-user" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + avatarHtml(me) + '<span><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></span></button>';
 }
@@ -3023,6 +3116,8 @@ function renderRemiss(c, opts) {
     '<dl class="doc-body">' +
       docRow('Frågeställning ' + termQ('fragestallning'), c.question ? '<p class="doc-q">' + esc(c.question) + '</p>' : '') +
       docRow('Kontaktorsak', c.title ? esc(c.title) + (mech ? '<span class="doc-tag">' + esc(mech) + '</span>' : '') : '') +
+      docRow('Händelse', c.incident && (c.incident.at || c.incident.place) ? esc([c.incident.at ? dt(c.incident.at) : '', c.incident.place || ''].filter(Boolean).join(' · ')) + (c.incident.conscious && c.incident.conscious !== 'nej' ? '<p class="doc-small">Medvetslös vid händelsen: ' + esc(consLabel(c.incident.conscious).toLowerCase()) + '</p>' : '') : '') +
+      docRow('Skador', (c.injuries || []).length ? '<ul class="doc-inj">' + c.injuries.map(function (j) { return '<li><i style="background:' + injKind(j.kind)[2] + '"></i>' + esc(injLabel(j)) + '</li>'; }).join('') + '</ul>' : '') +
       docRow('Aktuellt ' + termQ('anamnes'), c.symptoms ? '<p class="prose">' + esc(c.symptoms) + '</p>' + (c.onset ? '<p class="muted doc-small">Symtomdebut: ' + esc(c.onset.toLowerCase()) + '</p>' : '') : '') +
       docRow((c.vitals0 ? 'Status vid remiss ' : 'Status ') + termQ('status'), vitalsLine(c.vitals0 || c.vitals) + (nw ? '<p class="doc-small news-' + nw.risk + '">NEWS2 <b>' + nw.s + '</b> · ' + esc(nw.label) + (nw.partial ? ' (ofullständigt underlag)' : '') + '</p>' : '')) +
       docRow('Aktuella läkemedel', c.meds ? esc(c.meds) : '') +
@@ -3078,6 +3173,9 @@ VIEWS.nytt = {
           '<label class="field"><span>Symtomdebut</span><select id="n-onset"><option value="">Välj</option><option>Inom en timme</option><option>Idag</option><option>1–3 dygn</option><option>Mer än 3 dygn</option><option>Okänt</option></select></label></div>' +
           '<label class="field"><span>Frågeställning till läkaren ' + termQ('fragestallning') + '</span><input id="n-q" placeholder="Vad vill du att läkaren tar ställning till?"></label>' +
           '<div class="qchips">' + QUESTIONS.map(function (q) { return '<button type="button" class="qchip" data-q="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div></div>' +
+        '<div class="form-sec" data-step="2"><h2>Olyckan och skadorna</h2><p class="hint">Fyll i när och var det hände och tryck på kroppen där patienten är skadad. Hoppa över det som inte passar, till exempel vid sjukdom.</p>' +
+          '<div class="grid3"><label class="field"><span>När hände det?</span><input id="n-iat" type="datetime-local"></label><label class="field"><span>Plats</span><input id="n-place" placeholder="T.ex. Grove Street vid bensinmacken" autocomplete="off"></label>' +
+          '<label class="field"><span>Medvetslös vid händelsen?</span><select id="n-consc">' + opts(CONSC, '') + '</select></label></div><div id="n-body"></div></div>' +
         '<div class="form-sec" data-step="2"><h2>Vad har hänt? ' + termQ('anamnes') + '</h2><p class="hint">Berätta med egna ord: vad hände, när började det och hur mår patienten nu?</p>' +
           '<label class="field"><span>Aktuellt *</span><textarea id="n-sym" rows="5" placeholder="Vad har hänt, vilka symtom har patienten och hur har det utvecklats?" required></textarea></label>' +
           '<div class="grid2"><label class="field"><span>Aktuella läkemedel</span><input id="n-meds" placeholder="T.ex. Waran, Alvedon vid behov"></label>' +
@@ -3111,6 +3209,8 @@ VIEWS.nytt = {
       '<aside class="preview" aria-label="Förhandsvisning"><p class="eyebrow">Förhandsvisning</p><div id="n-prev"></div></aside>' +
       '</div>';
     var picker = imagePicker($('#n-pick'), 6);
+    var newInj = [], injEd = injuryEditor($('#n-body'), newInj, function () { drawPrev(); });
+    $('#n-iat').value = toLocalInput(nowIso());
     var f = $('#f-new'), step = 1, STEPS = ['Patient', 'Vad har hänt', 'Mätvärden', 'Skicka'];
     function wizGo(n) {
       if (n > step) {
@@ -3132,7 +3232,7 @@ VIEWS.nytt = {
     $('#wiz').addEventListener('click', function (e) { var b = e.target.closest('[data-wiz]'); if (b) wizGo(+b.dataset.wiz); });
     $('#wiz-next').addEventListener('click', function () { wizGo(step + 1); });
     $('#wiz-back').addEventListener('click', function () { goStep(step - 1); });
-    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT' && step < 4) { e.preventDefault(); wizGo(step + 1); } });
+    f.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName === 'INPUT' && step < 4 && !e.target.closest('.bm')) { e.preventDefault(); wizGo(step + 1); } });
     function drawTriEx() { var k = (f.querySelector('input[name=tri]:checked') || {}).value; $('#n-triex').innerHTML = k ? '<b>' + TRI[k].label + ':</b> ' + esc(TRI_EX[k]) : ''; }
     f.addEventListener('change', function (e) { if (e.target.name === 'tri') { drawTriEx(); drawNews(); } });
     f.addEventListener('click', function (e) {
@@ -3145,6 +3245,8 @@ VIEWS.nytt = {
         title: $('#n-title').value.trim(), symptoms: $('#n-sym').value.trim(), onset: $('#n-onset').value, mechanism: $('#n-mech').value,
         question: $('#n-q').value.trim(), meds: $('#n-meds').value.trim(), cave: $('#n-cave').value.trim(), given: $('#n-given').value.trim(),
         patient: { name: $('#n-name').value.trim(), pnr: $('#n-pnr').value.trim(), phone: $('#n-phone').value.trim() },
+        incident: { at: fromLocalInput($('#n-iat').value) || '', place: $('#n-place').value.trim(), conscious: $('#n-consc').value, story: '', protect: [], police: null, policeRef: '', witness: '' },
+        injuries: newInj.map(function (j) { return { id: j.id, region: j.region, kind: j.kind, note: String(j.note || '').trim(), at: j.at, by: j.by }; }),
         vitals: readVitals(), triage: (f.querySelector('input[name=tri]:checked') || {}).value || 'gul', createdBy: S.me.id, doctorId: docId
       };
     }
@@ -3172,7 +3274,7 @@ VIEWS.nytt = {
     new MutationObserver(drawPrev).observe($('.thumbs', $('#n-pick')), { childList: true });
     function drawStay() { var inne = $('#n-stay').value === 'inne'; $$('[data-ward]', f).forEach(function (x) { x.hidden = !inne; }); }
     $('#n-stay').addEventListener('change', drawStay);
-    f.addEventListener('reset', function () { setTimeout(function () { picker.reset(); drawNews(); drawStay(); drawPrev(); goStep(1); drawTriEx(); }, 0); });
+    f.addEventListener('reset', function () { setTimeout(function () { newInj.length = 0; injEd.render(); $('#n-iat').value = toLocalInput(nowIso()); picker.reset(); drawNews(); drawStay(); drawPrev(); goStep(1); drawTriEx(); }, 0); });
     drawNews(); goStep(1); drawTriEx();
     f.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -4053,8 +4155,9 @@ function openVitals(caseId, focusKey) {
 }
 
 /* ---------- Journalen: all information samlad på ett journalblad ---------- */
-var PP_ORDER = ['pat', 'kontakt', 'vit', 'dx', 'tx', 'stay', 'team', 'svar', 'img', 'hist', 'log'];
-var PP_TITLE = { pat: 'Patientuppgifter', kontakt: 'Kontaktorsak och anamnes', vit: 'Vitalparametrar', dx: 'Diagnos och bedömning', tx: 'Ordination och behandling', stay: 'Vistelse och uppföljning', team: 'Vårdteam och instruktioner', svar: 'Läkarens svar till remittenten', img: 'Bilagor', hist: 'Tidigare vårdtillfällen', log: 'Journalanteckningar' };
+var PP_ORDER = ['pat', 'olycka', 'kontakt', 'vit', 'dx', 'tx', 'stay', 'team', 'svar', 'img', 'hist', 'log'];
+var PP_TITLE = { pat: 'Patientuppgifter', olycka: 'Olyckan och skadorna', kontakt: 'Kontaktorsak och anamnes', vit: 'Vitalparametrar', dx: 'Diagnos och bedömning', tx: 'Ordination och behandling', stay: 'Vistelse och uppföljning', team: 'Vårdteam och instruktioner', svar: 'Läkarens svar till remittenten', img: 'Bilagor', hist: 'Tidigare vårdtillfällen', log: 'Journalanteckningar' };
+var PP_GROUPS = [['Patient', ['pat']], ['Olyckan', ['olycka', 'kontakt']], ['Bedömning och behandling', ['vit', 'dx', 'tx']], ['Vård och kontakt', ['stay', 'team', 'svar']], ['Underlag', ['img', 'hist', 'log']]];
 var ONSETS = ['Inom en timme', 'Idag', '1–3 dygn', 'Mer än 3 dygn', 'Okänt'];
 function canEditJ() { return !!S.me && (can('create') || can('diagnose') || can('manage') || can('receive')); }
 function curCase() { return S.cases.find(function (x) { return x.id === S.openCase; }); }
@@ -4105,7 +4208,7 @@ var PP = {
     view: function (c) {
       var t = TRI[c.triage] ? c.triage : 'bla', mech = c.mechanism && c.mechanism !== MECH[0] ? esc(c.mechanism) : (c.mechanism ? 'Ingen skada' : '');
       return '<dl class="pp-dl c2">' + ppKv('Kontaktorsak', c.title ? '<b>' + esc(c.title) + '</b>' : '') + ppKv('Prioritet', triChip(t) + ' <span class="pp-muted-i">' + esc(TRI[t].desc) + '</span>') +
-        ppKv('Skademekanism', mech) + ppKv('Symtomdebut', c.onset ? esc(c.onset) : '') +
+        ppKv('Typ av händelse', mech) + ppKv('Symtomdebut', c.onset ? esc(c.onset) : '') +
         ppKv('Frågeställning till läkaren', c.question ? '<span class="pp-q">' + esc(c.question) + '</span>' : '', true) +
         ppKv('Aktuellt (anamnes)', c.symptoms ? '<p class="pp-prose">' + esc(c.symptoms) + '</p>' : '', true) +
         ppKv('Aktuella läkemedel', c.meds ? esc(c.meds) : '') + ppKv('Behandling före ankomst', c.given ? esc(c.given) : '') + '</dl>';
@@ -4113,7 +4216,7 @@ var PP = {
     form: function (c) {
       return '<div class="grid2">' + fld('Kontaktorsak *', '<input name="title" required value="' + esc(c.title || '') + '">') +
         fld('Prioritet', '<select name="tri">' + opts(Object.keys(TRI).map(function (k) { return [k, TRI[k].label + ' – ' + TRI[k].desc]; }), c.triage) + '</select>') +
-        fld('Skademekanism', '<select name="mech">' + opts(MECH, c.mechanism || MECH[0]) + '</select>') + fld('Symtomdebut', '<select name="onset">' + opts(ONSETS, c.onset || '', 'Välj') + '</select>') + '</div>' +
+        fld('Symtomdebut', '<select name="onset">' + opts(ONSETS, c.onset || '', 'Välj') + '</select>') + '</div>' +
         fld('Frågeställning till läkaren', '<input name="q" value="' + esc(c.question || '') + '">') +
         fld('Aktuellt (anamnes) *', '<textarea name="sym" rows="4">' + esc(c.symptoms || '') + '</textarea>') +
         '<div class="grid2">' + fld('Aktuella läkemedel', '<input name="meds" value="' + esc(c.meds || '') + '">') + fld('Behandling före ankomst', '<input name="given" value="' + esc(c.given || '') + '">') + '</div>';
@@ -4122,7 +4225,7 @@ var PP = {
       var title = fv(f, 'title'), sym = fv(f, 'sym'); if (!title || !sym) { toast('Kontaktorsak och anamnes måste fyllas i.', true); return null; }
       var tri = fv(f, 'tri'), evs = [{ type: 'sys', text: 'Kontaktorsak och anamnes ändrades.' }];
       if (tri !== c.triage) evs.push({ type: 'sys', text: 'Prioritet ändrad från ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' till ' + TRI[tri].label.toLowerCase() + '.' });
-      return updateCase(c.id, { title: title, triage: tri, mechanism: fv(f, 'mech'), onset: fv(f, 'onset'), question: fv(f, 'q'), symptoms: sym, meds: fv(f, 'meds'), given: fv(f, 'given') }, evs);
+      return updateCase(c.id, { title: title, triage: tri, onset: fv(f, 'onset'), question: fv(f, 'q'), symptoms: sym, meds: fv(f, 'meds'), given: fv(f, 'given') }, evs);
     }
   },
   vit: {
@@ -4157,18 +4260,29 @@ var PP = {
     }
   },
   tx: {
-    acts: function (c) { return can('diagnose') && c.diagnosis && c.status !== 'avslutad' ? ppAct('Ändra ordination', 'data-dxopen="' + esc(c.id) + '" data-step="3"') : ''; },
+    acts: function (c) {
+      var a = '';
+      if (canEditJ() && c.status !== 'avslutad') a += ppAct('+ Givet läkemedel', 'data-givelm');
+      if (can('diagnose') && c.diagnosis && c.status !== 'avslutad') a += ppAct('Ändra ordination', 'data-dxopen="' + esc(c.id) + '" data-step="3"');
+      return a;
+    },
     view: function (c) {
-      var d = c.diagnosis;
-      if (!d) return '<p class="pp-muted pp-m0">Läkaren ordinerar behandling när diagnosen ställs.</p>';
-      var items = txItems(c), ed = canEditJ() && c.status !== 'avslutad';
-      if (!items.length) return d.noTx ? '<p class="pp-m0">Ingen behandling behövs.</p>' : (d.plan ? '<p class="pp-prose">' + esc(d.plan) + '</p>' : '<p class="pp-muted pp-m0">Ingen ordination.</p>');
-      var done = items.filter(function (t) { return txDoneOf(c, t); }).length;
-      return '<ul class="pp-tx">' + items.map(function (t) {
-        var dn = txDoneOf(c, t);
-        return '<li class="' + (dn ? 'done' : '') + '"><span class="pp-tick">' + (dn ? IC.ok : '') + '</span><span class="pp-txt">' + esc(t) + (dn ? '<small>Utförd av ' + esc(userName(dn.by)) + ' ' + esc(dt(dn.at)) + '</small>' : '') + '</span>' +
-          (ed ? '<button type="button" class="pp-mini' + (dn ? '' : ' go') + '" data-txdone="' + esc(t) + '">' + (dn ? 'Ångra' : 'Markera utförd') + '</button>' : '') + '</li>';
-      }).join('') + '</ul><p class="pp-muted">Ordinerat av ' + esc(userName(d.by)) + ' ' + esc(dt(d.at)) + ' · ' + done + ' av ' + items.length + ' utförda.</p>';
+      var d = c.diagnosis, out, items = txItems(c), ed = canEditJ() && c.status !== 'avslutad';
+      if (!d) out = '<p class="pp-muted pp-m0">Läkaren ordinerar behandling när diagnosen ställs.</p>';
+      else if (!items.length) out = d.noTx ? '<p class="pp-m0">Ingen behandling behövs.</p>' : (d.plan ? '<p class="pp-prose">' + esc(d.plan) + '</p>' : '<p class="pp-muted pp-m0">Ingen ordination.</p>');
+      else {
+        var done = items.filter(function (t) { return txDoneOf(c, t); }).length;
+        out = '<div class="tx-prog"><span style="width:' + Math.round(done / items.length * 100) + '%"></span></div><ul class="pp-tx">' + items.map(function (t) {
+          var dn = txDoneOf(c, t);
+          return '<li class="' + (dn ? 'done' : '') + '"><span class="pp-tick">' + (dn ? IC.ok : '') + '</span><span class="pp-txt">' + esc(t) + (dn ? '<small>Utförd av ' + esc(userName(dn.by)) + ' ' + esc(dt(dn.at)) + '</small>' : '') + '</span>' +
+            (ed ? '<button type="button" class="pp-mini' + (dn ? '' : ' go') + '" data-txdone="' + esc(t) + '">' + (dn ? 'Ångra' : 'Markera utförd') + '</button>' : '') + '</li>';
+        }).join('') + '</ul><p class="pp-muted">Ordinerat av ' + esc(userName(d.by)) + ' ' + esc(dt(d.at)) + ' · ' + done + ' av ' + items.length + ' utförda.</p>';
+      }
+      var ml = (c.medLog || []).slice().reverse();
+      return '<div class="pp-sub">Ordination</div>' + out + '<div class="pp-sub">Givna läkemedel</div>' +
+        (ml.length ? '<div class="pp-tablewrap"><table class="pp-table"><thead><tr><th>Tid</th><th>Läkemedel</th><th>Dos</th><th>Sätt</th><th>Gett av</th></tr></thead><tbody>' + ml.map(function (m) {
+          return '<tr><td>' + esc(fmtD.format(new Date(m.at))) + ' ' + esc(fmtT.format(new Date(m.at))) + '</td><td><b>' + esc(m.drug) + '</b></td><td>' + esc(m.dose || '–') + '</td><td>' + esc(m.route || '–') + '</td><td>' + esc(userName(m.by)) + '</td></tr>';
+        }).join('') + '</tbody></table></div>' : '<p class="pp-muted pp-m0">Inga läkemedel registrerade.' + (ed ? ' Tryck + Givet läkemedel.' : '') + '</p>');
     }
   },
   stay: {
@@ -4314,6 +4428,223 @@ var PP = {
     }
   }
 };
+/* ---------- Skadekarta: markera skador på kroppen ---------- */
+var BODY_REGIONS = {
+  'f-huvud': 'Huvud och ansikte', 'f-hals': 'Hals', 'f-brost': 'Bröstkorg', 'f-buk': 'Buk', 'f-backen': 'Bäcken och ljumske',
+  'f-hoa': 'Höger överarm', 'f-voa': 'Vänster överarm', 'f-hua': 'Höger underarm', 'f-vua': 'Vänster underarm', 'f-hh': 'Höger hand', 'f-vh': 'Vänster hand',
+  'f-hl': 'Höger lår', 'f-vl': 'Vänster lår', 'f-hk': 'Höger knä och underben', 'f-vk': 'Vänster knä och underben', 'f-hf': 'Höger fot', 'f-vf': 'Vänster fot',
+  'b-huvud': 'Bakhuvud', 'b-nacke': 'Nacke', 'b-rygg': 'Övre rygg', 'b-landrygg': 'Ländrygg', 'b-sate': 'Säte',
+  'b-va': 'Vänster arm, baksida', 'b-ha': 'Höger arm, baksida', 'b-vb': 'Vänster ben, baksida', 'b-hb': 'Höger ben, baksida'
+};
+var BODY_F = [['f-huvud', 'e', 100, 30, 18, 22], ['f-hals', 'r', 92, 52, 16, 12, 3], ['f-brost', 'r', 70, 64, 60, 46, 12], ['f-buk', 'r', 74, 110, 52, 36, 8], ['f-backen', 'r', 72, 146, 56, 24, 10],
+  ['f-hoa', 'r', 50, 66, 18, 50, 9], ['f-voa', 'r', 132, 66, 18, 50, 9], ['f-hua', 'r', 45, 118, 16, 46, 8], ['f-vua', 'r', 139, 118, 16, 46, 8], ['f-hh', 'e', 53, 174, 9, 11], ['f-vh', 'e', 147, 174, 9, 11],
+  ['f-hl', 'r', 74, 172, 24, 62, 10], ['f-vl', 'r', 102, 172, 24, 62, 10], ['f-hk', 'r', 76, 238, 20, 58, 8], ['f-vk', 'r', 104, 238, 20, 58, 8], ['f-hf', 'e', 84, 305, 13, 7], ['f-vf', 'e', 116, 305, 13, 7]];
+var BODY_B = [['b-huvud', 'e', 100, 30, 18, 22], ['b-nacke', 'r', 92, 52, 16, 12, 3], ['b-rygg', 'r', 70, 64, 60, 50, 12], ['b-landrygg', 'r', 74, 114, 52, 32, 8], ['b-sate', 'r', 72, 146, 56, 26, 10],
+  ['b-va', 'r', 50, 66, 18, 50, 9], ['b-va', 'r', 45, 118, 16, 46, 8], ['b-va', 'e', 53, 174, 9, 11], ['b-ha', 'r', 132, 66, 18, 50, 9], ['b-ha', 'r', 139, 118, 16, 46, 8], ['b-ha', 'e', 147, 174, 9, 11],
+  ['b-vb', 'r', 74, 174, 24, 60, 10], ['b-vb', 'r', 76, 238, 20, 58, 8], ['b-vb', 'e', 84, 305, 13, 7], ['b-hb', 'r', 102, 174, 24, 60, 10], ['b-hb', 'r', 104, 238, 20, 58, 8], ['b-hb', 'e', 116, 305, 13, 7]];
+var INJ_KINDS = [['sar', 'Sår', '#d9480f'], ['skott', 'Skottskada', '#c92a2a'], ['stick', 'Stickskada', '#a61e4d'], ['fraktur', 'Misstänkt fraktur', '#7048e8'], ['brann', 'Brännskada', '#e8590c'],
+  ['kontusion', 'Blåmärke', '#1c7ed6'], ['svullnad', 'Svullnad', '#0c8599'], ['smarta', 'Smärta', '#e67700'], ['blodning', 'Blödning', '#c2255c'], ['annat', 'Annat', '#495057']];
+function injKind(k) { return INJ_KINDS.find(function (x) { return x[0] === k; }) || INJ_KINDS[INJ_KINDS.length - 1]; }
+function regionLabel(r) { return BODY_REGIONS[r] || r; }
+function injLabel(j) { return regionLabel(j.region) + ': ' + injKind(j.kind)[1].toLowerCase() + (j.note ? ' (' + j.note + ')' : ''); }
+function bodySvg(side, list, interactive) {
+  var shapes = side === 'f' ? BODY_F : BODY_B, marked = {}, centers = {};
+  (list || []).forEach(function (j, i) { if (j.region && j.region.charAt(0) === side) (marked[j.region] = marked[j.region] || []).push(i); });
+  var out = shapes.map(function (s) {
+    var m = marked[s[0]], col = m ? injKind(list[m[0]].kind)[2] : '';
+    if (!centers[s[0]]) centers[s[0]] = s[1] === 'e' ? [s[2], s[3]] : [s[2] + s[4] / 2, s[3] + s[5] / 2];
+    var a = ' class="bm-r' + (m ? ' on' : '') + '" data-region="' + s[0] + '"' + (m ? ' style="fill:' + col + '"' : '') + (interactive ? ' tabindex="0" role="button" aria-label="' + esc(regionLabel(s[0])) + '"' : '');
+    var t = '<title>' + esc(regionLabel(s[0])) + (m ? ': ' + m.map(function (i) { return injKind(list[i].kind)[1].toLowerCase(); }).join(', ') : '') + '</title>';
+    return s[1] === 'e' ? '<ellipse cx="' + s[2] + '" cy="' + s[3] + '" rx="' + s[4] + '" ry="' + s[5] + '"' + a + '>' + t + '</ellipse>' : '<rect x="' + s[2] + '" y="' + s[3] + '" width="' + s[4] + '" height="' + s[5] + '" rx="' + s[6] + '"' + a + '>' + t + '</rect>';
+  }).join('');
+  var marks = Object.keys(marked).map(function (r) { var c = centers[r], n = marked[r].map(function (i) { return i + 1; }).join(','); return '<g class="bm-mark" aria-hidden="true"><circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (n.length > 2 ? 11 : 8.5) + '"/><text x="' + c[0] + '" y="' + (c[1] + 3.5) + '">' + n + '</text></g>'; }).join('');
+  return '<svg class="bm-svg" viewBox="0 0 200 320" role="img" aria-label="Kroppsskiss ' + (side === 'f' ? 'framsida' : 'baksida') + '">' + out + marks + '<text class="bm-side" x="' + (side === 'f' ? 22 : 178) + '" y="316">' + (side === 'f' ? 'H' : 'V') + '</text><text class="bm-side" x="' + (side === 'f' ? 178 : 22) + '" y="316">' + (side === 'f' ? 'V' : 'H') + '</text></svg>';
+}
+function injuryView(list) {
+  list = list || [];
+  return '<div class="bm"><div class="bm-figs"><figure><figcaption>Framsida</figcaption>' + bodySvg('f', list) + '</figure><figure><figcaption>Baksida</figcaption>' + bodySvg('b', list) + '</figure></div>' +
+    '<ol class="bm-list">' + list.map(function (j, i) { var k = injKind(j.kind); return '<li><span class="bm-num" style="background:' + k[2] + '">' + (i + 1) + '</span><div><b>' + esc(regionLabel(j.region)) + '</b><span class="bm-kind" style="color:' + k[2] + '">' + esc(k[1]) + '</span>' + (j.note ? '<p>' + esc(j.note) + '</p>' : '') + '</div></li>'; }).join('') + '</ol></div>';
+}
+/* Redigerbar skadekarta. list ändras på plats, onChange anropas efter varje ändring. */
+function injuryEditor(el, list, onChange) {
+  var lastKind = 'sar';
+  function render(focusLast) {
+    el.innerHTML = '<div class="bm bm-edit"><div class="bm-figs"><figure><figcaption>Framsida</figcaption>' + bodySvg('f', list, true) + '</figure><figure><figcaption>Baksida</figcaption>' + bodySvg('b', list, true) + '</figure></div>' +
+      '<div class="bm-side-col"><p class="bm-help">Tryck på kroppen där skadan sitter. Välj sedan typ av skada och skriv gärna en kort beskrivning.</p>' +
+      (list.length ? '<div class="bm-rows">' + list.map(function (j, i) {
+        var k = injKind(j.kind);
+        return '<div class="bm-row"><span class="bm-num" style="background:' + k[2] + '">' + (i + 1) + '</span><div class="bm-row-main"><b>' + esc(regionLabel(j.region)) + '</b><div class="bm-row-f"><select data-i="' + i + '" data-f="kind" aria-label="Typ av skada">' + INJ_KINDS.map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === j.kind ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select>' +
+          '<input data-i="' + i + '" data-f="note" value="' + esc(j.note || '') + '" placeholder="T.ex. 3 cm, blöder" aria-label="Beskrivning"></div></div><button type="button" class="bm-rm" data-rm="' + i + '" aria-label="Ta bort">×</button></div>';
+      }).join('') + '</div>' : '<p class="bm-empty">Inga skador markerade ännu.</p>') + '</div></div>';
+    if (focusLast) { var ins = $$('.bm-row input', el); if (ins.length) ins[ins.length - 1].focus(); }
+  }
+  function addRegion(r) { list.push({ id: 'j' + uid(), region: r, kind: lastKind, note: '', at: nowIso(), by: S.me ? S.me.id : '' }); render(true); onChange && onChange(list); }
+  el.addEventListener('click', function (e) {
+    var r = e.target.closest('[data-region]'); if (r) { addRegion(r.dataset.region); return; }
+    var rm = e.target.closest('[data-rm]'); if (rm) { list.splice(+rm.dataset.rm, 1); render(); onChange && onChange(list); }
+  });
+  el.addEventListener('keydown', function (e) { var r = e.target.closest && e.target.closest('[data-region]'); if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); addRegion(r.dataset.region); } });
+  el.addEventListener('change', function (e) { var i = e.target.dataset.i; if (i == null) return; list[+i][e.target.dataset.f] = e.target.value; if (e.target.dataset.f === 'kind') { lastKind = e.target.value; render(); } onChange && onChange(list); });
+  el.addEventListener('input', function (e) { var i = e.target.dataset.i; if (i == null || e.target.dataset.f !== 'note') return; list[+i].note = e.target.value; onChange && onChange(list); });
+  render();
+  return { render: render };
+}
+function openInjuries(caseId) {
+  var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+  if ($('.inj-wrap')) return;
+  var work = (c.injuries || []).map(function (j) { return Object.assign({}, j); }), p = c.patient || {};
+  var m = document.createElement('div'); m.className = 'modal-wrap inj-wrap';
+  m.innerHTML = '<div class="modal inj" role="dialog" aria-modal="true" aria-labelledby="inj-t"><div class="modal-head"><div><h2 id="inj-t">Skadekarta</h2><small class="muted">' + esc(p.name || 'Okänd patient') + ' · ' + esc(c.mechanism && c.mechanism !== MECH[0] ? c.mechanism : c.title) + '</small></div><button type="button" class="btn sm ghost" data-inj-close>Stäng</button></div>' +
+    '<div class="modal-body" id="inj-ed"></div><div class="dxm-foot"><span class="muted" id="inj-n"></span><span></span><div style="display:flex;gap:8px"><button type="button" class="btn" data-inj-close>Avbryt</button><button type="button" class="btn primary" id="inj-save">Spara skadekartan</button></div></div></div>';
+  document.body.appendChild(m);
+  function count() { $('#inj-n', m).textContent = work.length ? work.length + (work.length === 1 ? ' skada markerad' : ' skador markerade') : 'Inga skador markerade'; }
+  injuryEditor($('#inj-ed', m), work, count); count();
+  function close() { m.remove(); document.removeEventListener('keydown', onKey, true); }
+  function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); close(); } }
+  document.addEventListener('keydown', onKey, true);
+  m.addEventListener('click', function (e) { if (e.target === m || e.target.closest('[data-inj-close]')) close(); });
+  $('#inj-save', m).addEventListener('click', function () {
+    var btn = this; btn.disabled = true; btn.textContent = 'Sparar…';
+    var list = work.map(function (j) { return { id: j.id, region: j.region, kind: j.kind, note: String(j.note || '').trim(), at: j.at, by: j.by }; });
+    updateCase(caseId, { injuries: list }, { type: 'sys', text: 'Skadekartan uppdaterades: ' + (list.length ? list.map(injLabel).join('; ') : 'inga skador') + '.' })
+      .then(function () { close(); toast('Skadekartan sparades.'); var el = $('#pp-olycka'); if (el) { el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 1200); } })
+      .catch(function () { btn.disabled = false; btn.textContent = 'Försök igen'; });
+  });
+}
+
+/* ---------- Olyckan och snabböversikt ---------- */
+var CONSC = [['', 'Okänt'], ['nej', 'Nej'], ['kort', 'Ja, en kort stund'], ['ja', 'Ja, fortfarande påverkad']];
+var PROTECT = ['Bilbälte', 'Hjälm', 'Skyddsväst', 'Krockkudde utlöst'];
+function consLabel(k) { var x = CONSC.find(function (o) { return o[0] === (k || ''); }); return x ? x[1] : 'Okänt'; }
+function agoLong(iso) { if (!iso) return ''; var m = Math.round((Date.now() - new Date(iso).getTime()) / 60000); if (m < 1) return 'nyss'; if (m < 60) return 'för ' + m + ' min sedan'; var h = Math.floor(m / 60); if (h < 48) return 'för ' + h + ' h ' + (m % 60 ? (m % 60) + ' min ' : '') + 'sedan'; return 'för ' + Math.round(h / 24) + ' dygn sedan'; }
+PP.olycka = {
+  acts: function () { return canEditJ() ? ppAct('Markera skador', 'data-injmap') + ppAct('Ändra', 'data-pp-edit="olycka"') : ''; },
+  view: function (c) {
+    var inc = c.incident || {}, mech = c.mechanism && c.mechanism !== MECH[0] ? c.mechanism : (c.mechanism ? 'Sjukdom (ingen skada)' : ''), inj = c.injuries || [];
+    return '<dl class="pp-dl c3">' + ppKv('Typ av händelse', mech ? '<b>' + esc(mech) + '</b>' : '') + ppKv('När hände det', inc.at ? esc(dt(inc.at)) + '<br><span class="pp-muted-i">' + esc(agoLong(inc.at)) + '</span>' : '') + ppKv('Plats', inc.place ? esc(inc.place) : '') +
+      (inc.story ? ppKv('Händelseförlopp', '<p class="pp-prose">' + esc(inc.story) + '</p>', true) : '') +
+      ppKv('Medvetslös vid händelsen', esc(consLabel(inc.conscious))) + ppKv('Skyddsutrustning', (inc.protect || []).length ? esc(inc.protect.join(', ')) : '') + ppKv('Polis', inc.police ? 'Inblandad' + (inc.policeRef ? ', ärende <span class="mono">' + esc(inc.policeRef) + '</span>' : '') : (inc.police === false ? 'Nej' : '')) +
+      (inc.witness ? ppKv('Vittnen och kontakter', esc(inc.witness), true) : '') + '</dl>' +
+      '<div class="pp-sub">Skador på kroppen</div>' + (inj.length ? injuryView(inj) : '<div class="pp-blank"><span class="pp-blank-ic">' + PIN + '</span><div><b>Inga skador markerade</b><span>' + (canEditJ() ? 'Tryck Markera skador och tryck på kroppen där patienten är skadad.' : 'Skador visas här när de är markerade.') + '</span></div></div>');
+  },
+  form: function (c) {
+    var inc = c.incident || {}, pr = inc.protect || [];
+    return '<div class="grid3">' + fld('Typ av händelse', '<select name="mech">' + opts(MECH, c.mechanism || MECH[0]) + '</select>') + fld('När hände det', '<input name="at" type="datetime-local" value="' + esc(toLocalInput(inc.at)) + '">') + fld('Plats', '<input name="place" value="' + esc(inc.place || '') + '" placeholder="T.ex. Grove Street vid bensinmacken">') + '</div>' +
+      fld('Händelseförlopp', '<textarea name="story" rows="4" placeholder="Vad hände, i vilken ordning? T.ex. Föraren körde in i en stolpe i cirka 60 km/h.">' + esc(inc.story || '') + '</textarea>') +
+      '<div class="grid3">' + fld('Medvetslös vid händelsen', '<select name="consc">' + opts(CONSC, inc.conscious || '') + '</select>') + fld('Polis', '<select name="police">' + opts([['', 'Okänt'], ['nej', 'Nej'], ['ja', 'Ja, polis inblandad']], inc.police ? 'ja' : inc.police === false ? 'nej' : '') + '</select>') + fld('Polisens ärendenummer', '<input name="pref" class="mono" value="' + esc(inc.policeRef || '') + '">') + '</div>' +
+      '<span class="dx-label">Skyddsutrustning</span><div class="pp-checks">' + PROTECT.map(function (x) { return '<label class="check"><input type="checkbox" name="pr" value="' + esc(x) + '"' + (pr.indexOf(x) !== -1 ? ' checked' : '') + '> ' + esc(x) + '</label>'; }).join('') + '</div>' +
+      fld('Vittnen och kontakter', '<input name="wit" value="' + esc(inc.witness || '') + '" placeholder="T.ex. Anhörig Maria, 070-123 45 67">');
+  },
+  save: function (c, f) {
+    var pol = fv(f, 'police');
+    var inc = { at: fromLocalInput(fv(f, 'at')) || '', place: fv(f, 'place'), story: fv(f, 'story'), conscious: fv(f, 'consc'), police: pol === 'ja' ? true : pol === 'nej' ? false : null, policeRef: fv(f, 'pref'),
+      protect: $$('input[name=pr]:checked', f).map(function (x) { return x.value; }), witness: fv(f, 'wit') };
+    return updateCase(c.id, { incident: inc, mechanism: fv(f, 'mech') }, { type: 'sys', text: 'Uppgifter om händelsen ändrades' + (inc.place ? ' (plats: ' + inc.place + ')' : '') + '.' });
+  }
+};
+function drawGlance(c) {
+  var el = $('#pp-glance'); if (!el) return;
+  var inc = c.incident || {}, inj = c.injuries || [], w = whereNow(c), log = vitLog(c), nw = news2(c.vitals), prev = log.length > 1 ? news2(log[log.length - 2].v) : null, d = c.diagnosis;
+  var openTx = txItems(c).filter(function (t) { return !txDoneOf(c, t); }).length, openIns = (c.instr || []).filter(function (i) { return instrRecipients(c, i).some(function (u) { return !(i.acks || {})[u]; }); }).length, openRep = unreadReports(c).length;
+  var todo = []; if (openTx) todo.push(openTx + (openTx === 1 ? ' ordination' : ' ordinationer')); if (openIns) todo.push(openIns + (openIns === 1 ? ' instruktion' : ' instruktioner') + ' okvitterade'); if (openRep) todo.push(openRep + ' oläst' + (openRep === 1 ? ' återrapport' : 'a återrapporter'));
+  if (!d && c.status !== 'avslutad') todo.unshift('diagnos saknas');
+  var trend = nw && prev ? (nw.s > prev.s ? '<span class="gl-up">↑ från ' + prev.s + '</span>' : nw.s < prev.s ? '<span class="gl-down">↓ från ' + prev.s + '</span>' : '<span>oförändrat</span>') : '';
+  var mech = c.mechanism && c.mechanism !== MECH[0] ? c.mechanism : c.title;
+  var cards = [
+    ['olycka', 'Vad hände', esc(mech || 'Ej angivet'), [inc.at ? esc(agoLong(inc.at)) : '', inc.place ? esc(inc.place) : ''].filter(Boolean).join(' · ') || 'Tid och plats ej angivet', ''],
+    ['olycka', 'Skador', inj.length ? inj.length + (inj.length === 1 ? ' skada' : ' skador') : 'Inga markerade', inj.length ? esc(inj.slice(0, 3).map(function (j) { return regionLabel(j.region).toLowerCase(); }).join(', ')) + (inj.length > 3 ? ' …' : '') : (canEditJ() ? 'Tryck för att markera' : ''), inj.some(function (j) { return /skott|stick|blodning/.test(j.kind); }) ? 'warn' : ''],
+    ['stay', 'Just nu', esc(w.t), nw ? 'NEWS2 <b>' + nw.s + '</b> ' + trend : esc(w.d), nw && nw.risk === 'hog' ? 'warn' : ''],
+    ['dx', 'Diagnos', d ? esc(d.text) : 'Ej ställd', d ? (d.code ? '<span class="mono">' + esc(d.code) + '</span> · ' : '') + esc(certLabel(d.cert) || 'Signerad') : (c.doctorId ? esc(userName(c.doctorId)) + ' bedömer' : 'Väntar på läkare'), d ? 'ok' : ''],
+    [openIns || openRep ? 'team' : 'tx', 'Kvar att göra', todo.length ? todo.length + (todo.length === 1 ? ' sak' : ' saker') : 'Inget', todo.length ? esc(todo.join(', ')) : 'Allt är klart', todo.length ? '' : 'ok']
+  ];
+  el.innerHTML = cards.map(function (k) { return '<button type="button" class="gl-card ' + k[4] + '" data-goto="' + k[0] + '"><small>' + k[1] + '</small><b>' + k[2] + '</b><span>' + k[3] + '</span></button>'; }).join('');
+}
+
+/* ---------- Journalanteckningar: skrivare med typer, mallar och läkemedel ---------- */
+var NOTE_KINDS = [['oms', 'Omvårdnad'], ['lak', 'Läkare'], ['amb', 'Ambulans'], ['us', 'Undersökning'], ['lm', 'Läkemedel givet'], ['anh', 'Anhörig']];
+function noteKindLabel(k) { var x = NOTE_KINDS.find(function (o) { return o[0] === k; }); return x ? x[1] : 'Anteckning'; }
+var NOTE_TPL = {
+  sbar: ['SBAR', 'S – Situation: \nB – Bakgrund: \nA – Aktuellt: \nR – Rekommendation: '],
+  abcde: ['ABCDE', 'A – Luftväg: \nB – Andning: \nC – Cirkulation: \nD – Medvetande: \nE – Yttre skador: '],
+  status: ['Status', 'Allmäntillstånd: \nSmärta (VAS): \nPsykiskt: \nSår och förband: '],
+  atgard: ['Åtgärd', 'Åtgärd: \nResultat: \nPlan: ']
+};
+var LM_ROUTES = ['iv', 'im', 'sc', 'per os', 'inhalation', 'nasalt', 'rektalt', 'lokalt'];
+var LM_COMMON = ['Paracetamol', 'Ibuprofen', 'Morfin', 'Fentanyl', 'Ketamin', 'Ringer-Acetat', 'Natriumklorid', 'Syrgas', 'Tetanusvaccin', 'Kåvepenin', 'Cefuroxim', 'Naloxon', 'Adrenalin', 'Diazepam', 'Midazolam', 'Ondansetron', 'Tranexamsyra', 'Salbutamol', 'Glukos 30 %'];
+function writerHtml() {
+  var k = S.noteKind || (can('diagnose') ? 'lak' : 'oms');
+  return '<form id="f-note" class="pp-note">' +
+    '<div class="nw-head"><span class="nw-t">Ny anteckning</span><div class="nw-kinds" role="radiogroup" aria-label="Typ av anteckning">' + NOTE_KINDS.map(function (x) { return '<label class="nk-pick nkp-' + x[0] + '"><input type="radio" name="nk" value="' + x[0] + '"' + (x[0] === k ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div></div>' +
+    '<div class="nw-lm" id="nw-lm"' + (k === 'lm' ? '' : ' hidden') + '><div class="grid4">' + fld('Läkemedel *', '<input id="lm-drug" list="lm-list" autocomplete="off" placeholder="T.ex. Morfin">') + fld('Dos', '<input id="lm-dose" placeholder="T.ex. 5 mg">') +
+      fld('Sätt', '<select id="lm-route">' + opts(LM_ROUTES, 'iv') + '</select>') + fld('Klockslag', '<input id="lm-time" type="time">') + '</div><datalist id="lm-list">' + LM_COMMON.map(function (x) { return '<option value="' + esc(x) + '">'; }).join('') + '</datalist></div>' +
+    '<div class="nw-tpl"><span>Mallar:</span>' + Object.keys(NOTE_TPL).map(function (t) { return '<button type="button" class="qchip" data-tpl="' + t + '">' + NOTE_TPL[t][0] + '</button>'; }).join('') + '</div>' +
+    '<textarea id="d-note" rows="4" placeholder="Skriv vad du har sett och gjort. Använd en mall om du vill ha rubriker."></textarea>' +
+    '<div id="d-npick">' + PICKER_HTML + '</div>' +
+    '<div class="pp-form-acts nw-foot"><small class="muted" id="nw-count">Ctrl + Enter signerar</small><button class="btn primary" type="submit">' + IC.pen + 'Signera anteckning</button></div></form>';
+}
+function drawLog(c) {
+  var lg = $('#d-log'); if (!lg) return;
+  var f = S.logFilter || 'alla', q = (S.logQ || '').trim().toLowerCase();
+  var all = (c.events || []).slice().reverse();
+  var evs = all.filter(function (e) {
+    if (f === 'notes' && e.type !== 'note') return false;
+    if (f === 'lm' && e.kind !== 'lm') return false;
+    if (f === 'sys' && e.type === 'note') return false;
+    if (q && (e.text + ' ' + userName(e.by)).toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+  var cnt = { alla: all.length, notes: all.filter(function (e) { return e.type === 'note'; }).length, lm: all.filter(function (e) { return e.kind === 'lm'; }).length, sys: all.filter(function (e) { return e.type !== 'note'; }).length };
+  $$('#lg-f [data-lf]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lf === f)); var n = b.querySelector('.tf-n'); if (n) n.textContent = cnt[b.dataset.lf]; });
+  var hl = function (t) { var s = esc(t); if (!q) return s; var i = s.toLowerCase().indexOf(esc(q)); return i === -1 ? s : s.slice(0, i) + '<mark>' + s.slice(i, i + esc(q).length) + '</mark>' + s.slice(i + esc(q).length); };
+  lg.innerHTML = evs.length ? evs.map(function (e) {
+    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) }), d = new Date(e.at), ni = e.imageIds ? e.imageIds.length : 0, note = e.type === 'note';
+    return '<div class="pp-entry ' + (note ? 'note' : 'sys') + '"><time>' + esc(fmtD.format(d)) + '<br>' + esc(fmtT.format(d)) + '</time><div><div class="pe-top">' + (note ? '<span class="nk nk-' + esc(e.kind || 'x') + '">' + esc(e.kind ? noteKindLabel(e.kind) : 'Anteckning') + '</span>' : '<span class="nk nk-sys">Händelse</span>') + '<b>' + esc(u.name) + '</b>' + (u.title ? '<small> · ' + esc(u.title) + '</small>' : '') + '</div>' +
+      '<p>' + hl(e.text) + '</p>' + (ni ? '<small>' + ni + (ni > 1 ? ' bilder bifogade' : ' bild bifogad') + '</small>' : '') + '</div></div>';
+  }).join('') : '<p class="pp-muted pp-m0">' + (all.length ? 'Inget matchar filtret.' : 'Inga anteckningar.') + '</p>';
+}
+function bindWriter(id) {
+  var form = $('#f-note'); if (!form) return;
+  var notePicker = imagePicker($('#d-npick'), 6), ta = $('#d-note');
+  function kind() { return (form.querySelector('input[name=nk]:checked') || {}).value || 'oms'; }
+  function sync() { var lm = kind() === 'lm'; $('#nw-lm').hidden = !lm; ta.placeholder = lm ? 'Kommentar, t.ex. effekt eller varför läkemedlet gavs (valfritt)' : 'Skriv vad du har sett och gjort. Använd en mall om du vill ha rubriker.'; if (lm && !$('#lm-time').value) { var d = new Date(); $('#lm-time').value = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); } }
+  form.addEventListener('change', function (e) { if (e.target.name === 'nk') { S.noteKind = e.target.value; sync(); } });
+  form.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-tpl]'); if (!t) return;
+    var tpl = NOTE_TPL[t.dataset.tpl][1], s0 = ta.selectionStart || ta.value.length, pre = ta.value.slice(0, s0), post = ta.value.slice(s0);
+    var ins = (pre && !/\n$/.test(pre) ? '\n' : '') + tpl;
+    ta.value = pre + ins + post; ta.focus(); var pos = (pre + ins).indexOf(': ', pre.length) + 2; ta.setSelectionRange(pos, pos); count();
+  });
+  function count() { var n = ta.value.trim().length; $('#nw-count').textContent = n ? n + ' tecken · Ctrl + Enter signerar' : 'Ctrl + Enter signerar'; }
+  ta.addEventListener('input', count);
+  form.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); form.requestSubmit(); } });
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var k = kind(), text = ta.value.trim(), cur = curCase(); if (!cur) return;
+    var patch = {}, ev;
+    if (k === 'lm') {
+      var drug = $('#lm-drug').value.trim(), dose = $('#lm-dose').value.trim(), route = $('#lm-route').value, tm = $('#lm-time').value;
+      if (!drug) { toast('Skriv vilket läkemedel som gavs.', true); $('#lm-drug').focus(); return; }
+      var at = new Date(); if (tm) { var hm = tm.split(':'); at.setHours(+hm[0], +hm[1], 0, 0); if (at.getTime() > Date.now() + 60000) at.setDate(at.getDate() - 1); }
+      patch.medLog = (cur.medLog || []).concat([{ id: 'm' + uid(), drug: drug, dose: dose, route: route, at: at.toISOString(), by: S.me.id }]).slice(-100);
+      ev = { type: 'note', kind: 'lm', text: 'Givet: ' + drug + (dose ? ' ' + dose : '') + ' ' + route + ' kl ' + fmtT.format(at) + (text ? '\n' + text : '') };
+    } else {
+      if (!text && !notePicker.list.length) { toast('Skriv en anteckning först.', true); ta.focus(); return; }
+      ev = { type: 'note', kind: k, text: text || 'Bilder tillagda.' };
+    }
+    var btn = $('button[type=submit]', form); btn.disabled = true;
+    try {
+      var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
+      if (imgs.length) { patch.imageIds = (cur.imageIds || []).concat(imgs); ev.imageIds = imgs; }
+      await updateCase(id, patch, ev);
+      ta.value = ''; notePicker.reset(); count();
+      if (k === 'lm') { $('#lm-drug').value = ''; $('#lm-dose').value = ''; $('#lm-time').value = ''; sync(); }
+      toast(k === 'lm' ? 'Läkemedlet registrerades i journalen.' : 'Anteckningen signerades och sparades.');
+    } catch (x) {}
+    btn.disabled = false;
+  });
+  sync();
+}
+
 function ppFormHtml(c, k) {
   var P = PP[k];
   return '<form class="pp-form" data-pp-form="' + k + '">' + P.form(c) + '<div class="pp-form-acts"><button type="button" class="btn" data-pp-cancel>Avbryt</button><button type="submit" class="btn primary">' + (P.saveLabel ? P.saveLabel(c) : 'Spara ändringen') + '</button></div></form>';
@@ -4423,11 +4754,18 @@ function drawToc(c) {
     if (k === 'dx' && !c.diagnosis) return can('diagnose') ? '<i class="toc-flag">!</i>' : '';
     if (k === 'team' && (unackedInstr(c, S.me.id).length || (isCaseDoctor(c) && unreadReports(c).length))) return '<i class="toc-flag">!</i>';
     if (k === 'svar' && c.createdBy === S.me.id && unackedReplies(c).length) return '<i class="toc-flag">!</i>';
+    if (k === 'olycka') return (c.injuries || []).length ? '<i class="toc-n">' + c.injuries.length + '</i>' : '';
     if (k === 'tx') { var it = txItems(c), dn = it.filter(function (t) { return txDoneOf(c, t); }).length; return it.length ? '<i class="toc-n">' + dn + '/' + it.length + '</i>' : ''; }
+    if (k === 'vit') return '<i class="toc-n">' + vitLog(c).length + '</i>';
     if (k === 'log') return '<i class="toc-n">' + (c.events || []).length + '</i>';
     return '';
   };
-  $('#jr-toc').innerHTML = '<div class="toc-h">Journalens innehåll</div><ol>' + vis.map(function (k, i) { return '<li><button type="button" data-goto="' + k + '"><span class="toc-num">' + (i + 1) + '</span><span class="toc-l">' + PP_TITLE[k] + '</span>' + flag(k) + '</button></li>'; }).join('') + '</ol>' +
+  $('#jr-toc').innerHTML = '<div class="toc-h">Journalens innehåll</div>' +
+    '<button type="button" class="toc-top" data-goto="top"><span class="toc-num">' + IC.chart + '</span><span class="toc-l">Snabböversikt</span></button>' +
+    PP_GROUPS.map(function (g) {
+      var ks = g[1].filter(function (k) { return vis.indexOf(k) !== -1; }); if (!ks.length) return '';
+      return '<div class="toc-g">' + g[0] + '</div><ol>' + ks.map(function (k) { return '<li><button type="button" data-goto="' + k + '"><span class="toc-num">' + (vis.indexOf(k) + 1) + '</span><span class="toc-l">' + PP_TITLE[k] + '</span>' + flag(k) + '</button></li>'; }).join('') + '</ol>';
+    }).join('') +
     '<button type="button" class="toc-print" data-print>' + IC.alla + 'Skriv ut journalen på papper</button>';
 }
 function drawPaperHead(c) {
@@ -4465,7 +4803,7 @@ function openCase(id) {
   S.openCase = id; var wrap = $('#drawer');
   var c = S.cases.find(function (x) { return x.id === id; });
   wrap.hidden = false;
-  if (S.drawerCase !== id) { S.drawerCase = id; S.ppEdit = null; S.ppMode = null; }
+  if (S.drawerCase !== id) { S.drawerCase = id; S.ppEdit = null; S.ppMode = null; S.logFilter = 'alla'; S.logQ = ''; }
   wrap.innerHTML = '<section class="drawer jr" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
     '<header class="jr-bar" id="jr-bar"></header>' +
     '<div class="jr-layout">' +
@@ -4473,9 +4811,11 @@ function openCase(id) {
       '<div class="jr-desk" id="d-body">' +
         '<article class="paper" id="jr-paper">' +
           '<header class="pp-head" id="pp-head"></header>' +
+          '<section class="pp-glance" id="pp-glance" aria-label="Snabböversikt"></section>' +
           PP_ORDER.filter(function (k) { return k !== 'log'; }).map(function (k) { return '<section class="pp-sec" id="pp-' + k + '"></section>'; }).join('') +
           '<section class="pp-sec" id="pp-log"><header class="pp-h"><span class="pp-n"></span><h2>' + PP_TITLE.log + '</h2><span class="pp-count" id="ppn-log"></span></header><div class="pp-b">' +
-            (canEditJ() ? '<form id="f-note" class="pp-note"><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, till exempel status, åtgärd eller hur patienten mår"></textarea><div id="d-npick">' + PICKER_HTML + '</div><div class="pp-form-acts"><button class="btn primary" type="submit">' + IC.pen + 'Signera anteckning</button></div></form>' : '') +
+            (canEditJ() ? writerHtml() : '') +
+            '<div class="lg-bar"><div class="lg-f" id="lg-f" role="group" aria-label="Visa">' + [['alla', 'Allt'], ['notes', 'Anteckningar'], ['lm', 'Läkemedel'], ['sys', 'Händelser']].map(function (x) { return '<button type="button" data-lf="' + x[0] + '" aria-pressed="false">' + x[1] + ' <span class="tf-n"></span></button>'; }).join('') + '</div><input type="search" id="lg-q" placeholder="Sök i journalen" aria-label="Sök i journalen" autocomplete="off"></div>' +
             '<div class="pp-log" id="d-log"></div></div></section>' +
           '<footer class="pp-foot" id="pp-foot"></footer>' +
         '</article>' +
@@ -4497,6 +4837,8 @@ function openCase(id) {
     var ed = t.closest('[data-pp-edit]'); if (ed) { ppEdit(ed.dataset.ppEdit, ed.dataset.mode, { kind: ed.dataset.kind, instr: ed.dataset.instr }); return; }
     if (t.closest('[data-pp-cancel]')) { ppCancel(); return; }
     var ve = t.closest('[data-vit-edit]'); if (ve) { openVitals(id, ve.dataset.vitEdit); return; }
+    if (t.closest('[data-injmap]')) { openInjuries(id); return; }
+    if (t.closest('[data-givelm]')) { var r = $('#f-note input[name=nk][value=lm]'); if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); $('#f-note').scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(function () { $('#lm-drug').focus({ preventScroll: true }); }, 350); } return; }
     var tx = t.closest('[data-txdone]'); if (tx) { tx.disabled = true; toggleTxDone(tx.dataset.txdone); return; }
     var go = t.closest('[data-goto]'); if (go) { showPane(go.dataset.goto); return; }
     if (t.closest('[data-print]')) { window.print(); return; }
@@ -4522,20 +4864,10 @@ function openCase(id) {
     }).catch(function () { if (btn) { btn.disabled = false; btn.textContent = 'Försök igen'; } });
   });
   $('#jr-other').addEventListener('submit', function (e) { e.preventDefault(); var u = $('#jr-other-u').value; if (!u) { toast('Välj en kollega.', true); return; } openChat(dmConv(u), id); });
-  if ($('#f-note')) {
-    var notePicker = imagePicker($('#d-npick'), 6);
-    $('#f-note').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      var text = $('#d-note').value.trim(); if (!text && !notePicker.list.length) { toast('Skriv en anteckning först.', true); return; }
-      try {
-        var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
-        var cur = curCase();
-        var patch = imgs.length ? { imageIds: (cur.imageIds || []).concat(imgs) } : {};
-        await updateCase(id, patch, { type: 'note', text: text || 'Bilder tillagda.', imageIds: imgs });
-        $('#d-note').value = ''; notePicker.reset(); toast('Anteckningen signerades och sparades.');
-      } catch (x) {}
-    });
-  }
+  bindWriter(id);
+  $('#lg-f').addEventListener('click', function (e) { var b = e.target.closest('[data-lf]'); if (!b) return; S.logFilter = b.dataset.lf; var cc = curCase(); if (cc) drawLog(cc); });
+  $('#lg-q').value = S.logQ || '';
+  $('#lg-q').addEventListener('input', function () { S.logQ = this.value; var cc = curCase(); if (cc) drawLog(cc); });
   mountAdminTools(c); updateDrawer();
   if (can('diagnose') && c.createdBy !== S.me.id && !(c.seenBy || {})[S.me.id] && c.status !== 'avslutad') { var sb = Object.assign({}, c.seenBy || {}); sb[S.me.id] = nowIso(); updateCase(c.id, { seenBy: sb }).catch(function () {}); }
   document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
@@ -4554,12 +4886,7 @@ function updateDrawer() {
   drawRail(c);
   var ccv = 'case.' + c.id, ccm = $('#cc-msgs');
   if (ccm) { fillMsgs(ccm, ccv); var ty = typingIn(ccv); $('#cc-typing').textContent = ty.length ? ty.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : ''; if (document.visibilityState === 'visible') markRead(ccv); }
-  var evs = (c.events || []).slice().reverse();
-  $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
-    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) }), d = new Date(e.at), ni = e.imageIds ? e.imageIds.length : 0;
-    return '<div class="pp-entry ' + (e.type === 'note' ? 'note' : 'sys') + '"><time>' + esc(fmtD.format(d)) + '<br>' + esc(fmtT.format(d)) + '</time><div><b>' + esc(u.name) + '</b>' + (u.title ? '<small> · ' + esc(u.title) + '</small>' : '') +
-      '<p>' + esc(e.text) + '</p>' + (ni ? '<small>' + ni + (ni > 1 ? ' bilder bifogade' : ' bild bifogad') + '</small>' : '') + '</div></div>';
-  }).join('') : '<p class="pp-muted pp-m0">Inga anteckningar.</p>';
+  drawLog(c); drawGlance(c);
   markSeen(c);
 }
 function drawTabs(c) {
