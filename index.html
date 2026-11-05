@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%231b3150%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%233a6b9c%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
 <title>Los Santos Vårdportal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1034,6 +1034,162 @@ body.drawer-open #dock { right: max(16px, env(safe-area-inset-right, 0px)); }
 .ws-vit > div:last-child:nth-child(odd) { grid-column: span 2; }
 .ws-vit .vt-l { justify-self: start; }
 #toast { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); right: auto; left: max(16px, env(safe-area-inset-left, 0px)); }
+
+/* ===== Ny stil: ljus, luftig panelstil ===== */
+:root {
+  --bg: #edf1f6; --surface: #ffffff; --surface-2: #f5f7fa; --fg: #1d2735; --muted: #64707f; --line: #e0e5ec;
+  --accent: #3a6b9c; --accent-ink: #ffffff; --accent-soft: #e7eff8; --danger: #c0392b; --danger-soft: #fdecea; --ok: #2e7d4f;
+  --bar: #ffffff; --bar-2: #f5f7fa; --hero-bg: #3a6b9c;
+  --ink1: #3a6b9c; --ink2: #c0392b; --ink3: #2e7d4f; --ink4: #7a55b0;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 2px 8px rgba(16, 24, 40, .05);
+  --rad: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151c; --surface: #171e27; --surface-2: #1d2631; --fg: #e3e8ee; --muted: #98a3b2; --line: #28323f;
+    --accent: #6fa3d8; --accent-ink: #0b1622; --accent-soft: #1b2b3e; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+    --bar: #171e27; --bar-2: #1d2631; --hero-bg: #1b2b3e; --ink1: #6fa3d8; --ink2: #ef6e62; --ink3: #4cc07c; --ink4: #b597ea;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151c; --surface: #171e27; --surface-2: #1d2631; --fg: #e3e8ee; --muted: #98a3b2; --line: #28323f;
+  --accent: #6fa3d8; --accent-ink: #0b1622; --accent-soft: #1b2b3e; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+  --bar: #171e27; --bar-2: #1d2631; --hero-bg: #1b2b3e; --ink1: #6fa3d8; --ink2: #ef6e62; --ink3: #4cc07c; --ink4: #b597ea;
+  --shadow: 0 1px 2px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25); color-scheme: dark;
+}
+body::before { background: var(--surface); }
+/* Kort och knappar */
+.panel, .doc, .page-head, .hero, .qcard, .welcome, .ws-card, .scard, .stat, .bed, .chat { border-radius: var(--rad) !important; border-color: var(--line); box-shadow: var(--shadow); }
+.panel-head { background: transparent; border-radius: var(--rad) var(--rad) 0 0; padding: 12px 18px; }
+.panel-head h2, .ph { font-size: .8rem !important; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--fg); }
+.btn { border-radius: 8px; }
+.btn.sm { border-radius: 7px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.field input, .field select, .field textarea, .dx-search input, .reply-form input, .composer textarea, .row-form select, .toolbar .field input, .toolbar .field select { border-radius: 8px !important; }
+.chip, .chips .chip, .qchip, .tseg, .rk-pick span, .dx-dispo span { border-radius: 8px; }
+.pill, .tchip, .stay, .tm-st, .ack, .rk-chip, .tag-akut, .mini-tri { border-radius: 6px; }
+.doc-head, .doc-sign { background: transparent; }
+.doc-pat { background: var(--surface-2); }
+/* Toppfält */
+.topbar { background: var(--surface); color: var(--fg); border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 rgba(16,24,40,.02); height: 60px; }
+.tb-mark { background: var(--accent-soft); border-radius: 10px; width: 34px; height: 34px; }
+.tb-brand small { color: var(--muted); opacity: 1; }
+.tb-search input { background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; height: 38px; }
+.tb-search input::placeholder { color: var(--muted); }
+.tb-search input:focus { background: var(--surface); color: var(--fg); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.tb-search input:focus::placeholder { color: var(--muted); }
+.tb-search > svg { opacity: 1; color: var(--muted); }
+.tb-clock { color: var(--muted); opacity: 1; }
+.tb-user { color: var(--fg); border-radius: 10px; }
+.tb-user:hover, .tb-user[aria-current="page"] { background: var(--surface-2); }
+.tb-user small { color: var(--muted); opacity: 1; }
+.tb-user .av .odot { border-color: var(--surface); }
+.tb-btn { color: var(--fg); border-color: var(--line); border-radius: 10px; }
+.tb-btn:hover { background: var(--surface-2); }
+.tb-new { display: inline-flex; }
+.side { top: calc(60px + env(safe-area-inset-top, 0px)); height: calc(100dvh - 60px - env(safe-area-inset-top, 0px)); border-right: 1px solid var(--line); }
+.nav button { border-radius: 10px; padding: 9px 12px; }
+.nav button[aria-current="page"] { background: var(--accent-soft); box-shadow: none; color: var(--accent); }
+.nav button[aria-current="page"] svg { color: var(--accent); }
+.qcard { border-left-width: 1px; }
+.qc-ic { border-radius: 10px; }
+.qk1 .qc-ic { background: var(--accent-soft); color: var(--ink1); } .qk2 .qc-ic { background: var(--danger-soft); color: var(--ink2); } .qk3 .qc-ic { background: color-mix(in srgb, var(--ink3) 12%, var(--surface)); color: var(--ink3); } .qk4 .qc-ic { background: color-mix(in srgb, var(--ink4) 12%, var(--surface)); color: var(--ink4); }
+.glance-row { padding: 11px 18px; }
+.list .chead { background: var(--surface-2); }
+.crow:hover, .call-row:hover, .gs-hit:hover { background: var(--accent-soft); }
+.welcome { border-left: 1px solid var(--line); background: var(--accent-soft); }
+/* Journal i tre kolumner */
+.drawer.case-ws { background: var(--bg); }
+.d-head { background: var(--surface); }
+.pbar { background: var(--surface); color: var(--fg); border-bottom: 1px solid var(--line); padding-block: calc(12px + env(safe-area-inset-top, 0px)) 12px; }
+.pbar .pt-av { background: var(--accent-soft); color: var(--accent); border: 0; }
+.pbar-id > span { opacity: 1; color: var(--muted); }
+.flag-news { background: var(--surface-2); border: 1px solid var(--line); color: var(--fg); border-radius: 6px; }
+.flag-cave { border-radius: 6px; }
+.pbar-close { background: var(--surface); color: var(--fg); border-color: var(--line); }
+.pbar-close:hover { background: var(--surface-2); }
+.d-sub { border-bottom: 1px solid var(--line); }
+.d-head > .next { margin: 10px 18px; border-radius: 10px; }
+.d-head > .d-tags { margin: 10px 18px 0; }
+.ws3 { flex: 1; min-height: 0; display: grid; grid-template-columns: 310px minmax(0, 1fr) 380px; gap: 16px; padding: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.ws-col { min-height: 0; overflow-y: auto; display: grid; gap: 14px; align-content: start; padding-bottom: 24px; scrollbar-width: thin; }
+.ws-left .ws-card { padding: 14px 16px; gap: 10px; }
+.ws-h { font-size: .74rem; }
+.ws-h .btn { text-transform: none; letter-spacing: 0; margin-left: auto; }
+.ws-h .term-q { margin-left: 0; }
+.pc-top { display: flex; gap: 12px; align-items: center; }
+.pc-av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 1.05rem; background: var(--accent-soft); color: var(--accent); border: 3px solid var(--line); flex-shrink: 0; }
+.pc-av[data-tri="rod"] { border-color: var(--t-rod); } .pc-av[data-tri="orange"] { border-color: var(--t-orange); } .pc-av[data-tri="gul"] { border-color: var(--t-gul); } .pc-av[data-tri="gron"] { border-color: var(--t-gron); } .pc-av[data-tri="bla"] { border-color: var(--t-bla); }
+.pc-top b { display: block; font-size: 1.08rem; }
+.pc-top .mono { font-size: .82rem; color: var(--muted); }
+.pc-kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: .88rem; }
+.pc-kv dt { color: var(--muted); }
+.pc-kv dd { margin: 0; overflow-wrap: anywhere; }
+.pc-cave { display: flex; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 8px; background: var(--danger-soft); color: var(--danger); font-weight: 600; font-size: .9rem; }
+.pc-cave b { letter-spacing: .1em; font-size: .72rem; border: 1.5px solid currentColor; border-radius: 4px; padding: 0 5px; }
+.news-big { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); }
+.news-big > span { font-size: 1.9rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.news-big b { display: block; font-size: .8rem; }
+.news-big small { color: var(--muted); font-size: .8rem; }
+.news-big.news-hog, .news-big.news-medel { background: var(--danger-soft); } .news-big.news-hog > span, .news-big.news-medel > span { color: var(--t-rod); }
+.news-big.news-lagmedel > span { color: var(--t-orange); } .news-big.news-lag > span { color: var(--ok); }
+.vit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.vit { display: grid; gap: 1px; text-align: left; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); cursor: pointer; transition: border-color .12s, background .12s; }
+.vit:hover { border-color: var(--accent); background: var(--accent-soft); }
+.vit small { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.vit b { font-size: 1.12rem; font-variant-numeric: tabular-nums; }
+.vit em { font-style: normal; font-size: .72rem; color: var(--muted); }
+.vit.flag { border-color: var(--t-rod); background: var(--danger-soft); }
+.vit.flag b { color: var(--t-rod); }
+.vit-grid > .vit:last-child:nth-child(odd) { grid-column: span 2; }
+.tr { font-style: normal; font-size: .8rem; margin-left: 4px; }
+.tr.up { color: var(--t-orange); } .tr.down { color: var(--t-bla); }
+.vit-meta { font-size: .8rem; color: var(--muted); }
+.vit-hist summary { cursor: pointer; font-size: .84rem; font-weight: 600; color: var(--accent); }
+.vit-hist table { width: 100%; min-width: 0; margin-top: 6px; font-size: .82rem; }
+.vit-hist th, .vit-hist td { padding: 5px 4px; }
+.jump { position: sticky; top: 0; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--rad); box-shadow: var(--shadow); }
+.jump button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; padding: 6px 12px; border-radius: 8px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.jump button:hover { background: var(--accent-soft); color: var(--accent); }
+.flash { animation: flash 1.2s ease-out; }
+@keyframes flash { 0% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: var(--shadow); } }
+@media (prefers-reduced-motion: reduce) { .flash { animation: none; } .vit { transition: none; } }
+.ws-center > div:empty { display: none; }
+.ws-center.d-body { padding: 0 0 24px; background: transparent; gap: 14px; }
+.ws-right .team-grid { grid-template-columns: 1fr; gap: 14px; }
+.ws-right #d-team { display: grid; gap: 14px; }
+.ws-right .tm-row { grid-template-columns: auto minmax(0, 1fr) auto; }
+.ws-right .tm-row .btn { grid-column: 2 / -1; justify-self: start; }
+.ws-right .rk-pick span { padding: 5px 9px; font-size: .82rem; }
+.ws-right .grid2 { grid-template-columns: 1fr; }
+#sec-chat { display: flex; flex-direction: column; min-height: 360px; }
+.cc-msgs { max-height: 420px; min-height: 180px; }
+.dx.collapsed form { display: none; }
+.dx-toggle { margin-left: 8px; }
+@media (max-width: 1280px) {
+  .ws3 { grid-template-columns: 290px minmax(0, 1fr); overflow-y: auto; }
+  .ws-right { grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); overflow: visible; }
+  .ws-col { overflow: visible; }
+  .jump { top: -16px; }
+}
+@media (max-width: 820px) {
+  .ws3 { grid-template-columns: 1fr; }
+  .ws-right { grid-template-columns: 1fr; }
+}
+/* Dialogruta */
+.modal-wrap { position: fixed; inset: 0; z-index: 45; background: rgba(15, 23, 35, .45); display: grid; place-items: center; padding: 16px; }
+.modal { width: min(720px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto; background: var(--surface); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.modal-head h2 { font-size: 1.15rem; }
+.modal-body { padding: 18px 20px; display: grid; gap: 14px; }
+@media (max-width: 900px) { .tb-new span { display: none; } }
+.d-head { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; }
+.d-head > .pbar, .d-head > .next { grid-column: 1 / -1; }
+.d-head > .d-sub { grid-column: 1; }
+.d-head > .d-tags { grid-column: 2; margin: 0 !important; padding: 8px 18px; align-self: stretch; align-items: center; border-bottom: 1px solid var(--line); background: var(--surface); }
+.d-head > .next { margin: 10px 18px !important; }
+@media (max-width: 760px) { .d-head > .d-sub, .d-head > .d-tags { grid-column: 1 / -1; } .d-head > .d-tags { border-bottom: 0; padding-top: 0; } }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -1492,7 +1648,7 @@ function renderShell() {
     '<header class="topbar">' +
       '<div class="tb-brand"><span class="tb-mark">' + CROSS.replace('var(--accent)', '#c8372b') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
       '<div class="tb-search">' + IC.search + '<input id="gsearch" type="search" placeholder="Sök patient, personnummer eller ärendenummer" autocomplete="off" aria-label="Sök patient eller ärende"><div class="gs-res" id="gs-res" hidden></div></div>' +
-      '<div class="tb-right"><span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
+      '<div class="tb-right">' + (can('create') ? '<button type="button" class="btn primary sm tb-new" data-nav="nytt">' + IC.plusc + '<span>Ny konsultation</span></button>' : '') + '<span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
     '</header>' +
     '<div class="shell">' +
       '<aside class="side">' +
@@ -1974,7 +2130,7 @@ function docRow(label, html) { return html ? '<div class="doc-row"><dt>' + label
 function personOf(id) { return userById(id) || (id === 'admin' ? adminSelf() : { id: id, name: userName(id) }); }
 function renderRemiss(c, opts) {
   opts = opts || {};
-  var p = c.patient || {}, pi = pnrInfo(p.pnr), tri = TRI[c.triage] ? c.triage : 'gul', nw = news2(c.vitals), by = personOf(c.createdBy);
+  var p = c.patient || {}, pi = pnrInfo(p.pnr), tri = TRI[c.triage] ? c.triage : 'gul', nw = news2(c.vitals0 || c.vitals), by = personOf(c.createdBy);
   var thumbs = '';
   if (opts.images) thumbs = opts.images.map(function (d) { return '<span class="thumb"><img alt="" src="' + d + '"></span>'; }).join('');
   else thumbs = (c.imageIds || []).map(function (i) {
@@ -1997,7 +2153,7 @@ function renderRemiss(c, opts) {
       docRow('Frågeställning ' + termQ('fragestallning'), c.question ? '<p class="doc-q">' + esc(c.question) + '</p>' : '') +
       docRow('Kontaktorsak', c.title ? esc(c.title) + (mech ? '<span class="doc-tag">' + esc(mech) + '</span>' : '') : '') +
       docRow('Aktuellt ' + termQ('anamnes'), c.symptoms ? '<p class="prose">' + esc(c.symptoms) + '</p>' + (c.onset ? '<p class="muted doc-small">Symtomdebut: ' + esc(c.onset.toLowerCase()) + '</p>' : '') : '') +
-      docRow('Status ' + termQ('status'), vitalsLine(c.vitals) + (nw ? '<p class="doc-small news-' + nw.risk + '">NEWS2 <b>' + nw.s + '</b> · ' + esc(nw.label) + (nw.partial ? ' (ofullständigt underlag)' : '') + '</p>' : '')) +
+      docRow((c.vitals0 ? 'Status vid remiss ' : 'Status ') + termQ('status'), vitalsLine(c.vitals0 || c.vitals) + (nw ? '<p class="doc-small news-' + nw.risk + '">NEWS2 <b>' + nw.s + '</b> · ' + esc(nw.label) + (nw.partial ? ' (ofullständigt underlag)' : '') + '</p>' : '')) +
       docRow('Aktuella läkemedel', c.meds ? esc(c.meds) : '') +
       docRow('Läkemedel och allergier', c.allergies ? esc(c.allergies) : '') +
       docRow('Given behandling', c.given ? esc(c.given) : '') +
@@ -2480,9 +2636,10 @@ function convOther(conv) { var p = conv.split('.').slice(1); return p.find(funct
 function convVisible(conv) {
   if (!S.me) return false;
   if (isDm(conv)) return conv.split('.').slice(1).indexOf(S.me.id) !== -1;
+  if (conv.indexOf('case.') === 0) return S.cases.some(function (c) { return 'case.' + c.id === conv; });
   var ch = CH.find(function (c) { return c.id === conv; }); return !!ch && (!ch.perm || can(ch.perm));
 }
-function convTitle(conv) { if (isDm(conv)) return userName(convOther(conv)); var ch = CH.find(function (c) { return c.id === conv; }); return ch ? ch.name : 'Konversation'; }
+function convTitle(conv) { if (isDm(conv)) return userName(convOther(conv)); if (conv.indexOf('case.') === 0) { var cc = S.cases.find(function (c) { return 'case.' + c.id === conv; }); return cc ? 'Patient: ' + ((cc.patient && cc.patient.name) || cc.title) : 'Patientchatt'; } var ch = CH.find(function (c) { return c.id === conv; }); return ch ? ch.name : 'Konversation'; }
 function convSub(conv) {
   var typers = typingIn(conv);
   if (typers.length) return typers.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…';
@@ -2490,6 +2647,7 @@ function convSub(conv) {
     var o = userById(convOther(conv));
     return (S.online[convOther(conv)] ? 'Aktiv nu' : 'Inte aktiv') + (o && o.title ? ' · ' + o.title : '');
   }
+  if (conv.indexOf('case.') === 0) return 'Chatt om patienten';
   var ch = CH.find(function (c) { return c.id === conv; });
   var n = activeStaff().filter(function (u) { return S.online[u.id] && (!ch.perm || can(ch.perm, u)); }).length;
   return (ch ? ch.desc : '') + ' · ' + n + ' aktiva';
@@ -2952,17 +3110,75 @@ function updateTeam(c) {
       '</div></div>';
   }).join('') : emptyArt('chatt', 'Inga återrapporter', 'Personalen rapporterar tillbaka här, till exempel när en instruktion är utförd.');
 }
+var VIT = [['af', 'AF', '/min'], ['spo2', 'SpO₂', '%'], ['puls', 'Puls', '/min'], ['bts', 'BT', 'mmHg'], ['temp', 'Temp', '°C'], ['avpu', 'ACVPU', ''], ['vas', 'Smärta', '/10']];
+function vitFlag(k, v) {
+  var n = num(v[k]);
+  if (k === 'af') return n != null && (n <= 8 || n >= 25);
+  if (k === 'spo2') return n != null && n <= 91;
+  if (k === 'puls') return n != null && (n <= 40 || n >= 131);
+  if (k === 'bts') return n != null && (n <= 90 || n >= 220);
+  if (k === 'temp') return n != null && (n <= 35 || n >= 39.1);
+  if (k === 'avpu') return v.avpu && v.avpu !== 'A';
+  if (k === 'vas') return n != null && n >= 8;
+  return false;
+}
 function renderWsSide(c) {
-  var side = $('#ws-side'); if (!side) return;
-  var v = c.vitals || {}, nw = news2(v), sy = c.stay;
-  var vit = [['AF', v.af, '/min', 'af'], ['SpO₂', v.spo2 ? v.spo2 + (v.o2 ? ' +O₂' : '') : '', '%', 'spo2'], ['Puls', v.puls, '/min', 'puls'], ['BT', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : '', '', 'bt'], ['Temp', v.temp, '°C', 'temp'], ['ACVPU', v.avpu, '', 'acvpu'], ['VAS', v.vas ? v.vas + '/10' : '', '', 'vas']];
-  var team = teamOf(c);
-  $('#ws-vitals').innerHTML = '<div class="ws-h"><b>Status</b>' + (nw ? '<span class="ws-news news-' + nw.risk + '">NEWS2 ' + nw.s + '</span>' : '') + '</div><div class="ws-vit">' + vit.map(function (x) { return '<div><button type="button" class="vt-l" data-term="' + x[3] + '">' + x[0] + '</button><b>' + (x[1] ? esc(x[1]) + (x[2] && x[1] ? '<small>' + x[2] + '</small>' : '') : '<span class="muted">–</span>') + '</b></div>'; }).join('') + '</div>';
+  if (!$('#ws-patient')) return;
+  var p = c.patient || {}, pi = pnrInfo(p.pnr), t = TRI[c.triage] ? c.triage : 'bla';
+  $('#ws-patient').innerHTML = '<div class="ws-h"><b>Patient</b><span class="tchip tri-' + t + '">' + TRI[t].label + '</span></div>' +
+    '<div class="pc-top"><span class="pc-av" data-tri="' + t + '">' + esc(initials(p.name || '?')) + '</span><div><b>' + esc(p.name || 'Okänd patient') + '</b><span class="mono">' + esc(p.pnr || 'Personnummer saknas') + '</span></div></div>' +
+    '<dl class="pc-kv"><dt>Ålder och kön</dt><dd>' + (pi ? pi.age + ' år, ' + pi.sex : '–') + '</dd><dt>Telefon</dt><dd class="mono">' + esc(p.phone || '–') + '</dd><dt>Kontaktorsak</dt><dd>' + esc(c.title) + '</dd>' + (c.mechanism && c.mechanism !== MECH[0] ? '<dt>Mekanism</dt><dd>' + esc(c.mechanism) + '</dd>' : '') + (c.meds ? '<dt>Läkemedel</dt><dd>' + esc(c.meds) + '</dd>' : '') + '</dl>' +
+    (c.cave ? '<div class="pc-cave"><b>CAVE</b>' + esc(c.cave) + '</div>' : '');
+  var v = c.vitals || {}, nw = news2(v), log = c.vitalsLog || [], prev = log.length > 1 ? log[log.length - 2].v : null;
+  function trend(k) { if (!prev) return ''; var a2 = num(prev[k]), b2 = num(v[k]); if (a2 == null || b2 == null || a2 === b2) return ''; return '<i class="tr ' + (b2 > a2 ? 'up' : 'down') + '">' + (b2 > a2 ? '↑' : '↓') + '</i>'; }
+  var last = log.length ? log[log.length - 1] : { at: c.createdAt, by: c.createdBy };
+  $('#ws-vitals').innerHTML = '<div class="ws-h"><b>Vitalparametrar</b>' + termQ('news2') + '<button type="button" class="btn sm primary" data-vit-edit="">+ Ny mätning</button></div>' +
+    (nw ? '<div class="news-big news-' + nw.risk + '"><span>' + nw.s + '</span><div><b>NEWS2</b><small>' + esc(nw.label.split(' – ')[0]) + '</small></div></div>' : '') +
+    '<div class="vit-grid">' + VIT.map(function (x) {
+      var val = x[0] === 'bts' ? (v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : '') : x[0] === 'spo2' ? (v.spo2 ? v.spo2 + (v.o2 ? ' O₂' : '') : '') : v[x[0]];
+      return '<button type="button" class="vit' + (vitFlag(x[0], v) ? ' flag' : '') + '" data-vit-edit="' + x[0] + '" title="Tryck för att uppdatera ' + x[1] + '"><small>' + x[1] + '</small><b>' + (val ? esc(val) + trend(x[0]) : '<span class="muted">–</span>') + '</b><em>' + (val ? x[2] : 'Lägg till') + '</em></button>';
+    }).join('') + '</div>' +
+    '<p class="vit-meta">Senast mätt ' + esc(ago(last.at)) + ' av ' + esc(userName(last.by)) + '</p>' +
+    (log.length > 1 ? '<details class="vit-hist"><summary>Tidigare mätningar (' + (log.length - 1) + ')</summary><table><thead><tr><th>Tid</th><th>NEWS2</th><th>Puls</th><th>BT</th><th>Av</th></tr></thead><tbody>' + log.slice(0, -1).reverse().slice(0, 8).map(function (e) { var n2 = news2(e.v); return '<tr><td>' + esc(fmtT.format(new Date(e.at))) + '</td><td>' + (n2 ? n2.s : '–') + '</td><td>' + esc(e.v.puls || '–') + '</td><td>' + esc(e.v.bts ? e.v.bts + (e.v.btd ? '/' + e.v.btd : '') : '–') + '</td><td>' + esc(firstName(userName(e.by))) + '</td></tr>'; }).join('') + '</tbody></table></details>' : '');
+  var sy = c.stay;
   $('#ws-stay').innerHTML = '<div class="ws-h"><b>Vistelse</b><button type="button" class="link" data-next="stay">Ändra</button></div>' + (sy ? '<p>' + stayHtml(c) + '</p><small class="muted">' + (sy.status === 'inne' && sy.room ? esc(sy.room) + ' · ' : '') + (sy.admittedAt && sy.status === 'inne' ? 'inlagd ' + esc(ago(sy.admittedAt)) : 'uppdaterad ' + esc(ago(sy.at))) + '</small>' : '<p class="muted">Ej angiven</p>');
-  $('#ws-team').innerHTML = '<div class="ws-h"><b>Vårdteam</b><button type="button" class="link" data-dtab="team">' + (can('assign') ? 'Tilldela' : 'Visa') + '</button></div>' +
-    (c.doctorId ? '<div class="ws-person">' + avatarHtml(personOf(c.doctorId), 'xs') + '<span>' + esc(userName(c.doctorId)) + '<small>Ansvarig läkare</small></span></div>' : '<p class="muted">Ingen ansvarig läkare</p>') +
-    team.map(function (m) { var un = unackedInstr(c, m.uid).length; return '<div class="ws-person">' + avatarHtml(personOf(m.uid), 'xs') + '<span>' + esc(userName(m.uid)) + '<small>' + esc(roleName((userById(m.uid) || {}).role)) + (un ? ' · <em class="warn">' + un + ' okvitterad</em>' : '') + '</small></span></div>'; }).join('');
-  $('#ws-remit').innerHTML = '<div class="ws-h"><b>Remittent</b></div><div class="ws-person">' + avatarHtml(personOf(c.createdBy), 'xs') + '<span>' + esc(userName(c.createdBy)) + '<small>' + esc(dt(c.createdAt)) + '</small></span></div>';
+  $('#ws-remit').innerHTML = '<div class="ws-h"><b>Remittent och ansvarig</b></div><div class="ws-person">' + avatarHtml(personOf(c.createdBy), 'xs') + '<span>' + esc(userName(c.createdBy)) + '<small>Skrev remissen ' + esc(dt(c.createdAt)) + '</small></span></div>' +
+    (c.doctorId ? '<div class="ws-person">' + avatarHtml(personOf(c.doctorId), 'xs') + '<span>' + esc(userName(c.doctorId)) + '<small>Ansvarig läkare</small></span></div>' : '<p class="muted" style="font-size:.86rem">Ingen ansvarig läkare ännu</p>');
+}
+function openVitals(caseId, focusKey) {
+  var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+  var v = c.vitals || {};
+  var fields = [['af', 'Andningsfrekvens /min', 'numeric', 'af'], ['spo2', 'Saturation %', 'numeric', 'spo2'], ['puls', 'Puls /min', 'numeric', 'puls'], ['temp', 'Temp °C', 'decimal', 'temp'], ['bts', 'BT systoliskt', 'numeric', 'bt'], ['btd', 'BT diastoliskt', 'numeric', 'bt'], ['vas', 'Smärta VAS 0–10', 'numeric', 'vas']];
+  var m = document.createElement('div'); m.className = 'modal-wrap';
+  m.innerHTML = '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="vm-t"><div class="modal-head"><div><h2 id="vm-t">Ny mätning av vitalparametrar</h2><small class="muted">' + esc((c.patient && c.patient.name) || '') + ' · ' + esc(c.caseNo) + '</small></div><button type="button" class="btn sm ghost" data-vm-close>Stäng</button></div>' +
+    '<form class="modal-body" id="f-vit"><p class="hint">Fyll i det du har mätt nu. Fälten visar förra mätningen, så ändra bara det som är nytt.</p><div class="grid4">' +
+    fields.map(function (f) { return '<label class="field"><span>' + f[1] + ' ' + termQ(f[3]) + '</span><input id="vm-' + f[0] + '" inputmode="' + f[2] + '" value="' + esc(v[f[0]] || '') + '"></label>'; }).join('') +
+    '<label class="field"><span>Medvetande (ACVPU) ' + termQ('acvpu') + '</span><select id="vm-avpu"><option value="">Välj</option>' + [['A', 'A – Vaken'], ['C', 'C – Ny förvirring'], ['V', 'V – Tilltal'], ['P', 'P – Smärta'], ['U', 'U – Medvetslös']].map(function (o) { return '<option value="' + o[0] + '"' + (v.avpu === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>' +
+    '</div><label class="check"><input type="checkbox" id="vm-o2"' + (v.o2 ? ' checked' : '') + '> Patienten får syrgas ' + termQ('syrgas') + '</label><div class="news" id="vm-news"></div>' +
+    '<div class="form-actions"><button type="button" class="btn" data-vm-close>Avbryt</button><button type="submit" class="btn primary">Spara mätning</button></div></form></div>';
+  document.body.appendChild(m);
+  function read() { var g = function (k) { var e = $('#vm-' + k, m); return e ? e.value.trim() : ''; }; return { af: g('af'), spo2: g('spo2'), puls: g('puls'), temp: g('temp'), bts: g('bts'), btd: g('btd'), avpu: g('avpu'), vas: g('vas'), o2: $('#vm-o2', m).checked }; }
+  function drawN() { var r = news2(read()); $('#vm-news', m).className = 'news' + (r ? ' ' + r.risk : ''); $('#vm-news', m).innerHTML = r ? '<span class="news-score">' + r.s + '</span><div><b>NEWS2 ' + r.s + '</b><br><small>' + esc(r.label) + '</small></div>' : '<span class="news-score muted">–</span><small>Fyll i värden för att räkna ut NEWS2.</small>'; }
+  function close() { m.remove(); document.removeEventListener('keydown', onKey, true); }
+  function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); close(); } }
+  document.addEventListener('keydown', onKey, true);
+  m.addEventListener('input', drawN); m.addEventListener('change', drawN); drawN();
+  m.addEventListener('click', function (e) { if (e.target === m || e.target.closest('[data-vm-close]')) close(); });
+  var f0 = focusKey && $('#vm-' + (focusKey === 'bts' ? 'bts' : focusKey), m); (f0 || $('#vm-af', m)).focus(); if (f0 && f0.select) f0.select();
+  $('#f-vit', m).addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nv = read(), any = ['af', 'spo2', 'puls', 'temp', 'bts', 'avpu', 'vas'].some(function (k) { return nv[k]; });
+    if (!any) { toast('Fyll i minst ett värde.', true); return; }
+    var cur = S.cases.find(function (x) { return x.id === caseId; }); if (!cur) return;
+    var log = (cur.vitalsLog || [{ at: cur.createdAt, by: cur.createdBy, v: cur.vitals || {} }]).concat([{ at: nowIso(), by: S.me.id, v: nv }]).slice(-40);
+    var r = news2(nv);
+    var parts = [['AF', nv.af], ['SpO₂', nv.spo2 && nv.spo2 + '%'], ['Puls', nv.puls], ['BT', nv.bts && nv.bts + (nv.btd ? '/' + nv.btd : '')], ['Temp', nv.temp], ['ACVPU', nv.avpu], ['VAS', nv.vas]].filter(function (x) { return x[1]; }).map(function (x) { return x[0] + ' ' + x[1]; }).join(', ');
+    var patch = { vitals: nv, vitalsLog: log }; if (!cur.vitals0) patch.vitals0 = cur.vitals || {};
+    updateCase(caseId, patch, { type: 'sys', text: 'Nya vitalparametrar: ' + parts + (r ? '. NEWS2 ' + r.s + '.' : '.') }).then(function () {
+      close(); toast('Mätningen sparades' + (r ? ', NEWS2 ' + r.s : '') + '.');
+      if (r && (r.risk === 'hog' || r.risk === 'medel') && cur.doctorId && cur.doctorId !== S.me.id) toast('NEWS2 är ' + r.s + '. Överväg att återrapportera till läkaren.', true);
+    }).catch(function () {});
+  });
 }
 
 /* ---------- Ärendepanel ---------- */
@@ -2973,16 +3189,17 @@ function openCase(id) {
   if (S.drawerCase !== id) { S.drawerTab = 'oversikt'; S.drawerCase = id; }
   wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer case-ws" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
     '<header class="d-head" id="d-head"></header>' +
-    '<div class="ws">' +
-    '<aside class="ws-side" id="ws-side"><div class="ws-card" id="ws-vitals"></div><div class="ws-card" id="ws-stay"></div><div class="ws-card" id="ws-team"></div><div class="ws-card" id="ws-remit"></div><div id="d-hist"></div></aside>' +
-    '<div class="ws-main">' +
-    '<nav class="d-tabs" id="d-tabs" role="tablist" aria-label="Delar av ärendet"></nav>' +
-    '<div class="d-body" id="d-body">' +
-      '<div class="d-pane" data-pane="oversikt">' +
-        '<div id="d-reply"></div>' +
-        '<div id="d-replies"></div>' +
-        '<div id="d-diag"></div>' +
-        '<div id="d-info"></div>' +
+    '<div class="ws3">' +
+    '<aside class="ws-col ws-left" id="ws-side" aria-label="Patient">' +
+      '<div class="ws-card" id="ws-patient"></div><div class="ws-card" id="ws-vitals"></div><div class="ws-card" id="ws-stay"></div><div class="ws-card" id="ws-remit"></div><div id="d-hist"></div>' +
+    '</aside>' +
+    '<div class="ws-col ws-center" id="d-body">' +
+      '<nav class="jump" id="d-tabs" aria-label="Hoppa till"></nav>' +
+      '<div id="d-reply"></div>' +
+      '<div id="d-replies"></div>' +
+      '<div id="d-diag"></div>' +
+      '<div id="d-doc"></div>' +
+      '<div id="d-info"></div>' +
         '<section class="panel" id="d-stay"><div class="panel-head"><h2>Patientens vistelse ' + termQ('vistelse') + '</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="d-stay-now"></span><button type="button" class="btn sm" id="sy-toggle">Ändra</button></div></div>' +
         '<div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
         '<form id="f-stay" hidden style="display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px"><div class="grid3">' +
@@ -2992,19 +3209,25 @@ function openCase(id) {
           '<label class="field" data-sy="left"><span>Lämnade till</span><select id="sy-dest">' + DESTS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
         '</div><label class="field"><span>Notering</span><input id="sy-note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka"></label>' +
         '<div class="form-actions"><button class="btn ghost" type="button" id="sy-cancel">Avbryt</button><button class="btn primary" type="submit">Spara vistelse</button></div></form></div></section>' +
-        '<div id="d-images"></div>' +
-        '<div id="d-admin"></div>' +
-      '</div>' +
-      '<div class="d-pane" data-pane="bedomning"><div id="d-doc"></div></div>' +
-      '<div class="d-pane" data-pane="team"><div id="d-team"></div></div>' +
-      '<div class="d-pane" data-pane="journal"><section class="panel"><div class="panel-head"><h2>Journal och händelser</h2></div><div class="panel-body">' +
+      '<div id="d-images"></div>' +
+      '<section class="panel" id="sec-journal"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.alla + '</span>Journal och händelser</h2></div><div class="panel-body">' +
         '<form id="f-note" style="display:grid;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
         '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form>' +
-        '<div class="log" id="d-log"></div></div></section></div>' +
-    '</div></div></div></section>';
+        '<div class="log" id="d-log"></div></div></section>' +
+      '<div id="d-admin"></div>' +
+    '</div>' +
+    '<aside class="ws-col ws-right" aria-label="Vårdteam och chatt">' +
+      '<section id="sec-team"><div id="d-team"></div></section>' +
+      '<section class="panel" id="sec-chat"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.chatt + '</span>Chatt om patienten</h2><span class="muted" style="font-size:.8rem">Alla i vården</span></div>' +
+        '<div class="msgs cc-msgs" id="cc-msgs"></div><div class="typing" id="cc-typing"></div>' +
+        '<form class="composer" id="cc-form"><div class="composer-row"><textarea rows="1" placeholder="Skriv till kollegor om patienten"></textarea><button class="btn primary sm" type="submit">Skicka</button></div></form></section>' +
+    '</aside>' +
+    '</div></section>';
+  bindComposer($('#cc-form'), function () { return 'case.' + id; }, function () { return null; });
   $('#d-tabs').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
   $('#d-body').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
   $('#ws-side').addEventListener('click', function (e) {
+    var ve = e.target.closest('[data-vit-edit]'); if (ve) { openVitals(id, ve.dataset.vitEdit); return; }
     var t = e.target.closest('[data-dtab]'); if (t) { showPane(t.dataset.dtab); return; }
     var n = e.target.closest('[data-next]'); if (n) { var cc = S.cases.find(function (x) { return x.id === id; }); if (cc) caseAction(cc, n.dataset.next); }
   });
@@ -3088,6 +3311,8 @@ function updateDrawer() {
   $('#d-diag').innerHTML = renderSvar(c);
   $('#d-replies').innerHTML = renderReplies(c);
   updateTeam(c); renderWsSide(c);
+  var ccv = 'case.' + c.id, ccm = $('#cc-msgs');
+  if (ccm) { fillMsgs(ccm, ccv); var ty = typingIn(ccv); $('#cc-typing').textContent = ty.length ? ty.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : ''; if (document.visibilityState === 'visible') markRead(ccv); }
   var evs = (c.events || []).slice().reverse();
   $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
     var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) });
@@ -3104,21 +3329,22 @@ function updateDrawer() {
 }
 function drawTabs(c) {
   var mineUn = unackedInstr(c, S.me.id).length, unread = isCaseDoctor(c) ? unreadReports(c).length : 0;
-  var tabs = [['oversikt', 'Översikt', '']];
-  if (can('diagnose')) tabs.push(['bedomning', 'Läkarbedömning', c.status === 'inkommen' || c.status === 'bedoms' ? '!' : '']);
-  tabs.push(['team', 'Vårdteam och instruktioner', mineUn || unread ? '!' : (teamOf(c).length ? String(teamOf(c).length) : '')]);
-  tabs.push(['journal', 'Journal', String((c.events || []).length)]);
-  if (!tabs.some(function (t) { return t[0] === S.drawerTab; })) S.drawerTab = 'oversikt';
-  $('#d-tabs').innerHTML = tabs.map(function (t) {
-    return '<button type="button" role="tab" data-dtab="' + t[0] + '" aria-selected="' + (S.drawerTab === t[0]) + '">' + t[1] + (t[2] ? '<span class="tcount' + (t[2] === '!' ? ' alert' : '') + '">' + t[2] + '</span>' : '') + '</button>';
-  }).join('');
-  $$('.d-pane').forEach(function (p) { p.hidden = p.dataset.pane !== S.drawerTab; });
+  var items = [['oversikt', 'Översikt', '']];
+  if (can('diagnose')) items.push(['bedomning', 'Läkarbedömning', c.status === 'inkommen' || c.status === 'bedoms' ? '!' : '']);
+  items.push(['remiss', 'Remiss', '']);
+  items.push(['team', 'Vårdteam', mineUn || unread ? '!' : (teamOf(c).length ? String(teamOf(c).length) : '')]);
+  items.push(['chat', 'Chatt', '']);
+  items.push(['journal', 'Journal', String((c.events || []).length)]);
+  $('#d-tabs').innerHTML = items.map(function (t) { return '<button type="button" data-dtab="' + t[0] + '">' + t[1] + (t[2] ? '<span class="tcount' + (t[2] === '!' ? ' alert' : '') + '">' + t[2] + '</span>' : '') + '</button>'; }).join('');
 }
 function showPane(tab) {
   S.drawerTab = tab;
-  $$('#d-tabs [data-dtab]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.dtab === tab); });
-  $$('.d-pane').forEach(function (p) { p.hidden = p.dataset.pane !== tab; });
-  var body = $('#d-body'); if (body) body.scrollTop = 0;
+  var map = { oversikt: '#d-body', bedomning: '#d-doc', remiss: '#d-info', team: '#sec-team', chat: '#sec-chat', journal: '#sec-journal' };
+  var el = $(map[tab] || '#d-body'); if (!el) return;
+  if (tab === 'bedomning') { var dx = $('#d-doc .dx'); if (dx) dx.classList.remove('collapsed'); }
+  if (tab === 'oversikt') { el.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 1200);
 }
 function seenMap() { if (!S.seen) S.seen = load('lsvp.seen.' + S.me.id) || {}; return S.seen; }
 function markSeen(c) { var m = seenMap(), v = c.updatedAt || c.createdAt; if (m[c.id] !== v) { m[c.id] = v; store('lsvp.seen.' + S.me.id, m); } }
@@ -3330,6 +3556,15 @@ function mountDoctorTools(c) {
     } catch (x) { btn.disabled = false; btn.textContent = 'Spara bedömning'; }
   });
   drawDoctorState(c);
+  var dxp = $('.dx', box);
+  if (dxp) {
+    var hd = $('.panel-head', dxp), tb = document.createElement('button');
+    tb.type = 'button'; tb.className = 'btn sm ghost dx-toggle';
+    if (c.diagnosis && (c.status === 'diagnos' || c.status === 'avslutad')) dxp.classList.add('collapsed');
+    tb.textContent = dxp.classList.contains('collapsed') ? 'Visa formuläret' : 'Dölj formuläret';
+    tb.addEventListener('click', function () { dxp.classList.toggle('collapsed'); tb.textContent = dxp.classList.contains('collapsed') ? 'Visa formuläret' : 'Dölj formuläret'; });
+    hd.appendChild(tb);
+  }
 }
 function sigPad(cv) {
   var ctx = null, drawing = false, last = null, ink = 0, sized = false, INK = '#13233d';
