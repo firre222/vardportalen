@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%233a6b9c%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%230e7466%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
 <title>Los Santos Vårdportal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: inloggning delad i varumärkespanel + formulär; appen är sidomeny + arbetsyta + ärendepanel som glider in från höger */
 :root {
@@ -1346,6 +1346,324 @@ body::before { background: var(--surface); }
   .side .nav li { flex: none; }
 }
 @media (max-width: 640px) { #td-filter { display: none; } }
+/* ===== Ny utstyrsel: mörk sidomeny, mintgrönt och journalpapper ===== */
+:root {
+  --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --bg: #edf1f0; --surface: #ffffff; --surface-2: #f3f7f6; --fg: #13201e; --muted: #5a6967; --line: #dfe6e4;
+  --accent: #0e7466; --accent-ink: #ffffff; --accent-soft: #ddefeb; --danger: #c0352a; --danger-soft: #fbe9e6; --ok: #21804d;
+  --nav-bg: #0e2523; --nav-fg: #a9c2be; --nav-hi: #eef7f5; --nav-act: #1b3b37; --mint: #5ed2b9;
+  --desk: #dde5e3; --paper: #fffefa; --ink: #1a2830;
+  --bar: #ffffff; --bar-2: #f3f7f6; --hero-bg: #0e2523;
+  --shadow: 0 1px 2px rgba(14, 37, 35, .05), 0 6px 22px rgba(14, 37, 35, .07);
+  --rad: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1413; --surface: #13201f; --surface-2: #192927; --fg: #e2eeeb; --muted: #91a6a2; --line: #233634;
+    --accent: #4fc4aa; --accent-ink: #052520; --accent-soft: #163632; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+    --nav-bg: #08100f; --nav-fg: #8ea7a3; --nav-hi: #e2eeeb; --nav-act: #15302d; --desk: #0a1110; --hero-bg: #08100f;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.3); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1413; --surface: #13201f; --surface-2: #192927; --fg: #e2eeeb; --muted: #91a6a2; --line: #233634;
+  --accent: #4fc4aa; --accent-ink: #052520; --accent-soft: #163632; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+  --nav-bg: #08100f; --nav-fg: #8ea7a3; --nav-hi: #e2eeeb; --nav-act: #15302d; --desk: #0a1110; --hero-bg: #08100f;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.3); color-scheme: dark;
+}
+body { font-family: var(--sans); letter-spacing: -.005em; background: var(--bg); }
+h1, h2, h3 { letter-spacing: -.015em; }
+
+/* Ramverk: sidomenyn går hela vägen upp */
+.side-brand { display: none; }
+@media (min-width: 901px) {
+  #app:has(> .shell) { display: grid; grid-template-columns: 256px minmax(0, 1fr); grid-template-rows: auto 1fr; min-height: 100dvh; }
+  #app:has(> .shell) > .topbar { grid-column: 2; grid-row: 1; }
+  #app:has(> .shell) > .shell { display: contents; }
+  #app > .shell > .side { grid-column: 1; grid-row: 1 / span 2; top: 0 !important; height: 100dvh !important; align-self: start; }
+  #app > .shell > .main { grid-column: 2; grid-row: 2; }
+  #app:has(> .shell) .tb-brand { display: none; }
+  .side-brand { display: flex; align-items: center; gap: 11px; padding: 4px 8px 18px; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.07); }
+}
+.side-brand .sb-mark { width: 36px; height: 36px; border-radius: 11px; background: var(--mint); display: grid; place-items: center; flex: none; }
+.side-brand .sb-mark svg { width: 20px; height: 20px; }
+.side-brand .sb-mark svg path { fill: #0e2523 !important; }
+.side-brand b { display: block; color: var(--nav-hi); font-size: 1.02rem; font-weight: 800; letter-spacing: -.01em; }
+.side-brand small { display: block; color: var(--nav-fg); font-size: .76rem; }
+.side { background: var(--nav-bg) !important; border-right: 0 !important; color: var(--nav-fg); padding-top: 18px !important; }
+.side .nav-label { color: rgba(169, 194, 190, .55); padding-top: 16px; }
+.side .nav button { color: var(--nav-fg); font-weight: 600; border-radius: 10px !important; padding: 9px 12px !important; }
+.side .nav button svg { opacity: .85; }
+.side .nav button:hover { background: rgba(255, 255, 255, .06); color: var(--nav-hi); }
+.side .nav button[aria-current="page"] { background: var(--nav-act) !important; color: #fff !important; box-shadow: inset 3px 0 0 var(--mint) !important; }
+.side .nav button[aria-current="page"] svg { color: var(--mint); opacity: 1; }
+.side .badge { background: rgba(255,255,255,.14); color: #fff; }
+.side .badge.red { background: #e2493c; }
+.side .me { border-top-color: rgba(255, 255, 255, .07); }
+.side .me, .side .me p, .side .side-ver { color: var(--nav-fg) !important; }
+.topbar { background: color-mix(in srgb, var(--bg) 88%, transparent) !important; backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line) !important; box-shadow: none !important; height: 64px !important; color: var(--fg) !important; }
+.tb-search input { background: var(--surface) !important; border: 1px solid var(--line) !important; border-radius: 12px !important; height: 40px !important; }
+.tb-search input:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-soft); outline: 0; }
+@media (max-width: 900px) {
+  .side { padding-top: 6px !important; top: calc(64px + env(safe-area-inset-top, 0px)) !important; }
+  .side .nav button[aria-current="page"] { box-shadow: inset 0 -3px 0 var(--mint) !important; }
+}
+
+/* Kort, rubriker och knappar */
+.panel, .doc, .qcard, .welcome, .ws-card, .scard, .stat, .bed, .chat, .td-stat, .dxc, .jr-card { border-radius: var(--rad) !important; border: 1px solid transparent !important; box-shadow: var(--shadow) !important; }
+.panel-head { border-bottom-color: var(--line); padding: 14px 20px !important; }
+.panel-head h2, .ph, .panel-head h2.ph { font-size: 1rem !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -.01em !important; color: var(--fg); }
+.ph-ic { color: var(--accent); }
+.grp-head { text-transform: none !important; letter-spacing: 0 !important; font-size: .82rem !important; font-weight: 800; background: var(--surface-2); }
+.btn { border-radius: 10px !important; font-weight: 700; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.07); }
+.chip, .qchip, .tseg { border-radius: 999px !important; }
+.tseg button { border-radius: 999px; }
+.td-panel .tseg { border: 0; background: var(--surface-2); padding: 3px; gap: 2px; }
+.td-panel .tseg button { border: 0 !important; }
+.field input, .field select, .field textarea { border-radius: 10px !important; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-soft); outline: 0; }
+.page-head { background: transparent !important; border: 0 !important; box-shadow: none !important; padding: 6px 2px 0 !important; }
+.page-head h1 { font-size: 1.85rem !important; font-weight: 800 !important; letter-spacing: -.025em !important; }
+.page-head .eyebrow { color: var(--accent) !important; font-weight: 800; }
+.hero.td-hero { background: radial-gradient(120% 140% at 100% 0%, #1f5a52 0%, transparent 55%), linear-gradient(120deg, #0e2523, #133a36) !important; color: #fff !important; border: 0 !important; border-radius: 20px !important; padding: 26px 30px !important; box-shadow: 0 10px 30px rgba(14,37,35,.18) !important; }
+.hero.td-hero h1 { color: #fff !important; font-size: 2rem !important; font-weight: 800; letter-spacing: -.03em; }
+.hero.td-hero .eyebrow { color: var(--mint) !important; font-weight: 800; }
+.hero.td-hero p#m-sub { color: #c7dbd7 !important; font-size: 1rem; }
+.hero.td-hero .hero-btn { background: var(--mint) !important; color: #062420 !important; border-color: var(--mint) !important; }
+.td-stat b { font-weight: 800; }
+.td-stat::before { width: 5px; }
+.crow:hover, .glance-row:hover, .qcard:hover { background: var(--surface-2); }
+.qc-ic, .todo-ic, .gl-ic { border-radius: 12px !important; }
+.welcome { background: var(--surface) !important; }
+
+/* ===== Journalen ===== */
+.drawer.jr { width: 100%; max-width: none; height: 100%; background: var(--desk); display: flex; flex-direction: column; animation: wsin .18s ease-out; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .drawer.jr { animation: none; } }
+.jr-bar { display: flex; align-items: center; gap: 14px; padding: 10px 18px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); background: var(--nav-bg); color: var(--nav-hi); flex-wrap: wrap; min-height: 60px; }
+.jr-back { display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06); color: #fff; font: inherit; font-weight: 700; font-size: .88rem; padding: 7px 12px 7px 8px; border-radius: 10px; cursor: pointer; }
+.jr-back svg { width: 18px; height: 18px; }
+.jr-back:hover { background: rgba(255,255,255,.12); }
+.jr-title { display: grid; min-width: 0; }
+.jr-title b { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jr-title > span { color: var(--nav-fg); font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jr-tags { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.jr-acts { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.jr-bar .btn { background: rgba(255,255,255,.08) !important; color: #fff !important; border-color: rgba(255,255,255,.16) !important; }
+.jr-bar .btn:hover { background: rgba(255,255,255,.14) !important; }
+.jr-bar .btn.primary { background: var(--mint) !important; color: #062420 !important; border-color: var(--mint) !important; }
+.jr-bar .btn svg { width: 16px; height: 16px; }
+.jr-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 232px minmax(0, 1fr) 350px; }
+.jr-toc { overflow-y: auto; padding: 24px 10px 24px 18px; }
+.jr-desk { overflow-y: auto; padding: 28px 22px 80px; scroll-padding-top: 16px; }
+.jr-rail { overflow-y: auto; padding: 24px 18px 24px 4px; display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 1320px) { .jr-layout { grid-template-columns: minmax(0, 1fr) 330px; } .jr-toc { display: none; } }
+@media (max-width: 960px) { .jr-layout { display: block; overflow-y: auto; } .jr-desk { overflow: visible; padding: 14px 10px 20px; } .jr-rail { overflow: visible; padding: 0 10px 40px; } .jr-tags { display: none; } }
+.toc-h { font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 10px 10px; }
+.jr-toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.jr-toc button { width: 100%; display: flex; gap: 10px; align-items: center; text-align: left; border: 0; background: transparent; padding: 7px 8px; border-radius: 10px; font: inherit; font-size: .87rem; font-weight: 600; color: var(--fg); cursor: pointer; }
+.jr-toc button:hover { background: var(--surface); }
+.toc-num { width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: .72rem; font-weight: 800; color: var(--accent); box-shadow: var(--shadow); }
+.toc-l { flex: 1; min-width: 0; line-height: 1.25; }
+.toc-flag { font-style: normal; width: 18px; height: 18px; border-radius: 50%; background: var(--danger); color: #fff; display: grid; place-items: center; font-size: .7rem; font-weight: 800; }
+.toc-n { font-style: normal; font-size: .72rem; font-weight: 700; color: var(--muted); }
+.toc-print { margin-top: 16px; width: 100%; display: flex; gap: 8px; align-items: center; justify-content: center; border: 1px dashed color-mix(in srgb, var(--muted) 50%, transparent); background: transparent; color: var(--muted); font: inherit; font-weight: 700; font-size: .84rem; padding: 9px; border-radius: 10px; cursor: pointer; }
+.toc-print svg { width: 16px; height: 16px; }
+.toc-print:hover { color: var(--accent); border-color: var(--accent); }
+.jr-card { background: var(--surface); padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.jr-card > * { min-width: 0; }
+.jr-card h3 { font-size: .98rem; font-weight: 800; margin: 0; }
+.jr-next { border-left: 5px solid var(--accent) !important; }
+.jr-next.tone-urgent { border-left-color: var(--danger) !important; background: color-mix(in srgb, var(--danger) 5%, var(--surface)); }
+.jr-next.tone-wait, .jr-next.tone-done { border-left-color: var(--muted) !important; }
+.jr-next p { margin: 0; font-weight: 600; }
+.jr-next .btn { justify-self: start; }
+.jr-k { font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.jr-p { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 4px 0; }
+.jr-p b { display: block; font-size: .92rem; }
+.jr-p small { display: block; color: var(--muted); font-size: .76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jr-role { display: block; font-size: .64rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
+.on { color: var(--ok); font-weight: 700; }
+.pp-me { font-size: .75rem; font-weight: 700; color: var(--muted); padding: 0 6px; }
+.jr-other { display: flex; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.jr-other select { flex: 1; min-width: 0; font: inherit; font-size: .86rem; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.jr-chat .cc-msgs { max-height: 420px; min-height: 140px; overflow-y: auto; border-radius: 12px; background: var(--surface-2); padding: 10px; }
+.jr-chat .composer { padding: 0; border: 0; background: transparent; }
+.jr-admin { max-width: 880px; margin: 18px auto 0; }
+
+/* Journalbladet */
+.paper { --surface: #ffffff; --surface-2: #f5f4ee; --fg: var(--ink); --muted: #5e6a70; --line: #e3e0d6; --accent: #0e7466; --accent-soft: #e2f1ed; --danger: #b8322a; --danger-soft: #fbeae7; --ok: #1f7a49;
+  color: var(--ink); color-scheme: light; max-width: 880px; margin: 0 auto; background: var(--paper); border-radius: 6px; box-shadow: 0 1px 1px rgba(0,0,0,.05), 0 14px 40px rgba(14,37,35,.16); padding: 44px 52px 34px; counter-reset: pp; position: relative; font-size: 14.5px; }
+.paper::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: linear-gradient(90deg, var(--accent), var(--mint)); border-radius: 6px 6px 0 0; }
+.paper .field input, .paper .field select, .paper .field textarea, .paper textarea { background: #fff; color: var(--ink); border-color: #d9d5c8; }
+.pp-letter { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.pp-org { display: flex; gap: 11px; align-items: center; }
+.pp-org svg { width: 34px; height: 34px; }
+.pp-org b { display: block; font-family: var(--serif); font-size: 1.2rem; font-weight: 700; }
+.pp-org small { color: var(--muted); font-size: .8rem; }
+.pp-docid { display: grid; text-align: right; gap: 1px; }
+.pp-docid b { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.pp-docid small { color: var(--muted); font-size: .78rem; }
+.pp-ident { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding: 20px 0 14px; }
+.pp-who h1 { font-family: var(--serif); font-size: 2.1rem; font-weight: 600; margin: 0; line-height: 1.12; letter-spacing: -.01em; }
+.pp-who > span { color: var(--muted); }
+.pp-stamps { display: flex; gap: 8px; flex-wrap: wrap; }
+.stamp { border: 2px solid currentColor; border-radius: 5px; padding: 3px 10px; font-weight: 800; font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; transform: rotate(-2deg); color: var(--muted); background: transparent; }
+.stamp.s-cave { color: #fff; background: var(--danger); border-color: var(--danger); }
+.stamp.s-rod { color: #c0302a; } .stamp.s-orange { color: #c46410; } .stamp.s-gul { color: #a07d00; } .stamp.s-gron { color: #23804d; } .stamp.s-bla { color: #2f62a8; }
+.stamp.s-news-hog { color: #c0302a; } .stamp.s-news-medel { color: #c46410; } .stamp.s-news-lag, .stamp.s-news-lagmedel { color: #a07d00; }
+.stamp.s-st { color: var(--accent); transform: rotate(1.5deg); }
+.pp-sec { counter-increment: pp; padding: 20px 0 18px; border-top: 1px solid var(--line); border-radius: 4px; transition: background-color .4s; }
+.pp-sec[hidden] { display: none; }
+.pp-sec.flash { background: color-mix(in srgb, var(--mint) 14%, transparent); }
+.pp-h { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.pp-n::before { content: counter(pp) "."; }
+.pp-n { font-family: var(--serif); color: var(--accent); font-weight: 700; font-size: 1.1rem; }
+.pp-h h2 { font-family: var(--serif); font-size: 1.22rem; font-weight: 600; margin: 0; letter-spacing: 0; }
+.pp-count { color: var(--muted); font-size: .82rem; margin-left: auto; }
+.pp-acts { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.pp-act { border: 1px solid var(--line); background: #fff; color: var(--accent); font: inherit; font-size: .8rem; font-weight: 800; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.pp-act:hover { border-color: var(--accent); background: var(--accent-soft); }
+.pp-act.pri { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pp-act.pri:hover { filter: brightness(1.08); background: var(--accent); }
+.pp-act.warn { color: var(--danger); }
+.pp-act.warn:hover { border-color: var(--danger); background: var(--danger-soft); }
+.pp-dl { display: grid; gap: 12px 26px; margin: 0; }
+.pp-dl.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pp-dl.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pp-dl.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pp-kv.wide { grid-column: 1 / -1; }
+.pp-kv dt { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pp-kv dd { margin: 3px 0 0; overflow-wrap: anywhere; }
+.pp-empty { color: #a5a9a6; font-style: italic; }
+.pp-prose { margin: 0; white-space: pre-wrap; font-family: var(--serif); font-size: 1.02rem; line-height: 1.6; }
+.pp-q { font-family: var(--serif); font-size: 1.08rem; font-weight: 600; }
+.pp-cave { display: flex; gap: 12px; align-items: center; margin-top: 14px; padding: 8px 12px; border: 2px solid var(--danger); color: var(--danger); border-radius: 6px; font-weight: 700; }
+.pp-cave b { background: var(--danger); color: #fff; padding: 1px 8px; border-radius: 3px; letter-spacing: .12em; font-size: .78rem; }
+.pp-muted { color: var(--muted); font-size: .84rem; margin: 10px 0 0; }
+.pp-m0 { margin: 0; }
+.pp-muted-i { color: var(--muted); font-size: .86rem; }
+.pp-vit-top { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; margin-bottom: 14px; }
+.pp-news { display: flex; gap: 10px; align-items: center; padding: 8px 16px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
+.pp-news b { font-size: 2rem; line-height: 1; font-weight: 800; }
+.pp-news span { display: grid; font-weight: 800; font-size: .82rem; }
+.pp-news small { font-weight: 600; color: var(--muted); }
+.pp-news.news-hog { background: var(--danger-soft); border-color: transparent; color: var(--danger); }
+.pp-news.news-medel { background: #fdf0e3; border-color: transparent; color: #b45c10; }
+.pp-vit-now { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; flex: 1; min-width: 280px; }
+.pp-vt { display: grid; padding: 6px 9px; border: 1px solid var(--line); border-radius: 8px; background: #fff; text-align: left; font: inherit; color: var(--ink); }
+button.pp-vt { cursor: pointer; }
+button.pp-vt:hover { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.pp-vt small { font-size: .64rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.pp-vt b { font-size: 1.08rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pp-vt em { font-style: normal; font-size: .68rem; color: var(--muted); }
+.pp-vt.flag { border-color: var(--danger); background: var(--danger-soft); }
+.pp-vt.flag b { color: var(--danger); }
+@media (max-width: 760px) { .pp-vit-now { grid-template-columns: repeat(4, minmax(0, 1fr)); min-width: 0; } }
+.pp-tablewrap { overflow-x: auto; }
+.pp-table { width: 100%; border-collapse: collapse; font-size: .84rem; font-variant-numeric: tabular-nums; }
+.pp-table th { text-align: left; font-size: .66rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1.5px solid var(--ink); padding: 4px 6px; white-space: nowrap; }
+.pp-table td { padding: 6px; border-bottom: 1px dotted #cfcabb; white-space: nowrap; }
+.pp-table td small { display: block; font-size: .68rem; color: var(--accent); font-weight: 700; }
+.pp-table td.flag { color: var(--danger); font-weight: 800; }
+.pp-table td.nw-hog { color: var(--danger); font-weight: 800; } .pp-table td.nw-medel { color: #b45c10; font-weight: 800; }
+.pp-table tr.latest td { background: var(--accent-soft); }
+.pp-dx { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-family: var(--serif); font-size: 1.35rem; margin-bottom: 12px; }
+.pp-dx .diag-code { font-size: .9rem; }
+.pp-dxhist { display: grid; gap: 2px; margin-top: 12px; font-size: .82rem; color: var(--muted); }
+.pp-dxhist small { font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .66rem; }
+.pp-sig { display: flex; gap: 14px; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px dashed #cfcabb; font-size: .86rem; }
+.pp-sig img { height: 54px; max-width: 200px; object-fit: contain; }
+.pp-sig small { display: block; color: var(--muted); }
+.pp-blank { display: flex; gap: 14px; align-items: center; padding: 16px; border: 2px dashed #d3cfc2; border-radius: 8px; color: var(--muted); }
+.pp-blank b { color: var(--ink); display: block; }
+.pp-blank-ic { width: 42px; height: 42px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.pp-blank-ic svg { width: 22px; height: 22px; }
+.pp-tx { list-style: none; margin: 0; padding: 0; display: grid; }
+.pp-tx li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 2px; border-bottom: 1px dotted #cfcabb; }
+.pp-tick { width: 20px; height: 20px; border: 1.5px solid #9aa3a0; border-radius: 5px; display: grid; place-items: center; background: #fff; }
+.pp-tick svg { width: 13px; height: 13px; }
+.pp-tx li.done .pp-tick { background: var(--ok); border-color: var(--ok); color: #fff; }
+.pp-txt small { display: block; color: var(--ok); font-size: .76rem; font-weight: 700; }
+.pp-mini { border: 1px solid var(--line); background: #fff; border-radius: 8px; font: inherit; font-size: .76rem; font-weight: 700; padding: 4px 10px; cursor: pointer; color: var(--accent); white-space: nowrap; }
+.pp-mini:hover { border-color: var(--accent); }
+.pp-mini.go { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pp-mini:disabled { opacity: .5; }
+.pp-sub { font-size: .68rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin: 16px 0 6px; display: flex; gap: 6px; align-items: center; }
+.pp-b > .pp-sub:first-child, .pp-form + .pp-sub { margin-top: 0; }
+.pp-form + .pp-sub { margin-top: 4px; }
+.pp-person { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px dotted #cfcabb; }
+.pp-person b { display: block; }
+.pp-person small { color: var(--muted); font-size: .8rem; }
+.pp-person .warn { color: var(--danger); font-weight: 700; }
+.pp-pbtns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.pp-ins { padding: 9px 12px; border-left: 3px solid var(--accent); background: var(--surface-2); border-radius: 0 8px 8px 0; margin-bottom: 6px; display: grid; gap: 4px; }
+.pp-ins.akut { border-left-color: var(--danger); }
+.pp-ins.mine { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.pp-ins p { margin: 0; font-family: var(--serif); font-size: 1rem; }
+.pp-ins-top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .8rem; color: var(--muted); }
+.pp-ins-top b { color: var(--ink); }
+.pp-acks { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pp-rep { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 7px 0; border-bottom: 1px dotted #cfcabb; }
+.pp-rep p { margin: 0; }
+.pp-rep small { color: var(--muted); font-size: .78rem; }
+.pp-rep.unread p { font-weight: 600; }
+.pp-reply { padding: 9px 12px; border-radius: 8px; background: var(--surface-2); margin-bottom: 6px; display: grid; gap: 4px; }
+.pp-reply.new { box-shadow: inset 0 0 0 1.5px var(--danger); }
+.pp-reply p { margin: 0; }
+.pp-reply small { color: var(--muted); font-size: .78rem; }
+.pp-reply .pp-pbtns { justify-content: flex-start; }
+.pp-thumbs { display: flex; flex-wrap: wrap; gap: 8px; }
+.pp-hrow { width: 100%; display: grid; grid-template-columns: 90px minmax(0, 1fr) minmax(0, 1fr) auto; gap: 12px; align-items: center; text-align: left; border: 0; border-bottom: 1px dotted #cfcabb; background: transparent; padding: 8px 2px; font: inherit; color: var(--ink); cursor: pointer; }
+.pp-hrow:hover { background: var(--surface-2); }
+.pp-hrow > span:nth-child(3) { color: var(--muted); font-size: .86rem; }
+.pp-form { display: grid; gap: 12px; padding: 16px; margin-bottom: 14px; background: #f4faf8; border: 1.5px solid var(--accent); border-radius: 10px; }
+.pp-form .wide { grid-column: 1 / -1; }
+.pp-formsub { font-weight: 800; font-size: .92rem; }
+.pp-form-acts { display: flex; justify-content: flex-end; gap: 8px; }
+.pp-form-acts .btn svg { width: 15px; height: 15px; }
+.pp-note { display: grid; gap: 8px; margin-bottom: 14px; padding: 12px; border: 1px dashed #cfcabb; border-radius: 10px; background: #fcfbf6; }
+.pp-note textarea { width: 100%; font: inherit; padding: 10px 12px; border: 1px solid #d9d5c8; border-radius: 8px; resize: vertical; }
+.pp-note .drop { padding: 10px; }
+.pp-entry { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 9px 0; border-bottom: 1px dotted #cfcabb; }
+.pp-entry time { font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; line-height: 1.35; padding-top: 2px; }
+.pp-entry b { font-size: .88rem; }
+.pp-entry small { color: var(--muted); font-size: .78rem; }
+.pp-entry p { margin: 2px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pp-entry.note p { font-family: var(--serif); font-size: 1rem; }
+.pp-entry.sys p { color: var(--muted); font-size: .88rem; }
+.pp-foot { margin-top: 10px; padding-top: 18px; border-top: 2px solid var(--ink); }
+.pp-signs { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.pp-signs > div { display: grid; gap: 1px; align-content: start; }
+.pp-signs small { font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pp-signs span { color: var(--muted); font-size: .84rem; }
+.pp-signs img { height: 46px; max-width: 200px; object-fit: contain; object-position: left; }
+.pp-fine { font-size: .7rem; color: var(--muted); margin: 18px 0 0; text-align: center; letter-spacing: .02em; }
+@media (max-width: 760px) {
+  .paper { padding: 28px 18px 22px; font-size: 14px; }
+  .pp-letter { flex-direction: column; align-items: flex-start; }
+  .pp-docid { text-align: left; }
+  .pp-who h1 { font-size: 1.6rem; }
+  .pp-dl.c3, .pp-dl.c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pp-entry { grid-template-columns: 1fr; gap: 2px; }
+  .pp-hrow { grid-template-columns: 1fr; gap: 2px; }
+  .pp-signs { grid-template-columns: 1fr; gap: 16px; }
+  .pp-person, .pp-rep { grid-template-columns: auto minmax(0, 1fr); }
+  .pp-person .pp-pbtns, .pp-rep > .pp-mini { grid-column: 2; justify-content: flex-start; justify-self: start; }
+}
+@media print {
+  body > *:not(#drawer) { display: none !important; }
+  #drawer, .drawer.jr, .jr-layout, .jr-desk { position: static !important; display: block !important; height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; }
+  .jr-bar, .jr-toc, .jr-rail, .jr-admin, .pp-acts, .pp-note, .pp-mini, .pp-form, .pp-pbtns, .scrim { display: none !important; }
+  .paper { box-shadow: none !important; max-width: none; padding: 0; }
+  .paper::before { display: none; }
+}
+.login-brand { background: radial-gradient(90% 70% at 100% 0%, #1f5a52 0%, transparent 60%), linear-gradient(160deg, #0e2523, #12332f) !important; color: #fff !important; }
+.login-brand .logo-mark { background: var(--mint) !important; border-radius: 12px; }
+.login-brand .logo-mark svg path { fill: #0e2523 !important; }
+.login-brand .ecg { color: var(--mint); opacity: .35; }
+.login-brand h2 { font-weight: 800; letter-spacing: -.03em; }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -1563,7 +1881,7 @@ function dxFind(q, cat) {
 function dxLabel(d) { return d ? (d.code ? d.code + ' ' : '') + d.text : ''; }
 
 /* Diagnos ställs i en popup i fyra steg: välj diagnos, kontrollera underlaget, välj behandling och signera */
-function openDiagnosis(caseId) {
+function openDiagnosis(caseId, startStep) {
   var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
   if (!can('diagnose')) { toast('Bara läkare kan ställa diagnos.', true); return; }
   if (c.status === 'avslutad') { toast('Ärendet är avslutat. Återöppna det först om diagnosen ska ändras.', true); return; }
@@ -1621,7 +1939,7 @@ function openDiagnosis(caseId) {
       '</section>' +
       '<section data-s="4" hidden>' +
         '<div class="dxm-sum" id="dxm-sum"></div>' +
-        (editing ? '<label class="field"><span>Varför ändras diagnosen? *</span><input id="dxm-why" placeholder="T.ex. Röntgen visade en fraktur"></label>' : '') +
+        (editing ? '<label class="field"><span>Varför ändras diagnosen eller ordinationen? *</span><input id="dxm-why" placeholder="T.ex. Röntgen visade en fraktur"></label>' : '') +
         '<span class="dx-label">Signatur *</span>' +
         '<div class="sig-wrap"><canvas class="sig" id="dxm-sig" aria-label="Signaturfält. Rita din signatur med musen."></canvas><span class="sig-x" aria-hidden="true">✕</span><span class="sig-line">' + esc(S.me.name) + (S.me.title ? ', ' + esc(S.me.title) : '') + '</span><span class="sig-ph" id="dxm-sig-ph">' + IC.pen + 'Signera här</span></div>' +
         '<div class="sig-tools"><span class="muted" id="dxm-sig-state">Inte signerad</span><button type="button" class="btn sm" id="dxm-sig-clear">Rensa signatur</button></div>' +
@@ -1752,18 +2070,19 @@ function openDiagnosis(caseId) {
     var label = dxLabel(dx), evs = [];
     if (editing) {
       patch.dxHistory = (cc.dxHistory || []).concat([{ code: d0.code || '', text: d0.text, cert: d0.cert || '', by: d0.by, at: d0.at, changedAt: now, changedBy: S.me.id, reason: why }]).slice(-20);
-      evs.push({ type: 'sys', text: 'Diagnos ändrad från ' + dxLabel(d0) + ' till ' + label + ' (' + certLabel(st.cert).toLowerCase() + '). Orsak: ' + why + '. Signerad elektroniskt.' });
+      if (dxLabel(d0) === label) evs.push({ type: 'sys', text: 'Ordination ändrad för ' + label + '. Orsak: ' + why + '. Signerad elektroniskt.' });
+      else evs.push({ type: 'sys', text: 'Diagnos ändrad från ' + dxLabel(d0) + ' till ' + label + ' (' + certLabel(st.cert).toLowerCase() + '). Orsak: ' + why + '. Signerad elektroniskt.' });
     } else evs.push({ type: 'sys', text: 'Diagnos ställd: ' + label + ' (' + certLabel(st.cert).toLowerCase() + '). Signerad elektroniskt.' });
     evs.push({ type: 'note', text: 'Bedömning: ' + ass + '\nOrdination:\n' + plan });
     var btn = $('#dxm-next', m); btn.disabled = true; btn.textContent = 'Sparar…';
     try {
       await updateCase(caseId, patch, evs);
       close(); toast(editing ? 'Diagnosen är ändrad och signerad.' : 'Diagnosen är ställd och signerad.');
-      var row = $('#d-info .doc-dxrow'); if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.add('flash'); setTimeout(function () { row.classList.remove('flash'); }, 1400); }
+      var row = $('#pp-' + (startStep === 3 ? 'tx' : 'dx')); if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.add('flash'); setTimeout(function () { row.classList.remove('flash'); }, 1400); }
     } catch (x) { btn.disabled = false; drawSum(); }
   }
   if (st.custom) drawList();
-  go(1);
+  if (startStep && editing) { $$('[data-chk]', m).forEach(function (x) { x.checked = true; }); st.max = 4; go(startStep); } else go(1);
 }
 function renderDxCard(c) {
   var d = c.diagnosis, canD = can('diagnose') && c.status !== 'avslutad';
@@ -2142,7 +2461,7 @@ function renderShell() {
       '<div class="tb-right">' + (can('create') ? '<button type="button" class="btn primary sm tb-new" data-nav="nytt">' + IC.plusc + '<span>Ny konsultation</span></button>' : '') + '<span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
     '</header>' +
     '<div class="shell">' +
-      '<aside class="side">' +
+      '<aside class="side"><div class="side-brand"><span class="sb-mark">' + CROSS + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
         '<ul class="nav" id="nav"></ul>' +
         '<div class="me" id="me"></div>' +
       '</aside>' +
@@ -2176,7 +2495,7 @@ function drawSide() {
     return navBtn(i);
   }).join('');
   var me = S.me, oc = onlineCount();
-  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 4.2 · Los Santos Sjukvård</p>';
+  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 5.0 · Los Santos Sjukvård</p>';
   var tu = $('#tb-user');
   if (tu) tu.innerHTML = '<button type="button" class="tb-user" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + avatarHtml(me) + '<span><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></span></button>';
 }
@@ -3705,103 +4024,430 @@ function openVitals(caseId, focusKey) {
   });
 }
 
+/* ---------- Journalen: all information samlad på ett journalblad ---------- */
+var PP_ORDER = ['pat', 'kontakt', 'vit', 'dx', 'tx', 'stay', 'team', 'svar', 'img', 'hist', 'log'];
+var PP_TITLE = { pat: 'Patientuppgifter', kontakt: 'Kontaktorsak och anamnes', vit: 'Vitalparametrar', dx: 'Diagnos och bedömning', tx: 'Ordination och behandling', stay: 'Vistelse och uppföljning', team: 'Vårdteam och instruktioner', svar: 'Läkarens svar till remittenten', img: 'Bilagor', hist: 'Tidigare vårdtillfällen', log: 'Journalanteckningar' };
+var ONSETS = ['Inom en timme', 'Idag', '1–3 dygn', 'Mer än 3 dygn', 'Okänt'];
+function canEditJ() { return !!S.me && (can('create') || can('diagnose') || can('manage') || can('receive')); }
+function curCase() { return S.cases.find(function (x) { return x.id === S.openCase; }); }
+function ppKv(label, val, wide) { return '<div class="pp-kv' + (wide ? ' wide' : '') + '"><dt>' + label + '</dt><dd>' + (val || '<span class="pp-empty">Ej angivet</span>') + '</dd></div>'; }
+function ppAct(label, attrs, kind) { return '<button type="button" class="pp-act' + (kind ? ' ' + kind : '') + '" ' + attrs + '>' + label + '</button>'; }
+function fld(l, inner, wide) { return '<label class="field' + (wide ? ' wide' : '') + '"><span>' + l + '</span>' + inner + '</label>'; }
+function fv(f, n) { var e = f.elements.namedItem(n); return e ? String(e.value || '').trim() : ''; }
+function opts(list, sel, emptyLabel) { return (emptyLabel != null ? '<option value="">' + esc(emptyLabel) + '</option>' : '') + list.map(function (o) { var v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o; return '<option value="' + esc(v) + '"' + (v === sel ? ' selected' : '') + '>' + esc(l) + '</option>'; }).join(''); }
+function ppHist(c) { var pn = c.patient || {}, key = (pn.pnr || '').trim(), nm = (pn.name || '').trim().toLowerCase(); return byNewest(S.cases.filter(function (x) { if (x.id === c.id || !x.patient) return false; return key ? (x.patient.pnr || '').trim() === key : (nm && (x.patient.name || '').trim().toLowerCase() === nm); })); }
+function vitLog(c) { return c.vitalsLog && c.vitalsLog.length ? c.vitalsLog : [{ at: c.createdAt, by: c.createdBy, v: c.vitals || {} }]; }
+function txDoneOf(c, t) { return (c.txLog || []).find(function (x) { return x.t === t; }); }
+function txItems(c) { var d = c.diagnosis; if (!d) return []; return (d.treatments || []).concat(d.extra ? [d.extra] : []); }
+function ppVisible(c, k) {
+  if (k === 'svar') return (c.replies || []).length > 0 || (can('diagnose') && c.createdBy !== S.me.id);
+  if (k === 'hist') return ppHist(c).length > 0;
+  return true;
+}
+function vitVal(v, k) { return k === 'bts' ? (v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : '') : k === 'spo2' ? (v.spo2 ? v.spo2 + (v.o2 ? ' O₂' : '') : '') : (v[k] || ''); }
+function ppStayToggle(f) {
+  var st = f.elements.namedItem('st'); if (!st) return;
+  var v = st.value;
+  $$('[data-show=inne]', f).forEach(function (x) { x.hidden = v !== 'inne'; });
+  $$('[data-show=left]', f).forEach(function (x) { x.hidden = !(v === 'utskriven' || v === 'avviken' || v === 'overflyttad'); });
+  var cm = f.elements.namedItem('callmode'); if (cm) $$('[data-show=call]', f).forEach(function (x) { x.hidden = cm.value !== 'book'; });
+}
+
+var PP = {
+  pat: {
+    acts: function () { return canEditJ() ? ppAct('Ändra', 'data-pp-edit="pat"') : ''; },
+    view: function (c) {
+      var p = c.patient || {}, pi = pnrInfo(p.pnr);
+      return '<dl class="pp-dl c4">' + ppKv('Namn', p.name ? '<b>' + esc(p.name) + '</b>' : '') + ppKv('Personnummer', p.pnr ? '<span class="mono">' + esc(p.pnr) + '</span>' : '') + ppKv('Ålder och kön', pi ? pi.age + ' år, ' + pi.sex : '') + ppKv('Telefon', p.phone ? '<span class="mono">' + esc(p.phone) + '</span>' : '') + '</dl>' +
+        (c.cave ? '<div class="pp-cave"><b>CAVE</b><span>' + esc(c.cave) + '</span></div>' : '<p class="pp-muted">Ingen känd överkänslighet (CAVE) registrerad.</p>');
+    },
+    form: function (c) {
+      var p = c.patient || {};
+      return '<div class="grid2">' + fld('Namn *', '<input name="name" required value="' + esc(p.name || '') + '">') + fld('Personnummer', '<input name="pnr" class="mono" placeholder="ÅÅÅÅMMDD-XXXX" value="' + esc(p.pnr || '') + '">') +
+        fld('Telefon', '<input name="phone" value="' + esc(p.phone || '') + '">') + fld('Överkänslighet (CAVE)', '<input name="cave" placeholder="T.ex. Penicillin" value="' + esc(c.cave || '') + '">') + '</div>';
+    },
+    save: function (c, f) {
+      var name = fv(f, 'name'); if (!name) { toast('Skriv patientens namn.', true); return null; }
+      var cave = fv(f, 'cave'), ev = 'Patientuppgifter ändrades' + (cave !== (c.cave || '') ? '. CAVE: ' + (cave || 'borttaget') : '') + '.';
+      return updateCase(c.id, { patient: Object.assign({}, c.patient || {}, { name: name, pnr: fv(f, 'pnr'), phone: fv(f, 'phone') }), cave: cave }, { type: 'sys', text: ev });
+    }
+  },
+  kontakt: {
+    acts: function () { return canEditJ() ? ppAct('Ändra', 'data-pp-edit="kontakt"') : ''; },
+    view: function (c) {
+      var t = TRI[c.triage] ? c.triage : 'bla', mech = c.mechanism && c.mechanism !== MECH[0] ? esc(c.mechanism) : (c.mechanism ? 'Ingen skada' : '');
+      return '<dl class="pp-dl c2">' + ppKv('Kontaktorsak', c.title ? '<b>' + esc(c.title) + '</b>' : '') + ppKv('Prioritet', triChip(t) + ' <span class="pp-muted-i">' + esc(TRI[t].desc) + '</span>') +
+        ppKv('Skademekanism', mech) + ppKv('Symtomdebut', c.onset ? esc(c.onset) : '') +
+        ppKv('Frågeställning till läkaren', c.question ? '<span class="pp-q">' + esc(c.question) + '</span>' : '', true) +
+        ppKv('Aktuellt (anamnes)', c.symptoms ? '<p class="pp-prose">' + esc(c.symptoms) + '</p>' : '', true) +
+        ppKv('Aktuella läkemedel', c.meds ? esc(c.meds) : '') + ppKv('Behandling före ankomst', c.given ? esc(c.given) : '') + '</dl>';
+    },
+    form: function (c) {
+      return '<div class="grid2">' + fld('Kontaktorsak *', '<input name="title" required value="' + esc(c.title || '') + '">') +
+        fld('Prioritet', '<select name="tri">' + opts(Object.keys(TRI).map(function (k) { return [k, TRI[k].label + ' – ' + TRI[k].desc]; }), c.triage) + '</select>') +
+        fld('Skademekanism', '<select name="mech">' + opts(MECH, c.mechanism || MECH[0]) + '</select>') + fld('Symtomdebut', '<select name="onset">' + opts(ONSETS, c.onset || '', 'Välj') + '</select>') + '</div>' +
+        fld('Frågeställning till läkaren', '<input name="q" value="' + esc(c.question || '') + '">') +
+        fld('Aktuellt (anamnes) *', '<textarea name="sym" rows="4">' + esc(c.symptoms || '') + '</textarea>') +
+        '<div class="grid2">' + fld('Aktuella läkemedel', '<input name="meds" value="' + esc(c.meds || '') + '">') + fld('Behandling före ankomst', '<input name="given" value="' + esc(c.given || '') + '">') + '</div>';
+    },
+    save: function (c, f) {
+      var title = fv(f, 'title'), sym = fv(f, 'sym'); if (!title || !sym) { toast('Kontaktorsak och anamnes måste fyllas i.', true); return null; }
+      var tri = fv(f, 'tri'), evs = [{ type: 'sys', text: 'Kontaktorsak och anamnes ändrades.' }];
+      if (tri !== c.triage) evs.push({ type: 'sys', text: 'Prioritet ändrad från ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' till ' + TRI[tri].label.toLowerCase() + '.' });
+      return updateCase(c.id, { title: title, triage: tri, mechanism: fv(f, 'mech'), onset: fv(f, 'onset'), question: fv(f, 'q'), symptoms: sym, meds: fv(f, 'meds'), given: fv(f, 'given') }, evs);
+    }
+  },
+  vit: {
+    acts: function () { return canEditJ() ? ppAct('+ Ny mätning', 'data-vit-edit=""', 'pri') : ''; },
+    view: function (c) {
+      var v = c.vitals || {}, nw = news2(v), log = vitLog(c), ed = canEditJ();
+      var tiles = VIT.map(function (x) {
+        var val = vitVal(v, x[0]), tag = ed ? 'button type="button" data-vit-edit="' + x[0] + '" title="Uppdatera ' + x[1] + '"' : 'div';
+        return '<' + tag + ' class="pp-vt' + (vitFlag(x[0], v) ? ' flag' : '') + '"><small>' + x[1] + '</small><b>' + (val ? esc(val) : '–') + '</b><em>' + (val ? x[2] : (ed ? 'Lägg till' : '')) + '</em></' + (ed ? 'button' : 'div') + '>';
+      }).join('');
+      var rows = log.map(function (e, i) { return { e: e, i: i }; }).reverse().slice(0, 12).map(function (r) {
+        var e = r.e, w = e.v || {}, n2 = news2(w);
+        var cell = function (k) { var val = vitVal(w, k); return '<td' + (vitFlag(k, w) ? ' class="flag"' : '') + '>' + (val ? esc(val) : '–') + '</td>'; };
+        return '<tr' + (r.i === log.length - 1 ? ' class="latest"' : '') + '><td>' + esc(fmtD.format(new Date(e.at))) + ' ' + esc(fmtT.format(new Date(e.at))) + (r.i === 0 ? '<small>Vid remiss</small>' : '') + '</td>' +
+          ['af', 'spo2', 'puls', 'bts', 'temp', 'avpu', 'vas'].map(cell).join('') + '<td class="' + (n2 ? 'nw-' + n2.risk : '') + '">' + (n2 ? n2.s : '–') + '</td><td>' + esc(initials(userName(e.by))) + '</td></tr>';
+      }).join('');
+      return '<div class="pp-vit-top">' + (nw ? '<div class="pp-news news-' + nw.risk + '"><b>' + nw.s + '</b><span>NEWS2 ' + termQ('news2') + '<small>' + esc(nw.label.split(' – ')[0]) + '</small></span></div>' : '') + '<div class="pp-vit-now">' + tiles + '</div></div>' +
+        '<div class="pp-tablewrap"><table class="pp-table"><thead><tr><th>Tid</th><th>AF</th><th>SpO₂</th><th>Puls</th><th>BT</th><th>Temp</th><th>ACVPU</th><th>VAS</th><th>NEWS2</th><th>Sign</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        (ed ? '<p class="pp-muted">Tryck på ett värde eller på Ny mätning för att föra in nya vitalparametrar. Alla mätningar sparas i tabellen.</p>' : '');
+    }
+  },
+  dx: {
+    acts: function (c) { return can('diagnose') && c.status !== 'avslutad' ? ppAct(c.diagnosis ? 'Ändra diagnos' : 'Ställ diagnos', 'data-dxopen="' + esc(c.id) + '"', c.diagnosis ? '' : 'pri') : ''; },
+    view: function (c) {
+      var d = c.diagnosis;
+      if (!d) return '<div class="pp-blank"><span class="pp-blank-ic">' + IC.steth + '</span><div><b>Ingen diagnos ställd</b><span>' + (can('diagnose') ? 'Tryck Ställ diagnos. Du väljer diagnos, kontrollerar underlaget, ordinerar behandling och signerar.' : c.doctorId ? esc(userName(c.doctorId)) + ' bedömer patienten. Diagnosen förs in här när den är signerad.' : 'Väntar på att en läkare tar ärendet.') + '</span></div></div>';
+      var h = c.dxHistory || [], doc = personOf(d.by);
+      return '<div class="pp-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b>' + certPill(d.cert) + '</div>' +
+        '<dl class="pp-dl">' + ppKv('Bedömning', d.assessment ? '<p class="pp-prose">' + esc(d.assessment) + '</p>' : '', true) + '</dl>' +
+        (h.length ? '<div class="pp-dxhist"><small>Tidigare diagnoser</small>' + h.slice().reverse().map(function (x) { return '<span><s>' + esc(dxLabel(x)) + '</s> · ändrad ' + esc(dt(x.changedAt)) + ' av ' + esc(userName(x.changedBy)) + (x.reason ? ': ' + esc(x.reason) : '') + '</span>'; }).join('') + '</div>' : '') +
+        '<div class="pp-sig">' + (d.signature ? '<img alt="Signatur" src="' + esc(d.signature) + '">' : '') + '<span>Elektroniskt signerad av <b>' + esc(doc.name) + '</b>' + (doc.title ? ', ' + esc(doc.title) : '') + '<small>' + esc(fmtFull.format(new Date(d.signedAt || d.at))) + '</small></span></div>';
+    }
+  },
+  tx: {
+    acts: function (c) { return can('diagnose') && c.diagnosis && c.status !== 'avslutad' ? ppAct('Ändra ordination', 'data-dxopen="' + esc(c.id) + '" data-step="3"') : ''; },
+    view: function (c) {
+      var d = c.diagnosis;
+      if (!d) return '<p class="pp-muted pp-m0">Läkaren ordinerar behandling när diagnosen ställs.</p>';
+      var items = txItems(c), ed = canEditJ() && c.status !== 'avslutad';
+      if (!items.length) return d.noTx ? '<p class="pp-m0">Ingen behandling behövs.</p>' : (d.plan ? '<p class="pp-prose">' + esc(d.plan) + '</p>' : '<p class="pp-muted pp-m0">Ingen ordination.</p>');
+      var done = items.filter(function (t) { return txDoneOf(c, t); }).length;
+      return '<ul class="pp-tx">' + items.map(function (t) {
+        var dn = txDoneOf(c, t);
+        return '<li class="' + (dn ? 'done' : '') + '"><span class="pp-tick">' + (dn ? IC.ok : '') + '</span><span class="pp-txt">' + esc(t) + (dn ? '<small>Utförd av ' + esc(userName(dn.by)) + ' ' + esc(dt(dn.at)) + '</small>' : '') + '</span>' +
+          (ed ? '<button type="button" class="pp-mini' + (dn ? '' : ' go') + '" data-txdone="' + esc(t) + '">' + (dn ? 'Ångra' : 'Markera utförd') + '</button>' : '') + '</li>';
+      }).join('') + '</ul><p class="pp-muted">Ordinerat av ' + esc(userName(d.by)) + ' ' + esc(dt(d.at)) + ' · ' + done + ' av ' + items.length + ' utförda.</p>';
+    }
+  },
+  stay: {
+    acts: function () { return canEditJ() ? ppAct('Ändra', 'data-pp-edit="stay"') : ''; },
+    view: function (c) {
+      var sy = c.stay || {}, call = c.call, inne = sy.status === 'inne';
+      return '<dl class="pp-dl c3">' + ppKv('Vistelse', stayHtml(c)) + ppKv('Avdelning och sal', inne ? esc(sy.ward || '') + (sy.room ? ', ' + esc(sy.room) : '') : '') +
+        ppKv(inne ? 'Inlagd sedan' : 'Lämnade till', inne ? (sy.admittedAt ? esc(dt(sy.admittedAt)) : '') : (sy.dest ? esc(sy.dest) : '')) +
+        (sy.note ? ppKv('Notering', esc(sy.note), true) : '') +
+        ppKv('Bokat samtal', call ? '<b>' + esc(call.type) + '</b> ' + esc(fmtWd.format(new Date(call.at))) + ' ' + esc(dt(call.at)) + ' med ' + esc(call.withLabel || '') + (call.note ? '<br><span class="pp-muted-i">' + esc(call.note) + '</span>' : '') : '', true) + '</dl>' +
+        (sy.at ? '<p class="pp-muted">Vistelsen ändrades senast ' + esc(dt(sy.at)) + ' av ' + esc(userName(sy.by)) + '.</p>' : '');
+    },
+    form: function (c) {
+      var sy = c.stay || {}, call = c.call || {}, doc = can('diagnose');
+      return '<div class="grid3">' + fld('Vistelse', '<select name="st">' + opts(Object.keys(STAY).map(function (k) { return [k, STAY[k].l]; }), sy.status || 'inne') + '</select>') +
+          '<label class="field" data-show="inne"><span>Avdelning</span><select name="ward">' + opts(WARDS, sy.ward || WARDS[0]) + '</select></label>' +
+          '<label class="field" data-show="inne"><span>Sal och säng</span><input name="room" placeholder="T.ex. Sal 3, säng 2" value="' + esc(sy.room || '') + '"></label>' +
+          '<label class="field" data-show="left"><span>Lämnade till</span><select name="dest">' + opts(DESTS, sy.dest || DESTS[0]) + '</select></label></div>' +
+        fld('Notering', '<input name="note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka" value="' + esc(sy.note || '') + '">') +
+        (doc ? '<div class="pp-formsub">Samtal</div><div class="grid2">' + fld('Samtal', '<select name="callmode">' + opts(c.call ? [['keep', 'Behåll bokat samtal'], ['book', 'Ändra samtalet'], ['cancel', 'Avboka samtalet']] : [['none', 'Inget samtal'], ['book', 'Boka samtal']], c.call ? 'keep' : 'none') + '</select>') + '</div>' +
+          '<div class="grid2" data-show="call">' + fld('Datum och tid', '<input name="cat" type="datetime-local" value="' + esc(toLocalInput(call.at)) + '">') + fld('Typ', '<select name="ctype">' + opts(['Telefonsamtal', 'Videosamtal', 'Återbesök på mottagningen', 'Hembesök'], call.type || 'Telefonsamtal') + '</select>') +
+          fld('Med', '<select name="cwith">' + opts([['remittent', userName(c.createdBy) + ' (remittent)'], ['patient', ((c.patient && c.patient.name) || 'Patienten') + ' (patient)'], ['bada', 'Båda']], call.with || 'remittent') + '</select>') + fld('Notering till samtalet', '<input name="cnote" value="' + esc(call.note || '') + '" placeholder="T.ex. Gå igenom röntgensvar">') + '</div>' : '');
+    },
+    save: function (c, f) {
+      var prev = c.stay || {}, v = fv(f, 'st'), inne = v === 'inne', left = v === 'utskriven' || v === 'avviken' || v === 'overflyttad';
+      var stay = { status: v, ward: inne ? fv(f, 'ward') : '', room: inne ? fv(f, 'room') : '', dest: left ? fv(f, 'dest') : '', note: fv(f, 'note'), at: nowIso(), by: S.me.id,
+        admittedAt: inne ? (prev.status === 'inne' && prev.admittedAt ? prev.admittedAt : nowIso()) : (prev.admittedAt || null) };
+      var patch = {}, evs = [];
+      if (v !== prev.status || stay.ward !== (prev.ward || '') || stay.room !== (prev.room || '') || stay.dest !== (prev.dest || '') || stay.note !== (prev.note || '')) {
+        patch.stay = stay;
+        evs.push({ type: 'sys', text: 'Vistelse: ' + STAY[v].l + (inne ? ', ' + stay.ward + (stay.room ? ' ' + stay.room : '') : '') + (stay.dest ? ', till ' + stay.dest.toLowerCase() : '') + (stay.note ? '. ' + stay.note : '.') });
+      }
+      var cm = fv(f, 'callmode');
+      if (cm === 'book') {
+        var at = fromLocalInput(fv(f, 'cat')); if (!at) { toast('Välj datum och tid för samtalet.', true); return null; }
+        var w = fv(f, 'cwith'), pn = (c.patient && c.patient.name) || 'patienten', wl = w === 'patient' ? pn : w === 'bada' ? pn + ' och ' + userName(c.createdBy) : userName(c.createdBy);
+        patch.call = { at: at, type: fv(f, 'ctype'), with: w, withLabel: wl, withUser: w === 'patient' ? null : c.createdBy, note: fv(f, 'cnote'), by: S.me.id };
+        evs.push({ type: 'sys', text: patch.call.type + ' bokat ' + dt(at) + ' med ' + wl + '.' });
+      } else if (cm === 'cancel') { patch.call = null; evs.push({ type: 'sys', text: 'Bokat samtal avbokades.' }); }
+      if (!evs.length) { toast('Inget har ändrats.'); return Promise.resolve(); }
+      return updateCase(c.id, patch, evs);
+    }
+  },
+  team: {
+    acts: function (c) {
+      if (c.status === 'avslutad') return '';
+      if (can('assign')) return ppAct('Tilldela personal', 'data-pp-edit="team" data-mode="assign"') + ppAct('Ge instruktion', 'data-pp-edit="team" data-mode="instr"', 'pri');
+      return canEditJ() ? ppAct('Återrapportera', 'data-pp-edit="team" data-mode="report"') + ppAct('Be om hjälp', 'data-pp-edit="team" data-mode="report" data-kind="hjalp"', 'warn') : '';
+    },
+    view: function (c) {
+      var team = teamOf(c), me = S.me.id, lead = can('assign');
+      var person = function (uidv, role, extra) {
+        var u = personOf(uidv);
+        return '<div class="pp-person">' + avatarHtml(u) + '<div><b>' + esc(u.name) + '</b><small>' + esc(role) + (u.title ? ' · ' + esc(u.title) : '') + (S.online[uidv] ? ' · <span class="on">aktiv nu</span>' : '') + (extra || '') + '</small></div><div class="pp-pbtns">' +
+          (uidv !== me ? '<button type="button" class="pp-mini" data-chat="' + esc(dmConv(uidv)) + '" data-chat-case="' + esc(c.id) + '">Meddelande</button>' : '<span class="pp-me">Du</span>') + '</div></div>';
+      };
+      var people = (c.doctorId ? person(c.doctorId, 'Ansvarig läkare') : '<p class="pp-muted pp-m0">Ingen ansvarig läkare ännu.</p>') +
+        team.map(function (m) {
+          var un = unackedInstr(c, m.uid).length;
+          return person(m.uid, 'Vårdteam', ' · tilldelad ' + esc(dt(m.at)) + (un ? ' · <span class="warn">' + un + ' okvitterad' + (un > 1 ? 'e' : '') + '</span>' : '')).replace('</div></div>', (lead && c.status !== 'avslutad' ? '<button type="button" class="pp-mini" data-tm-rm="' + esc(m.uid) + '">Ta bort</button>' : '') + '</div></div>');
+        }).join('');
+      var ins = (c.instr || []).slice().reverse().map(function (i) {
+        var rec = instrRecipients(c, i), acks = i.acks || {}, mine = rec.indexOf(me) !== -1;
+        return '<div class="pp-ins' + (i.prio === 'akut' ? ' akut' : '') + (mine && !acks[me] ? ' mine' : '') + '"><div class="pp-ins-top">' + (i.prio === 'akut' ? '<span class="tag-akut">Akut</span>' : '') + '<b>' + esc(userName(i.by)) + '</b><span>till ' + (i.to === 'team' ? 'hela vårdteamet' : esc(userName(i.to))) + ' · ' + esc(dt(i.at)) + '</span></div>' +
+          '<p>' + esc(i.text) + '</p><div class="pp-acks">' + (rec.length ? rec.map(function (u) { return acks[u] ? '<span class="ack ok">✓ ' + esc(firstName(userName(u))) + ' ' + esc(fmtT.format(new Date(acks[u]))) + '</span>' : '<span class="ack wait">Väntar på ' + esc(firstName(userName(u))) + '</span>'; }).join('') : '<span class="ack wait">Ingen mottagare än</span>') +
+          (mine && !acks[me] ? '<button type="button" class="pp-mini go" data-iack="' + esc(c.id) + '|' + esc(i.id) + '">Kvittera – jag har läst</button>' : '') + (mine ? '<button type="button" class="pp-mini" data-pp-edit="team" data-mode="report" data-instr="' + esc(i.id) + '">Återrapportera</button>' : '') + '</div></div>';
+      }).join('');
+      var reps = (c.reports || []).slice().reverse().map(function (r) {
+        var k = reportKind(r.kind);
+        return '<div class="pp-rep' + (r.readAt ? '' : ' unread') + '"><span class="rk-chip rk-' + k[2] + '">' + esc(k[1]) + '</span><div><p><b>' + esc(userName(r.by)) + ':</b> ' + esc(r.text) + '</p><small>' + esc(dt(r.at)) + (r.readAt ? ' · läst av ' + esc(userName(r.readBy)) : '') + '</small></div>' +
+          (!r.readAt && isCaseDoctor(c) && r.by !== me ? '<button type="button" class="pp-mini" data-rread="' + esc(c.id) + '|' + esc(r.id) + '">Markera läst</button>' : '') + '</div>';
+      }).join('');
+      return '<div class="pp-sub">Personal</div>' + people + (!team.length ? '<p class="pp-muted">Ingen vårdpersonal är tilldelad ännu.' + (lead ? ' Tryck Tilldela personal.' : '') + '</p>' : '') +
+        '<div class="pp-sub">Instruktioner ' + termQ('instruktion') + '</div>' + (ins || '<p class="pp-muted pp-m0">Inga instruktioner.</p>') +
+        '<div class="pp-sub">Återrapporter ' + termQ('aterrapport') + '</div>' + (reps || '<p class="pp-muted pp-m0">Inga återrapporter.</p>');
+    },
+    form: function (c) {
+      var mode = S.ppMode, team = teamOf(c), x = S.ppExtra || {};
+      if (mode === 'assign') return '<div class="pp-formsub">Tilldela personal</div><p class="pp-muted pp-m0">Personen får en ljudsignal och ser ärendet under Att göra.</p>' +
+        fld('Personal', '<select name="u">' + '<option value="">Välj personal</option>' + activeStaff('receive').filter(function (u) { return !inTeam(c, u.id) && u.id !== c.doctorId; }).map(function (u) { return '<option value="' + esc(u.id) + '">' + esc(u.name) + ' – ' + esc(u.title || roleName(u.role)) + (S.online[u.id] ? ' (aktiv)' : '') + '</option>'; }).join('') + '</select>');
+      if (mode === 'instr') return '<div class="pp-formsub">Ny instruktion</div><div class="qchips">' + INSTR_QUICK.map(function (q) { return '<button type="button" class="qchip" data-iq="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div>' +
+        fld('Instruktion *', '<textarea name="text" rows="3" placeholder="Vad ska personalen göra?"></textarea>') +
+        '<div class="grid2">' + fld('Till', '<select name="to"><option value="team">Hela vårdteamet (' + team.length + ')</option>' + team.map(function (m) { return '<option value="' + esc(m.uid) + '">' + esc(userName(m.uid)) + '</option>'; }).join('') + '</select>') + fld('Prioritet', '<select name="prio"><option value="normal">Normal</option><option value="akut">Akut</option></select>') + '</div>';
+      return '<div class="pp-formsub">' + (x.kind === 'hjalp' ? 'Be läkaren om hjälp' : 'Återrapportera till ' + esc(c.doctorId ? userName(c.doctorId) : 'läkaren')) + '</div>' +
+        '<div class="rk-pick" role="radiogroup" aria-label="Typ av återrapport">' + REPORT_KINDS.map(function (k, n) { return '<label class="rk-' + k[2] + '"><input type="radio" name="rk" value="' + k[0] + '"' + ((x.kind ? k[0] === x.kind : n === 0) ? ' checked' : '') + '><span>' + k[1] + '</span></label>'; }).join('') + '</div>' +
+        '<div class="grid2">' + fld('Gäller instruktion', '<select name="instr"><option value="">Ingen särskild</option>' + instrFor(c, S.me.id).slice().reverse().map(function (i) { return '<option value="' + esc(i.id) + '"' + (i.id === x.instr ? ' selected' : '') + '>' + esc(i.text.length > 60 ? i.text.slice(0, 60) + '…' : i.text) + '</option>'; }).join('') + '</select>') +
+        fld('Meddelande', '<input name="msg" placeholder="' + (x.kind === 'hjalp' ? 'T.ex. Patienten blöder mer, kom direkt' : 'T.ex. Vitalparametrar tagna, puls 96') + '">') + '</div>';
+    },
+    saveLabel: function () { return S.ppMode === 'assign' ? 'Tilldela' : S.ppMode === 'instr' ? 'Skicka instruktion' : 'Skicka till läkaren'; },
+    save: function (c, f) {
+      var mode = S.ppMode;
+      if (mode === 'assign') {
+        var u = fv(f, 'u'); if (!u) { toast('Välj en person att tilldela.', true); return null; }
+        return updateArr(c.id, 'team', function (arr) { return arr.some(function (m) { return m.uid === u; }) ? arr : arr.concat([{ uid: u, at: nowIso(), by: S.me.id }]); }, { type: 'sys', text: userName(u) + ' tilldelades ärendet av ' + userName(S.me.id) + '.' }).then(function () { toast(userName(u) + ' är tilldelad och har fått en avisering.'); });
+      }
+      if (mode === 'instr') {
+        var text = fv(f, 'text'), to = fv(f, 'to'), prio = fv(f, 'prio');
+        if (!text) { toast('Skriv instruktionen.', true); return null; }
+        if (to === 'team' && !teamOf(c).length) { toast('Tilldela personal först, eller välj en person.', true); return null; }
+        return updateArr(c.id, 'instr', function (arr) { return arr.concat([{ id: 'i' + uid(), at: nowIso(), by: S.me.id, to: to, text: text, prio: prio, acks: {} }]).slice(-60); },
+          { type: 'sys', text: 'Instruktion till ' + (to === 'team' ? 'vårdteamet' : userName(to)) + (prio === 'akut' ? ' (akut)' : '') + ': "' + text + '"' }).then(function () { toast('Instruktionen skickades.'); });
+      }
+      var kind = (f.querySelector('input[name=rk]:checked') || {}).value || 'info', msg = fv(f, 'msg'), iid = fv(f, 'instr') || null, rtext = msg || reportKind(kind)[1] + '.';
+      return updateArr(c.id, 'reports', function (arr) { return arr.concat([{ id: 'p' + uid(), at: nowIso(), by: S.me.id, kind: kind, text: rtext, instrId: iid }]).slice(-80); },
+        { type: 'sys', text: 'Återrapport från ' + userName(S.me.id) + ' (' + reportKind(kind)[1].toLowerCase() + '): "' + rtext + '"' }).then(function () { toast('Återrapporten skickades till läkaren.'); });
+    }
+  },
+  svar: {
+    acts: function (c) { return can('diagnose') && c.createdBy !== S.me.id ? ppAct('Skriv svar', 'data-pp-edit="svar"', 'pri') : ''; },
+    view: function (c) {
+      var rs = (c.replies || []).slice().reverse(), mineCase = c.createdBy === S.me.id;
+      if (!rs.length) return '<p class="pp-muted pp-m0">Inga svar skickade till ' + esc(userName(c.createdBy)) + ' ännu.</p>';
+      return rs.map(function (r) {
+        var canAck = !r.ack && mineCase && r.by !== S.me.id;
+        return '<div class="pp-reply' + (canAck ? ' new' : '') + '"><p><b>' + esc(userName(r.by)) + ':</b> ' + esc(r.text) + '</p><small>' + esc(dt(r.at)) + ' · ' + (r.ack ? 'Uppfattat av ' + esc(userName(r.ack.by)) + ' ' + esc(fmtT.format(new Date(r.ack.at))) : 'Inte kvitterat ännu') + '</small>' +
+          (canAck ? '<div class="pp-pbtns"><button type="button" class="pp-mini go" data-ack="' + esc(c.id) + '">Uppfattat</button><button type="button" class="pp-mini" data-chat="' + esc(dmConv(r.by)) + '" data-chat-case="' + esc(c.id) + '">Svara i chatten</button></div>' : '') + '</div>';
+      }).join('');
+    },
+    form: function (c) {
+      return '<div class="pp-formsub">Kort svar till ' + esc(userName(c.createdBy)) + '</div><span class="dx-label">Vanliga svar</span><div class="qchips">' + QUICK_REPLIES.map(function (q) { return '<button type="button" class="qchip" data-qr="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div>' +
+        '<span class="dx-label">Ge till patienten</span><div class="qchips">' + DX_MEDS.map(function (m) { return '<button type="button" class="qchip" data-give="' + esc(m) + '">' + esc(m) + '</button>'; }).join('') + '</div>' +
+        fld('Svar *', '<input name="text" maxlength="400" autocomplete="off" placeholder="Skriv ett kort svar">');
+    },
+    saveLabel: function () { return 'Skicka svar'; },
+    save: function (c, f) {
+      var text = fv(f, 'text'); if (!text) { toast('Skriv ett svar.', true); return null; }
+      var replies = (c.replies || []).concat([{ id: 'r' + uid(), at: nowIso(), by: S.me.id, text: text }]).slice(-50);
+      return updateCase(c.id, { replies: replies }, { type: 'sys', text: 'Svar till ' + userName(c.createdBy) + ': "' + text + '"' }).then(function () { toast('Svaret skickades till ' + userName(c.createdBy) + '.'); });
+    }
+  },
+  img: {
+    view: function (c) {
+      var ids = c.imageIds || [];
+      if (!ids.length) return '<p class="pp-muted pp-m0">Inga bilagor. Bilder läggs till med en journalanteckning längst ner.</p>';
+      return '<div class="thumbs pp-thumbs">' + ids.map(function (i) { ensureImage(i); var d = S.imgCache[i]; return '<button type="button" class="thumb" data-img="' + esc(i) + '" aria-label="Visa bild">' + (d ? '<img alt="" src="' + d + '">' : '<span class="muted" style="font-size:.75rem">' + (d === null ? 'Saknas' : 'Laddar…') + '</span>') + '</button>'; }).join('') + '</div>';
+    }
+  },
+  hist: {
+    view: function (c) {
+      return ppHist(c).slice(0, 8).map(function (h) {
+        return '<button type="button" class="pp-hrow" data-open="' + esc(h.id) + '"><span class="mono">' + esc(fmtD.format(new Date(h.createdAt))) + '</span><b>' + esc(h.title) + '</b><span>' + (h.diagnosis ? esc(dxLabel(h.diagnosis)) : 'Ingen diagnos') + '</span>' + statusPill(h.status) + '</button>';
+      }).join('');
+    }
+  }
+};
+function ppFormHtml(c, k) {
+  var P = PP[k];
+  return '<form class="pp-form" data-pp-form="' + k + '">' + P.form(c) + '<div class="pp-form-acts"><button type="button" class="btn" data-pp-cancel>Avbryt</button><button type="submit" class="btn primary">' + (P.saveLabel ? P.saveLabel(c) : 'Spara ändringen') + '</button></div></form>';
+}
+function ppDraw(c, k) {
+  var el = $('#pp-' + k); if (!el) return;
+  var vis = ppVisible(c, k); el.hidden = !vis; if (!vis) return;
+  if (k === 'log') { var n = (c.events || []).length; $('#ppn-log').textContent = n ? n + (n === 1 ? ' anteckning' : ' anteckningar') : ''; return; }
+  var editing = S.ppEdit === k;
+  if (editing && el.dataset.editing === '1') return;
+  var P = PP[k];
+  el.innerHTML = '<header class="pp-h"><span class="pp-n"></span><h2>' + PP_TITLE[k] + '</h2><div class="pp-acts">' + (editing || !P.acts ? '' : P.acts(c)) + '</div></header>' +
+    '<div class="pp-b">' + (editing ? ppFormHtml(c, k) + (k === 'team' ? P.view(c) : '') : P.view(c)) + '</div>';
+  el.dataset.editing = editing ? '1' : '';
+  if (editing) { var f = $('[data-pp-form]', el); ppStayToggle(f); }
+}
+function ppEdit(k, mode, extra) {
+  var c = curCase(); if (!c) return;
+  if (S.ppEdit && S.ppEdit !== k) { var old = S.ppEdit; S.ppEdit = null; var oe = $('#pp-' + old); if (oe) oe.dataset.editing = ''; ppDraw(c, old); }
+  S.ppEdit = k; S.ppMode = mode || null; S.ppExtra = extra || {};
+  var el = $('#pp-' + k); el.dataset.editing = ''; ppDraw(c, k);
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var first = $('[data-pp-form] input:not([type=radio]):not([type=hidden]), [data-pp-form] textarea, [data-pp-form] select', el);
+  if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 250);
+}
+function ppCancel() {
+  var k = S.ppEdit; S.ppEdit = null; S.ppMode = null; if (!k) return;
+  var el = $('#pp-' + k), c = curCase(); if (el) el.dataset.editing = ''; if (c) ppDraw(c, k);
+}
+function drawJournalBar(c) {
+  var p = c.patient || {}, me = S.me.id, canD = can('diagnose'), b = [];
+  if (canD && c.status !== 'avslutad' && !c.diagnosis) b.push('<button type="button" class="btn sm primary" data-dxopen="' + esc(c.id) + '">' + IC.pen + 'Ställ diagnos</button>');
+  if (canD && c.status !== 'avslutad' && c.doctorId !== me) b.push('<button type="button" class="btn sm" data-next="claim">' + (c.doctorId ? 'Ta över' : 'Ta ärendet') + '</button>');
+  if (canD && c.status !== 'avslutad' && c.doctorId === me) b.push('<button type="button" class="btn sm" data-next="return">Lämna tillbaka</button>');
+  if (canD) b.push(c.status === 'avslutad' ? '<button type="button" class="btn sm" data-next="reopen">Återöppna</button>' : '<button type="button" class="btn sm" data-next="close">Avsluta ärendet</button>');
+  b.push('<button type="button" class="btn sm" data-print>Skriv ut</button>');
+  $('#jr-bar').innerHTML = '<button type="button" class="jr-back" data-close aria-label="Stäng journalen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Tillbaka</button>' +
+    '<div class="jr-title"><b>' + esc(p.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(c.caseNo) + '</span> · ' + esc(c.title) + '</span></div>' +
+    '<div class="jr-tags">' + statusPill(c.status) + stayHtml(c) + '</div>' +
+    '<div class="jr-acts">' + b.join('') + '</div>';
+}
+function drawToc(c) {
+  var vis = PP_ORDER.filter(function (k) { return ppVisible(c, k); });
+  var flag = function (k) {
+    if (k === 'dx' && !c.diagnosis) return can('diagnose') ? '<i class="toc-flag">!</i>' : '';
+    if (k === 'team' && (unackedInstr(c, S.me.id).length || (isCaseDoctor(c) && unreadReports(c).length))) return '<i class="toc-flag">!</i>';
+    if (k === 'svar' && c.createdBy === S.me.id && unackedReplies(c).length) return '<i class="toc-flag">!</i>';
+    if (k === 'tx') { var it = txItems(c), dn = it.filter(function (t) { return txDoneOf(c, t); }).length; return it.length ? '<i class="toc-n">' + dn + '/' + it.length + '</i>' : ''; }
+    if (k === 'log') return '<i class="toc-n">' + (c.events || []).length + '</i>';
+    return '';
+  };
+  $('#jr-toc').innerHTML = '<div class="toc-h">Journalens innehåll</div><ol>' + vis.map(function (k, i) { return '<li><button type="button" data-goto="' + k + '"><span class="toc-num">' + (i + 1) + '</span><span class="toc-l">' + PP_TITLE[k] + '</span>' + flag(k) + '</button></li>'; }).join('') + '</ol>' +
+    '<button type="button" class="toc-print" data-print>' + IC.alla + 'Skriv ut journalen</button>';
+}
+function drawPaperHead(c) {
+  var p = c.patient || {}, pi = pnrInfo(p.pnr), t = TRI[c.triage] ? c.triage : 'bla', nw = news2(c.vitals);
+  $('#pp-head').innerHTML = '<div class="pp-letter"><div class="pp-org">' + CROSS + '<div><b>Los Santos Sjukvård</b><small>Akutsjukvården · Vårdportalen</small></div></div>' +
+      '<div class="pp-docid"><b>Patientjournal</b><span class="mono">' + esc(c.caseNo) + '</span><small>Upprättad ' + esc(dt(c.createdAt)) + '</small></div></div>' +
+    '<div class="pp-ident"><div class="pp-who"><h1>' + esc(p.name || 'Okänd patient') + '</h1><span>' + (p.pnr ? '<span class="mono">' + esc(p.pnr) + '</span>' : 'Personnummer saknas') + (pi ? ' · ' + pi.age + ' år · ' + pi.sex : '') + '</span></div>' +
+      '<div class="pp-stamps">' + (c.cave ? '<span class="stamp s-cave">CAVE</span>' : '') + '<span class="stamp s-' + t + '">Prio ' + esc(TRI[t].label) + '</span>' + (nw ? '<span class="stamp s-news-' + nw.risk + '">NEWS2 ' + nw.s + '</span>' : '') + '<span class="stamp s-st">' + esc(STATUS[c.status] || c.status) + '</span></div></div>';
+  var by = personOf(c.createdBy), d = c.diagnosis;
+  $('#pp-foot').innerHTML = '<div class="pp-signs"><div><small>Remitterad av</small><b>' + esc(by.name) + '</b><span>' + esc(by.title || roleName(by.role)) + (by.dept ? ' · ' + esc(by.dept) : '') + '</span><span>' + esc(dt(c.createdAt)) + '</span></div>' +
+    '<div><small>Ansvarig läkare</small>' + (d && d.signature ? '<img alt="Signatur" src="' + esc(d.signature) + '">' : '') + '<b>' + (c.doctorId ? esc(userName(c.doctorId)) : 'Ej tilldelad') + '</b><span>' + (d ? 'Signerat ' + esc(dt(d.signedAt || d.at)) : 'Diagnos ej signerad') + '</span></div></div>' +
+    '<p class="pp-fine">Journalhandling · Uppgifterna omfattas av sekretess · ' + esc(c.caseNo) + ' · Senast ändrad ' + esc(dt(c.updatedAt || c.createdAt)) + '</p>';
+}
+function drawRail(c) {
+  var n = nextStep(c);
+  $('#jr-next').className = 'jr-card jr-next tone-' + n.tone;
+  $('#jr-next').innerHTML = '<span class="jr-k">' + (n.tone === 'done' ? 'Status' : 'Nästa steg') + '</span><p>' + esc(n.text) + '</p>' + (n.act ? '<button type="button" class="btn sm ' + (n.tone === 'wait' || n.tone === 'done' ? '' : 'primary') + '" data-next="' + esc(n.act.a) + '">' + esc(n.act.l) + '</button>' : '');
+  var seen = {}, rows = [];
+  function add(u, role) { if (!u || seen[u]) return; seen[u] = 1; var p = personOf(u); rows.push('<div class="jr-p">' + avatarHtml(p) + '<div><span class="jr-role">' + role + '</span><b>' + esc(p.name) + '</b><small>' + (S.online[u] ? '<span class="on">Aktiv nu</span>' : 'Inte aktiv') + (p.title ? ' · ' + esc(p.title) : '') + '</small></div>' + (u === S.me.id ? '<span class="pp-me">Du</span>' : '<button type="button" class="btn sm" data-chat="' + esc(dmConv(u)) + '" data-chat-case="' + esc(c.id) + '">Meddelande</button>') + '</div>'); }
+  add(c.doctorId, 'Ansvarig läkare'); add(c.createdBy, 'Remittent'); teamOf(c).forEach(function (m) { add(m.uid, 'Vårdteam'); });
+  $('#jr-people').innerHTML = rows.join('') || '<p class="pp-muted pp-m0">Ingen personal kopplad ännu.</p>';
+  var sel = $('#jr-other-u');
+  if (sel && document.activeElement !== sel) { var v = sel.value; sel.innerHTML = '<option value="">Välj kollega</option>' + activeStaff().filter(function (u) { return u.id !== S.me.id; }).sort(function (a, b) { return (S.online[b.id] ? 1 : 0) - (S.online[a.id] ? 1 : 0); }).map(function (u) { return '<option value="' + esc(u.id) + '">' + (S.online[u.id] ? '● ' : '') + esc(u.name) + ' – ' + esc(u.title || roleName(u.role)) + '</option>'; }).join(''); sel.value = v; }
+}
+function toggleTxDone(t) {
+  var c = curCase(); if (!c) return;
+  var dn = txDoneOf(c, t);
+  var log = dn ? (c.txLog || []).filter(function (x) { return x.t !== t; }) : (c.txLog || []).concat([{ t: t, by: S.me.id, at: nowIso() }]);
+  updateCase(c.id, { txLog: log.slice(-80) }, { type: 'sys', text: dn ? 'Markering ångrad: ' + t + '.' : 'Ordination utförd: ' + t + '.' }).then(function () { toast(dn ? 'Markeringen ångrades.' : 'Markerad som utförd.'); }).catch(function () {});
+}
+
 /* ---------- Ärendepanel ---------- */
 function openCase(id) {
   S.openCase = id; var wrap = $('#drawer');
   var c = S.cases.find(function (x) { return x.id === id; });
   wrap.hidden = false;
-  if (S.drawerCase !== id) { S.drawerTab = 'oversikt'; S.drawerCase = id; }
-  wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer case-ws" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
-    '<header class="d-head" id="d-head"></header>' +
-    '<div class="ws3">' +
-    '<aside class="ws-col ws-left" id="ws-side" aria-label="Patient">' +
-      '<div class="ws-card" id="ws-patient"></div><div class="ws-card" id="ws-vitals"></div><div class="ws-card" id="ws-stay"></div><div class="ws-card" id="ws-remit"></div><div id="d-hist"></div>' +
-    '</aside>' +
-    '<div class="ws-col ws-center" id="d-body">' +
-      '<nav class="jump" id="d-tabs" aria-label="Hoppa till"></nav>' +
-      '<div id="d-dxcard"></div>' +
-      '<div id="d-reply"></div>' +
-      '<div id="d-replies"></div>' +
-      '<div id="d-diag"></div>' +
-      '<div id="d-doc"></div>' +
-      '<div id="d-info"></div>' +
-        '<section class="panel" id="d-stay"><div class="panel-head"><h2>Patientens vistelse ' + termQ('vistelse') + '</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="d-stay-now"></span><button type="button" class="btn sm" id="sy-toggle">Ändra</button></div></div>' +
-        '<div class="panel-body stay-box"><p class="muted" id="d-stay-info" style="font-size:.9rem"></p>' +
-        '<form id="f-stay" hidden style="display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px"><div class="grid3">' +
-          '<label class="field"><span>Ändra till</span><select id="sy-st">' + Object.keys(STAY).map(function (k) { return '<option value="' + k + '">' + STAY[k].l + '</option>'; }).join('') + '</select></label>' +
-          '<label class="field" data-sy="inne"><span>Avdelning</span><select id="sy-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
-          '<label class="field" data-sy="inne"><span>Sal och säng</span><input id="sy-room" placeholder="T.ex. Sal 3, säng 2"></label>' +
-          '<label class="field" data-sy="left"><span>Lämnade till</span><select id="sy-dest">' + DESTS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
-        '</div><label class="field"><span>Notering</span><input id="sy-note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka"></label>' +
-        '<div class="form-actions"><button class="btn ghost" type="button" id="sy-cancel">Avbryt</button><button class="btn primary" type="submit">Spara vistelse</button></div></form></div></section>' +
-      '<div id="d-images"></div>' +
-      '<section class="panel" id="sec-journal"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.alla + '</span>Journal och händelser</h2></div><div class="panel-body">' +
-        '<form id="f-note" style="display:grid;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
-        '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form>' +
-        '<div class="log" id="d-log"></div></div></section>' +
-      '<div id="d-admin"></div>' +
-    '</div>' +
-    '<aside class="ws-col ws-right" aria-label="Vårdteam och chatt">' +
-      '<section id="sec-team"><div id="d-team"></div></section>' +
-      '<section class="panel" id="sec-chat"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.chatt + '</span>Chatt om patienten</h2><span class="muted" style="font-size:.8rem">Alla i vården</span></div>' +
-        '<div class="msgs cc-msgs" id="cc-msgs"></div><div class="typing" id="cc-typing"></div>' +
-        '<form class="composer" id="cc-form"><div class="composer-row"><textarea rows="1" placeholder="Skriv till kollegor om patienten"></textarea><button class="btn primary sm" type="submit">Skicka</button></div></form></section>' +
-    '</aside>' +
+  if (S.drawerCase !== id) { S.drawerCase = id; S.ppEdit = null; S.ppMode = null; }
+  wrap.innerHTML = '<section class="drawer jr" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
+    '<header class="jr-bar" id="jr-bar"></header>' +
+    '<div class="jr-layout">' +
+      '<nav class="jr-toc" id="jr-toc" aria-label="Journalens innehåll"></nav>' +
+      '<div class="jr-desk" id="d-body">' +
+        '<article class="paper" id="jr-paper">' +
+          '<header class="pp-head" id="pp-head"></header>' +
+          PP_ORDER.filter(function (k) { return k !== 'log'; }).map(function (k) { return '<section class="pp-sec" id="pp-' + k + '"></section>'; }).join('') +
+          '<section class="pp-sec" id="pp-log"><header class="pp-h"><span class="pp-n"></span><h2>' + PP_TITLE.log + '</h2><span class="pp-count" id="ppn-log"></span></header><div class="pp-b">' +
+            (canEditJ() ? '<form id="f-note" class="pp-note"><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, till exempel status, åtgärd eller hur patienten mår"></textarea><div id="d-npick">' + PICKER_HTML + '</div><div class="pp-form-acts"><button class="btn primary" type="submit">' + IC.pen + 'Signera anteckning</button></div></form>' : '') +
+            '<div class="pp-log" id="d-log"></div></div></section>' +
+          '<footer class="pp-foot" id="pp-foot"></footer>' +
+        '</article>' +
+        '<div id="d-admin" class="jr-admin"></div>' +
+      '</div>' +
+      '<aside class="jr-rail" aria-label="Kontakt och chatt">' +
+        '<div class="jr-card" id="jr-next"></div>' +
+        '<section class="jr-card"><h3>Kontakta personal</h3><div id="jr-people"></div><form class="jr-other" id="jr-other"><select id="jr-other-u" aria-label="Välj kollega"></select><button class="btn sm" type="submit">Skriv</button></form></section>' +
+        '<section class="jr-card jr-chat" id="sec-chat"><h3>Chatt om patienten</h3><small class="muted">Alla i vården ser chatten</small>' +
+          '<div class="msgs cc-msgs" id="cc-msgs"></div><div class="typing" id="cc-typing"></div>' +
+          '<form class="composer" id="cc-form"><div class="composer-row"><textarea rows="1" placeholder="Skriv till kollegor om patienten"></textarea><button class="btn primary sm" type="submit">Skicka</button></div></form></section>' +
+      '</aside>' +
     '</div></section>';
+  if (!c) { $('#jr-bar').innerHTML = '<div class="jr-title"><b>Ärendet hittades inte</b></div><div class="jr-acts"><button class="btn sm" data-close type="button">Stäng</button></div>'; return; }
   bindComposer($('#cc-form'), function () { return 'case.' + id; }, function () { return null; });
-  $('#d-tabs').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
-  $('#d-body').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
-  $('#ws-side').addEventListener('click', function (e) {
-    var ve = e.target.closest('[data-vit-edit]'); if (ve) { openVitals(id, ve.dataset.vitEdit); return; }
-    var t = e.target.closest('[data-dtab]'); if (t) { showPane(t.dataset.dtab); return; }
-    var n = e.target.closest('[data-next]'); if (n) { var cc = S.cases.find(function (x) { return x.id === id; }); if (cc) caseAction(cc, n.dataset.next); }
+  var jr = $('.jr', wrap);
+  jr.addEventListener('click', function (e) {
+    var t = e.target;
+    var ed = t.closest('[data-pp-edit]'); if (ed) { ppEdit(ed.dataset.ppEdit, ed.dataset.mode, { kind: ed.dataset.kind, instr: ed.dataset.instr }); return; }
+    if (t.closest('[data-pp-cancel]')) { ppCancel(); return; }
+    var ve = t.closest('[data-vit-edit]'); if (ve) { openVitals(id, ve.dataset.vitEdit); return; }
+    var tx = t.closest('[data-txdone]'); if (tx) { tx.disabled = true; toggleTxDone(tx.dataset.txdone); return; }
+    var go = t.closest('[data-goto]'); if (go) { showPane(go.dataset.goto); return; }
+    if (t.closest('[data-print]')) { window.print(); return; }
+    var n = t.closest('[data-next]'); if (n) { var cc = curCase(); if (cc) caseAction(cc, n.dataset.next); return; }
+    var rm = t.closest('[data-tm-rm]'); if (rm) { var u = rm.dataset.tmRm; rm.disabled = true; updateArr(id, 'team', function (arr) { return arr.filter(function (m) { return m.uid !== u; }); }, { type: 'sys', text: userName(u) + ' togs bort från vårdteamet.' }).catch(function () {}); return; }
+    var iq = t.closest('[data-iq]'); if (iq) { var ta = $('[data-pp-form] textarea[name=text]'); if (ta) { ta.value = iq.dataset.iq; ta.focus(); } return; }
+    var qr = t.closest('[data-qr]'), gv = t.closest('[data-give]');
+    if (qr || gv) { var inp = $('[data-pp-form=svar] input[name=text]'); if (inp) { inp.value = qr ? qr.dataset.qr : 'Ge ' + gv.dataset.give + ' till patienten.'; inp.focus(); } return; }
   });
-  $('#d-head').addEventListener('click', function (e) {
-    var n = e.target.closest('[data-next]'); if (!n) return;
-    var cur = S.cases.find(function (x) { return x.id === id; }); if (cur) caseAction(cur, n.dataset.next);
-  });
-  var notePicker = imagePicker($('#d-npick'), 6);
-  $('#f-note').addEventListener('submit', async function (e) {
+  jr.addEventListener('change', function (e) { var f = e.target.closest('[data-pp-form]'); if (f) ppStayToggle(f); });
+  jr.addEventListener('submit', function (e) {
+    var f = e.target.closest('[data-pp-form]'); if (!f) return;
     e.preventDefault();
-    var text = $('#d-note').value.trim(); if (!text && !notePicker.list.length) return;
-    try {
-      var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
-      var cur = S.cases.find(function (x) { return x.id === id; });
-      var patch = imgs.length ? { imageIds: (cur.imageIds || []).concat(imgs) } : {};
-      await updateCase(id, patch, { type: 'note', text: text || 'Bilder tillagda.', imageIds: imgs });
-      $('#d-note').value = ''; notePicker.reset(); toast('Anteckningen sparades.');
-    } catch (x) {}
+    var k = f.dataset.ppForm, cc = curCase(); if (!cc) return;
+    var pr = PP[k].save(cc, f); if (!pr) return;
+    var btn = $('button[type=submit]', f); if (btn) { btn.disabled = true; btn.textContent = 'Sparar…'; }
+    pr.then(function () {
+      if (S.ppEdit === k) { S.ppEdit = null; S.ppMode = null; }
+      var el = $('#pp-' + k); if (el) { el.dataset.editing = ''; el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 1200); }
+      if (k !== 'team' && k !== 'svar') toast('Ändringen sparades i journalen.');
+      updateDrawer();
+    }).catch(function () { if (btn) { btn.disabled = false; btn.textContent = 'Försök igen'; } });
   });
-  if (!c) { $('#d-head').innerHTML = '<div class="d-head-top"><h2>Ärendet hittades inte</h2><button class="btn sm" data-close type="button">Stäng</button></div>'; return; }
-  var st0 = c.stay || {};
-  $('#sy-st').value = st0.status || 'inne';
-  if (st0.ward) $('#sy-ward').value = st0.ward;
-  $('#sy-room').value = st0.room || '';
-  function drawSy() {
-    var v = $('#sy-st').value;
-    $$('[data-sy="inne"]').forEach(function (x) { x.hidden = v !== 'inne'; });
-    $$('[data-sy="left"]').forEach(function (x) { x.hidden = !(v === 'utskriven' || v === 'avviken' || v === 'overflyttad'); });
+  $('#jr-other').addEventListener('submit', function (e) { e.preventDefault(); var u = $('#jr-other-u').value; if (!u) { toast('Välj en kollega.', true); return; } openChat(dmConv(u), id); });
+  if ($('#f-note')) {
+    var notePicker = imagePicker($('#d-npick'), 6);
+    $('#f-note').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var text = $('#d-note').value.trim(); if (!text && !notePicker.list.length) { toast('Skriv en anteckning först.', true); return; }
+      try {
+        var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
+        var cur = curCase();
+        var patch = imgs.length ? { imageIds: (cur.imageIds || []).concat(imgs) } : {};
+        await updateCase(id, patch, { type: 'note', text: text || 'Bilder tillagda.', imageIds: imgs });
+        $('#d-note').value = ''; notePicker.reset(); toast('Anteckningen signerades och sparades.');
+      } catch (x) {}
+    });
   }
-  $('#sy-st').addEventListener('change', drawSy); drawSy();
-  $('#sy-toggle').addEventListener('click', function () { var f = $('#f-stay'); f.hidden = !f.hidden; this.textContent = f.hidden ? 'Ändra' : 'Stäng'; });
-  $('#sy-cancel').addEventListener('click', function () { $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; });
-  $('#f-stay').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var cur = S.cases.find(function (x) { return x.id === id; }); if (!cur) return;
-    var v = $('#sy-st').value, prev = cur.stay || {};
-    var inne = v === 'inne', leftWithDest = v === 'utskriven' || v === 'avviken' || v === 'overflyttad';
-    var stay = {
-      status: v, ward: inne ? $('#sy-ward').value : '', room: inne ? $('#sy-room').value.trim() : '',
-      dest: leftWithDest ? $('#sy-dest').value : '', note: $('#sy-note').value.trim(), at: nowIso(), by: S.me.id,
-      admittedAt: inne ? (prev.status === 'inne' && prev.admittedAt ? prev.admittedAt : nowIso()) : (prev.admittedAt || null)
-    };
-    var txt = 'Vistelse: ' + STAY[v].l + (inne ? ', ' + stay.ward + (stay.room ? ' ' + stay.room : '') : '') + (stay.dest ? ', till ' + stay.dest.toLowerCase() : '') + (stay.note ? '. ' + stay.note : '.');
-    updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
-  });
-  mountDoctorTools(c); mountAdminTools(c); mountReplyBox(c); mountTeam(c); updateDrawer();
+  mountAdminTools(c); updateDrawer();
   if (can('diagnose') && c.createdBy !== S.me.id && !(c.seenBy || {})[S.me.id] && c.status !== 'avslutad') { var sb = Object.assign({}, c.seenBy || {}); sb[S.me.id] = nowIso(); updateCase(c.id, { seenBy: sb }).catch(function () {}); }
   document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
-  setTimeout(function () { var b = $('#d-head [data-close]'); if (b) b.focus(); }, 50);
+  setTimeout(function () { var b = $('.jr-back'); if (b) b.focus(); }, 50);
 }
 function closeDrawer(silent) {
   S.openCase = null; document.body.classList.remove('drawer-open');
@@ -3810,48 +4456,18 @@ function closeDrawer(silent) {
 function updateDrawer() {
   var c = S.cases.find(function (x) { return x.id === S.openCase; });
   if (!c) { if (S.loaded.cases) { closeDrawer(); toast('Ärendet finns inte längre.'); } return; }
-  var nw = news2(c.vitals), v = c.vitals || {};
-  var pp = c.patient || {}, ppi = pnrInfo(pp.pnr), tt = TRI[c.triage] ? c.triage : 'bla';
-  $('#d-head').innerHTML = '<div class="pbar"><div class="pbar-main"><span class="pt-av" data-tri="' + tt + '">' + esc(initials(pp.name || '?')) + '</span><div class="pbar-id"><b>' + esc(pp.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(pp.pnr || 'Personnummer saknas') + '</span>' + (ppi ? ' · ' + ppi.age + ' år · ' + ppi.sex : '') + (pp.phone ? ' · tel <span class="mono">' + esc(pp.phone) + '</span>' : '') + '</span></div></div>' +
-      '<div class="pbar-flags">' + (c.cave ? '<span class="flag-cave" title="Överkänslighet">CAVE: ' + esc(c.cave) + '</span>' : '') + triChip(c.triage) + (nw ? '<span class="flag-news">NEWS2 ' + nw.s + '</span>' : '') + '</div>' +
-      (can('diagnose') && c.status !== 'avslutad' ? '<button class="btn sm pbar-dx' + (c.diagnosis ? '' : ' primary') + '" type="button" data-dxopen="' + esc(c.id) + '">' + IC.pen + (c.diagnosis ? 'Ändra diagnos' : 'Ställ diagnos') + '</button>' : '') +
-      '<button class="btn sm pbar-close" type="button" data-close>Stäng</button></div>' +
-    '<div class="d-sub"><span class="mono">' + esc(c.caseNo) + '</span><b>' + esc(c.title) + '</b>' + statusPill(c.status) + stayHtml(c) + '<span class="muted">Inkom ' + esc(dt(c.createdAt)) + ' från ' + esc(userName(c.createdBy)) + '</span></div>' +
-    (function () {
-      var b = [];
-      if (c.createdBy && c.createdBy !== S.me.id) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.createdBy)) + '" data-chat-case="' + esc(c.id) + '">Ge feedback till ' + esc(firstName(userName(c.createdBy))) + (S.online[c.createdBy] ? ' (aktiv)' : '') + '</button>');
-      if (c.doctorId && c.doctorId !== S.me.id && c.doctorId !== c.createdBy) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.doctorId)) + '" data-chat-case="' + esc(c.id) + '">Chatta med ' + esc(userName(c.doctorId)) + '</button>');
-      return b.length ? '<div class="d-tags">' + b.join('') + '</div>' : '';
-    })() + (function () {
-      var n = nextStep(c);
-      return '<div class="next tone-' + n.tone + '"><div style="min-width:0"><span class="next-label">' + (n.tone === 'done' ? 'Status' : 'Nästa steg') + '</span><p>' + esc(n.text) + '</p></div>' +
-        (n.act ? '<button type="button" class="btn sm ' + (n.tone === 'wait' || n.tone === 'done' ? '' : 'primary') + '" data-next="' + esc(n.act.a) + '">' + esc(n.act.l) + '</button>' : '') + '</div>';
-    })();
-  drawTabs(c);
-  var sy = c.stay;
-  $('#d-stay-now').innerHTML = sy ? stayHtml(c) : '<span class="muted" style="font-size:.85rem">Ej angiven</span>';
-  $('#d-stay-info').innerHTML = sy ? esc(STAY[sy.status] ? STAY[sy.status].d : '') +
-    (sy.status === 'inne' ? ' · ' + esc(sy.ward) + (sy.room ? ', ' + esc(sy.room) : '') + (sy.admittedAt ? ' · inlagd ' + dt(sy.admittedAt) : '') : '') +
-    (sy.dest ? ' · till ' + esc(sy.dest.toLowerCase()) : '') + ' · uppdaterad ' + dt(sy.at) + ' av ' + esc(userName(sy.by)) + (sy.note ? '<br>' + esc(sy.note) : '') : 'Ingen vistelse registrerad för ärendet.';
-  $('#d-info').innerHTML = renderRemiss(c);
-  $('#d-dxcard').innerHTML = renderDxCard(c);
-  $('#d-diag').innerHTML = renderSvar(c);
-  $('#d-replies').innerHTML = renderReplies(c);
-  updateTeam(c); renderWsSide(c);
+  if (!$('#jr-bar')) return;
+  drawJournalBar(c); drawToc(c); drawPaperHead(c);
+  PP_ORDER.forEach(function (k) { ppDraw(c, k); });
+  drawRail(c);
   var ccv = 'case.' + c.id, ccm = $('#cc-msgs');
   if (ccm) { fillMsgs(ccm, ccv); var ty = typingIn(ccv); $('#cc-typing').textContent = ty.length ? ty.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : ''; if (document.visibilityState === 'visible') markRead(ccv); }
   var evs = (c.events || []).slice().reverse();
   $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
-    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) });
-    return '<div class="ev">' + avatarHtml(u) + '<div style="min-width:0;display:grid;gap:3px"><div class="ev-top"><b>' + esc(u.name) + '</b><small>' + dt(e.at) + '</small></div>' +
-      (e.type === 'note' ? '<p class="prose">' + esc(e.text) + '</p>' + (e.imageIds && e.imageIds.length ? '<small class="muted">' + e.imageIds.length + ' bild' + (e.imageIds.length > 1 ? 'er' : '') + ' bifogad' + (e.imageIds.length > 1 ? 'e' : '') + '</small>' : '') : '<p class="ev-sys">' + esc(e.text) + '</p>') + '</div></div>';
-  }).join('') : '<p class="muted">Inga händelser.</p>';
-  var dt0 = $('#d-doc-state'); if (dt0) drawDoctorState(c);
-  var pn = c.patient || {}, key = (pn.pnr || '').trim(), nm = (pn.name || '').trim().toLowerCase();
-  var hist = byNewest(S.cases.filter(function (x) { if (x.id === c.id || !x.patient) return false; return key ? (x.patient.pnr || '').trim() === key : (nm && (x.patient.name || '').trim().toLowerCase() === nm); }));
-  $('#d-hist').innerHTML = hist.length ? '<section class="ws-card ws-hist"><div class="ws-h"><b>Tidigare ärenden (' + hist.length + ')</b></div><div>' + hist.slice(0, 6).map(function (h) {
-    return '<button type="button" class="hrow" data-open="' + esc(h.id) + '"><span class="mono muted">' + esc(fmtD.format(new Date(h.createdAt))) + '</span><span class="hrow-main"><b>' + esc(h.title) + '</b><small>' + (h.diagnosis ? esc((h.diagnosis.code ? h.diagnosis.code + ' ' : '') + h.diagnosis.text) : 'Ingen diagnos') + '</small></span>' + statusPill(h.status) + '</button>';
-  }).join('') + '</div></section>' : '';
+    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) }), d = new Date(e.at), ni = e.imageIds ? e.imageIds.length : 0;
+    return '<div class="pp-entry ' + (e.type === 'note' ? 'note' : 'sys') + '"><time>' + esc(fmtD.format(d)) + '<br>' + esc(fmtT.format(d)) + '</time><div><b>' + esc(u.name) + '</b>' + (u.title ? '<small> · ' + esc(u.title) + '</small>' : '') +
+      '<p>' + esc(e.text) + '</p>' + (ni ? '<small>' + ni + (ni > 1 ? ' bilder bifogade' : ' bild bifogad') + '</small>' : '') + '</div></div>';
+  }).join('') : '<p class="pp-muted pp-m0">Inga anteckningar.</p>';
   markSeen(c);
 }
 function drawTabs(c) {
@@ -3865,11 +4481,11 @@ function drawTabs(c) {
   $('#d-tabs').innerHTML = items.map(function (t) { return '<button type="button" data-dtab="' + t[0] + '">' + t[1] + (t[2] ? '<span class="tcount' + (t[2] === '!' ? ' alert' : '') + '">' + t[2] + '</span>' : '') + '</button>'; }).join('');
 }
 function showPane(tab) {
-  S.drawerTab = tab;
-  var map = { diagnos: '#d-dxcard', oversikt: '#d-body', bedomning: '#d-doc', remiss: '#d-info', team: '#sec-team', chat: '#sec-chat', journal: '#sec-journal' };
-  var el = $(map[tab] || '#d-body'); if (!el) return;
-  if (tab === 'diagnos') { if (can('diagnose')) { openDiagnosis(S.openCase); return; } el = $('#d-dxcard'); }
-  if (tab === 'oversikt') { el.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  if (tab === 'diagnos') { if (can('diagnose')) { openDiagnosis(S.openCase); return; } tab = 'dx'; }
+  var map = { oversikt: 'top', bedomning: 'stay', remiss: 'kontakt', team: 'team', chat: 'chat', journal: 'log' };
+  var k = map[tab] || tab;
+  if (k === 'top') { var b = $('#d-body'); if (b) b.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  var el = k === 'chat' ? $('#sec-chat') : $('#pp-' + k); if (!el || el.hidden) return;
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 1200);
 }
@@ -3902,9 +4518,9 @@ function caseAction(c, a) {
   if (a === 'ack') { ackCase(c); return; }
   if (a === 'diagnos') { openDiagnosis(c.id); return; }
   if (a === 'stay' || a === 'discharge') {
-    showPane('oversikt'); $('#f-stay').hidden = false; $('#sy-toggle').textContent = 'Stäng';
-    if (a === 'discharge') { $('#sy-st').value = 'utskriven'; $('#sy-st').dispatchEvent(new Event('change')); }
-    $('#d-stay').scrollIntoView({ behavior: 'smooth', block: 'start' }); return;
+    ppEdit('stay');
+    if (a === 'discharge') { var sf = $('[data-pp-form=stay]'); if (sf) { sf.elements.namedItem('st').value = 'utskriven'; ppStayToggle(sf); } }
+    return;
   }
   var p, ev, msg;
   if (a === 'claim') { p = { doctorId: S.me.id, status: c.status === 'inkommen' ? 'bedoms' : c.status }; ev = userName(S.me.id) + ' tog ärendet.'; msg = 'Du är nu ansvarig läkare.'; }
@@ -3923,7 +4539,7 @@ function caseAction(c, a) {
 /* Läkarverktyg i panelen: ett flöde i tre steg som sparas med en knapp */
 function chipRow(list, attr) { return '<div class="qchips">' + list.map(function (t) { return '<button type="button" class="qchip" ' + attr + '="' + esc(t) + '">' + esc(t) + '</button>'; }).join('') + '</div>'; }
 function mountDoctorTools(c) {
-  var box = $('#d-doc');
+  var box = $('#d-doc'); if (!box) return;
   if (!can('diagnose')) { box.innerHTML = ''; return; }
   var call = c.call || {};
   box.innerHTML = '<section class="panel dx dx-follow">' +
@@ -4117,7 +4733,7 @@ document.addEventListener('click', function (e) {
   var rr = t.closest('[data-rread]'); if (rr) { var rp = rr.dataset.rread.split('|'); rr.disabled = true; readReport(rp[0], rp[1]); return; }
   var ak = t.closest('[data-ack]'); if (ak) { var ac = S.cases.find(function (x) { return x.id === ak.dataset.ack; }); if (ac) ackCase(ac); return; }
   var fin = t.closest('[data-task-finish]'); if (fin) { fin.disabled = true; setTaskStatus(fin.dataset.taskFinish, 'klar').then(function () { toast('Uppdraget är klart.'); }).catch(function () { fin.disabled = false; }); return; }
-  var dxo = t.closest('[data-dxopen]'); if (dxo && S.me) { openDiagnosis(dxo.dataset.dxopen || S.openCase); return; }
+  var dxo = t.closest('[data-dxopen]'); if (dxo && S.me) { openDiagnosis(dxo.dataset.dxopen || S.openCase, Number(dxo.dataset.step) || 0); return; }
   var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); if (opd.dataset.openTab) showPane(opd.dataset.openTab); return; }
   if (t.closest('#dock')) return;
   var ch = t.closest('[data-chat]'); if (ch && S.me) { openChat(ch.dataset.chat, ch.dataset.chatCase || null); return; }
