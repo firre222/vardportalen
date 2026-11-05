@@ -1190,6 +1190,162 @@ body::before { background: var(--surface); }
 .d-head > .d-tags { grid-column: 2; margin: 0 !important; padding: 8px 18px; align-self: stretch; align-items: center; border-bottom: 1px solid var(--line); background: var(--surface); }
 .d-head > .next { margin: 10px 18px !important; }
 @media (max-width: 760px) { .d-head > .d-sub, .d-head > .d-tags { grid-column: 1 / -1; } .d-head > .d-tags { border-bottom: 0; padding-top: 0; } }
+/* ===== Att göra: tydligare lista ===== */
+.td-hero { padding: 18px 22px !important; }
+.td-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.td-stat { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 14px; align-items: center; text-align: left; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--rad); box-shadow: var(--shadow); cursor: pointer; color: var(--fg); font: inherit; position: relative; overflow: hidden; }
+.td-stat::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+.td-stat.s-urgent::before { background: var(--t-rod); }
+.td-stat.s-info::before { background: var(--line); }
+.td-stat b { grid-row: span 2; font-size: 2rem; line-height: 1; min-width: 1.4ch; font-variant-numeric: tabular-nums; color: var(--accent); }
+.td-stat.s-urgent b { color: var(--t-rod); }
+.td-stat.s-info b { color: var(--muted); }
+.td-stat span { font-weight: 700; }
+.td-stat small { color: var(--muted); font-size: .82rem; }
+.td-stat:hover { border-color: var(--accent); }
+.td-stat[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+@media (max-width: 640px) { .td-stats { grid-template-columns: 1fr; gap: 8px; } .td-stat { padding: 10px 14px; } .td-stat b { font-size: 1.5rem; } }
+.td-panel .panel-head { flex-wrap: wrap; gap: 10px; }
+.td-panel .tseg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.tf-n { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: var(--surface-2); color: var(--muted); font-size: .72rem; font-weight: 700; text-align: center; line-height: 18px; }
+[aria-pressed="true"] > .tf-n, [aria-selected="true"] > .tf-n { background: rgba(255,255,255,.25); color: inherit; }
+.seg [aria-selected="true"] > .tf-n { background: var(--accent-soft); color: var(--accent); }
+.td-explain { margin: 0; padding: 10px 18px; font-size: .86rem; color: var(--muted); border-bottom: 1px solid var(--line); background: var(--surface-2); }
+.td { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; padding: 16px 18px 16px 20px; border-bottom: 1px solid var(--line); align-items: start; }
+.td::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 4px; border-radius: 0 4px 4px 0; background: var(--accent); }
+.td.tone-urgent::before { background: var(--t-rod); }
+.td.tone-info::before { background: var(--line); }
+.td.tone-urgent .todo-ic { background: var(--danger-soft); color: var(--t-rod); }
+.td.tone-info .todo-ic { background: var(--surface-2); color: var(--muted); }
+.td-main { display: grid; gap: 4px; min-width: 0; }
+.td-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.td-kind { font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
+.td.tone-urgent .td-kind { color: var(--t-rod); }
+.td.tone-info .td-kind { color: var(--muted); }
+.td-title { font-size: 1.02rem; font-weight: 650; }
+.td-meta { display: flex; flex-wrap: wrap; gap: 2px 0; color: var(--muted); font-size: .84rem; }
+.td-meta span + span::before { content: "·"; margin: 0 7px; }
+.td-quote { display: block; quotes: none; font-size: .92rem; padding: 7px 11px; margin-top: 2px; border-left: 3px solid var(--accent); background: var(--surface-2); border-radius: 0 8px 8px 0; overflow-wrap: anywhere; }
+.td.tone-urgent .td-quote { border-left-color: var(--t-rod); }
+.td-how { margin: 2px 0 0; font-size: .86rem; color: var(--muted); display: flex; gap: 6px; align-items: baseline; }
+.td-how b { color: var(--fg); font-weight: 600; white-space: nowrap; }
+.td-btns { display: grid; gap: 6px; align-self: center; min-width: 132px; }
+.td-btns .btn { justify-content: center; width: 100%; }
+.td .todo-seg { grid-column: 2 / -1; }
+@media (max-width: 640px) { .td { grid-template-columns: minmax(0, 1fr); } .td .todo-ic { display: none; } .td-btns { grid-auto-flow: column; justify-content: start; min-width: 0; } .td .todo-seg { grid-column: 1; } .td-how { display: block; } }
+.td-done .ea-ic { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+.td-quick { grid-template-columns: 1fr !important; padding: 12px; gap: 8px !important; }
+.td-quick .qcard { box-shadow: none; padding: 10px 12px; grid-template-columns: 40px minmax(0, 1fr) 16px; }
+.td-quick .qcard .qc-ic { width: 40px; height: 40px; }
+.td-quick .qcard .badge { left: 40px; top: 4px; }
+
+/* ===== Diagnos: kort, knapp och popup ===== */
+.dxc { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--rad); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.dxc::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--ok); }
+.dxc-empty::before { background: var(--accent); }
+.dxc-empty { background: linear-gradient(90deg, var(--accent-soft), var(--surface) 60%); }
+.dxc-ic { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.dxc-ic.ok { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+.dxc-ic svg { width: 24px; height: 24px; }
+.dxc-main { display: grid; gap: 3px; min-width: 0; }
+.dxc-k { display: flex; gap: 8px; align-items: center; font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.dxc-main > b { font-size: 1.08rem; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.dxc-main small { color: var(--muted); font-size: .85rem; }
+.dxc-btn { padding: 11px 18px; font-size: .98rem; }
+.dxc-btn svg, .ddx-edit svg, .dxc-btns svg, .pbar-dx svg, #dxm-next svg { width: 16px; height: 16px; }
+.dxc-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 640px) { .dxc { grid-template-columns: minmax(0, 1fr); } .dxc-ic { display: none; } .dxc-btns { justify-content: flex-start; } }
+.cert { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: .72rem; font-weight: 700; letter-spacing: .02em; text-transform: none; vertical-align: middle; background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
+.cert-trolig { background: var(--accent-soft); color: var(--accent); }
+.cert-misstankt { background: color-mix(in srgb, #c98a12 16%, transparent); color: #a8720c; }
+.doc-dxrow { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--ok) 6%, var(--surface)); }
+.ddx-main { display: grid; gap: 6px; min-width: 0; }
+.ddx-k { font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.doc-dxrow .doc-dx { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0; font-size: 1.05rem; }
+.ddx-tx { display: flex; flex-wrap: wrap; gap: 6px; }
+.ddx-tx span { font-size: .8rem; padding: 3px 9px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); }
+.ddx-by { font-size: .8rem; color: var(--muted); }
+.ddx-edit { flex: none; }
+.pbar-dx { white-space: nowrap; }
+.dx-note { margin: 0; padding: 12px 18px; font-size: .88rem; color: var(--muted); background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.dxm-wrap { z-index: 60; }
+.dxm { width: min(880px, 100%); display: flex; flex-direction: column; overflow: hidden !important; max-height: calc(100dvh - 32px); }
+.dxm-steps { list-style: none; margin: 0; padding: 10px 20px; display: flex; gap: 6px; border-bottom: 1px solid var(--line); background: var(--surface-2); overflow-x: auto; }
+.dxm-steps li { flex: 1; min-width: max-content; }
+.dxm-steps button { width: 100%; display: flex; gap: 8px; align-items: center; border: 0; background: transparent; padding: 6px 8px; border-radius: 8px; font: inherit; font-weight: 600; font-size: .9rem; color: var(--muted); cursor: pointer; }
+.dxm-steps button:disabled { cursor: default; opacity: .7; }
+.dxm-steps button span { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: .8rem; border: 2px solid var(--line); background: var(--surface); }
+.dxm-steps .on button { color: var(--fg); background: var(--surface); box-shadow: var(--shadow); }
+.dxm-steps .on button span { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+.dxm-steps .done button span { border-color: var(--ok); background: var(--ok); color: #fff; }
+.dxm-body { flex: 1; overflow-y: auto; }
+.dxm-body section { display: grid; gap: 12px; }
+.dxm-q { width: 100%; font: inherit; font-size: 1rem; padding: 11px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); }
+.dxm-q:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.dxm-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+.dxm-cats .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.dxm-list { display: grid; max-height: 260px; overflow-y: auto; border: 1px solid var(--line); border-radius: 10px; }
+.dxm-list.dim { opacity: .45; }
+.dxm-opt { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); padding: 9px 12px; font: inherit; color: var(--fg); cursor: pointer; }
+.dxm-opt:last-child { border-bottom: 0; }
+.dxm-opt:hover { background: var(--surface-2); }
+.dxm-opt.on { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.dxm-opt .diag-code { justify-self: start; }
+.dxm-cat { font-size: .75rem; color: var(--muted); }
+@media (max-width: 560px) { .dxm-opt { grid-template-columns: 62px minmax(0, 1fr); } .dxm-cat { display: none; } }
+.dxm-none { padding: 14px; }
+.dxm-customrow { display: flex; justify-content: flex-end; margin-top: -4px; }
+.dxm-chosen { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--ok) 40%, var(--line)); background: color-mix(in srgb, var(--ok) 8%, var(--surface)); }
+.dxm-chosen > div { display: grid; gap: 2px; }
+.dxm-chosen b { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; font-size: 1.02rem; }
+.dxm-chosen small { color: var(--muted); font-size: .8rem; }
+.dxm-chk { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--ok); color: #fff; flex: none; }
+.dxm-chk svg { width: 16px; height: 16px; }
+.dxm-cert { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.cert-opt { position: relative; cursor: pointer; }
+.cert-opt input { position: absolute; opacity: 0; }
+.cert-opt > span { display: grid; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.cert-opt small { color: var(--muted); font-size: .8rem; }
+.cert-opt input:checked + span { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); background: var(--accent-soft); }
+.cert-opt input:focus-visible + span { outline: 2px solid var(--accent); }
+@media (max-width: 560px) { .dxm-cert { grid-template-columns: 1fr; } }
+.dxm-under { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 18px; margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
+.dxm-under .wide { grid-column: 1 / -1; }
+.dxm-under dt { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.dxm-under dd { margin: 2px 0 0; font-size: .92rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.news-chip { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 6px; font-size: .78rem; font-weight: 700; background: var(--surface); border: 1px solid var(--line); }
+.news-chip.news-hog { background: var(--danger-soft); color: var(--t-rod); border-color: transparent; }
+.news-chip.news-medel { background: color-mix(in srgb, #e07a1f 16%, transparent); color: #b45c10; border-color: transparent; }
+@media (max-width: 560px) { .dxm-under { grid-template-columns: 1fr; } }
+.dxm-checks { display: grid; gap: 8px; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 10px; }
+.dxm-txhead { display: flex; justify-content: space-between; align-items: center; }
+.dxm-tx { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 640px) { .dxm-tx { grid-template-columns: 1fr; } }
+.dxm-txi { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; background: var(--surface); font-size: .92rem; }
+.dxm-txi input { margin-top: 3px; accent-color: var(--accent); }
+.dxm-txi > span:first-of-type { flex: 1; min-width: 0; }
+.dxm-txi.on { border-color: var(--accent); background: var(--accent-soft); }
+.dxm-txi.hit { border-color: var(--t-rod); }
+.cave-hit { flex-basis: 100%; margin-left: 24px; font-size: .75rem; font-weight: 700; color: var(--t-rod); }
+.dxm-cavechk { padding: 10px 12px; border-radius: 10px; background: var(--danger-soft); }
+.dxm-sum dl { display: grid; gap: 10px; margin: 0; padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
+.dxm-sum dl > div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; }
+.dxm-sum dt { font-size: .78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding-top: 2px; }
+.dxm-sum dd { margin: 0; overflow-wrap: anywhere; }
+.dxm-sum dd b { display: inline-flex; gap: 8px; align-items: baseline; }
+.dxm-sum ul { margin: 0; padding-left: 18px; }
+@media (max-width: 560px) { .dxm-sum dl > div { grid-template-columns: 1fr; gap: 2px; } }
+.dxm-foot { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 20px; border-top: 1px solid var(--line); background: var(--surface-2); }
+.dxm-foot .err { flex: 1; margin: 0; text-align: center; font-size: .88rem; }
+.dxm-foot .btn { white-space: nowrap; }
+/* Mobil: sidomenyn blir en rad som går att svepa */
+@media (max-width: 900px) {
+  .shell > * { min-width: 0; }
+  .side { height: auto !important; max-width: 100vw; overflow: hidden; border-right: 0; padding-block: 6px; }
+  .side .nav { flex-wrap: nowrap; overflow-x: auto; min-width: 0; }
+  .side .nav li { flex: none; }
+}
+@media (max-width: 640px) { #td-filter { display: none; } }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -1294,6 +1450,340 @@ function dxSearch(q) {
     if (code === qn) score = 0; else if (code.indexOf(qn) === 0) score = 1; else if (name.indexOf(q) === 0) score = 2; else if (name.indexOf(q) !== -1) score = 3;
     return { x: x, s: score };
   }).filter(function (r) { return r.s >= 0; }).sort(function (a, b) { return a.s - b.s || a.x[1].localeCompare(b.x[1], 'sv'); }).slice(0, 7).map(function (r) { return r.x; });
+}
+
+/* ---------- Diagnos: rekommenderad behandling per diagnos ---------- */
+var TX_FRAKT = ['Röntgen av skadat område', 'Paracetamol 1 g x 4', 'Morfin 2,5–5 mg iv vid svår smärta', 'Immobilisering med gips eller skena', 'Ortopedkonsultation', 'Återbesök med kontrollröntgen om 1 vecka'];
+var TX_DIST = ['Kyla, kompression och högläge', 'Ibuprofen 400 mg x 3 i 3 dagar', 'Röntgen om fraktur inte kan uteslutas', 'Kryckor och avlastning', 'Återbesök vid utebliven förbättring'];
+var TX_SAR = ['Sårrengöring och inspektion', 'Lokalbedövning och suturering', 'Tetanusvaccin vid behov', 'Paracetamol 1 g x 4', 'Suturtagning om 7–10 dagar'];
+var TX_KROPPSSAR = ['Stoppa blödning med tryckförband', 'Två grova infarter, Ringer-Acetat 1000 ml iv', 'DT av bröstkorg och buk', 'Akut kirurgkonsultation', 'Tetanusvaccin', 'Antibiotika iv'];
+var TX_PENETR = ['ABCDE och stopp av blödning', 'Två grova infarter, Ringer-Acetat 1000 ml iv', 'Blodgruppering och bastest', 'DT av skadat område', 'Akut kirurgkonsultation och operation', 'Tetanusvaccin', 'Antibiotika iv', 'Morfin 2,5–5 mg iv'];
+var TX_SKALLE = ['Akut DT skalle', 'Neurokirurgkonsultation', 'Neurologisk kontroll (GCS) var 15:e min', 'Höjd huvudända 30°', 'Syrgas vid saturation under 94 %'];
+var TX_BLOD = ['Två grova infarter, Ringer-Acetat 1000 ml iv', 'Blodgruppering, Hb och bastest', 'DT buk', 'Akut kirurgkonsultation', 'Fasta inför eventuell operation', 'Blodtransfusion vid behov'];
+var TX_CHOCK = ['Traumalarm och ABCDE', 'Två grova infarter, Ringer-Acetat 1000 ml iv', 'Blodtransfusion', 'DT helkropp', 'Akut operation', 'Plats på intensivvårdsavdelning'];
+var TX_BRANN = ['Kyl med ljummet vatten i 20 minuter', 'Ringer-Acetat iv enligt Parklands formel', 'Morfin 2,5–5 mg iv', 'Steril täckning av brännskadan', 'Tetanusvaccin', 'Brännskadeenhet vid stor yta'];
+var TX_ETANOL = ['Övervakning av andning och medvetande', 'Stabilt sidoläge', 'Blodsocker och etanolprov', 'Ringer-Acetat 1000 ml iv', 'Observation tills patienten är nykter'];
+var TX_PSYK = ['Samtal och stöd', 'Bedömning av självmordsrisk', 'Psykiatrikonsultation', 'Lugnande vid behov', 'Uppföljning inom en vecka'];
+var TX_TRAUMA = ['Primär bedömning enligt ABCDE', 'Smärtlindring vid behov', 'Röntgen eller DT vid misstanke om skada', 'Observation 2 timmar', 'Återbesök vid försämring'];
+var TX_DEFAULT = ['Smärtlindring vid behov', 'Observation 2 timmar', 'Nya vitalparametrar var 30:e minut', 'Återbesök vid försämring'];
+var TXR = {
+  'S22.3': ['Lungröntgen för att utesluta pneumothorax', 'Paracetamol 1 g x 4', 'Ibuprofen 400 mg x 3', 'Andningsövningar', 'Återbesök vid ökad andnöd'],
+  'S42.0': TX_FRAKT, 'S52.5': TX_FRAKT, 'S82.2': TX_FRAKT, 'S62.6': TX_FRAKT, 'S92.9': TX_FRAKT,
+  'S02.2': ['Röntgen eller DT ansikte', 'Kyla mot näsan', 'Paracetamol 1 g x 4', 'Näsblödning: tamponad vid behov', 'ÖNH-kontroll om 5–7 dagar för reponering'],
+  'S72.0': ['Röntgen höft', 'Morfin 2,5–5 mg iv', 'Ringer-Acetat 1000 ml iv', 'Fasta inför operation', 'Ortopedkonsultation för operation inom 24 timmar', 'Trombosprofylax'],
+  'S32.0': ['Immobilisering med halskrage och spinebräda', 'DT ryggrad', 'Morfin 2,5–5 mg iv', 'Neurologisk kontroll var 30:e min', 'Ortopedkonsultation'],
+  'S43.0': ['Röntgen axel före och efter reponering', 'Morfin 2,5–5 mg iv', 'Reponering under sedering', 'Mitella i 1–3 veckor', 'Ortopedkontroll om 1 vecka'],
+  'S93.4': TX_DIST, 'S83.6': TX_DIST,
+  'S13.4': ['Halskrage vid behov', 'Röntgen eller DT halsrygg vid nackömhet', 'Paracetamol 1 g x 4', 'Ibuprofen 400 mg x 3', 'Fysioterapi'],
+  'T14.1': TX_SAR, 'S01.9': TX_SAR, 'S61.9': TX_SAR, 'S71.1': TX_SAR,
+  'S21.9': TX_KROPPSSAR, 'S31.1': TX_KROPPSSAR,
+  'W34': TX_PENETR, 'W26': TX_PENETR, 'X99': TX_PENETR,
+  'S06.5': TX_SKALLE, 'S06.9': TX_SKALLE, 'S09.9': TX_SKALLE,
+  'S06.0': ['Neurologisk kontroll (GCS) var 30:e min i 4 timmar', 'DT skalle vid försämring eller blodförtunnande', 'Paracetamol 1 g x 4 (undvik NSAID)', 'Vila och skärmfritt i 24–48 timmar', 'Vuxen hos patienten första natten'],
+  'S27.0': ['Syrgas 2–4 l/min', 'Lungröntgen eller DT thorax', 'Thoraxdränage', 'Morfin 2,5–5 mg iv', 'Kontinuerlig övervakning av saturation'],
+  'S36.1': TX_BLOD, 'K92.2': ['Två grova infarter, Ringer-Acetat 1000 ml iv', 'Blodgruppering, Hb och bastest', 'Fasta', 'Gastroskopi', 'Blodtransfusion vid behov'],
+  'T07': TX_CHOCK, 'T79.4': TX_CHOCK,
+  'T30.0': TX_BRANN, 'T31.2': TX_BRANN,
+  'T51.0': TX_ETANOL, 'F10.0': TX_ETANOL,
+  'T40.2': ['Naloxon 0,4 mg iv, upprepa vid behov', 'Syrgas och andningsstöd', 'Övervakning minst 4 timmar efter sista naloxon', 'Kontakta Giftinformationscentralen'],
+  'T42.4': ['Syrgas och andningsstöd', 'Flumazenil endast efter läkarbeslut', 'Övervakning av medvetande', 'Kontakta Giftinformationscentralen'],
+  'T43.6': ['Lugnande vid behov', 'EKG och hjärtövervakning', 'Nedkylning vid hög temperatur', 'Ringer-Acetat 1000 ml iv'],
+  'T58': ['Syrgas 100 % med reservoarmask', 'Blodgas med CO-mätning', 'EKG', 'Överväg behandling i tryckkammare'],
+  'T75.1': ['Syrgas', 'Lungröntgen', 'Värm patienten', 'Observation minst 6 timmar'],
+  'T67.0': ['Aktiv nedkylning', 'Kyld Ringer-Acetat 1000 ml iv', 'Elektrolyter och njurprover', 'Övervakning av temperatur'],
+  'T68': ['Varsam hantering', 'Aktiv uppvärmning med filtar', 'Uppvärmd Ringer-Acetat iv', 'EKG-övervakning'],
+  'T78.2': ['Adrenalin 0,5 mg im, upprepa efter 5 min vid behov', 'Syrgas', 'Ringer-Acetat 1000 ml iv', 'Antihistamin och kortison', 'Observation minst 6 timmar'],
+  'T15.9': ['Ögonspolning', 'Färgning med fluorescein', 'Avlägsna främmande kropp', 'Antibiotisk ögonsalva', 'Ögonkonsultation vid misstänkt perforation'],
+  'T17.9': ['Ryggslag och buktryck om patienten inte kan andas', 'Syrgas', 'Lungröntgen', 'Bronkoskopi'],
+  'I21.9': ['EKG inom 10 minuter', 'ASA 300 mg', 'Nitroglycerin under tungan', 'Morfin vid smärta', 'Kranskärlsröntgen (PCI-larm)', 'Troponin'],
+  'I46.9': ['HLR 30:2', 'Defibrillering vid kammarflimmer', 'Adrenalin 1 mg iv var 4:e minut', 'Säkra luftvägen', 'Intensivvård efter återupplivning'],
+  'I63.9': ['Strokelarm', 'Akut DT skalle', 'Propplösning eller trombektomi efter bedömning', 'Blodsocker', 'Sväljtest före mat och dryck'],
+  'I10': ['Upprepad blodtrycksmätning', 'Blodtryckssänkande vid behov', 'Uppföljning hos vårdcentral'],
+  'I48.9': ['EKG', 'Frekvensreglering', 'Blodförtunnande enligt riskbedömning', 'Kardiologkonsultation'],
+  'I26.9': ['Syrgas', 'DT lungartärer', 'Blodförtunnande (lågmolekylärt heparin)', 'Övervakning'],
+  'J18.9': ['Lungröntgen', 'Antibiotika', 'Syrgas vid låg saturation', 'Paracetamol vid feber', 'CRP och odlingar'],
+  'J45.9': ['Inhalation av salbutamol', 'Kortison', 'Syrgas', 'PEF-mätning'],
+  'J96.0': ['Syrgas', 'Blodgas', 'Andningsstöd (CPAP eller NIV)', 'Intensivvårdskonsultation'],
+  'J44.1': ['Inhalation av bronkvidgande', 'Kortison', 'Försiktig syrgas (mål 88–92 %)', 'Antibiotika vid infektionstecken'],
+  'K35.8': ['Fasta', 'Ringer-Acetat 1000 ml iv', 'Smärtlindring', 'Ultraljud eller DT buk', 'Kirurgkonsultation för operation'],
+  'R55.9': ['EKG', 'Blodtryck liggande och stående', 'Blodsocker', 'Observation 2 timmar'],
+  'R07.4': ['EKG', 'Troponin', 'ASA vid misstanke om hjärtinfarkt', 'Observation'],
+  'R10.4': ['Smärtlindring', 'Blodprover (CRP, lever, amylas)', 'Ultraljud eller DT buk', 'Kirurgbedömning vid behov'],
+  'F41.0': ['Lugnt bemötande och information', 'Andningsövningar', 'Lugnande vid behov', 'Uppföljning hos vårdcentral'],
+  'F32.9': TX_PSYK, 'F43.0': TX_PSYK,
+  'E16.2': ['Glukos iv eller druvsocker', 'Blodsocker var 15:e minut', 'Måltid när patienten är vaken', 'Utred orsaken'],
+  'A09.9': ['Vätska via munnen eller iv', 'Elektrolyter', 'Läkemedel mot illamående', 'Handhygien och isolering'],
+  'G40.9': ['Skydda patienten och säkra luftvägen', 'Bensodiazepin vid kramp längre än 5 minuter', 'Blodsocker', 'Neurologkonsultation'],
+  'G43.9': ['Mörkt och lugnt rum', 'Paracetamol 1 g eller Ibuprofen 400 mg', 'Läkemedel mot illamående', 'Uppföljning vid vårdcentral'],
+  'R50.9': ['Paracetamol 1 g x 4', 'Blodprover (CRP och odlingar)', 'Vätska', 'Leta efter infektionskälla'],
+  'R06.0': ['Syrgas', 'Lungröntgen', 'Blodgas', 'EKG'],
+  'A41.9': ['Antibiotika iv inom 1 timme', 'Ringer-Acetat 1000 ml iv', 'Blododlingar', 'Laktat', 'Intensivvårdskonsultation'],
+  'L03.9': ['Antibiotika', 'Markera rodnadens utbredning', 'Högläge', 'Återbesök om 2 dagar'],
+  'N39.0': ['Urinsticka och urinodling', 'Antibiotika', 'Rikligt med vätska'],
+  'O80': ['Barnmorska och förlossningsavdelning', 'CTG', 'Smärtlindring enligt önskemål'],
+  'V89.2': TX_TRAUMA, 'W19': TX_TRAUMA, 'Y04': TX_TRAUMA, 'Z04.1': TX_TRAUMA, 'T14.9': TX_TRAUMA,
+  'Z03.9': ['Observation 2 timmar', 'Nya vitalparametrar var 30:e minut', 'Återbesök vid försämring']
+};
+function txFor(code) { return TXR[code] || TX_DEFAULT; }
+var DX_CATS = [['alla', 'Alla'], ['trauma', 'Skador och trauma'], ['forg', 'Förgiftning och miljö'], ['hjarta', 'Hjärta och kärl'], ['andning', 'Andning'], ['medicin', 'Medicin och övrigt'], ['psyk', 'Psykiatri']];
+function dxCat(code) {
+  var c = String(code || '').toUpperCase(), L = c.charAt(0);
+  if (L === 'I') return 'hjarta'; if (L === 'J') return 'andning'; if (L === 'F') return 'psyk';
+  if (/^T(07|14|79)/.test(c) || 'SVWXY'.indexOf(L) !== -1) return 'trauma';
+  if (L === 'T') return 'forg';
+  return 'medicin';
+}
+function dxCatLabel(code) { var k = dxCat(code); return (DX_CATS.find(function (x) { return x[0] === k; }) || ['', ''])[1]; }
+var DX_CERT = [['saker', 'Säker', 'Diagnosen är bekräftad'], ['trolig', 'Trolig', 'Det mesta talar för diagnosen'], ['misstankt', 'Misstänkt', 'Behöver utredas vidare']];
+function certLabel(k) { var x = DX_CERT.find(function (o) { return o[0] === k; }); return x ? x[1] : ''; }
+function certPill(k) { return k ? '<span class="cert cert-' + esc(k) + '">' + esc(certLabel(k)) + '</span>' : ''; }
+var CAVE_RULES = [
+  [/penicillin|antibiotik|amoxicillin|kåvepenin|cefalo/i, /antibiotika|antibiotisk/i],
+  [/morfin|opioid|opiat|oxikodon/i, /morfin|opioid/i],
+  [/ibuprofen|nsaid|ipren|diklofenak|voltaren|\basa\b|acetylsalicyl|magnecyl|treo/i, /ibuprofen|nsaid|\basa\b/i],
+  [/paracetamol|alvedon|panodil/i, /paracetamol/i],
+  [/jod|kontrast/i, /\bdt\b|kontrast|kranskärlsröntgen/i],
+  [/bensodiazepin|stesolid|diazepam|midazolam/i, /bensodiazepin|lugnande/i],
+  [/adrenalin/i, /adrenalin/i], [/heparin|fragmin|klexane/i, /heparin|blodförtunnande/i]
+];
+function caveHit(cave, tx) { if (!cave) return false; return CAVE_RULES.some(function (r) { return r[0].test(cave) && r[1].test(tx); }); }
+function dxFind(q, cat) {
+  q = String(q || '').trim().toLowerCase();
+  var norm = function (s) { return s.toLowerCase().replace(/\./g, ''); }, qn = norm(q);
+  return ICD.map(function (x) {
+    var score = 4;
+    if (q) {
+      var code = norm(x[0]), name = x[1].toLowerCase(); score = -1;
+      if (code === qn) score = 0; else if (code.indexOf(qn) === 0) score = 1; else if (name.indexOf(q) === 0) score = 2; else if (name.indexOf(q) !== -1) score = 3;
+    }
+    return { x: x, s: score };
+  }).filter(function (r) { return r.s >= 0 && (!cat || cat === 'alla' || dxCat(r.x[0]) === cat); })
+    .sort(function (a, b) { return a.s - b.s || a.x[1].localeCompare(b.x[1], 'sv'); }).map(function (r) { return r.x; });
+}
+function dxLabel(d) { return d ? (d.code ? d.code + ' ' : '') + d.text : ''; }
+
+/* Diagnos ställs i en popup i fyra steg: välj diagnos, kontrollera underlaget, välj behandling och signera */
+function openDiagnosis(caseId) {
+  var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+  if (!can('diagnose')) { toast('Bara läkare kan ställa diagnos.', true); return; }
+  if (c.status === 'avslutad') { toast('Ärendet är avslutat. Återöppna det först om diagnosen ska ändras.', true); return; }
+  if ($('.dxm-wrap')) return;
+  var d0 = c.diagnosis || null, editing = !!d0;
+  var inList = d0 && ICD.some(function (x) { return x[0] === d0.code && x[1] === d0.text; });
+  var st = {
+    step: 1, max: 1, code: d0 ? d0.code || '' : '', text: d0 ? d0.text || '' : '', custom: !!(d0 && !inList), cert: d0 ? d0.cert || '' : '', cat: 'alla',
+    tx: d0 && d0.treatments ? d0.treatments.slice() : [], txFor: d0 ? d0.code || '' : '', none: !!(d0 && d0.noTx)
+  };
+  var p = c.patient || {}, pi = pnrInfo(p.pnr), nw = news2(c.vitals);
+  var STEPS = ['Diagnos', 'Underlag', 'Behandling', 'Signera'];
+  var m = document.createElement('div'); m.className = 'modal-wrap dxm-wrap';
+  m.innerHTML = '<div class="modal dxm" role="dialog" aria-modal="true" aria-labelledby="dxm-t">' +
+    '<div class="modal-head"><div><h2 id="dxm-t">' + (editing ? 'Ändra diagnos' : 'Ställ diagnos') + '</h2><small class="muted">' + esc(p.name || 'Okänd patient') + (pi ? ', ' + pi.age + ' år' : '') + ' · ' + esc(c.caseNo) + ' · ' + esc(c.title) + '</small></div><button type="button" class="btn sm ghost" data-dxm-close>Stäng</button></div>' +
+    '<ol class="dxm-steps" id="dxm-steps">' + STEPS.map(function (s, i) { return '<li><button type="button" data-dxm-step="' + (i + 1) + '"><span>' + (i + 1) + '</span>' + s + '</button></li>'; }).join('') + '</ol>' +
+    '<div class="modal-body dxm-body">' +
+      '<section data-s="1">' +
+        '<p class="hint">Sök på namn eller ICD-10-kod, eller bläddra bland kategorierna. Välj diagnosen ur listan och ange hur säker den är.</p>' +
+        '<input id="dxm-q" class="dxm-q" type="search" autocomplete="off" placeholder="Sök diagnos, t.ex. fraktur, sepsis eller S52" aria-label="Sök diagnos">' +
+        '<div class="dxm-cats" id="dxm-cats">' + DX_CATS.map(function (k) { return '<button type="button" class="chip" data-dxm-cat="' + k[0] + '">' + k[1] + '</button>'; }).join('') + '</div>' +
+        '<div class="dxm-list" id="dxm-list" role="listbox" aria-label="Diagnoser"></div>' +
+        '<div class="dxm-customrow"><button type="button" class="btn sm ghost" id="dxm-custom-on"></button></div>' +
+        '<div class="grid2" id="dxm-custom" hidden><label class="field"><span>ICD-10-kod *</span><input id="dxm-cc" class="mono" placeholder="T.ex. S66.1" value="' + esc(d0 && !inList ? d0.code || '' : '') + '"></label><label class="field"><span>Diagnos *</span><input id="dxm-ct" placeholder="Diagnosens namn" value="' + esc(d0 && !inList ? d0.text : '') + '"></label></div>' +
+        '<div id="dxm-picked"></div>' +
+        '<span class="dx-label">Hur säker är diagnosen? *</span>' +
+        '<div class="dxm-cert" role="radiogroup" aria-label="Diagnostisk säkerhet">' + DX_CERT.map(function (o) { return '<label class="cert-opt co-' + o[0] + '"><input type="radio" name="dxm-cert" value="' + o[0] + '"' + (st.cert === o[0] ? ' checked' : '') + '><span><b>' + o[1] + '</b><small>' + o[2] + '</small></span></label>'; }).join('') + '</div>' +
+      '</section>' +
+      '<section data-s="2" hidden>' +
+        '<p class="hint">Gå igenom underlaget innan du bestämmer dig. Kryssa i rutorna när du har kontrollerat varje del.</p>' +
+        '<dl class="dxm-under">' +
+          '<div><dt>Kontaktorsak</dt><dd>' + esc(c.title || '–') + (c.mechanism && c.mechanism !== MECH[0] ? ' · ' + esc(c.mechanism) : '') + '</dd></div>' +
+          '<div><dt>Frågeställning</dt><dd>' + esc(c.question || '–') + '</dd></div>' +
+          '<div class="wide"><dt>Aktuellt</dt><dd>' + esc(c.symptoms || '–') + '</dd></div>' +
+          '<div class="wide"><dt>Senaste vitalparametrar</dt><dd>' + vitalsLine(c.vitals) + (nw ? '<span class="news-chip news-' + nw.risk + '">NEWS2 ' + nw.s + '</span>' : '') + '</dd></div>' +
+          '<div><dt>Given behandling</dt><dd>' + esc(c.given || '–') + '</dd></div>' +
+          '<div><dt>Aktuella läkemedel</dt><dd>' + esc(c.meds || '–') + '</dd></div>' +
+        '</dl>' +
+        (c.cave ? '<div class="cave"><b>CAVE</b><span>' + esc(c.cave) + '</span></div>' : '') +
+        '<div class="dxm-checks">' +
+          '<label class="check"><input type="checkbox" data-chk> Jag har läst remissen och vad som har hänt</label>' +
+          '<label class="check"><input type="checkbox" data-chk> Jag har kontrollerat de senaste vitalparametrarna' + (nw ? ' (NEWS2 ' + nw.s + ')' : '') + '</label>' +
+          (c.cave ? '<label class="check"><input type="checkbox" data-chk> Jag har kontrollerat överkänslighet (CAVE: ' + esc(c.cave) + ')</label>' : '') +
+        '</div>' +
+        '<label class="field"><span>Bedömning * <small class="muted" id="dxm-ass-n"></small></span><textarea id="dxm-ass" rows="4" placeholder="Vilka fynd talar för diagnosen? Skriv minst 20 tecken.">' + esc(d0 ? d0.assessment || '' : '') + '</textarea></label>' +
+      '</section>' +
+      '<section data-s="3" hidden>' +
+        '<p class="hint" id="dxm-tx-hint"></p>' +
+        (c.cave ? '<div class="cave"><b>CAVE</b><span>' + esc(c.cave) + '. Behandlingar som kan krocka är markerade.</span></div>' : '') +
+        '<div class="dxm-txhead"><span class="dx-label">Rekommenderad behandling</span><button type="button" class="btn sm ghost" id="dxm-all">Välj alla</button></div>' +
+        '<div class="dxm-tx" id="dxm-tx"></div>' +
+        '<label class="field"><span>Övrig ordination</span><textarea id="dxm-extra" rows="2" placeholder="Annan behandling, dos eller kontroll">' + esc(d0 ? d0.extra || '' : '') + '</textarea></label>' +
+        '<label class="check"><input type="checkbox" id="dxm-none"' + (st.none ? ' checked' : '') + '> Ingen behandling behövs</label>' +
+        (c.cave ? '<label class="check dxm-cavechk"><input type="checkbox" id="dxm-cavechk"> Jag har kontrollerat ordinationen mot CAVE</label>' : '') +
+      '</section>' +
+      '<section data-s="4" hidden>' +
+        '<div class="dxm-sum" id="dxm-sum"></div>' +
+        (editing ? '<label class="field"><span>Varför ändras diagnosen? *</span><input id="dxm-why" placeholder="T.ex. Röntgen visade en fraktur"></label>' : '') +
+        '<span class="dx-label">Signatur *</span>' +
+        '<div class="sig-wrap"><canvas class="sig" id="dxm-sig" aria-label="Signaturfält. Rita din signatur med musen."></canvas><span class="sig-x" aria-hidden="true">✕</span><span class="sig-line">' + esc(S.me.name) + (S.me.title ? ', ' + esc(S.me.title) : '') + '</span><span class="sig-ph" id="dxm-sig-ph">' + IC.pen + 'Signera här</span></div>' +
+        '<div class="sig-tools"><span class="muted" id="dxm-sig-state">Inte signerad</span><button type="button" class="btn sm" id="dxm-sig-clear">Rensa signatur</button></div>' +
+        '<label class="check"><input type="checkbox" id="dxm-attest"> Jag intygar att jag själv har bedömt patienten och att uppgifterna stämmer.</label>' +
+      '</section>' +
+    '</div>' +
+    '<div class="dxm-foot"><button type="button" class="btn" id="dxm-back">Tillbaka</button><p class="err" id="dxm-err" role="alert"></p><button type="button" class="btn primary" id="dxm-next">Nästa</button></div>' +
+  '</div>';
+  document.body.appendChild(m);
+  var sig = sigPad($('#dxm-sig', m));
+
+  function close() { m.remove(); document.removeEventListener('keydown', onKey, true); }
+  function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); close(); } }
+  document.addEventListener('keydown', onKey, true);
+  function err(t) { $('#dxm-err', m).textContent = t || ''; }
+  function cur() { return S.cases.find(function (x) { return x.id === caseId; }) || c; }
+  function picked() {
+    if (st.custom) return { code: $('#dxm-cc', m).value.trim().toUpperCase(), text: $('#dxm-ct', m).value.trim() };
+    return { code: st.code, text: st.text };
+  }
+  function drawList() {
+    var q = $('#dxm-q', m).value, hits = dxFind(q, st.cat);
+    $$('[data-dxm-cat]', m).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.dxmCat === st.cat)); });
+    $('#dxm-list', m).innerHTML = hits.length ? hits.map(function (x, i) {
+      var on = !st.custom && x[0] === st.code && x[1] === st.text;
+      return '<button type="button" class="dxm-opt' + (on ? ' on' : '') + '" role="option" aria-selected="' + on + '" data-code="' + esc(x[0]) + '" data-text="' + esc(x[1]) + '"' + (i === 0 ? ' data-first' : '') + '><span class="diag-code">' + esc(x[0]) + '</span><span class="dxm-name">' + esc(x[1]) + '</span><span class="dxm-cat">' + esc(dxCatLabel(x[0])) + '</span></button>';
+    }).join('') : '<p class="muted dxm-none">Ingen diagnos matchar "' + esc(q) + '". Prova ett annat ord eller välj Diagnosen finns inte i listan.</p>';
+    $('#dxm-custom-on', m).textContent = st.custom ? 'Välj ur listan i stället' : 'Diagnosen finns inte i listan';
+    $('#dxm-custom', m).hidden = !st.custom;
+    $('#dxm-list', m).classList.toggle('dim', st.custom);
+    drawPicked();
+  }
+  function drawPicked() {
+    var pk = picked();
+    $('#dxm-picked', m).innerHTML = pk.text ? '<div class="dxm-chosen"><span class="dxm-chk">' + IC.ok + '</span><div><small>Vald diagnos</small><b>' + (pk.code ? '<span class="diag-code">' + esc(pk.code) + '</span>' : '') + esc(pk.text) + '</b><small>' + txFor(st.custom ? '' : pk.code).length + ' rekommenderade behandlingar finns i nästa steg</small></div></div>' : '';
+  }
+  function drawTx() {
+    var pk = picked(), code = st.custom ? '' : pk.code;
+    if (st.txFor !== code) { st.tx = []; st.txFor = code; }
+    var rec = txFor(code), list = rec.concat(st.tx.filter(function (t) { return rec.indexOf(t) === -1; })), cave = cur().cave;
+    $('#dxm-tx-hint', m).innerHTML = 'Rekommenderad behandling vid <b>' + esc(pk.text) + '</b>. Kryssa i det du ordinerar. Du kan lägga till mer i fältet under.';
+    $('#dxm-tx', m).innerHTML = list.map(function (t) {
+      var hit = caveHit(cave, t), on = st.tx.indexOf(t) !== -1;
+      return '<label class="dxm-txi' + (on ? ' on' : '') + (hit ? ' hit' : '') + '"><input type="checkbox" data-tx="' + esc(t) + '"' + (on ? ' checked' : '') + (st.none ? ' disabled' : '') + '><span>' + esc(t) + '</span>' + (hit ? '<span class="cave-hit">Krockar med CAVE</span>' : '') + '</label>';
+    }).join('');
+    $('#dxm-all', m).disabled = st.none;
+  }
+  function drawSum() {
+    var pk = picked(), ass = $('#dxm-ass', m).value.trim(), extra = $('#dxm-extra', m).value.trim();
+    var tx = st.none ? ['Ingen behandling behövs'] : st.tx.concat(extra ? [extra] : []);
+    $('#dxm-sum', m).innerHTML = '<p class="hint">Kontrollera att allt stämmer. När du signerar sparas diagnosen i journalen och syns i remissen.</p><dl>' +
+      '<div><dt>Diagnos</dt><dd><b>' + (pk.code ? '<span class="diag-code">' + esc(pk.code) + '</span>' : '') + esc(pk.text) + '</b> ' + certPill(st.cert) + '</dd></div>' +
+      (editing ? '<div><dt>Tidigare</dt><dd class="muted">' + esc(dxLabel(d0)) + '</dd></div>' : '') +
+      '<div><dt>Bedömning</dt><dd>' + esc(ass) + '</dd></div>' +
+      '<div><dt>Ordination</dt><dd><ul>' + tx.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></dd></div></dl>';
+    $('#dxm-next', m).innerHTML = IC.pen + (editing ? 'Signera och spara ändringen' : 'Signera och ställ diagnos');
+  }
+  function check(n) {
+    if (n === 1) {
+      var pk = picked();
+      if (st.custom && (!pk.code || !pk.text)) return 'Skriv både ICD-10-kod och diagnosens namn.';
+      if (!pk.text) return 'Välj en diagnos i listan.';
+      if (!st.cert) return 'Välj hur säker diagnosen är.';
+    }
+    if (n === 2) {
+      if ($$('[data-chk]', m).some(function (x) { return !x.checked; })) return 'Kryssa i att du har kontrollerat hela underlaget.';
+      if ($('#dxm-ass', m).value.trim().length < 20) return 'Skriv en bedömning på minst 20 tecken.';
+    }
+    if (n === 3) {
+      if (!st.none && !st.tx.length && !$('#dxm-extra', m).value.trim()) return 'Välj minst en behandling, skriv en egen eller kryssa i Ingen behandling behövs.';
+      var cc = $('#dxm-cavechk', m); if (cc && !st.none && !cc.checked) return 'Bekräfta att du har kontrollerat ordinationen mot CAVE.';
+    }
+    if (n === 4) {
+      var w = $('#dxm-why', m); if (w && w.value.trim().length < 5) return 'Skriv varför diagnosen ändras.';
+      if (sig.empty()) return 'Signera med musen i rutan.';
+      if (!$('#dxm-attest', m).checked) return 'Kryssa i att du intygar bedömningen.';
+    }
+    return '';
+  }
+  function go(n) {
+    err(''); st.step = n; st.max = Math.max(st.max, n);
+    $$('[data-s]', m).forEach(function (s) { s.hidden = Number(s.dataset.s) !== n; });
+    $$('[data-dxm-step]', m).forEach(function (b) { var k = Number(b.dataset.dxmStep); b.parentNode.className = k === n ? 'on' : k < n ? 'done' : ''; b.disabled = k > st.max; });
+    $('#dxm-back', m).style.visibility = n === 1 ? 'hidden' : 'visible';
+    if (n < 4) $('#dxm-next', m).textContent = 'Nästa';
+    if (n === 1) { drawList(); setTimeout(function () { $('#dxm-q', m).focus(); }, 0); }
+    if (n === 2) assCount();
+    if (n === 3) drawTx();
+    if (n === 4) drawSum();
+    $('.dxm-body', m).scrollTop = 0;
+  }
+  function assCount() { var l = $('#dxm-ass', m).value.trim().length; $('#dxm-ass-n', m).textContent = l < 20 ? '(' + l + ' av minst 20 tecken)' : ''; }
+
+  $('#dxm-q', m).addEventListener('input', drawList);
+  $('#dxm-q', m).addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); var f = $('#dxm-list [data-first]', m); if (f) f.click(); } });
+  $('#dxm-ass', m).addEventListener('input', assCount);
+  $('#dxm-cc', m).addEventListener('input', drawPicked); $('#dxm-ct', m).addEventListener('input', drawPicked);
+  m.addEventListener('change', function (e) {
+    if (e.target.name === 'dxm-cert') st.cert = e.target.value;
+    if (e.target.dataset.tx != null) { var t = e.target.dataset.tx, i = st.tx.indexOf(t); if (e.target.checked && i === -1) st.tx.push(t); if (!e.target.checked && i !== -1) st.tx.splice(i, 1); e.target.closest('.dxm-txi').classList.toggle('on', e.target.checked); }
+    if (e.target.id === 'dxm-none') { st.none = e.target.checked; if (st.none) st.tx = []; drawTx(); }
+    err('');
+  });
+  m.addEventListener('sigchange', function () { var ok = !sig.empty(); $('#dxm-sig-ph', m).hidden = ok; $('#dxm-sig-state', m).textContent = ok ? 'Signerad av ' + S.me.name + ' ' + fmtT.format(new Date()) : 'Inte signerad'; $('#dxm-sig-state', m).className = ok ? 'sig-ok' : 'muted'; });
+  m.addEventListener('click', function (e) {
+    if (e.target === m || e.target.closest('[data-dxm-close]')) { close(); return; }
+    var o = e.target.closest('.dxm-opt'); if (o) { st.custom = false; st.code = o.dataset.code; st.text = o.dataset.text; drawList(); err(''); return; }
+    var k = e.target.closest('[data-dxm-cat]'); if (k) { st.cat = k.dataset.dxmCat; drawList(); return; }
+    if (e.target.closest('#dxm-custom-on')) { st.custom = !st.custom; drawList(); if (st.custom) $('#dxm-cc', m).focus(); return; }
+    if (e.target.closest('#dxm-all')) { var cv = cur().cave; st.tx = txFor(st.txFor).filter(function (t) { return !caveHit(cv, t); }); drawTx(); err(''); return; }
+    if (e.target.closest('#dxm-sig-clear')) { sig.clear(); return; }
+    var sb = e.target.closest('[data-dxm-step]'); if (sb) { var n = Number(sb.dataset.dxmStep); if (n < st.step) go(n); else if (n <= st.max) { for (var s = st.step; s < n; s++) { var er = check(s); if (er) { go(s); err(er); return; } } go(n); } return; }
+    if (e.target.closest('#dxm-back')) { if (st.step > 1) go(st.step - 1); return; }
+    if (e.target.closest('#dxm-next')) {
+      var er2 = check(st.step); if (er2) { err(er2); if (st.step === 4 && sig.empty()) { var w = $('.sig-wrap', m); w.classList.add('sig-need'); setTimeout(function () { w.classList.remove('sig-need'); }, 1600); } return; }
+      if (st.step < 4) { go(st.step + 1); return; }
+      save();
+    }
+  });
+  async function save() {
+    var cc = cur(), pk = picked(), now = nowIso();
+    var ass = $('#dxm-ass', m).value.trim(), extra = $('#dxm-extra', m).value.trim(), why = $('#dxm-why', m) ? $('#dxm-why', m).value.trim() : '';
+    var tx = st.none ? [] : st.tx.slice();
+    var plan = st.none ? 'Ingen behandling behövs.' + (extra ? '\n' + extra : '') : tx.map(function (t) { return '– ' + t; }).concat(extra ? [extra] : []).join('\n');
+    var dx = { code: pk.code, text: pk.text, cert: st.cert, assessment: ass, treatments: tx, extra: extra, noTx: st.none, plan: plan, by: S.me.id, at: now, signature: sig.data(), signedAt: now };
+    if (editing) dx.reason = why;
+    var patch = { diagnosis: dx, doctorId: cc.doctorId || S.me.id, status: 'diagnos' };
+    var label = dxLabel(dx), evs = [];
+    if (editing) {
+      patch.dxHistory = (cc.dxHistory || []).concat([{ code: d0.code || '', text: d0.text, cert: d0.cert || '', by: d0.by, at: d0.at, changedAt: now, changedBy: S.me.id, reason: why }]).slice(-20);
+      evs.push({ type: 'sys', text: 'Diagnos ändrad från ' + dxLabel(d0) + ' till ' + label + ' (' + certLabel(st.cert).toLowerCase() + '). Orsak: ' + why + '. Signerad elektroniskt.' });
+    } else evs.push({ type: 'sys', text: 'Diagnos ställd: ' + label + ' (' + certLabel(st.cert).toLowerCase() + '). Signerad elektroniskt.' });
+    evs.push({ type: 'note', text: 'Bedömning: ' + ass + '\nOrdination:\n' + plan });
+    var btn = $('#dxm-next', m); btn.disabled = true; btn.textContent = 'Sparar…';
+    try {
+      await updateCase(caseId, patch, evs);
+      close(); toast(editing ? 'Diagnosen är ändrad och signerad.' : 'Diagnosen är ställd och signerad.');
+      var row = $('#d-info .doc-dxrow'); if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.add('flash'); setTimeout(function () { row.classList.remove('flash'); }, 1400); }
+    } catch (x) { btn.disabled = false; drawSum(); }
+  }
+  if (st.custom) drawList();
+  go(1);
+}
+function renderDxCard(c) {
+  var d = c.diagnosis, canD = can('diagnose') && c.status !== 'avslutad';
+  if (!d) return '<section class="dxc dxc-empty"><span class="dxc-ic">' + IC.steth + '</span><div class="dxc-main"><span class="dxc-k">Diagnos</span><b>Ingen diagnos ställd ännu</b><small>' +
+    (canD ? 'Läs remissen och tryck Ställ diagnos. Du går igenom fyra steg och signerar till sist.' : c.doctorId ? esc(userName(c.doctorId)) + ' bedömer patienten. Diagnosen visas här när den är signerad.' : 'En läkare ställer diagnosen. Den visas här när den är signerad.') +
+    '</small></div>' + (canD ? '<button type="button" class="btn primary dxc-btn" data-dxopen="' + esc(c.id) + '">' + IC.pen + 'Ställ diagnos</button>' : '') + '</section>';
+  var n = (d.treatments || []).length + (d.extra ? 1 : 0);
+  return '<section class="dxc"><span class="dxc-ic ok">' + IC.ok + '</span><div class="dxc-main"><span class="dxc-k">Diagnos ' + certPill(d.cert) + '</span><b>' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + esc(d.text) + '</b>' +
+    '<small>Signerad av ' + esc(userName(d.by)) + ' ' + esc(dt(d.signedAt || d.at)) + (d.noTx ? ' · ingen behandling' : n ? ' · ' + n + (n === 1 ? ' ordination' : ' ordinationer') : '') + '</small></div>' +
+    '<div class="dxc-btns"><button type="button" class="btn sm ghost" data-dtab="remiss">Visa i remissen</button>' + (canD ? '<button type="button" class="btn sm" data-dxopen="' + esc(c.id) + '">' + IC.pen + 'Ändra</button>' : '') + '</div></section>';
+}
+function remissDxRow(c, opts) {
+  var d = c.diagnosis; if (!d) return '';
+  var canD = !opts.images && can('diagnose') && c.status !== 'avslutad', h = c.dxHistory || [], last = h[h.length - 1];
+  var tx = (d.treatments || []).concat(d.extra ? [d.extra] : []);
+  return '<div class="doc-dxrow"><div class="ddx-main"><small class="ddx-k">Diagnos ' + termQ('icd') + '</small>' +
+    '<p class="doc-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b>' + certPill(d.cert) + '</p>' +
+    (tx.length ? '<div class="ddx-tx">' + tx.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : d.noTx ? '<div class="ddx-tx"><span>Ingen behandling behövs</span></div>' : '') +
+    '<span class="ddx-by">Signerad av ' + esc(userName(d.by)) + ' ' + esc(dt(d.signedAt || d.at)) + (last ? ' · ändrad från ' + esc(dxLabel(last)) + (last.reason ? ' (' + esc(last.reason) + ')' : '') : '') + '</span></div>' +
+    (canD ? '<button type="button" class="btn sm ddx-edit" data-dxopen="' + esc(c.id) + '">' + IC.pen + 'Ändra</button>' : '') + '</div>';
 }
 
 /* ---------- Tillstånd ---------- */
@@ -1544,6 +2034,7 @@ var IC = {
   belaggning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10.5" r="2"/></svg>',
   chatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
 };
+IC.ok = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 var CROSS = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="var(--accent)"/></svg>';
 
 /* ---------- Inloggning ---------- */
@@ -1855,10 +2346,10 @@ function todoItems() {
       var hot = c.triage === 'rod' || c.triage === 'orange';
       if (c.status === 'inkommen' && (!c.doctorId || c.doctorId === S.me.id) && c.createdBy !== S.me.id)
         out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ny konsultation', ic: 'konsult', title: c.title, quote: c.question || '', meta: [pt(c), 'från ' + userName(c.createdBy), ago(c.createdAt)], tri: c.triage, at: c.createdAt,
-          btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '">Bedöm</button>' });
+          btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="remiss">Öppna remissen</button>' });
       else if (c.status === 'bedoms' && c.doctorId === S.me.id)
         out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ställ diagnos', ic: 'diagnos', title: c.title, quote: c.question || '', meta: [pt(c), 'tagen ' + ago(c.updatedAt || c.createdAt)], tri: c.triage, at: c.createdAt,
-          btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="bedomning">Fortsätt</button>' });
+          btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="diagnos">Ställ diagnos</button>' });
       else if (c.status === 'diagnos' && c.doctorId === S.me.id &&  !(c.call && new Date(c.call.at) > new Date()) && !(c.stay && (c.stay.status === 'inne' || c.stay.status === 'prehosp')))
         out.push({ tone: 'info', kind: 'Klart att avsluta', ic: 'klar', title: c.title, meta: [pt(c), 'diagnos satt'], tri: c.triage, at: c.updatedAt,
           btn: '<button type="button" class="btn sm" data-open="' + esc(c.id) + '">Öppna</button>' });
@@ -1891,14 +2382,6 @@ function todoItems() {
   return out.sort(function (a, b) { return rank[a.tone] - rank[b.tone] || ((TRI[a.tri] || { rank: 5 }).rank - (TRI[b.tri] || { rank: 5 }).rank) || String(a.at).localeCompare(String(b.at)); });
 }
 function todoCount() { return todoItems().filter(function (t) { return t.tone !== 'info'; }).length; }
-function todoHtml(t) {
-  return '<div class="todo tone-' + t.tone + '">' + kindIcon(t.ic) +
-    '<div class="todo-main"><span class="todo-kind">' + esc(t.kind) + (t.status ? ' <span class="tpill ts-' + esc(t.status) + '">' + esc(TSTATUS[t.status] || '') + '</span>' : '') + '</span><b class="todo-title">' + esc(t.title) + '</b>' +
-      (t.quote ? '<q class="todo-quote">' + esc(t.quote) + '</q>' : '') +
-      '<span class="todo-meta">' + (t.tri && TRI[t.tri] ? '<span class="mini-tri tri-' + t.tri + '">' + TRI[t.tri].label + '</span>' : '') + t.meta.filter(Boolean).map(function (m) { return '<span>' + esc(m) + '</span>'; }).join('') + '</span></div>' +
-    '<div class="todo-btns">' + t.btn + '</div>' +
-    (t.seg ? '<div class="todo-seg">' + t.seg + '</div>' : '') + '</div>';
-}
 var HERO_ART = '<svg class="hero-art" viewBox="0 0 560 170" preserveAspectRatio="xMaxYMax meet" aria-hidden="true"><defs><pattern id="hw" width="24" height="22" patternUnits="userSpaceOnUse"><rect x="5" y="6" width="13" height="10" rx="1.5" fill="#fff" opacity=".28"/></pattern></defs>' +
   '<rect x="40" y="88" width="120" height="82" fill="#fff" opacity=".07"/><rect x="40" y="88" width="120" height="82" fill="url(#hw)" opacity=".6"/>' +
   '<rect x="160" y="34" width="250" height="136" fill="#fff" opacity=".1"/><rect x="160" y="34" width="250" height="136" fill="url(#hw)"/>' +
@@ -1908,59 +2391,99 @@ var HERO_ART = '<svg class="hero-art" viewBox="0 0 560 170" preserveAspectRatio=
 function phead(ic, title, extra) { return '<div class="panel-head"><h2 class="ph"><span class="ph-ic">' + (IC[ic] || '') + '</span>' + esc(title) + '</h2>' + (extra || '') + '</div>'; }
 function seeAll(nav, label) { return '<button type="button" class="see-all" data-nav="' + nav + '">' + esc(label || 'Se alla ärenden') + IC.arrow + '</button>'; }
 function emptyArt(ic, title, text) { return '<div class="empty empty-art"><span class="ea-ic">' + (IC[ic] || '') + '</span><b>' + esc(title) + '</b><span>' + esc(text) + '</span></div>'; }
+function todoHow(t) {
+  var k = t.kind || '';
+  if (k === 'Svar från läkare') return 'Läs svaret, gör det läkaren ber om och tryck Uppfattat.';
+  if (k === 'Diagnos ställd') return 'Läkaren har ställt diagnos. Öppna ärendet och läs svaret.';
+  if (k === 'Ny konsultation') return 'Läs remissen, ta ärendet och ställ diagnos.';
+  if (k === 'Ställ diagnos') return 'Du är ansvarig läkare. Tryck Ställ diagnos och följ de fyra stegen.';
+  if (k === 'Klart att avsluta') return 'Diagnosen är satt. Avsluta ärendet om inget mer behövs.';
+  if (/instruktion/i.test(k)) return 'Gör det som står och tryck Kvittera, så ser läkaren att du har läst.';
+  if (k === 'Du har tilldelats ett ärende') return 'Öppna journalen och läs vad läkaren vill att du gör.';
+  if (/^Återrapport/.test(k)) return 'Läs vad personalen rapporterar och tryck Läst.';
+  if (k === 'Samtal') return 'Ring eller ta emot samtalet vid utsatt tid.';
+  if (k === 'Chatt') return 'Öppna chatten och läs meddelandena.';
+  return '';
+}
+function todoHtml(t) {
+  var how = todoHow(t);
+  return '<div class="td tone-' + t.tone + '">' + kindIcon(t.ic) +
+    '<div class="td-main"><div class="td-top"><span class="td-kind">' + esc(t.kind) + '</span>' + (t.tri && TRI[t.tri] ? '<span class="mini-tri tri-' + t.tri + '">' + TRI[t.tri].label + '</span>' : '') + (t.status ? '<span class="tpill ts-' + esc(t.status) + '">' + esc(TSTATUS[t.status] || '') + '</span>' : '') + '</div>' +
+      '<b class="td-title">' + esc(t.title) + '</b>' +
+      '<span class="td-meta">' + t.meta.filter(Boolean).map(function (m) { return '<span>' + esc(m) + '</span>'; }).join('') + '</span>' +
+      (t.quote ? '<q class="td-quote">' + esc(t.quote) + '</q>' : '') +
+      (how ? '<p class="td-how"><b>Gör så här:</b> ' + esc(how) + '</p>' : '') +
+    '</div>' +
+    '<div class="td-btns">' + t.btn + '</div>' +
+    (t.seg ? '<div class="todo-seg">' + t.seg + '</div>' : '') + '</div>';
+}
+var TD_TONES = [['urgent', 'Gör nu', 'Brådskande', 'Akut eller väntar på dig'], ['todo', 'Gör snart', 'Att göra', 'Ditt ansvar i dag'], ['info', 'Bra att veta', 'Bra att veta', 'Ingen brådska']];
 VIEWS.mina = {
   mount: function (el) {
-    var doc = can('diagnose');
+    if (!S.todoFilter) S.todoFilter = 'alla';
     el.innerHTML =
-      '<section class="hero">' + HERO_ART + '<div class="hero-text"><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p id="m-sub"></p></div>' +
+      '<section class="hero td-hero"><div class="hero-text"><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p id="m-sub"></p></div>' +
         (can('create') ? '<button class="btn hero-btn" type="button" data-nav="nytt">' + IC.plusc + 'Ny konsultation</button>' : '') + '</section>' +
       welcomeCard() +
-      '<div class="quick" id="r-quick"></div>' +
+      '<div class="td-stats" id="td-stats"></div>' +
       '<div class="mina-grid">' +
         '<div class="mina-main">' +
-          '<section class="panel">' + phead('mina', 'Att göra', seeAll('alla')) + '<div class="todos" id="r-todo"></div></section>' +
-          (doc ? '<section class="panel">' + phead('person', 'Ärenden jag ansvarar för', seeAll('alla')) + '<div class="list" id="r-resp"></div></section>'
-               : '<section class="panel">' + phead('personal', 'Ärenden jag är tilldelad', seeAll('alla')) + '<div class="list" id="r-assigned"></div></section>') +
+          '<section class="panel td-panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.mina + '</span>Min att göra-lista</h2><div class="tseg" id="td-filter" role="tablist" aria-label="Visa"></div></div>' +
+            '<p class="td-explain">Listan sorteras åt dig: det viktigaste ligger överst. Tryck på knappen till höger för att göra saken. När den är klar försvinner den av sig själv.</p>' +
+            '<div class="todos" id="r-todo"></div></section>' +
+          '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.alla + '</span>Mina ärenden</h2>' + seeAll('alla') + '</div><div class="seg" id="mc-tabs" role="tablist"></div><div class="list" id="r-mycases"></div></section>' +
         '</div>' +
         '<aside class="mina-side">' +
+          '<section class="panel">' + phead('arrow', 'Genvägar') + '<div class="quick td-quick" id="r-quick"></div></section>' +
           '<section class="panel">' + phead('chart', 'Läget just nu') + '<div class="glance" id="r-glance"></div></section>' +
           '<section class="panel">' + phead('calendar', 'Kommande samtal') + '<div class="list" id="r-calls"></div></section>' +
-          '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>' +
         '</aside>' +
       '</div>';
+    $('#td-filter').addEventListener('click', function (e) { var b = e.target.closest('[data-tf]'); if (b) { S.todoFilter = b.dataset.tf; VIEWS.mina.update(); } });
+    $('#td-stats').addEventListener('click', function (e) { var b = e.target.closest('[data-tf]'); if (b) { S.todoFilter = S.todoFilter === b.dataset.tf ? 'alla' : b.dataset.tf; VIEWS.mina.update(); $('#r-todo').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } });
+    $('#mc-tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-mc]'); if (b) { S.minaTab = b.dataset.mc; VIEWS.mina.update(); } });
   },
   update: function () {
-    var w = waiting(), items = todoItems(), n = items.filter(function (t) { return t.tone !== 'info'; }).length;
-    $('#m-sub').textContent = w ? 'Hämtar dina ärenden…' : n ? 'Du har ' + n + (n === 1 ? ' sak' : ' saker') + ' att göra. Börja uppifrån i listan.' : 'Du har inget som väntar på dig just nu. Här är en översikt över dina ärenden och snabbåtgärder.';
+    var w = waiting(), items = todoItems(), cnt = { urgent: 0, todo: 0, info: 0 };
+    items.forEach(function (t) { cnt[t.tone] = (cnt[t.tone] || 0) + 1; });
+    var n = cnt.urgent + cnt.todo;
+    $('#m-sub').textContent = w ? 'Hämtar dina ärenden…' : cnt.urgent ? 'Du har ' + cnt.urgent + (cnt.urgent === 1 ? ' sak' : ' saker') + ' som är bråttom. Börja med den röda.' : n ? 'Du har ' + n + (n === 1 ? ' sak' : ' saker') + ' att göra. Börja uppifrån i listan.' : 'Allt är klart. Du har inget som väntar på dig just nu.';
+    $('#td-stats').innerHTML = TD_TONES.map(function (k) {
+      return '<button type="button" class="td-stat s-' + k[0] + '" data-tf="' + k[0] + '" aria-pressed="' + (S.todoFilter === k[0]) + '"><b>' + (w ? '–' : cnt[k[0]]) + '</b><span>' + k[1] + '</span><small>' + k[3] + '</small></button>';
+    }).join('');
+    var tabs = [['alla', 'Alla', items.length]].concat(TD_TONES.map(function (k) { return [k[0], k[2], cnt[k[0]]]; }));
+    $('#td-filter').innerHTML = tabs.map(function (k) { return '<button type="button" role="tab" data-tf="' + k[0] + '" aria-pressed="' + (S.todoFilter === k[0]) + '">' + k[1] + (k[2] ? ' <span class="tf-n">' + k[2] + '</span>' : '') + '</button>'; }).join('');
+    var shown = S.todoFilter === 'alla' ? items : items.filter(function (t) { return t.tone === S.todoFilter; });
+    var groups = TD_TONES.map(function (k) { return { label: k[2], sub: k[3], tone: k[0], items: shown.filter(function (t) { return t.tone === k[0]; }).map(todoHtml) }; });
+    $('#r-todo').innerHTML = w || (shown.length ? groupHtml(groups) : items.length
+      ? emptyArt('mina', 'Inget här', 'Det finns inget i den här gruppen. Tryck Alla för att se hela listan.')
+      : '<div class="empty empty-art td-done"><span class="ea-ic">' + IC.ok + '</span><b>Allt är klart</b><span>Nya konsultationer, svar från läkare, instruktioner och samtal som gäller dig dyker upp här.</span></div>');
     var quick = [
       can('create') && { nav: 'nytt', ic: 'steth', t: 'Ny konsultation', s: 'Skicka en remiss till läkare', k: 1 },
       can('diagnose') && { nav: 'inkorg', ic: 'inkorg', t: 'Läkarinkorg', s: 'Bedöm nya remisser', b: inboxCount(), k: 2 },
-      { nav: 'belaggning', ic: 'belaggning', t: 'Patienter på sjukhuset', s: 'Se vilka som ligger inne', b: inpatients().length, k: 3 },
-      can('diagnose') ? { nav: 'alla', ic: 'alla', t: 'Alla ärenden', s: 'Sök, filtrera och följ upp', k: 4 } : { nav: 'chatt', ic: 'chatt', t: 'Chatt', s: 'Prata med kollegor', b: totalUnread(), k: 4 }
+      { nav: 'belaggning', ic: 'belaggning', t: 'Patienter på sjukhuset', s: 'Vilka ligger inne', b: inpatients().length, k: 3 },
+      { nav: 'chatt', ic: 'chatt', t: 'Chatt', s: 'Prata med kollegor', b: totalUnread(), k: 4 }
     ].filter(Boolean);
     $('#r-quick').innerHTML = quick.map(function (q) {
       return '<button type="button" class="qcard qk' + q.k + '" data-nav="' + q.nav + '"><span class="qc-ic">' + IC[q.ic] + '</span><span class="qc-t"><b>' + esc(q.t) + '</b><small>' + esc(q.s) + '</small></span>' + (q.b ? '<span class="badge">' + q.b + '</span>' : '') + '<span class="qc-chev">' + IC.chev + '</span></button>';
     }).join('');
-    var groups = [{ label: 'Brådskande', tone: 'urgent', items: [] }, { label: 'Att göra', tone: 'todo', items: [] }, { label: 'Bra att veta', tone: 'info', items: [] }];
-    items.forEach(function (t) { groups[t.tone === 'urgent' ? 0 : t.tone === 'todo' ? 1 : 2].items.push(todoHtml(t)); });
-    $('#r-todo').innerHTML = w || (items.length ? groupHtml(groups) : emptyArt('mina', 'Inget att göra just nu', 'Nya konsultationer, svar från läkare, uppdrag och samtal som gäller dig dyker upp här.'));
     var glance = [
       { ic: 'belaggning', n: inpatients().length, l: 'Patienter på sjukhuset', nav: 'belaggning' },
       can('diagnose') ? { ic: 'inkorg', n: inboxCount(), l: 'Nya i läkarinkorgen', nav: 'inkorg', alert: inboxCount() > 0 } : null,
-      { ic: 'uppdrag', n: S.cases.reduce(function (s2, c) { return s2 + (c.status === 'avslutad' ? 0 : unackedInstr(c, S.me.id).length); }, 0), l: 'Instruktioner att kvittera', nav: 'mina' },
-      { ic: 'personal', n: S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); }).length, l: 'Ärenden jag är tilldelad', nav: 'mina' },
       { ic: 'alla', n: S.cases.filter(function (c) { return c.status !== 'avslutad'; }).length, l: 'Aktiva ärenden', nav: 'alla' },
       { ic: 'personal', n: onlineCount(), l: 'Kollegor aktiva nu', nav: 'personal' }
     ].filter(Boolean);
     $('#r-glance').innerHTML = glance.map(function (g) { return '<button type="button" class="glance-row' + (g.alert ? ' alert' : '') + '" data-nav="' + g.nav + '"><span class="gl-ic">' + IC[g.ic] + '</span><span class="gl-l">' + esc(g.l) + '</span><b>' + (w ? '–' : g.n) + '</b></button>'; }).join('');
-    var sent = byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; }));
-    var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
     var calls = upcomingCalls();
     $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyArt('calendar', 'Inga bokade samtal', 'Samtal i dina ärenden visas här.'));
-    if ($('#r-assigned')) { var asg = sortCases(S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); })); $('#r-assigned').innerHTML = w || (asg.length ? caseHead() + asg.map(caseRow).join('') : emptyArt('personal', 'Inga tilldelade ärenden', 'När en läkare tilldelar dig ett ärende hörs ett pling och ärendet visas här.')); }
-    if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? caseHead() + resp.map(caseRow).join('') : emptyArt('alla', 'Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
-    $('#m-sc').textContent = sent.length ? sent.length + ' totalt' : '';
-    $('#r-sent').innerHTML = w || (sent.length ? caseHead() + sent.slice(0, 8).map(caseRow).join('') : emptyArt('send', 'Inga skickade remisser', can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : ''));
+    var sets = [];
+    if (can('diagnose')) sets.push(['resp', 'Jag ansvarar för', sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; })), 'Ärenden du tar från inkorgen hamnar här.']);
+    sets.push(['team', 'Jag är tilldelad', sortCases(S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); })), 'När en läkare tilldelar dig ett ärende hörs ett pling och ärendet visas här.']);
+    sets.push(['sent', 'Jag har skickat', byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; })).slice(0, 12), can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : 'Remisser du skickar visas här.']);
+    if (!S.minaTab || !sets.some(function (s) { return s[0] === S.minaTab; })) S.minaTab = (sets.find(function (s) { return s[2].length; }) || sets[0])[0];
+    $('#mc-tabs').innerHTML = sets.map(function (s) { return '<button type="button" role="tab" data-mc="' + s[0] + '" aria-selected="' + (S.minaTab === s[0]) + '">' + s[1] + ' <span class="tf-n">' + s[2].length + '</span></button>'; }).join('');
+    var cur = sets.find(function (s) { return s[0] === S.minaTab; });
+    $('#r-mycases').innerHTML = w || (cur[2].length ? caseHead() + cur[2].map(caseRow).join('') : emptyArt('alla', 'Inga ärenden här', cur[3]));
   }
 };
 function callRow(c) {
@@ -2148,6 +2671,7 @@ function renderRemiss(c, opts) {
       '<div><small>Ålder och kön</small><span>' + (pi ? pi.age + ' år, ' + pi.sex : '–') + '</span></div>' +
       '<div><small>Telefon</small><span class="mono">' + (p.phone ? esc(p.phone) : '–') + '</span></div>' +
     '</div>' +
+    remissDxRow(c, opts) +
     (c.cave ? '<div class="cave"><b>CAVE</b>' + termQ('cave') + '<span>' + esc(c.cave) + '</span></div>' : '') +
     '<dl class="doc-body">' +
       docRow('Frågeställning ' + termQ('fragestallning'), c.question ? '<p class="doc-q">' + esc(c.question) + '</p>' : '') +
@@ -2179,7 +2703,7 @@ function renderSvar(c) {
     '<header class="doc-head"><div class="doc-org"><span class="ans-mark">Svar</span><span><b>Konsultationssvar</b><small>Avser remiss ' + esc(c.caseNo) + '</small></span></div>' +
       '<div class="doc-meta"><span>' + esc(fmtFull.format(new Date(d ? d.at : call.at))) + '</span></div></header>' +
     '<dl class="doc-body">' +
-      docRow('Diagnos ' + termQ('icd'), d ? '<p class="doc-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b></p>' : '<span class="muted">Ingen diagnos ställd ännu.</span>') +
+      docRow('Diagnos ' + termQ('icd'), d ? '<p class="doc-dx">' + (d.code ? '<span class="diag-code">' + esc(d.code) + '</span>' : '') + '<b>' + esc(d.text) + '</b> ' + certPill(d.cert) + '</p>' : '<span class="muted">Ingen diagnos ställd ännu.</span>') +
       docRow('Bedömning', d && d.assessment ? '<p class="prose">' + esc(d.assessment) + '</p>' : '') +
       docRow('Ordination ' + termQ('ordination'), d && d.plan ? '<p class="prose">' + esc(d.plan) + '</p>' : '') +
       docRow('Uppföljning', follow) +
@@ -3195,6 +3719,7 @@ function openCase(id) {
     '</aside>' +
     '<div class="ws-col ws-center" id="d-body">' +
       '<nav class="jump" id="d-tabs" aria-label="Hoppa till"></nav>' +
+      '<div id="d-dxcard"></div>' +
       '<div id="d-reply"></div>' +
       '<div id="d-replies"></div>' +
       '<div id="d-diag"></div>' +
@@ -3289,6 +3814,7 @@ function updateDrawer() {
   var pp = c.patient || {}, ppi = pnrInfo(pp.pnr), tt = TRI[c.triage] ? c.triage : 'bla';
   $('#d-head').innerHTML = '<div class="pbar"><div class="pbar-main"><span class="pt-av" data-tri="' + tt + '">' + esc(initials(pp.name || '?')) + '</span><div class="pbar-id"><b>' + esc(pp.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(pp.pnr || 'Personnummer saknas') + '</span>' + (ppi ? ' · ' + ppi.age + ' år · ' + ppi.sex : '') + (pp.phone ? ' · tel <span class="mono">' + esc(pp.phone) + '</span>' : '') + '</span></div></div>' +
       '<div class="pbar-flags">' + (c.cave ? '<span class="flag-cave" title="Överkänslighet">CAVE: ' + esc(c.cave) + '</span>' : '') + triChip(c.triage) + (nw ? '<span class="flag-news">NEWS2 ' + nw.s + '</span>' : '') + '</div>' +
+      (can('diagnose') && c.status !== 'avslutad' ? '<button class="btn sm pbar-dx' + (c.diagnosis ? '' : ' primary') + '" type="button" data-dxopen="' + esc(c.id) + '">' + IC.pen + (c.diagnosis ? 'Ändra diagnos' : 'Ställ diagnos') + '</button>' : '') +
       '<button class="btn sm pbar-close" type="button" data-close>Stäng</button></div>' +
     '<div class="d-sub"><span class="mono">' + esc(c.caseNo) + '</span><b>' + esc(c.title) + '</b>' + statusPill(c.status) + stayHtml(c) + '<span class="muted">Inkom ' + esc(dt(c.createdAt)) + ' från ' + esc(userName(c.createdBy)) + '</span></div>' +
     (function () {
@@ -3308,6 +3834,7 @@ function updateDrawer() {
     (sy.status === 'inne' ? ' · ' + esc(sy.ward) + (sy.room ? ', ' + esc(sy.room) : '') + (sy.admittedAt ? ' · inlagd ' + dt(sy.admittedAt) : '') : '') +
     (sy.dest ? ' · till ' + esc(sy.dest.toLowerCase()) : '') + ' · uppdaterad ' + dt(sy.at) + ' av ' + esc(userName(sy.by)) + (sy.note ? '<br>' + esc(sy.note) : '') : 'Ingen vistelse registrerad för ärendet.';
   $('#d-info').innerHTML = renderRemiss(c);
+  $('#d-dxcard').innerHTML = renderDxCard(c);
   $('#d-diag').innerHTML = renderSvar(c);
   $('#d-replies').innerHTML = renderReplies(c);
   updateTeam(c); renderWsSide(c);
@@ -3330,7 +3857,7 @@ function updateDrawer() {
 function drawTabs(c) {
   var mineUn = unackedInstr(c, S.me.id).length, unread = isCaseDoctor(c) ? unreadReports(c).length : 0;
   var items = [['oversikt', 'Översikt', '']];
-  if (can('diagnose')) items.push(['bedomning', 'Läkarbedömning', c.status === 'inkommen' || c.status === 'bedoms' ? '!' : '']);
+  if (can('diagnose')) items.push(['bedomning', 'Uppföljning', '']);
   items.push(['remiss', 'Remiss', '']);
   items.push(['team', 'Vårdteam', mineUn || unread ? '!' : (teamOf(c).length ? String(teamOf(c).length) : '')]);
   items.push(['chat', 'Chatt', '']);
@@ -3339,9 +3866,9 @@ function drawTabs(c) {
 }
 function showPane(tab) {
   S.drawerTab = tab;
-  var map = { oversikt: '#d-body', bedomning: '#d-doc', remiss: '#d-info', team: '#sec-team', chat: '#sec-chat', journal: '#sec-journal' };
+  var map = { diagnos: '#d-dxcard', oversikt: '#d-body', bedomning: '#d-doc', remiss: '#d-info', team: '#sec-team', chat: '#sec-chat', journal: '#sec-journal' };
   var el = $(map[tab] || '#d-body'); if (!el) return;
-  if (tab === 'bedomning') { var dx = $('#d-doc .dx'); if (dx) dx.classList.remove('collapsed'); }
+  if (tab === 'diagnos') { if (can('diagnose')) { openDiagnosis(S.openCase); return; } el = $('#d-dxcard'); }
   if (tab === 'oversikt') { el.scrollTo({ top: 0, behavior: 'smooth' }); return; }
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   el.classList.add('flash'); setTimeout(function () { el.classList.remove('flash'); }, 1200);
@@ -3359,7 +3886,7 @@ function nextStep(c) {
   var seenIds = Object.keys(c.seenBy || {});
   if (c.status === 'inkommen') return { tone: hot ? 'urgent' : 'todo', text: (seenIds.length ? 'Sett av ' + userName(seenIds[seenIds.length - 1]) + '. ' : '') + (c.doctorId ? 'Väntar på att ' + userName(c.doctorId) + ' tar ärendet.' : 'Väntar på att en läkare tar ärendet.'), act: canD ? { l: 'Ta ärendet', a: 'claim' } : null };
   if (c.status === 'bedoms') {
-    if (docMe) return { tone: hot ? 'urgent' : 'todo', text: 'Ställ diagnos och bestäm vad som händer med patienten.', act: { l: 'Gör bedömning', a: 'tab:bedomning' } };
+    if (docMe) return { tone: hot ? 'urgent' : 'todo', text: 'Ställ diagnos och bestäm vad som händer med patienten.', act: { l: 'Ställ diagnos', a: 'diagnos' } };
     return { tone: 'wait', text: userName(c.doctorId) + ' bedömer patienten.', act: canD ? { l: 'Ta över', a: 'claim' } : null };
   }
   var waitAck = (c.instr || []).filter(function (i) { var r = instrRecipients(c, i); return r.some(function (u) { return !(i.acks || {})[u]; }); });
@@ -3368,11 +3895,12 @@ function nextStep(c) {
   if (c.call && new Date(c.call.at) > new Date()) return { tone: 'wait', text: c.call.type + ' bokat ' + dt(c.call.at) + ' med ' + (c.call.withLabel || '') + '.', act: null };
   if (c.stay && c.stay.status === 'inne') return { tone: 'todo', text: 'Patienten ligger kvar på ' + (c.stay.ward || 'sjukhuset') + '. Skriv ut när patienten är klar.', act: { l: 'Skriv ut', a: 'discharge' } };
   if (c.stay && c.stay.status === 'prehosp') return { tone: 'todo', text: 'Patienten är inte registrerad på sjukhuset ännu.', act: { l: 'Ange vistelse', a: 'stay' } };
-  return { tone: 'todo', text: 'Diagnosen är satt och inget återstår.', act: (canD || docMe) ? { l: 'Avsluta ärendet', a: 'close' } : null };
+  return { tone: 'todo', text: 'Diagnosen är satt. Avsluta ärendet när inget mer behövs.', act: (canD || docMe) ? { l: 'Avsluta ärendet', a: 'close' } : null };
 }
 function caseAction(c, a) {
   if (a.indexOf('tab:') === 0) { showPane(a.slice(4)); return; }
   if (a === 'ack') { ackCase(c); return; }
+  if (a === 'diagnos') { openDiagnosis(c.id); return; }
   if (a === 'stay' || a === 'discharge') {
     showPane('oversikt'); $('#f-stay').hidden = false; $('#sy-toggle').textContent = 'Stäng';
     if (a === 'discharge') { $('#sy-st').value = 'utskriven'; $('#sy-st').dispatchEvent(new Event('change')); }
@@ -3387,7 +3915,7 @@ function caseAction(c, a) {
   if (!p) return;
   updateCase(c.id, p, { type: 'sys', text: ev }).then(function () {
     toast(msg);
-    if (a === 'claim') { showPane('bedomning'); }
+    if (a === 'claim') { toast('Läs remissen och tryck Ställ diagnos när du är klar.'); showPane('remiss'); }
     if (a === 'uncall' || a === 'claim') { var cc = S.cases.find(function (y) { return y.id === c.id; }); if (cc) mountDoctorTools(cc); }
   }).catch(function () {});
 }
@@ -3396,37 +3924,19 @@ function caseAction(c, a) {
 function chipRow(list, attr) { return '<div class="qchips">' + list.map(function (t) { return '<button type="button" class="qchip" ' + attr + '="' + esc(t) + '">' + esc(t) + '</button>'; }).join('') + '</div>'; }
 function mountDoctorTools(c) {
   var box = $('#d-doc');
-  var canD = can('diagnose'), canA = can('assign');
-  if (!canD && !canA) { box.innerHTML = ''; return; }
-  var taskBlock = function (open) {
-    return '<label class="dx-toggle"><input type="checkbox" id="dx-task-on"' + (open ? ' checked' : '') + '> <b>Ge ett uppdrag till vårdpersonal</b></label>' +
-      '<div class="dx-more" id="dx-task-box"' + (open ? '' : ' hidden') + '>' + chipRow(DX_TASKS, 'data-tsk') +
-      '<div class="grid2"><label class="field"><span>Uppdrag</span><input id="dx-t-title" placeholder="Vad ska göras?"></label>' +
-      '<label class="field"><span>Till</span><select id="dx-t-to"></select></label></div>' +
-      '<div class="grid2"><label class="field"><span>Klart senast</span><input id="dx-t-due" type="datetime-local"></label>' +
-      '<label class="field"><span>Prioritet</span><select id="dx-t-prio"><option value="normal">Normal</option><option value="hog">Hög</option></select></label></div></div>';
-  };
-  if (!canD) { box.innerHTML = ''; return; }
-  var d = c.diagnosis || {}, call = c.call || {};
-  box.innerHTML = '<section class="panel dx">' +
-    '<div class="panel-head"><div style="display:grid;gap:2px"><h2>Läkarbedömning</h2><small class="muted" id="dx-sub"></small></div><div class="dx-actions" id="d-doc-state"></div></div>' +
+  if (!can('diagnose')) { box.innerHTML = ''; return; }
+  var call = c.call || {};
+  box.innerHTML = '<section class="panel dx dx-follow">' +
+    '<div class="panel-head"><div style="display:grid;gap:2px"><h2>Uppföljning</h2><small class="muted" id="dx-sub"></small></div><div class="dx-actions" id="d-doc-state"></div></div>' +
     '<form id="f-dx">' +
-      '<div class="dx-sec"><span class="dx-num">1</span><div class="dx-body"><h3>Diagnos</h3>' +
-        '<div class="dx-search"><input id="dx-q" type="search" autocomplete="off" placeholder="Sök på namn eller kod, t.ex. fraktur eller S52" aria-label="Sök diagnos"><div class="dx-results" id="dx-res" hidden></div></div>' +
-        '<div id="dx-picked"></div><input type="hidden" id="dx-code"><input type="hidden" id="dx-text">' +
-        '<label class="field"><span>Bedömning</span><textarea id="dx-ass" rows="3" placeholder="Fynd och bedömning i korthet">' + esc(d.assessment || '') + '</textarea></label>' +
-      '</div></div>' +
-      '<div class="dx-sec"><span class="dx-num">2</span><div class="dx-body"><h3>Behandling och plan</h3>' +
-        '<span class="dx-label">Läkemedel</span>' + chipRow(DX_MEDS, 'data-plan') +
-        '<span class="dx-label">Åtgärder</span>' + chipRow(DX_ACTIONS, 'data-plan') +
-        '<label class="field"><span>Ordination och plan</span><textarea id="dx-plan" rows="4" placeholder="Tryck på förslagen ovan eller skriv fritt">' + esc(d.plan || '') + '</textarea></label>' +
-      '</div></div>' +
-      '<div class="dx-sec"><span class="dx-num">3</span><div class="dx-body"><h3>Uppföljning</h3>' +
-        '<span class="dx-label">Vad händer med patienten?</span>' +
+      (c.diagnosis ? '' : '<p class="dx-note">Diagnosen ställs med knappen <b>Ställ diagnos</b> högst upp. Här bestämmer du vad som händer med patienten efteråt.</p>') +
+      '<div class="dx-sec"><span class="dx-num">1</span><div class="dx-body"><h3>Vad händer med patienten?</h3>' +
         '<div class="dx-dispo" role="radiogroup" aria-label="Vad händer med patienten">' + DX_DISPO.map(function (o, i) { return '<label><input type="radio" name="dx-dispo" value="' + o[0] + '"' + (i === 0 ? ' checked' : '') + '><span>' + o[1] + '</span></label>'; }).join('') + '</div>' +
         '<div class="grid2" id="dx-ward-row" hidden><label class="field"><span>Avdelning</span><select id="dx-ward">' + WARDS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label>' +
           '<label class="field"><span>Sal och säng</span><input id="dx-room" placeholder="T.ex. Sal 4, säng 1"></label></div>' +
         '<div class="grid2" id="dx-dest-row" hidden><label class="field"><span>Lämnar till</span><select id="dx-dest">' + DESTS.map(function (w) { return '<option>' + w + '</option>'; }).join('') + '</select></label></div>' +
+      '</div></div>' +
+      '<div class="dx-sec"><span class="dx-num">2</span><div class="dx-body"><h3>Samtal</h3>' +
         '<label class="dx-toggle"><input type="checkbox" id="dx-call-on"> <b>' + (c.call ? 'Ändra bokat samtal' : 'Boka samtal') + '</b>' + (c.call ? ' <span class="muted">(bokat ' + dt(call.at) + ')</span>' : '') + '</label>' +
         '<div class="dx-more" id="dx-call-box" hidden><div class="grid2">' +
           '<label class="field"><span>Datum och tid</span><input id="dx-c-at" type="datetime-local" value="' + esc(toLocalInput(call.at)) + '"></label>' +
@@ -3434,40 +3944,15 @@ function mountDoctorTools(c) {
           '<div class="grid2"><label class="field"><span>Med</span><select id="dx-c-with"><option value="remittent">' + esc(userName(c.createdBy)) + ' (inskickande)</option><option value="patient"' + (call.with === 'patient' ? ' selected' : '') + '>' + esc((c.patient && c.patient.name) || 'Patienten') + ' (patient)</option><option value="bada"' + (call.with === 'bada' ? ' selected' : '') + '>Båda</option></select></label>' +
           '<label class="field"><span>Notering</span><input id="dx-c-note" value="' + esc(call.note || '') + '" placeholder="T.ex. Gå igenom röntgensvar"></label></div>' +
           '<div class="qchips"><button type="button" class="qchip" data-when="60">Om 1 timme</button><button type="button" class="qchip" data-when="tomorrow">I morgon 10:00</button><button type="button" class="qchip" data-when="week">Om en vecka</button></div></div>' +
-        '<label class="dx-toggle"><input type="checkbox" id="dx-close"> <b>Avsluta ärendet</b> <span class="muted">när bedömningen sparas</span></label>' +
       '</div></div>' +
-      '<div class="dx-sec dx-sign"><span class="dx-num">4</span><div class="dx-body"><h3>Signera</h3><p class="hint">Skriv din signatur med musen eller fingret i rutan. Krävs när du ställer eller ändrar en diagnos.</p>' +
-        '<div class="sig-wrap"><canvas class="sig" id="dx-sig" aria-label="Signaturfält. Rita din signatur med musen."></canvas><span class="sig-x" aria-hidden="true">✕</span><span class="sig-line">' + esc(S.me.name) + (S.me.title ? ', ' + esc(S.me.title) : '') + '</span><span class="sig-ph" id="dx-sig-ph">' + IC.pen + 'Signera här</span></div>' +
-        '<div class="sig-tools"><span class="muted" id="dx-sig-state">Inte signerad</span><button type="button" class="btn sm" id="dx-sig-clear">Rensa signatur</button></div>' +
+      '<div class="dx-sec"><span class="dx-num">3</span><div class="dx-body"><h3>Avsluta</h3>' +
+        '<label class="dx-toggle"><input type="checkbox" id="dx-close"> <b>Avsluta ärendet</b> <span class="muted">när du sparar</span></label>' +
       '</div></div>' +
-      '<div class="dx-foot"><p class="muted" id="dx-summary"></p><button class="btn primary" type="submit" id="dx-save">' + IC.pen + 'Signera och spara</button></div>' +
+      '<div class="dx-foot"><p class="muted" id="dx-summary"></p><button class="btn primary" type="submit" id="dx-save">Spara uppföljning</button></div>' +
     '</form></section>';
 
   var form = $('#f-dx');
-  function pick(code, text) {
-    $('#dx-code').value = code || ''; $('#dx-text').value = text || '';
-    $('#dx-picked').innerHTML = text ? '<div class="dx-chosen">' + (code ? '<span class="diag-code">' + esc(code) + '</span>' : '<span class="muted" style="font-size:.8rem">Fri diagnos</span>') + '<b>' + esc(text) + '</b><button type="button" class="btn sm ghost" id="dx-clear">Ändra</button></div>' : '';
-    $('.dx-search', form).hidden = !!text;
-    var cl = $('#dx-clear'); if (cl) cl.onclick = function () { pick('', ''); $('#dx-q').value = ''; $('#dx-q').focus(); summary(); };
-    $('#dx-res').hidden = true; summary();
-  }
-  function drawResults() {
-    var q = $('#dx-q').value.trim(), res = $('#dx-res');
-    if (!q) { res.hidden = true; return; }
-    var hits = dxSearch(q);
-    res.innerHTML = hits.map(function (x, i) { return '<button type="button" class="dx-opt" data-code="' + esc(x[0]) + '" data-text="' + esc(x[1]) + '"' + (i === 0 ? ' data-first' : '') + '><span class="diag-code">' + esc(x[0]) + '</span>' + esc(x[1]) + '</button>'; }).join('') +
-      '<button type="button" class="dx-opt dx-free" data-code="" data-text="' + esc(q) + '">Använd "' + esc(q) + '" som diagnos</button>';
-    res.hidden = false;
-  }
-  $('#dx-q').addEventListener('input', drawResults);
-  $('#dx-q').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { e.preventDefault(); var f = $('#dx-res [data-first]') || $('#dx-res .dx-free'); if (f) pick(f.dataset.code, f.dataset.text); }
-    if (e.key === 'Escape') $('#dx-res').hidden = true;
-  });
-  $('#dx-res').addEventListener('click', function (e) { var b = e.target.closest('.dx-opt'); if (b) pick(b.dataset.code, b.dataset.text); });
   form.addEventListener('click', function (e) {
-    var p = e.target.closest('[data-plan]');
-    if (p) { var ta = $('#dx-plan'), line = '– ' + p.dataset.plan; ta.value = (ta.value.trim() ? ta.value.replace(/\s+$/, '') + '\n' : '') + line; p.classList.add('used'); summary(); return; }
     var w = e.target.closest('[data-when]');
     if (w) {
       var d0 = new Date();
@@ -3477,7 +3962,6 @@ function mountDoctorTools(c) {
       $('#dx-c-at').value = toLocalInput(d0.toISOString()); summary();
     }
   });
-  bindTaskChips(form);
   function drawDispo() {
     var v = (form.querySelector('input[name=dx-dispo]:checked') || {}).value;
     $('#dx-ward-row').hidden = !(v === 'inne' || v === 'obs');
@@ -3487,47 +3971,26 @@ function mountDoctorTools(c) {
   form.addEventListener('change', function (e) {
     if (e.target.name === 'dx-dispo') drawDispo();
     if (e.target.id === 'dx-call-on') $('#dx-call-box').hidden = !e.target.checked;
-    if (e.target.id === 'dx-task-on') $('#dx-task-box').hidden = !e.target.checked;
     summary();
   });
   form.addEventListener('input', summary);
   function summary() {
-    var parts = [];
-    if ($('#dx-text').value) parts.push('diagnos');
-    if ($('#dx-plan').value.trim() !== (d.plan || '')) parts.push('plan');
-    var v = (form.querySelector('input[name=dx-dispo]:checked') || {}).value;
+    var parts = [], v = (form.querySelector('input[name=dx-dispo]:checked') || {}).value;
     if (v && v !== 'kvar') parts.push(DX_DISPO.find(function (o) { return o[0] === v; })[1].toLowerCase());
     if ($('#dx-call-on').checked) parts.push('samtal');
-    if ($('#dx-task-on') && $('#dx-task-on').checked) parts.push('uppdrag');
     if ($('#dx-close').checked) parts.push('avslutas');
-    if (typeof sig !== 'undefined' && sig && !sig.empty()) parts.push('signerad');
-    $('#dx-summary').textContent = parts.length ? 'Sparas: ' + parts.join(', ') + '.' : 'Välj en diagnos eller en åtgärd att spara.';
+    $('#dx-summary').textContent = parts.length ? 'Sparas: ' + parts.join(', ') + '.' : 'Välj vad som ska hända med patienten.';
   }
-  if ($('#dx-t-to')) $('#dx-t-to').innerHTML = staffOptions('receive', '', 'Välj person');
-  var sig = sigPad($('#dx-sig'));
-  $('#dx-sig-clear').addEventListener('click', function () { sig.clear(); });
-  form.addEventListener('sigchange', function () { var ok = !sig.empty(); $('#dx-sig-ph').hidden = ok; $('#dx-sig-state').textContent = ok ? 'Signerad av ' + S.me.name + ' ' + fmtT.format(new Date()) : 'Inte signerad'; $('#dx-sig-state').className = ok ? 'sig-ok' : 'muted'; summary(); });
-  pick(d.code || '', d.text || '');
   drawDispo(); summary();
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     var cur = S.cases.find(function (x) { return x.id === c.id; }); if (!cur) return;
-    var code = $('#dx-code').value.trim(), text = $('#dx-text').value.trim();
-    if (!text && $('#dx-q').value.trim()) { text = $('#dx-q').value.trim(); }
-    var ass = $('#dx-ass').value.trim(), plan = $('#dx-plan').value.trim();
     var dispo = (form.querySelector('input[name=dx-dispo]:checked') || {}).value || 'kvar';
-    var callOn = $('#dx-call-on').checked, taskOn = $('#dx-task-on') && $('#dx-task-on').checked, close = $('#dx-close').checked;
-    var dxChanged = text && (text !== (d.text || '') || code !== (d.code || '') || ass !== (d.assessment || '') || plan !== (d.plan || ''));
-    if (!dxChanged && dispo === 'kvar' && !callOn && !taskOn && !close) { toast('Välj en diagnos eller en åtgärd innan du sparar.', true); return; }
-    if (dxChanged && sig.empty()) { toast('Signera bedömningen med musen innan du sparar.', true); $('.dx-sign').scrollIntoView({ behavior: 'smooth', block: 'center' }); $('.sig-wrap').classList.add('sig-need'); setTimeout(function () { var w = $('.sig-wrap'); if (w) w.classList.remove('sig-need'); }, 1600); return; }
+    var callOn = $('#dx-call-on').checked, close = $('#dx-close').checked;
+    if (dispo === 'kvar' && !callOn && !close) { toast('Välj vad som ska hända med patienten innan du sparar.', true); return; }
+    if (close && !cur.diagnosis) { toast('Ställ diagnos innan ärendet avslutas.', true); return; }
     var patch = { doctorId: cur.doctorId || S.me.id }, evs = [];
-    if (dxChanged) {
-      patch.diagnosis = { code: code, text: text, assessment: ass, plan: plan, by: S.me.id, at: nowIso(), signature: sig.data(), signedAt: nowIso() };
-      evs.push({ type: 'sys', text: (cur.diagnosis ? 'Diagnos uppdaterad: ' : 'Diagnos ställd: ') + (code ? code + ' ' : '') + text + '. Signerad elektroniskt.' });
-    } else if (!text && (ass !== (d.assessment || '') || plan !== (d.plan || ''))) {
-      evs.push({ type: 'note', text: [ass && 'Bedömning: ' + ass, plan && 'Plan: ' + plan].filter(Boolean).join('\n') });
-    }
     if (dispo !== 'kvar') {
       var prev = cur.stay || {}, st = dispo === 'obs' ? 'inne' : dispo, inne = st === 'inne';
       patch.stay = { status: st, ward: inne ? $('#dx-ward').value : '', room: inne ? $('#dx-room').value.trim() : '', dest: (st === 'utskriven' || st === 'overflyttad') ? $('#dx-dest').value : '', note: '', at: nowIso(), by: S.me.id,
@@ -3542,29 +4005,16 @@ function mountDoctorTools(c) {
       patch.call = { at: at, type: $('#dx-c-type').value, with: w, withLabel: wl, withUser: w === 'patient' ? null : cur.createdBy, note: $('#dx-c-note').value.trim(), by: S.me.id };
       evs.push({ type: 'sys', text: patch.call.type + ' bokat ' + dt(at) + ' med ' + wl + '.' });
     }
-    var task = null;
-    if (taskOn) { task = readTask(); if (!task) return; }
     if (close) { patch.status = 'avslutad'; evs.push({ type: 'sys', text: 'Ärendet avslutades.' }); }
-    else if (patch.diagnosis) patch.status = 'diagnos';
     else if (cur.status === 'inkommen') patch.status = 'bedoms';
     var btn = $('#dx-save'); btn.disabled = true; btn.textContent = 'Sparar…';
     try {
       await updateCase(c.id, patch, evs);
-      if (task) await createTask(Object.assign(task, { caseId: c.id }));
-      toast('Bedömningen sparades.'); showPane('oversikt');
+      toast('Uppföljningen sparades.');
       mountDoctorTools(S.cases.find(function (x) { return x.id === c.id; }) || cur);
-    } catch (x) { btn.disabled = false; btn.textContent = 'Spara bedömning'; }
+    } catch (x) { btn.disabled = false; btn.textContent = 'Spara uppföljning'; }
   });
   drawDoctorState(c);
-  var dxp = $('.dx', box);
-  if (dxp) {
-    var hd = $('.panel-head', dxp), tb = document.createElement('button');
-    tb.type = 'button'; tb.className = 'btn sm ghost dx-toggle';
-    if (c.diagnosis && (c.status === 'diagnos' || c.status === 'avslutad')) dxp.classList.add('collapsed');
-    tb.textContent = dxp.classList.contains('collapsed') ? 'Visa formuläret' : 'Dölj formuläret';
-    tb.addEventListener('click', function () { dxp.classList.toggle('collapsed'); tb.textContent = dxp.classList.contains('collapsed') ? 'Visa formuläret' : 'Dölj formuläret'; });
-    hd.appendChild(tb);
-  }
 }
 function sigPad(cv) {
   var ctx = null, drawing = false, last = null, ink = 0, sized = false, INK = '#13233d';
@@ -3667,6 +4117,7 @@ document.addEventListener('click', function (e) {
   var rr = t.closest('[data-rread]'); if (rr) { var rp = rr.dataset.rread.split('|'); rr.disabled = true; readReport(rp[0], rp[1]); return; }
   var ak = t.closest('[data-ack]'); if (ak) { var ac = S.cases.find(function (x) { return x.id === ak.dataset.ack; }); if (ac) ackCase(ac); return; }
   var fin = t.closest('[data-task-finish]'); if (fin) { fin.disabled = true; setTaskStatus(fin.dataset.taskFinish, 'klar').then(function () { toast('Uppdraget är klart.'); }).catch(function () { fin.disabled = false; }); return; }
+  var dxo = t.closest('[data-dxopen]'); if (dxo && S.me) { openDiagnosis(dxo.dataset.dxopen || S.openCase); return; }
   var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); if (opd.dataset.openTab) showPane(opd.dataset.openTab); return; }
   if (t.closest('#dock')) return;
   var ch = t.closest('[data-chat]'); if (ch && S.me) { openChat(ch.dataset.chat, ch.dataset.chatCase || null); return; }
