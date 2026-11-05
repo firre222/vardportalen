@@ -947,6 +947,93 @@ body::before { background: var(--bar); }
 }
 #toast { top: calc(62px + env(safe-area-inset-top, 0px)); left: auto; right: max(16px, env(safe-area-inset-right, 0px)); transform: none; width: min(380px, calc(100% - 32px)); }
 .toast { border-radius: 4px; }
+
+/* ===== Ärende som journalfönster i helskärm ===== */
+.drawer-wrap .scrim { display: none; }
+.drawer.case-ws { width: 100%; max-width: none; animation: wsin .18s ease-out; background: var(--bg); }
+@keyframes wsin { from { opacity: .4; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .drawer.case-ws { animation: none; } }
+body.drawer-open #dock { right: max(16px, env(safe-area-inset-right, 0px)); }
+.ws { flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr); }
+.ws-side { overflow-y: auto; background: var(--surface); border-right: 1px solid var(--line); padding: 14px; padding-left: max(14px, env(safe-area-inset-left, 0px)); display: grid; gap: 12px; align-content: start; }
+.ws-main { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.ws-main .d-tabs { padding-left: 18px; }
+.ws-main .d-body { flex: 1; overflow-y: auto; }
+.ws-main .d-pane { max-width: 1060px; width: 100%; }
+.ws-card { border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; display: grid; gap: 8px; background: var(--surface); }
+.ws-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: .74rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.ws-h b { font-weight: 700; }
+.ws-h .link { text-transform: none; letter-spacing: 0; font-size: .82rem; }
+.ws-news { font-size: .72rem; font-weight: 800; padding: 1px 7px; border-radius: 3px; background: var(--surface-2); border: 1px solid var(--line); letter-spacing: .02em; }
+.ws-news.news-hog, .ws-news.news-medel { background: var(--t-rod); color: #fff; border-color: var(--t-rod); }
+.ws-news.news-lagmedel { background: var(--t-orange); color: #fff; border-color: var(--t-orange); }
+.ws-vit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.ws-vit > div { background: var(--surface); padding: 6px 8px; display: grid; gap: 1px; }
+.ws-vit b { font-variant-numeric: tabular-nums; font-size: .98rem; }
+.ws-vit b small { font-weight: 500; color: var(--muted); font-size: .72rem; margin-left: 2px; }
+.ws-person { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+.ws-person > span:last-child { display: grid; min-width: 0; }
+.ws-person small { color: var(--muted); font-size: .76rem; }
+.ws-person em.warn { color: var(--danger); font-style: normal; font-weight: 700; }
+.ws-hist .hrow { padding: 7px 0; border-bottom: 1px solid var(--line); grid-template-columns: minmax(0, 1fr) auto; }
+.ws-hist .hrow > .mono { display: none; }
+.ws-hist .hrow:last-child { border-bottom: 0; }
+.d-head { flex-shrink: 0; }
+@media (max-width: 980px) {
+  .ws { grid-template-columns: 1fr; overflow-y: auto; }
+  .ws-side { border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); overflow: visible; }
+  .ws-main { min-height: auto; }
+  .ws-main .d-body { overflow: visible; }
+}
+/* Vårdteam */
+.team-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .team-grid { grid-template-columns: 1fr; } }
+.row-form { display: flex; gap: 8px; }
+.row-form select { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.tm-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.tm-row:last-child { border-bottom: 0; }
+.tm-main { display: grid; min-width: 0; }
+.tm-main small { color: var(--muted); font-size: .8rem; }
+.tm-doc { background: var(--surface-2); }
+.tm-tag { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.tm-st { font-size: .74rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.tm-st.ok { background: var(--tint3); color: var(--ok); border: 1px solid var(--ok); }
+.tm-st.warn { background: var(--danger-soft); color: var(--danger); border: 1px solid var(--danger); }
+.instr { padding: 12px 16px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; border-left: 4px solid var(--accent); }
+.instr:last-child { border-bottom: 0; }
+.instr.akut { border-left-color: var(--t-rod); }
+.instr.mine { background: var(--accent-soft); }
+.instr-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .86rem; }
+.instr-text { font-size: 1.02rem; font-weight: 600; }
+.tag-akut { font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; background: var(--t-rod); color: #fff; padding: 1px 6px; border-radius: 3px; }
+.instr-acks { display: flex; gap: 6px; flex-wrap: wrap; }
+.ack { font-size: .76rem; font-weight: 600; padding: 2px 8px; border-radius: 3px; }
+.ack.ok { color: var(--ok); background: var(--surface); border: 1px solid var(--ok); }
+.ack.wait { color: var(--muted); background: var(--surface-2); border: 1px dashed var(--line); }
+.instr-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.rk-pick { display: flex; gap: 6px; flex-wrap: wrap; }
+.rk-pick label { cursor: pointer; }
+.rk-pick input { position: absolute; opacity: 0; }
+.rk-pick span { display: inline-block; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: .88rem; }
+.rk-pick input:checked + span { color: #fff; }
+.rk-ok input:checked + span { background: var(--ok); border-color: var(--ok); }
+.rk-urgent input:checked + span { background: var(--t-rod); border-color: var(--t-rod); }
+.rk-info input:checked + span { background: var(--accent); border-color: var(--accent); }
+.rk-pick input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rep { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.rep:last-child { border-bottom: 0; }
+.rep.unread { background: var(--accent-soft); }
+.rep.unread.rep-urgent { background: var(--danger-soft); }
+.rep-main { display: grid; gap: 4px; min-width: 0; }
+.rep-main p { font-weight: 600; overflow-wrap: anywhere; }
+.rep-top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: .86rem; }
+.rep-top small { color: var(--muted); }
+.rk-chip { font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 1px 7px; border-radius: 3px; color: #fff; }
+.rk-chip.rk-ok { background: var(--ok); } .rk-chip.rk-urgent { background: var(--t-rod); } .rk-chip.rk-info { background: var(--accent); }
+.rep-read { color: var(--ok); font-weight: 600; font-size: .8rem; }
+.ws-vit > div:last-child:nth-child(odd) { grid-column: span 2; }
+.ws-vit .vt-l { justify-self: start; }
+#toast { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); right: auto; left: max(16px, env(safe-area-inset-left, 0px)); }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -970,8 +1057,8 @@ var SESSION_KEY = 'lsvp.session';
 var PERMS = [
   ['create', 'Skicka in ärenden till läkare'],
   ['diagnose', 'Ställa diagnos och boka samtal'],
-  ['assign', 'Skapa och fördela uppdrag'],
-  ['receive', 'Kan tilldelas uppdrag'],
+  ['assign', 'Tilldela personal och ge instruktioner'],
+  ['receive', 'Kan tilldelas ärenden'],
   ['manage', 'Administrera personal, roller och alla ärenden']
 ];
 var DEFAULT_ROLES = [
@@ -1293,6 +1380,8 @@ var IC = {
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
   arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
   plusc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  belloff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M18.6 13A17.9 17.9 0 0 1 18 8M6.3 6.3A6 6 0 0 0 6 8c0 7-3 9-3 9h14M18 8a6 6 0 0 0-9.3-5M2 2l20 20"/></svg>',
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
   pen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   hjalp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17h.01"/></svg>',
@@ -1389,7 +1478,6 @@ function navItems() {
     can('diagnose') && { id: 'inkorg', label: 'Läkarinkorg', badge: inboxCount(), red: true },
     can('create') && { id: 'nytt', label: 'Ny konsultation' },
     { id: 'belaggning', label: 'Patienter på sjukhuset', badge: inpatients().length, muted: true },
-    (can('assign') || can('manage')) && { id: 'uppdrag', label: 'Uppdrag' },
     { id: 'alla', label: 'Alla ärenden' },
     { id: 'chatt', label: 'Chatt', badge: totalUnread(), red: true },
     { id: 'personal', label: 'Personal' },
@@ -1404,7 +1492,7 @@ function renderShell() {
     '<header class="topbar">' +
       '<div class="tb-brand"><span class="tb-mark">' + CROSS.replace('var(--accent)', '#c8372b') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
       '<div class="tb-search">' + IC.search + '<input id="gsearch" type="search" placeholder="Sök patient, personnummer eller ärendenummer" autocomplete="off" aria-label="Sök patient eller ärende"><div class="gs-res" id="gs-res" hidden></div></div>' +
-      '<div class="tb-right"><span class="tb-clock" id="tb-clock"></span><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
+      '<div class="tb-right"><span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
     '</header>' +
     '<div class="shell">' +
       '<aside class="side">' +
@@ -1416,6 +1504,8 @@ function renderShell() {
   drawSide(); mountView(); bindTopbar();
 }
 function bindTopbar() {
+  drawSoundBtn();
+  $('#tb-sound').addEventListener('click', function () { var on = !soundOn(); store('lsvp.sound', on); drawSoundBtn(); if (on) { ensureAudio(); setTimeout(function () { pling(); }, 60); toast('Ljud på. Du hör ett pling vid nya ärenden och instruktioner.'); } else toast('Ljud av.'); });
   var tick = function () { var c = $('#tb-clock'); if (c) c.textContent = new Intl.DateTimeFormat('sv-SE', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date()); };
   tick(); clearInterval(S.clockTimer); S.clockTimer = setInterval(tick, 15000);
   var q = $('#gsearch'), res = $('#gs-res');
@@ -1613,18 +1703,27 @@ function todoItems() {
       else if (c.status === 'bedoms' && c.doctorId === S.me.id)
         out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ställ diagnos', ic: 'diagnos', title: c.title, quote: c.question || '', meta: [pt(c), 'tagen ' + ago(c.updatedAt || c.createdAt)], tri: c.triage, at: c.createdAt,
           btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="bedomning">Fortsätt</button>' });
-      else if (c.status === 'diagnos' && c.doctorId === S.me.id && !S.tasks.some(function (t) { return t.caseId === c.id && t.status !== 'klar'; }) && !(c.call && new Date(c.call.at) > new Date()) && !(c.stay && (c.stay.status === 'inne' || c.stay.status === 'prehosp')))
+      else if (c.status === 'diagnos' && c.doctorId === S.me.id &&  !(c.call && new Date(c.call.at) > new Date()) && !(c.stay && (c.stay.status === 'inne' || c.stay.status === 'prehosp')))
         out.push({ tone: 'info', kind: 'Klart att avsluta', ic: 'klar', title: c.title, meta: [pt(c), 'diagnos satt'], tri: c.triage, at: c.updatedAt,
           btn: '<button type="button" class="btn sm" data-open="' + esc(c.id) + '">Öppna</button>' });
     });
   }
-  myTasks().forEach(function (t) {
-    var c = t.caseId && S.cases.find(function (x) { return x.id === t.caseId; });
-    var late = t.due && new Date(t.due) < new Date();
-    var meta = ['Status: ' + (TSTATUS[t.status] || 'Ny').toLowerCase()]; if (c) meta.push(pt(c)); meta.push('från ' + userName(t.by)); if (t.due) meta.push((late ? 'försenat, skulle vara klart ' : 'klart senast ') + dt(t.due));
-    out.push({ tone: t.prio === 'hog' || late ? 'urgent' : 'todo', kind: t.prio === 'hog' ? 'Uppdrag · hög prioritet' : 'Uppdrag', ic: 'uppdrag', title: t.title, quote: t.desc || '', meta: meta, tri: c ? c.triage : '', at: t.due || t.createdAt,
-      status: t.status, seg: taskSeg(t),
-      btn: (c ? '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '">Ärendet</button>' : '') });
+  S.cases.forEach(function (c) {
+    if (c.status === 'avslutad') return;
+    var un = unackedInstr(c, S.me.id);
+    un.forEach(function (i) {
+      out.push({ tone: 'urgent', kind: i.prio === 'akut' ? 'Akut instruktion att kvittera' : 'Instruktion att kvittera', ic: 'svar', title: c.title, quote: i.text, meta: [pt(c), 'från ' + userName(i.by), ago(i.at)], tri: c.triage, at: i.at,
+        btn: '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '" data-open-tab="team">Öppna</button><button type="button" class="btn sm primary" data-iack="' + esc(c.id) + '|' + esc(i.id) + '">Kvittera</button>' });
+    });
+    var m = teamOf(c).find(function (x) { return x.uid === S.me.id; });
+    if (m && !un.length && !(seen[c.id] && seen[c.id] >= m.at))
+      out.push({ tone: 'todo', kind: 'Du har tilldelats ett ärende', ic: 'konsult', title: c.title, meta: [pt(c), 'av ' + userName(m.by), ago(m.at)], tri: c.triage, at: m.at,
+        btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="team">Öppna</button>' });
+    if (isCaseDoctor(c)) unreadReports(c).forEach(function (r) {
+      var k = reportKind(r.kind);
+      out.push({ tone: k[2] === 'urgent' ? 'urgent' : 'todo', kind: 'Återrapport: ' + k[1].toLowerCase(), ic: 'chatt', title: c.title, quote: r.text, meta: [pt(c), userName(r.by), ago(r.at)], tri: c.triage, at: r.at,
+        btn: '<button type="button" class="btn sm ghost" data-open="' + esc(c.id) + '" data-open-tab="team">Öppna</button><button type="button" class="btn sm" data-rread="' + esc(c.id) + '|' + esc(r.id) + '">Läst</button>' });
+    });
   });
   upcomingCalls().forEach(function (c) {
     var at = new Date(c.call.at).getTime(); if (at - now > 864e5) return;
@@ -1665,12 +1764,12 @@ VIEWS.mina = {
         '<div class="mina-main">' +
           '<section class="panel">' + phead('mina', 'Att göra', seeAll('alla')) + '<div class="todos" id="r-todo"></div></section>' +
           (doc ? '<section class="panel">' + phead('person', 'Ärenden jag ansvarar för', seeAll('alla')) + '<div class="list" id="r-resp"></div></section>'
-               : '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>') +
+               : '<section class="panel">' + phead('personal', 'Ärenden jag är tilldelad', seeAll('alla')) + '<div class="list" id="r-assigned"></div></section>') +
         '</div>' +
         '<aside class="mina-side">' +
           '<section class="panel">' + phead('chart', 'Läget just nu') + '<div class="glance" id="r-glance"></div></section>' +
           '<section class="panel">' + phead('calendar', 'Kommande samtal') + '<div class="list" id="r-calls"></div></section>' +
-          (doc ? '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>' : '') +
+          '<section class="panel">' + phead('send', 'Ärenden jag skickat in', '<span class="muted" id="m-sc" style="font-size:.85rem"></span>') + '<div class="list" id="r-sent"></div></section>' +
         '</aside>' +
       '</div>';
   },
@@ -1681,7 +1780,7 @@ VIEWS.mina = {
       can('create') && { nav: 'nytt', ic: 'steth', t: 'Ny konsultation', s: 'Skicka en remiss till läkare', k: 1 },
       can('diagnose') && { nav: 'inkorg', ic: 'inkorg', t: 'Läkarinkorg', s: 'Bedöm nya remisser', b: inboxCount(), k: 2 },
       { nav: 'belaggning', ic: 'belaggning', t: 'Patienter på sjukhuset', s: 'Se vilka som ligger inne', b: inpatients().length, k: 3 },
-      (can('assign') || can('manage')) ? { nav: 'uppdrag', ic: 'uppdrag', t: 'Uppdrag', s: 'Fördela och följ upp', b: S.tasks.filter(function (t) { return t.status !== 'klar'; }).length, k: 4 } : { nav: 'chatt', ic: 'chatt', t: 'Chatt', s: 'Prata med kollegor', b: totalUnread(), k: 4 }
+      can('diagnose') ? { nav: 'alla', ic: 'alla', t: 'Alla ärenden', s: 'Sök, filtrera och följ upp', k: 4 } : { nav: 'chatt', ic: 'chatt', t: 'Chatt', s: 'Prata med kollegor', b: totalUnread(), k: 4 }
     ].filter(Boolean);
     $('#r-quick').innerHTML = quick.map(function (q) {
       return '<button type="button" class="qcard qk' + q.k + '" data-nav="' + q.nav + '"><span class="qc-ic">' + IC[q.ic] + '</span><span class="qc-t"><b>' + esc(q.t) + '</b><small>' + esc(q.s) + '</small></span>' + (q.b ? '<span class="badge">' + q.b + '</span>' : '') + '<span class="qc-chev">' + IC.chev + '</span></button>';
@@ -1692,7 +1791,8 @@ VIEWS.mina = {
     var glance = [
       { ic: 'belaggning', n: inpatients().length, l: 'Patienter på sjukhuset', nav: 'belaggning' },
       can('diagnose') ? { ic: 'inkorg', n: inboxCount(), l: 'Nya i läkarinkorgen', nav: 'inkorg', alert: inboxCount() > 0 } : null,
-      { ic: 'uppdrag', n: myTasks().length, l: 'Mina öppna uppdrag', nav: (can('assign') || can('manage')) ? 'uppdrag' : 'mina' },
+      { ic: 'uppdrag', n: S.cases.reduce(function (s2, c) { return s2 + (c.status === 'avslutad' ? 0 : unackedInstr(c, S.me.id).length); }, 0), l: 'Instruktioner att kvittera', nav: 'mina' },
+      { ic: 'personal', n: S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); }).length, l: 'Ärenden jag är tilldelad', nav: 'mina' },
       { ic: 'alla', n: S.cases.filter(function (c) { return c.status !== 'avslutad'; }).length, l: 'Aktiva ärenden', nav: 'alla' },
       { ic: 'personal', n: onlineCount(), l: 'Kollegor aktiva nu', nav: 'personal' }
     ].filter(Boolean);
@@ -1701,6 +1801,7 @@ VIEWS.mina = {
     var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
     var calls = upcomingCalls();
     $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyArt('calendar', 'Inga bokade samtal', 'Samtal i dina ärenden visas här.'));
+    if ($('#r-assigned')) { var asg = sortCases(S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); })); $('#r-assigned').innerHTML = w || (asg.length ? caseHead() + asg.map(caseRow).join('') : emptyArt('personal', 'Inga tilldelade ärenden', 'När en läkare tilldelar dig ett ärende hörs ett pling och ärendet visas här.')); }
     if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? caseHead() + resp.map(caseRow).join('') : emptyArt('alla', 'Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
     $('#m-sc').textContent = sent.length ? sent.length + ' totalt' : '';
     $('#r-sent').innerHTML = w || (sent.length ? caseHead() + sent.slice(0, 8).map(caseRow).join('') : emptyArt('send', 'Inga skickade remisser', can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : ''));
@@ -1764,6 +1865,8 @@ var TERMS = {
   bedomning: ['Bedömning', 'Läkarens slutsats om vad som är fel och hur allvarligt det är.'],
   ordination: ['Ordination', 'Läkarens beslut om behandling, till exempel vilket läkemedel patienten ska få och hur mycket.'],
   iv: ['iv och im', 'iv (intravenöst) betyder att läkemedlet ges direkt i blodet via en nål. im betyder att det sprutas in i en muskel.'],
+  instruktion: ['Instruktion', 'Ett tydligt besked från läkaren om vad personalen ska göra, till exempel ta nya vitalparametrar. Personalen måste kvittera att de har läst den.'],
+  aterrapport: ['Återrapport', 'Ett kort besked tillbaka till läkaren, till exempel att något är utfört eller att patienten mår sämre.'],
   kvittera: ['Kvittera', 'Bekräfta att du har läst och förstått svaret. Det gör du med knappen Uppfattat.'],
   bilagor: ['Bilagor', 'Bilder som skickas med remissen, till exempel på ett sår.']
 };
@@ -1793,7 +1896,7 @@ var FLOW = [
   ['konsult', 'Skicka en remiss', 'Sjuksköterskan eller ambulansen fyller i Ny konsultation: vem patienten är, vad som hänt och mätvärden. Remissen hamnar i Läkarinkorgen.'],
   ['diagnos', 'Läkaren tar ärendet', 'En läkare öppnar remissen och trycker Ta ärendet. Då vet alla vem som ansvarar.'],
   ['svar', 'Läkaren svarar', 'Läkaren skickar ett snabbsvar, till exempel "Ge Paracetamol till patienten", och ställer diagnos med en plan.'],
-  ['uppdrag', 'Personalen gör sitt', 'Den som skrev remissen trycker Uppfattat. Uppdrag som läkaren delat ut bockas av med Klart under Att göra.'],
+  ['uppdrag', 'Vårdteamet arbetar', 'Läkaren tilldelar personal och ger instruktioner. Personalen hör ett pling, kvitterar att de läst och återrapporterar till läkaren.'],
   ['klar', 'Patienten skrivs ut', 'När patienten är klar ändras vistelsen till Utskriven och läkaren avslutar ärendet.']
 ];
 var TRI_EX = { rod: 'Andas inte, kraftig blödning, skott i huvud eller bål, medvetslös.', orange: 'Svåra smärtor, stora brännskador, misstänkt inre skada.', gul: 'Benbrott, djupa sår, hög feber.', gron: 'Små sår, stukningar, lätta brännskador.', bla: 'Ingen akut skada, behöver intyg eller råd.' };
@@ -1805,8 +1908,8 @@ VIEWS.hjalp = {
       }).join('') + '</ol></section>' +
       '<div class="cols2">' +
         '<section class="panel"><div class="panel-head"><h2>Vad gör jag?</h2></div><div class="panel-body roles">' +
-          '<div><b>Sjuksköterska, undersköterska eller ambulans</b><ul><li>Skicka remisser med <em>Ny konsultation</em>.</li><li>Kolla <em>Att göra</em> ofta. Där kommer svar och uppdrag.</li><li>Tryck <em>Uppfattat</em> när läkaren har svarat och <em>Klart</em> när ett uppdrag är gjort.</li><li>Uppdatera var patienten är under <em>Patientens vistelse</em>.</li></ul></div>' +
-          '<div><b>Läkare</b><ul><li>Öppna <em>Läkarinkorgen</em> och ta ärenden, de röda först.</li><li>Skicka snabbsvar och gör bedömningen i fliken <em>Läkarbedömning</em>.</li><li>Dela ut uppdrag och boka samtal vid behov.</li><li>Avsluta ärendet när patienten är klar.</li></ul></div>' +
+          '<div><b>Sjuksköterska, undersköterska eller ambulans</b><ul><li>Skicka remisser med <em>Ny konsultation</em>.</li><li>Kolla <em>Att göra</em> ofta. Där kommer svar och uppdrag.</li><li>Tryck <em>Uppfattat</em> när läkaren har svarat och <em>Kvittera</em> på instruktioner. Återrapportera när du är klar.</li><li>Uppdatera var patienten är under <em>Patientens vistelse</em>.</li></ul></div>' +
+          '<div><b>Läkare</b><ul><li>Öppna <em>Läkarinkorgen</em> och ta ärenden, de röda först.</li><li>Skicka snabbsvar och gör bedömningen i fliken <em>Läkarbedömning</em>.</li><li>Tilldela personal och ge instruktioner under <em>Vårdteam och instruktioner</em>.</li><li>Avsluta ärendet när patienten är klar.</li></ul></div>' +
           '<div><b>Administratör</b><ul><li>Skapa konton under <em>Personal</em>.</li><li>Bestäm vad varje roll får göra under <em>Roller och behörighet</em>.</li></ul></div>' +
         '</div></section>' +
         '<section class="panel"><div class="panel-head"><h2>Färgerna betyder</h2>' + termQ('triage') + '</div><div class="tri-legend">' + Object.keys(TRI).map(function (k) {
@@ -2594,7 +2697,7 @@ document.addEventListener('click', function (e) {
 
 /* ---------- Aviseringar ---------- */
 function primeKnown() {
-  if (S.loaded.cases && !S.knownCases) { S.knownCases = {}; S.knownReplies = {}; S.cases.forEach(function (c) { S.knownCases[c.id] = 1; (c.replies || []).forEach(function (r) { S.knownReplies[r.id] = 1; }); }); }
+  if (S.loaded.cases && !S.knownCases) { S.knownCases = {}; S.knownReplies = {}; S.knownTeam = {}; S.knownInstr = {}; S.knownReports = {}; S.cases.forEach(function (c) { S.knownCases[c.id] = 1; (c.replies || []).forEach(function (r) { S.knownReplies[r.id] = 1; }); teamOf(c).forEach(function (m) { S.knownTeam[c.id + ':' + m.uid] = 1; }); (c.instr || []).forEach(function (i) { S.knownInstr[i.id] = 1; }); (c.reports || []).forEach(function (r) { S.knownReports[r.id] = 1; }); }); }
   if (S.loaded.tasks && !S.knownTasks) { S.knownTasks = {}; S.knownTaskSt = {}; S.tasks.forEach(function (t) { S.knownTasks[t.id] = 1; S.knownTaskSt[t.id] = t.status; }); }
   if (S.loaded.chat && !S.seenMsgs) { S.seenMsgs = {}; S.chatDocs.forEach(function (d) { (d.msgs || []).forEach(function (m) { S.seenMsgs[m.id] = 1; }); }); }
 }
@@ -2604,12 +2707,24 @@ function notify() {
   S.cases.forEach(function (c) {
     if (S.knownCases[c.id]) return; S.knownCases[c.id] = 1;
     if (c.createdBy === S.me.id) return;
-    if (can('diagnose') && (!c.doctorId || c.doctorId === S.me.id)) toast('Ny konsultation: ' + c.title, false, { open: c.id, sub: 'Prioritet ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' · från ' + userName(c.createdBy) });
+    if (can('diagnose') && (!c.doctorId || c.doctorId === S.me.id)) { toast('Ny konsultation: ' + c.title, false, { open: c.id, sub: 'Prioritet ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' · från ' + userName(c.createdBy) }); pling(c.triage === 'rod' ? 'alert' : ''); }
   });
   S.cases.forEach(function (c) {
     (c.replies || []).forEach(function (r) {
       if (S.knownReplies[r.id]) return; S.knownReplies[r.id] = 1;
-      if (c.createdBy === S.me.id && r.by !== S.me.id) toast('Svar från ' + userName(r.by) + ': ' + c.title, false, { open: c.id, sub: r.text });
+      if (c.createdBy === S.me.id && r.by !== S.me.id) { toast('Svar från ' + userName(r.by) + ': ' + c.title, false, { open: c.id, sub: r.text }); pling(); }
+    });
+    teamOf(c).forEach(function (m) {
+      var k = c.id + ':' + m.uid; if (S.knownTeam[k]) return; S.knownTeam[k] = 1;
+      if (m.uid === S.me.id && m.by !== S.me.id) { toast('Du har tilldelats ett ärende: ' + c.title, false, { open: c.id, sub: 'av ' + userName(m.by) + ' · ' + ((c.patient && c.patient.name) || '') }); pling(); }
+    });
+    (c.instr || []).forEach(function (i) {
+      if (S.knownInstr[i.id]) return; S.knownInstr[i.id] = 1;
+      if (i.by !== S.me.id && instrRecipients(c, i).indexOf(S.me.id) !== -1) { toast((i.prio === 'akut' ? 'Akut instruktion från ' : 'Ny instruktion från ') + userName(i.by), false, { open: c.id, sub: i.text }); pling(i.prio === 'akut' ? 'alert' : ''); }
+    });
+    (c.reports || []).forEach(function (r) {
+      if (S.knownReports[r.id]) return; S.knownReports[r.id] = 1;
+      if (r.by !== S.me.id && isCaseDoctor(c)) { var kk = reportKind(r.kind); toast('Återrapport från ' + userName(r.by) + ': ' + kk[1].toLowerCase(), false, { open: c.id, sub: r.text }); pling(kk[2] === 'urgent' ? 'alert' : 'soft'); }
     });
   });
   S.tasks.forEach(function (t) {
@@ -2682,14 +2797,185 @@ function ackCase(c) {
   updateCase(cur.id, { replies: replies }, { type: 'sys', text: userName(S.me.id) + ' kvitterade läkarens svar.' }).then(function () { toast('Kvitterat.'); }).catch(function () {});
 }
 
+/* ---------- Ljud ---------- */
+var audioCtx = null;
+function soundOn() { var v = load('lsvp.sound'); return v === null ? true : !!v; }
+function ensureAudio() {
+  try {
+    if (!audioCtx) { var AC = window.AudioContext || window.webkitAudioContext; if (AC) audioCtx = new AC(); }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (e) {}
+}
+document.addEventListener('pointerdown', ensureAudio, true);
+document.addEventListener('keydown', ensureAudio, true);
+function pling(kind) {
+  if (!soundOn()) return;
+  ensureAudio(); if (!audioCtx || audioCtx.state !== 'running') return;
+  var t = audioCtx.currentTime;
+  var notes = kind === 'alert' ? [[988, 0], [988, 0.18], [1319, 0.36]] : kind === 'soft' ? [[784, 0]] : [[880, 0], [1319, 0.13]];
+  notes.forEach(function (n) {
+    var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'sine'; o.frequency.value = n[0];
+    g.gain.setValueAtTime(0.0001, t + n[1]);
+    g.gain.exponentialRampToValueAtTime(0.22, t + n[1] + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + 0.7);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t + n[1]); o.stop(t + n[1] + 0.75);
+  });
+}
+function drawSoundBtn() {
+  var b = $('#tb-sound'); if (!b) return;
+  var on = soundOn();
+  b.innerHTML = on ? IC.bell : IC.belloff;
+  b.title = on ? 'Ljud på. Tryck för att stänga av.' : 'Ljud av. Tryck för att slå på.';
+  b.setAttribute('aria-pressed', on);
+}
+
+/* ---------- Vårdteam, instruktioner och återrapporter ---------- */
+var INSTR_QUICK = ['Ta nya vitalparametrar var 30:e minut.', 'Ge ordinerade läkemedel enligt ordinationen.', 'Lägg om förbandet.', 'Håll patienten fastande inför operation.', 'Övervaka medvetandegraden och larma vid försämring.', 'Följ med patienten till röntgen.', 'Förbered patienten för utskrivning.'];
+var REPORT_KINDS = [['utfort', 'Utfört', 'ok'], ['battre', 'Mår bättre', 'ok'], ['samre', 'Mår sämre', 'urgent'], ['hjalp', 'Behöver hjälp nu', 'urgent'], ['fraga', 'Fråga', 'info'], ['info', 'Information', 'info']];
+function reportKind(k) { return REPORT_KINDS.find(function (r) { return r[0] === k; }) || REPORT_KINDS[5]; }
+function teamOf(c) { return c.team || []; }
+function inTeam(c, u) { return teamOf(c).some(function (m) { return m.uid === u; }); }
+function instrRecipients(c, i) { return i.to === 'team' ? teamOf(c).map(function (m) { return m.uid; }) : [i.to]; }
+function instrFor(c, u) { return (c.instr || []).filter(function (i) { return instrRecipients(c, i).indexOf(u) !== -1; }); }
+function unackedInstr(c, u) { return instrFor(c, u).filter(function (i) { return !(i.acks || {})[u]; }); }
+function isCaseDoctor(c) { return c.doctorId === S.me.id || (!c.doctorId && can('diagnose')); }
+function unreadReports(c) { return (c.reports || []).filter(function (r) { return !r.readAt && r.by !== S.me.id; }); }
+function updateArr(caseId, field, fn, ev) {
+  var cur = S.cases.find(function (x) { return x.id === caseId; }); if (!cur) return Promise.resolve();
+  var patch = {}; patch[field] = fn((cur[field] || []).slice());
+  return updateCase(caseId, patch, ev);
+}
+function ackInstr(caseId, iid) {
+  var c = S.cases.find(function (x) { return x.id === caseId; }); if (!c) return;
+  var i = (c.instr || []).find(function (x) { return x.id === iid; }); if (!i) return;
+  updateArr(caseId, 'instr', function (arr) { return arr.map(function (x) { if (x.id !== iid) return x; var a = Object.assign({}, x.acks || {}); a[S.me.id] = nowIso(); return Object.assign({}, x, { acks: a }); }); },
+    { type: 'sys', text: userName(S.me.id) + ' kvitterade instruktionen: "' + i.text + '"' }).then(function () { toast('Kvitterat. Läkaren ser att du har läst.'); }).catch(function () {});
+}
+function readReport(caseId, rid) {
+  updateArr(caseId, 'reports', function (arr) { return arr.map(function (x) { return x.id === rid ? Object.assign({}, x, { readAt: nowIso(), readBy: S.me.id }) : x; }); }).then(function () { toast('Markerad som läst.'); }).catch(function () {});
+}
+function mountTeam(c) {
+  var box = $('#d-team'); if (!box) return;
+  var lead = can('assign'), canReport = !lead || c.doctorId !== S.me.id;
+  box.innerHTML =
+    (lead ? '<div class="team-grid">' +
+      '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.personal + '</span>Tilldela personal</h2></div><div class="panel-body">' +
+        '<p class="hint">Välj vem som ska ta hand om patienten. Personen får en ljudsignal och ser ärendet under Att göra.</p>' +
+        '<div class="row-form"><select id="tm-add" aria-label="Välj personal"></select><button type="button" class="btn primary" id="tm-add-btn">Tilldela</button></div>' +
+      '</div></section>' +
+      '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.pen + '</span>Ge instruktion</h2>' + termQ('instruktion') + '</div><form class="panel-body" id="f-instr">' +
+        '<div class="qchips">' + INSTR_QUICK.map(function (q) { return '<button type="button" class="qchip" data-iq="' + esc(q) + '">' + esc(q) + '</button>'; }).join('') + '</div>' +
+        '<label class="field"><span>Instruktion</span><textarea id="in-text" rows="3" placeholder="Vad ska personalen göra?"></textarea></label>' +
+        '<div class="grid2"><label class="field"><span>Till</span><select id="in-to"></select></label><label class="field"><span>Prioritet</span><select id="in-prio"><option value="normal">Normal</option><option value="akut">Akut</option></select></label></div>' +
+        '<div class="form-actions"><button type="submit" class="btn primary">Skicka instruktion</button></div>' +
+      '</form></section></div>' : '') +
+    '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.personal + '</span>Vårdteam</h2><span class="muted" id="tm-count" style="font-size:.85rem"></span></div><div id="tm-list"></div></section>' +
+    '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.mina + '</span>Instruktioner</h2><span class="muted" id="in-count" style="font-size:.85rem"></span></div><div id="in-list"></div></section>' +
+    (canReport ? '<section class="panel" id="rp-box"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.send + '</span>Återrapportera till läkaren</h2>' + termQ('aterrapport') + '</div><form class="panel-body" id="f-report">' +
+        '<div class="rk-pick" role="radiogroup" aria-label="Typ av återrapport">' + REPORT_KINDS.map(function (k, n) { return '<label class="rk-' + k[2] + '"><input type="radio" name="rk" value="' + k[0] + '"' + (n === 0 ? ' checked' : '') + '><span>' + k[1] + '</span></label>'; }).join('') + '</div>' +
+        '<div class="grid2"><label class="field"><span>Gäller instruktion</span><select id="rp-instr"></select></label><label class="field"><span>Meddelande</span><input id="rp-msg" placeholder="T.ex. Vitalparametrar tagna, puls 96"></label></div>' +
+        '<div class="form-actions"><button type="submit" class="btn primary">Skicka till ' + esc(c.doctorId ? userName(c.doctorId) : 'läkaren') + '</button></div>' +
+      '</form></section>' : '') +
+    '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.chatt + '</span>Återrapporter</h2><span class="muted" id="rp-count" style="font-size:.85rem"></span></div><div id="rp-list"></div></section>';
+  if (lead) {
+    $('#tm-add-btn').addEventListener('click', function () {
+      var u = $('#tm-add').value; if (!u) { toast('Välj en person att tilldela.', true); return; }
+      updateArr(c.id, 'team', function (arr) { if (arr.some(function (m) { return m.uid === u; })) return arr; return arr.concat([{ uid: u, at: nowIso(), by: S.me.id }]); },
+        { type: 'sys', text: userName(u) + ' tilldelades ärendet av ' + userName(S.me.id) + '.' }).then(function () { toast(userName(u) + ' är tilldelad och har fått en avisering.'); }).catch(function () {});
+    });
+    $('#f-instr').addEventListener('click', function (e) { var q = e.target.closest('[data-iq]'); if (q) { $('#in-text').value = q.dataset.iq; $('#in-text').focus(); } });
+    $('#f-instr').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = $('#in-text').value.trim(), to = $('#in-to').value, prio = $('#in-prio').value;
+      if (!text) { $('#in-text').focus(); return; }
+      var cur = S.cases.find(function (x) { return x.id === c.id; });
+      if (to === 'team' && !teamOf(cur).length) { toast('Tilldela personal först, eller välj en person.', true); return; }
+      if (!to) { toast('Välj vem instruktionen gäller.', true); return; }
+      updateArr(c.id, 'instr', function (arr) { return arr.concat([{ id: 'i' + uid(), at: nowIso(), by: S.me.id, to: to, text: text, prio: prio, acks: {} }]).slice(-60); },
+        { type: 'sys', text: 'Instruktion till ' + (to === 'team' ? 'vårdteamet' : userName(to)) + (prio === 'akut' ? ' (akut)' : '') + ': "' + text + '"' }).then(function () { $('#in-text').value = ''; toast('Instruktionen skickades.'); }).catch(function () {});
+    });
+  }
+  var fr = $('#f-report');
+  if (fr) fr.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var kind = (fr.querySelector('input[name=rk]:checked') || {}).value || 'info', msg = $('#rp-msg').value.trim(), iid = $('#rp-instr').value || null;
+    var text = msg || reportKind(kind)[1] + '.';
+    updateArr(c.id, 'reports', function (arr) { return arr.concat([{ id: 'p' + uid(), at: nowIso(), by: S.me.id, kind: kind, text: text, instrId: iid }]).slice(-80); },
+      { type: 'sys', text: 'Återrapport från ' + userName(S.me.id) + ' (' + reportKind(kind)[1].toLowerCase() + '): "' + text + '"' }).then(function () { $('#rp-msg').value = ''; toast('Återrapporten skickades till läkaren.'); }).catch(function () {});
+  });
+  box.addEventListener('click', function (e) {
+    var rm = e.target.closest('[data-tm-rm]');
+    if (rm) { var u = rm.dataset.tmRm; updateArr(c.id, 'team', function (arr) { return arr.filter(function (m) { return m.uid !== u; }); }, { type: 'sys', text: userName(u) + ' togs bort från vårdteamet.' }).catch(function () {}); return; }
+    var rf = e.target.closest('[data-rep-for]');
+    if (rf && $('#rp-instr')) { $('#rp-instr').value = rf.dataset.repFor; $('#rp-box').scrollIntoView({ behavior: 'smooth', block: 'center' }); $('#rp-msg').focus(); }
+  });
+}
+function updateTeam(c) {
+  if (!$('#tm-list')) return;
+  var team = teamOf(c), me = S.me.id;
+  var add = $('#tm-add');
+  if (add && document.activeElement !== add) { var v = add.value; add.innerHTML = '<option value="">Välj personal</option>' + activeStaff('receive').filter(function (u) { return !inTeam(c, u.id) && u.id !== c.doctorId; }).map(function (u) { return '<option value="' + esc(u.id) + '"' + (u.id === v ? ' selected' : '') + '>' + esc(u.name) + ' – ' + esc(u.title || roleName(u.role)) + (S.online[u.id] ? ' (aktiv)' : '') + '</option>'; }).join(''); }
+  var to = $('#in-to');
+  if (to && document.activeElement !== to) { var tv = to.value; to.innerHTML = '<option value="team">Hela vårdteamet (' + team.length + ')</option>' + team.map(function (m) { return '<option value="' + esc(m.uid) + '"' + (m.uid === tv ? ' selected' : '') + '>' + esc(userName(m.uid)) + '</option>'; }).join(''); if (tv) to.value = tv; }
+  var docRow = c.doctorId ? '<div class="tm-row tm-doc">' + avatarHtml(personOf(c.doctorId)) + '<div class="tm-main"><b>' + esc(userName(c.doctorId)) + '</b><small>Ansvarig läkare' + (S.online[c.doctorId] ? ' · aktiv nu' : '') + '</small></div><span class="tm-tag">Läkare</span></div>' : '';
+  $('#tm-count').textContent = team.length ? team.length + (team.length === 1 ? ' person' : ' personer') : '';
+  $('#tm-list').innerHTML = docRow + (team.length ? team.map(function (m) {
+    var u = personOf(m.uid), un = unackedInstr(c, m.uid).length;
+    return '<div class="tm-row">' + avatarHtml(u) + '<div class="tm-main"><b>' + esc(u.name) + '</b><small>' + esc(u.title || roleName(u.role)) + ' · tilldelad ' + esc(dt(m.at)) + ' av ' + esc(userName(m.by)) + (S.online[m.uid] ? ' · aktiv nu' : '') + '</small></div>' +
+      (un ? '<span class="tm-st warn">' + un + ' okvitterad' + (un > 1 ? 'e' : '') + '</span>' : (instrFor(c, m.uid).length ? '<span class="tm-st ok">Har kvitterat allt</span>' : '<span class="tm-st">Inga instruktioner</span>')) +
+      (can('assign') ? '<button type="button" class="btn sm ghost" data-tm-rm="' + esc(m.uid) + '" aria-label="Ta bort ' + esc(u.name) + ' från vårdteamet">Ta bort</button>' : '') + '</div>';
+  }).join('') : emptyArt('personal', 'Ingen personal tilldelad', can('assign') ? 'Välj personal ovan för att bilda ett vårdteam.' : 'Läkaren har inte tilldelat någon personal ännu.'));
+  var list = (c.instr || []).slice().reverse();
+  var mineUn = unackedInstr(c, me).length;
+  $('#in-count').textContent = list.length ? list.length + ' st' + (mineUn ? ' · ' + mineUn + ' att kvittera' : '') : '';
+  $('#in-list').innerHTML = list.length ? list.map(function (i) {
+    var rec = instrRecipients(c, i), acks = i.acks || {}, mine = rec.indexOf(me) !== -1, done = rec.length && rec.every(function (u) { return acks[u]; });
+    return '<div class="instr' + (i.prio === 'akut' ? ' akut' : '') + (mine && !acks[me] ? ' mine' : '') + '">' +
+      '<div class="instr-top">' + avatarHtml(personOf(i.by), 'xs', true) + '<b>' + esc(userName(i.by)) + '</b><span class="muted">till ' + (i.to === 'team' ? 'hela vårdteamet' : esc(userName(i.to))) + ' · ' + esc(dt(i.at)) + '</span>' + (i.prio === 'akut' ? '<span class="tag-akut">Akut</span>' : '') + (done ? '<span class="tm-st ok">Alla har kvitterat</span>' : '') + '</div>' +
+      '<p class="instr-text">' + esc(i.text) + '</p>' +
+      '<div class="instr-acks">' + (rec.length ? rec.map(function (u) { return acks[u] ? '<span class="ack ok">✓ ' + esc(firstName(userName(u))) + ' ' + esc(fmtT.format(new Date(acks[u]))) + '</span>' : '<span class="ack wait">Väntar på ' + esc(firstName(userName(u))) + '</span>'; }).join('') : '<span class="ack wait">Ingen i vårdteamet ännu</span>') + '</div>' +
+      (mine ? '<div class="instr-btns">' + (!acks[me] ? '<button type="button" class="btn sm primary" data-iack="' + esc(c.id) + '|' + esc(i.id) + '">Kvittera – jag har läst</button>' : '') + '<button type="button" class="btn sm" data-rep-for="' + esc(i.id) + '">Återrapportera</button></div>' : '') +
+    '</div>';
+  }).join('') : emptyArt('mina', 'Inga instruktioner', can('assign') ? 'Skriv en instruktion ovan. Personalen kvitterar när de har läst.' : 'Instruktioner från läkaren visas här.');
+  var ri = $('#rp-instr');
+  if (ri && document.activeElement !== ri) { var rv = ri.value; ri.innerHTML = '<option value="">Ingen särskild</option>' + instrFor(c, me).slice().reverse().map(function (i) { return '<option value="' + esc(i.id) + '">' + esc(i.text.length > 60 ? i.text.slice(0, 60) + '…' : i.text) + '</option>'; }).join(''); ri.value = rv; }
+  var reps = (c.reports || []).slice().reverse(), unread = reps.filter(function (r) { return !r.readAt; }).length;
+  $('#rp-count').textContent = reps.length ? reps.length + ' st' + (unread ? ' · ' + unread + ' olästa' : '') : '';
+  $('#rp-list').innerHTML = reps.length ? reps.map(function (r) {
+    var k = reportKind(r.kind), ins = r.instrId && (c.instr || []).find(function (i) { return i.id === r.instrId; });
+    return '<div class="rep rep-' + k[2] + (r.readAt ? '' : ' unread') + '">' + avatarHtml(personOf(r.by)) +
+      '<div class="rep-main"><div class="rep-top"><span class="rk-chip rk-' + k[2] + '">' + esc(k[1]) + '</span><b>' + esc(userName(r.by)) + '</b><small>' + esc(dt(r.at)) + '</small></div>' +
+      '<p>' + esc(r.text) + '</p>' + (ins ? '<small class="muted">Gäller: ' + esc(ins.text) + '</small>' : '') +
+      (r.readAt ? '<small class="rep-read">Läst av ' + esc(userName(r.readBy)) + ' ' + esc(fmtT.format(new Date(r.readAt))) + '</small>' : (isCaseDoctor(c) && r.by !== me ? '<div><button type="button" class="btn sm" data-rread="' + esc(c.id) + '|' + esc(r.id) + '">Markera som läst</button></div>' : '<small class="muted">Inte läst av läkaren ännu</small>')) +
+      '</div></div>';
+  }).join('') : emptyArt('chatt', 'Inga återrapporter', 'Personalen rapporterar tillbaka här, till exempel när en instruktion är utförd.');
+}
+function renderWsSide(c) {
+  var side = $('#ws-side'); if (!side) return;
+  var v = c.vitals || {}, nw = news2(v), sy = c.stay;
+  var vit = [['AF', v.af, '/min', 'af'], ['SpO₂', v.spo2 ? v.spo2 + (v.o2 ? ' +O₂' : '') : '', '%', 'spo2'], ['Puls', v.puls, '/min', 'puls'], ['BT', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : '', '', 'bt'], ['Temp', v.temp, '°C', 'temp'], ['ACVPU', v.avpu, '', 'acvpu'], ['VAS', v.vas ? v.vas + '/10' : '', '', 'vas']];
+  var team = teamOf(c);
+  $('#ws-vitals').innerHTML = '<div class="ws-h"><b>Status</b>' + (nw ? '<span class="ws-news news-' + nw.risk + '">NEWS2 ' + nw.s + '</span>' : '') + '</div><div class="ws-vit">' + vit.map(function (x) { return '<div><button type="button" class="vt-l" data-term="' + x[3] + '">' + x[0] + '</button><b>' + (x[1] ? esc(x[1]) + (x[2] && x[1] ? '<small>' + x[2] + '</small>' : '') : '<span class="muted">–</span>') + '</b></div>'; }).join('') + '</div>';
+  $('#ws-stay').innerHTML = '<div class="ws-h"><b>Vistelse</b><button type="button" class="link" data-next="stay">Ändra</button></div>' + (sy ? '<p>' + stayHtml(c) + '</p><small class="muted">' + (sy.status === 'inne' && sy.room ? esc(sy.room) + ' · ' : '') + (sy.admittedAt && sy.status === 'inne' ? 'inlagd ' + esc(ago(sy.admittedAt)) : 'uppdaterad ' + esc(ago(sy.at))) + '</small>' : '<p class="muted">Ej angiven</p>');
+  $('#ws-team').innerHTML = '<div class="ws-h"><b>Vårdteam</b><button type="button" class="link" data-dtab="team">' + (can('assign') ? 'Tilldela' : 'Visa') + '</button></div>' +
+    (c.doctorId ? '<div class="ws-person">' + avatarHtml(personOf(c.doctorId), 'xs') + '<span>' + esc(userName(c.doctorId)) + '<small>Ansvarig läkare</small></span></div>' : '<p class="muted">Ingen ansvarig läkare</p>') +
+    team.map(function (m) { var un = unackedInstr(c, m.uid).length; return '<div class="ws-person">' + avatarHtml(personOf(m.uid), 'xs') + '<span>' + esc(userName(m.uid)) + '<small>' + esc(roleName((userById(m.uid) || {}).role)) + (un ? ' · <em class="warn">' + un + ' okvitterad</em>' : '') + '</small></span></div>'; }).join('');
+  $('#ws-remit').innerHTML = '<div class="ws-h"><b>Remittent</b></div><div class="ws-person">' + avatarHtml(personOf(c.createdBy), 'xs') + '<span>' + esc(userName(c.createdBy)) + '<small>' + esc(dt(c.createdAt)) + '</small></span></div>';
+}
+
 /* ---------- Ärendepanel ---------- */
 function openCase(id) {
   S.openCase = id; var wrap = $('#drawer');
   var c = S.cases.find(function (x) { return x.id === id; });
   wrap.hidden = false;
   if (S.drawerCase !== id) { S.drawerTab = 'oversikt'; S.drawerCase = id; }
-  wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer" role="dialog" aria-modal="true" aria-label="Ärende">' +
+  wrap.innerHTML = '<div class="scrim" data-close></div><section class="drawer case-ws" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
     '<header class="d-head" id="d-head"></header>' +
+    '<div class="ws">' +
+    '<aside class="ws-side" id="ws-side"><div class="ws-card" id="ws-vitals"></div><div class="ws-card" id="ws-stay"></div><div class="ws-card" id="ws-team"></div><div class="ws-card" id="ws-remit"></div><div id="d-hist"></div></aside>' +
+    '<div class="ws-main">' +
     '<nav class="d-tabs" id="d-tabs" role="tablist" aria-label="Delar av ärendet"></nav>' +
     '<div class="d-body" id="d-body">' +
       '<div class="d-pane" data-pane="oversikt">' +
@@ -2707,18 +2993,21 @@ function openCase(id) {
         '</div><label class="field"><span>Notering</span><input id="sy-note" placeholder="T.ex. Utskriven med smärtlindring, återbesök om en vecka"></label>' +
         '<div class="form-actions"><button class="btn ghost" type="button" id="sy-cancel">Avbryt</button><button class="btn primary" type="submit">Spara vistelse</button></div></form></div></section>' +
         '<div id="d-images"></div>' +
-        '<div id="d-hist"></div>' +
         '<div id="d-admin"></div>' +
       '</div>' +
       '<div class="d-pane" data-pane="bedomning"><div id="d-doc"></div></div>' +
-      '<div class="d-pane" data-pane="uppdrag"><section class="panel"><div class="panel-head"><h2>Uppdrag i ärendet</h2>' + (can('assign') ? '<button type="button" class="btn sm" data-dtab="bedomning">Ge nytt uppdrag</button>' : '') + '</div><div class="list" id="d-tasks"></div></section></div>' +
+      '<div class="d-pane" data-pane="team"><div id="d-team"></div></div>' +
       '<div class="d-pane" data-pane="journal"><section class="panel"><div class="panel-head"><h2>Journal och händelser</h2></div><div class="panel-body">' +
         '<form id="f-note" style="display:grid;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px"><label class="field"><span>Ny anteckning</span><textarea id="d-note" rows="3" placeholder="Skriv en journalanteckning, ett svar till läkaren eller en uppdatering om patienten"></textarea></label>' +
         '<div id="d-npick">' + PICKER_HTML + '</div><div class="form-actions"><button class="btn primary" type="submit">Spara anteckning</button></div></form>' +
         '<div class="log" id="d-log"></div></div></section></div>' +
-    '</div></section>';
+    '</div></div></div></section>';
   $('#d-tabs').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
   $('#d-body').addEventListener('click', function (e) { var t = e.target.closest('[data-dtab]'); if (t) showPane(t.dataset.dtab); });
+  $('#ws-side').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-dtab]'); if (t) { showPane(t.dataset.dtab); return; }
+    var n = e.target.closest('[data-next]'); if (n) { var cc = S.cases.find(function (x) { return x.id === id; }); if (cc) caseAction(cc, n.dataset.next); }
+  });
   $('#d-head').addEventListener('click', function (e) {
     var n = e.target.closest('[data-next]'); if (!n) return;
     var cur = S.cases.find(function (x) { return x.id === id; }); if (cur) caseAction(cur, n.dataset.next);
@@ -2761,7 +3050,7 @@ function openCase(id) {
     var txt = 'Vistelse: ' + STAY[v].l + (inne ? ', ' + stay.ward + (stay.room ? ' ' + stay.room : '') : '') + (stay.dest ? ', till ' + stay.dest.toLowerCase() : '') + (stay.note ? '. ' + stay.note : '.');
     updateCase(id, { stay: stay }, { type: 'sys', text: txt }).then(function () { $('#sy-note').value = ''; $('#f-stay').hidden = true; $('#sy-toggle').textContent = 'Ändra'; toast('Vistelsen uppdaterades: ' + STAY[v].l.toLowerCase() + '.'); });
   });
-  mountDoctorTools(c); mountAdminTools(c); mountReplyBox(c); updateDrawer();
+  mountDoctorTools(c); mountAdminTools(c); mountReplyBox(c); mountTeam(c); updateDrawer();
   if (can('diagnose') && c.createdBy !== S.me.id && !(c.seenBy || {})[S.me.id] && c.status !== 'avslutad') { var sb = Object.assign({}, c.seenBy || {}); sb[S.me.id] = nowIso(); updateCase(c.id, { seenBy: sb }).catch(function () {}); }
   document.body.style.overflow = 'hidden'; document.body.classList.add('drawer-open');
   setTimeout(function () { var b = $('#d-head [data-close]'); if (b) b.focus(); }, 50);
@@ -2798,8 +3087,7 @@ function updateDrawer() {
   $('#d-info').innerHTML = renderRemiss(c);
   $('#d-diag').innerHTML = renderSvar(c);
   $('#d-replies').innerHTML = renderReplies(c);
-  var ctasks = byNewest(S.tasks.filter(function (t) { return t.caseId === c.id; }));
-  $('#d-tasks').innerHTML = ctasks.length ? ctasks.map(function (t) { return taskRow(t, { manage: can('manage') || t.by === S.me.id }); }).join('') : emptyBox('Inga uppdrag', can('assign') ? 'Välj Ge nytt uppdrag för att fördela arbete i ärendet.' : 'Uppdrag som läkaren delar ut i ärendet visas här.');
+  updateTeam(c); renderWsSide(c);
   var evs = (c.events || []).slice().reverse();
   $('#d-log').innerHTML = evs.length ? evs.map(function (e) {
     var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) });
@@ -2809,17 +3097,16 @@ function updateDrawer() {
   var dt0 = $('#d-doc-state'); if (dt0) drawDoctorState(c);
   var pn = c.patient || {}, key = (pn.pnr || '').trim(), nm = (pn.name || '').trim().toLowerCase();
   var hist = byNewest(S.cases.filter(function (x) { if (x.id === c.id || !x.patient) return false; return key ? (x.patient.pnr || '').trim() === key : (nm && (x.patient.name || '').trim().toLowerCase() === nm); }));
-  $('#d-hist').innerHTML = hist.length ? '<section class="panel"><div class="panel-head"><h2>Patientens tidigare ärenden (' + hist.length + ')</h2></div><div class="list">' + hist.slice(0, 6).map(function (h) {
+  $('#d-hist').innerHTML = hist.length ? '<section class="ws-card ws-hist"><div class="ws-h"><b>Tidigare ärenden (' + hist.length + ')</b></div><div>' + hist.slice(0, 6).map(function (h) {
     return '<button type="button" class="hrow" data-open="' + esc(h.id) + '"><span class="mono muted">' + esc(fmtD.format(new Date(h.createdAt))) + '</span><span class="hrow-main"><b>' + esc(h.title) + '</b><small>' + (h.diagnosis ? esc((h.diagnosis.code ? h.diagnosis.code + ' ' : '') + h.diagnosis.text) : 'Ingen diagnos') + '</small></span>' + statusPill(h.status) + '</button>';
   }).join('') + '</div></section>' : '';
   markSeen(c);
 }
 function drawTabs(c) {
-  var open = S.tasks.filter(function (t) { return t.caseId === c.id && t.status !== 'klar'; }).length;
+  var mineUn = unackedInstr(c, S.me.id).length, unread = isCaseDoctor(c) ? unreadReports(c).length : 0;
   var tabs = [['oversikt', 'Översikt', '']];
   if (can('diagnose')) tabs.push(['bedomning', 'Läkarbedömning', c.status === 'inkommen' || c.status === 'bedoms' ? '!' : '']);
-  else if (can('assign')) tabs.push(['bedomning', 'Ge uppdrag', '']);
-  tabs.push(['uppdrag', 'Uppdrag', open ? String(open) : '']);
+  tabs.push(['team', 'Vårdteam och instruktioner', mineUn || unread ? '!' : (teamOf(c).length ? String(teamOf(c).length) : '')]);
   tabs.push(['journal', 'Journal', String((c.events || []).length)]);
   if (!tabs.some(function (t) { return t[0] === S.drawerTab; })) S.drawerTab = 'oversikt';
   $('#d-tabs').innerHTML = tabs.map(function (t) {
@@ -2836,11 +3123,12 @@ function showPane(tab) {
 function seenMap() { if (!S.seen) S.seen = load('lsvp.seen.' + S.me.id) || {}; return S.seen; }
 function markSeen(c) { var m = seenMap(), v = c.updatedAt || c.createdAt; if (m[c.id] !== v) { m[c.id] = v; store('lsvp.seen.' + S.me.id, m); } }
 function nextStep(c) {
-  var openT = S.tasks.filter(function (t) { return t.caseId === c.id && t.status !== 'klar'; });
-  var mineT = openT.filter(function (t) { return t.assignee === S.me.id; });
+  var myInstr = unackedInstr(c, S.me.id), newReps = isCaseDoctor(c) ? unreadReports(c) : [];
   var docMe = c.doctorId === S.me.id, canD = can('diagnose'), hot = c.triage === 'rod' || c.triage === 'orange';
   var unr = c.createdBy === S.me.id ? unackedReplies(c) : [];
   if (unr.length) return { tone: 'urgent', text: 'Svar från ' + userName(unr[unr.length - 1].by) + ': "' + unr[unr.length - 1].text + '"', act: { l: 'Uppfattat', a: 'ack' } };
+  if (myInstr.length) return { tone: 'urgent', text: 'Instruktion från ' + userName(myInstr[0].by) + ': "' + myInstr[0].text + '"', act: { l: 'Läs och kvittera', a: 'tab:team' } };
+  if (newReps.length) { var lr = newReps[newReps.length - 1]; return { tone: lr.kind === 'hjalp' || lr.kind === 'samre' ? 'urgent' : 'todo', text: 'Återrapport från ' + userName(lr.by) + ' (' + reportKind(lr.kind)[1].toLowerCase() + '): "' + lr.text + '"', act: { l: 'Visa återrapporter', a: 'tab:team' } }; }
   if (c.status === 'avslutad') return { tone: 'done', text: 'Ärendet är avslutat.', act: canD ? { l: 'Återöppna', a: 'reopen' } : null };
   var seenIds = Object.keys(c.seenBy || {});
   if (c.status === 'inkommen') return { tone: hot ? 'urgent' : 'todo', text: (seenIds.length ? 'Sett av ' + userName(seenIds[seenIds.length - 1]) + '. ' : '') + (c.doctorId ? 'Väntar på att ' + userName(c.doctorId) + ' tar ärendet.' : 'Väntar på att en läkare tar ärendet.'), act: canD ? { l: 'Ta ärendet', a: 'claim' } : null };
@@ -2848,8 +3136,9 @@ function nextStep(c) {
     if (docMe) return { tone: hot ? 'urgent' : 'todo', text: 'Ställ diagnos och bestäm vad som händer med patienten.', act: { l: 'Gör bedömning', a: 'tab:bedomning' } };
     return { tone: 'wait', text: userName(c.doctorId) + ' bedömer patienten.', act: canD ? { l: 'Ta över', a: 'claim' } : null };
   }
-  if (mineT.length) return { tone: 'todo', text: 'Du har ' + mineT.length + (mineT.length === 1 ? ' uppdrag' : ' uppdrag') + ' i ärendet: ' + mineT[0].title + '.', act: { l: 'Visa uppdrag', a: 'tab:uppdrag' } };
-  if (openT.length) return { tone: 'wait', text: openT.length + (openT.length === 1 ? ' uppdrag pågår' : ' uppdrag pågår') + ' hos personalen.', act: { l: 'Visa uppdrag', a: 'tab:uppdrag' } };
+  var waitAck = (c.instr || []).filter(function (i) { var r = instrRecipients(c, i); return r.some(function (u) { return !(i.acks || {})[u]; }); });
+  if (docMe && waitAck.length) return { tone: 'wait', text: waitAck.length + (waitAck.length === 1 ? ' instruktion väntar' : ' instruktioner väntar') + ' på kvittens från personalen.', act: { l: 'Visa vårdteam', a: 'tab:team' } };
+  if (docMe && c.stay && c.stay.status === 'inne' && !teamOf(c).length) return { tone: 'todo', text: 'Patienten är inlagd men ingen personal är tilldelad.', act: { l: 'Tilldela personal', a: 'tab:team' } };
   if (c.call && new Date(c.call.at) > new Date()) return { tone: 'wait', text: c.call.type + ' bokat ' + dt(c.call.at) + ' med ' + (c.call.withLabel || '') + '.', act: null };
   if (c.stay && c.stay.status === 'inne') return { tone: 'todo', text: 'Patienten ligger kvar på ' + (c.stay.ward || 'sjukhuset') + '. Skriv ut när patienten är klar.', act: { l: 'Skriv ut', a: 'discharge' } };
   if (c.stay && c.stay.status === 'prehosp') return { tone: 'todo', text: 'Patienten är inte registrerad på sjukhuset ännu.', act: { l: 'Ange vistelse', a: 'stay' } };
@@ -2891,18 +3180,7 @@ function mountDoctorTools(c) {
       '<div class="grid2"><label class="field"><span>Klart senast</span><input id="dx-t-due" type="datetime-local"></label>' +
       '<label class="field"><span>Prioritet</span><select id="dx-t-prio"><option value="normal">Normal</option><option value="hog">Hög</option></select></label></div></div>';
   };
-  if (!canD) {
-    box.innerHTML = '<section class="panel"><div class="panel-head"><h2>Ge uppdrag</h2></div><form class="panel-body" id="f-dx">' + taskBlock(true) +
-      '<div class="form-actions"><button class="btn primary" type="submit">Tilldela uppdrag</button></div></form></section>';
-    $('#dx-t-to').innerHTML = staffOptions('receive', '', 'Välj person');
-    bindTaskChips(box);
-    $('#f-dx').addEventListener('submit', function (e) {
-      e.preventDefault();
-      var t = readTask(); if (!t) return;
-      createTask(Object.assign(t, { caseId: c.id })).then(function () { toast('Uppdraget tilldelades ' + userName(t.assignee) + '.'); $('#dx-t-title').value = ''; }).catch(function () {});
-    });
-    return;
-  }
+  if (!canD) { box.innerHTML = ''; return; }
   var d = c.diagnosis || {}, call = c.call || {};
   box.innerHTML = '<section class="panel dx">' +
     '<div class="panel-head"><div style="display:grid;gap:2px"><h2>Läkarbedömning</h2><small class="muted" id="dx-sub"></small></div><div class="dx-actions" id="d-doc-state"></div></div>' +
@@ -2930,7 +3208,6 @@ function mountDoctorTools(c) {
           '<div class="grid2"><label class="field"><span>Med</span><select id="dx-c-with"><option value="remittent">' + esc(userName(c.createdBy)) + ' (inskickande)</option><option value="patient"' + (call.with === 'patient' ? ' selected' : '') + '>' + esc((c.patient && c.patient.name) || 'Patienten') + ' (patient)</option><option value="bada"' + (call.with === 'bada' ? ' selected' : '') + '>Båda</option></select></label>' +
           '<label class="field"><span>Notering</span><input id="dx-c-note" value="' + esc(call.note || '') + '" placeholder="T.ex. Gå igenom röntgensvar"></label></div>' +
           '<div class="qchips"><button type="button" class="qchip" data-when="60">Om 1 timme</button><button type="button" class="qchip" data-when="tomorrow">I morgon 10:00</button><button type="button" class="qchip" data-when="week">Om en vecka</button></div></div>' +
-        (canA ? taskBlock(false) : '') +
         '<label class="dx-toggle"><input type="checkbox" id="dx-close"> <b>Avsluta ärendet</b> <span class="muted">när bedömningen sparas</span></label>' +
       '</div></div>' +
       '<div class="dx-sec dx-sign"><span class="dx-num">4</span><div class="dx-body"><h3>Signera</h3><p class="hint">Skriv din signatur med musen eller fingret i rutan. Krävs när du ställer eller ändrar en diagnos.</p>' +
@@ -3151,6 +3428,8 @@ document.addEventListener('click', function (e) {
   if (t.closest('[data-logout]')) { logout(); return; }
   if (t.closest('#welcome-hide')) { store('lsvp.welcome.' + S.me.id, 1); var wc = $('#welcome'); if (wc) wc.remove(); return; }
   var ts = t.closest('[data-tset]'); if (ts) { var sp = ts.dataset.tset.split('|'); ts.disabled = true; setTaskStatus(sp[0], sp[1]).then(function () { toast('Status: ' + TSTATUS[sp[1]].toLowerCase() + '.'); }).catch(function () { ts.disabled = false; }); return; }
+  var ia = t.closest('[data-iack]'); if (ia) { var ip = ia.dataset.iack.split('|'); ia.disabled = true; ackInstr(ip[0], ip[1]); return; }
+  var rr = t.closest('[data-rread]'); if (rr) { var rp = rr.dataset.rread.split('|'); rr.disabled = true; readReport(rp[0], rp[1]); return; }
   var ak = t.closest('[data-ack]'); if (ak) { var ac = S.cases.find(function (x) { return x.id === ak.dataset.ack; }); if (ac) ackCase(ac); return; }
   var fin = t.closest('[data-task-finish]'); if (fin) { fin.disabled = true; setTaskStatus(fin.dataset.taskFinish, 'klar').then(function () { toast('Uppdraget är klart.'); }).catch(function () { fin.disabled = false; }); return; }
   var opd = t.closest('[data-open]'); if (opd && opd.dataset.open) { openCase(opd.dataset.open); if (opd.dataset.openTab) showPane(opd.dataset.openTab); return; }
