@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%230b6b78%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22%3E%3Crect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%231b3150%22/%3E%3Cpath d=%22M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z%22 fill=%22white%22/%3E%3C/svg%3E">
 <title>Los Santos Vårdportal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: inloggning delad i varumärkespanel + formulär; appen är sidomeny + arbetsyta + ärendepanel som glider in från höger */
 :root {
@@ -742,6 +742,211 @@ body.drawer-open #dock { right: calc(min(760px, 100%) + 16px); }
   .cw:not(:last-child) { display: none; }
 }
 .toast.bad { background: var(--danger); color: #fff; }
+
+/* ===== Realistisk journalsystem-design ===== */
+:root {
+  --bg: #e9edf2; --surface: #ffffff; --surface-2: #f4f6f9; --fg: #19222e; --muted: #5b6676; --line: #cfd6df;
+  --accent: #1e5aa0; --accent-ink: #ffffff; --accent-soft: #e5eef9; --danger: #b8322a; --danger-soft: #fbe8e6; --ok: #217a45;
+  --bar: #1b3150; --bar-2: #24406a; --hero-bg: #1b3150;
+  --tint1: #ffffff; --ink1: #1e5aa0; --tint2: #ffffff; --ink2: #b8322a; --tint3: #ffffff; --ink3: #217a45; --tint4: #ffffff; --ink4: #6b4aa8;
+  --shadow: 0 1px 2px rgba(20, 30, 45, .08), 0 4px 14px rgba(20, 30, 45, .08);
+  --sans: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a; --surface: #161d26; --surface-2: #1c2530; --fg: #e2e7ed; --muted: #97a3b3; --line: #2b3746;
+    --accent: #5d9be0; --accent-ink: #08121e; --accent-soft: #1a2c44; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+    --bar: #0b1522; --bar-2: #13233a; --hero-bg: #0b1522;
+    --tint1: #161d26; --ink1: #5d9be0; --tint2: #161d26; --ink2: #ef6e62; --tint3: #161d26; --ink3: #4cc07c; --tint4: #161d26; --ink4: #b597ea;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.3); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141a; --surface: #161d26; --surface-2: #1c2530; --fg: #e2e7ed; --muted: #97a3b3; --line: #2b3746;
+  --accent: #5d9be0; --accent-ink: #08121e; --accent-soft: #1a2c44; --danger: #ef6e62; --danger-soft: #3a1c19; --ok: #4cc07c;
+  --bar: #0b1522; --bar-2: #13233a; --hero-bg: #0b1522;
+  --tint1: #161d26; --ink1: #5d9be0; --tint2: #161d26; --ink2: #ef6e62; --tint3: #161d26; --ink3: #4cc07c; --tint4: #161d26; --ink4: #b597ea;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.3); color-scheme: dark;
+}
+body { font-size: 14.5px; }
+body::before { background: var(--bar); }
+.btn { border-radius: 4px; padding: 7px 14px; font-weight: 600; gap: 7px; }
+.btn svg { width: 16px; height: 16px; }
+.btn.sm { border-radius: 4px; padding: 4px 10px; }
+.panel { border-radius: 4px; }
+.panel-head { padding: 9px 16px; background: var(--surface-2); border-radius: 4px 4px 0 0; }
+.panel-head h2 { font-size: .95rem; font-weight: 700; }
+.field input, .field select, .field textarea, .dx-search input, .reply-form input, .composer textarea { border-radius: 4px; }
+.pill { border-radius: 3px; }
+.tchip { border-radius: 3px; padding: 1px 7px; font-size: .7rem; }
+.chip, .chips .chip { border-radius: 4px; padding: 5px 12px; }
+.chips .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.stay { border-radius: 3px; }
+.doc { border-radius: 4px; box-shadow: none; }
+.qchip { border-radius: 4px; }
+
+/* Toppfält */
+#app { min-height: 100%; display: flex; flex-direction: column; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 8; display: flex; align-items: center; gap: 18px; height: 52px; background: var(--bar); color: #fff; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); border-bottom: 1px solid rgba(0,0,0,.25); }
+.tb-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; width: 214px; }
+.tb-mark { width: 30px; height: 30px; border-radius: 6px; background: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.tb-mark svg { width: 18px; height: 18px; }
+.tb-brand b { display: block; font-size: 1rem; line-height: 1.1; }
+.tb-brand small { display: block; font-size: .74rem; opacity: .7; }
+.tb-search { position: relative; flex: 1; max-width: 560px; display: flex; align-items: center; min-width: 0; }
+.tb-search > svg { position: absolute; left: 10px; width: 16px; height: 16px; opacity: .7; pointer-events: none; }
+.tb-search input { width: 100%; height: 34px; border: 1px solid rgba(255,255,255,.18); border-radius: 4px; background: rgba(255,255,255,.1); color: #fff; padding: 0 12px 0 32px; font-size: .9rem; }
+.tb-search input::placeholder { color: rgba(255,255,255,.65); }
+.tb-search input:focus { outline: none; background: #fff; color: #19222e; border-color: #fff; }
+.tb-search input:focus::placeholder { color: #6b7685; }
+.gs-res { position: absolute; left: 0; right: 0; top: calc(100% + 6px); background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow); max-height: 420px; overflow-y: auto; z-index: 9; }
+.gs-hit { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; padding: 9px 12px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
+.gs-hit:hover, .gs-hit[data-first] { background: var(--accent-soft); }
+.gs-main { display: grid; min-width: 0; }
+.gs-main small { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gs-none { padding: 12px; color: var(--muted); }
+.tb-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.tb-clock { font-size: .85rem; opacity: .8; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tb-user { display: flex; align-items: center; gap: 9px; border: 0; background: transparent; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; text-align: left; }
+.tb-user:hover, .tb-user[aria-current="page"] { background: rgba(255,255,255,.12); }
+.tb-user .avatar { width: 30px; height: 30px; font-size: .72rem; }
+.tb-user .av .odot { border-color: var(--bar); }
+.tb-user b { display: block; font-size: .88rem; line-height: 1.15; }
+.tb-user small { display: block; font-size: .74rem; opacity: .75; }
+.tb-btn { width: 34px; height: 34px; border-radius: 4px; border: 1px solid rgba(255,255,255,.2); background: transparent; color: #fff; display: grid; place-items: center; cursor: pointer; }
+.tb-btn:hover { background: rgba(255,255,255,.12); }
+.tb-btn svg { width: 17px; height: 17px; }
+
+/* Sidomeny */
+.shell { flex: 1; grid-template-columns: 230px minmax(0, 1fr); }
+.side { top: calc(52px + env(safe-area-inset-top, 0px)); height: calc(100vh - 52px); height: calc(100dvh - 52px - env(safe-area-inset-top, 0px)); padding-block: 12px; padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: 10px; gap: 8px; background: var(--surface); }
+.nav button { padding: 7px 10px; border-radius: 3px; font-size: .93rem; }
+.nav button[aria-current="page"] { background: var(--accent-soft); color: var(--fg); box-shadow: inset 3px 0 0 var(--accent); }
+.nav-label { padding: 12px 10px 4px; font-size: .68rem; }
+.badge { border-radius: 3px; }
+.me { gap: 4px; }
+.side-ver { font-size: .72rem; color: var(--muted); padding: 0 6px; }
+.main { padding-block: 18px 56px; padding-left: 22px; padding-right: max(22px, env(safe-area-inset-right, 0px)); }
+.main-inner { max-width: 1280px; gap: 16px; }
+#view { gap: 16px !important; }
+
+/* Rubrikrad i stället för banner */
+.page-head, .hero { background: var(--surface) !important; background-image: none !important; color: var(--fg) !important; border: 1px solid var(--line); border-radius: 4px; padding: 14px 18px; min-height: 0; align-items: center; }
+.hero::after, .hero-art { display: none; }
+.page-head h1, .hero h1 { color: var(--fg); font-size: 1.4rem; font-weight: 700; margin: 2px 0; letter-spacing: 0; }
+.page-head .eyebrow, .hero .eyebrow, .hero-text .eyebrow { color: var(--muted); opacity: 1; }
+.page-head .sub, .hero p#m-sub { color: var(--muted); opacity: 1; font-size: .92rem; }
+.page-head .term-q { color: var(--accent); }
+.page-head .btn, .hero-btn { background: var(--surface); color: var(--fg); border-color: var(--line); backdrop-filter: none; }
+.page-head .btn.primary, .hero-btn { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.hero-btn:hover { background: var(--accent); filter: brightness(1.08); }
+.welcome { background: var(--accent-soft); color: var(--fg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 4px; padding: 14px 18px; }
+.welcome .eyebrow, .welcome .muted { color: var(--muted); opacity: 1; }
+.welcome .term-q { color: var(--accent); }
+.welcome h2 { font-size: 1.05rem; }
+.welcome .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.welcome .btn.ghost { color: var(--fg); }
+.quick { gap: 12px; }
+.qcard { background: var(--surface) !important; border: 1px solid var(--line); border-left-width: 4px; border-radius: 4px; padding: 12px 14px; grid-template-columns: 38px minmax(0, 1fr) 14px; }
+.qk1 { border-left-color: var(--ink1); } .qk2 { border-left-color: var(--ink2); } .qk3 { border-left-color: var(--ink3); } .qk4 { border-left-color: var(--ink4); }
+.qcard:hover { transform: none; background: var(--surface-2) !important; }
+.qc-ic { width: 38px; height: 38px; border-radius: 4px; background: var(--surface-2); }
+.qc-ic svg { width: 20px; height: 20px; }
+.qcard b { color: var(--fg) !important; }
+.qcard .badge { left: 40px; top: 6px; }
+.mina-grid { gap: 16px; }
+.mina-main, .mina-side { gap: 16px; }
+.glance { padding: 0; gap: 0; }
+.glance-row { border-radius: 0; background: transparent; border-bottom: 1px solid var(--line); padding: 9px 16px; }
+.ea-ic { border-radius: 6px; width: 52px; height: 52px; }
+.todo { padding: 11px 16px; }
+.todo-ic { width: 32px; height: 32px; border-radius: 4px; }
+.todo-ic svg { width: 17px; height: 17px; }
+.todo { grid-template-columns: 32px minmax(0, 1fr) auto; }
+.todo-quote { border-radius: 0 3px 3px 0; }
+.tseg { border-radius: 4px; }
+.grp-head { padding: 8px 16px 6px; }
+
+/* Ärendetabell */
+.list { container-type: inline-size; }
+.chead, .crow { display: grid; grid-template-columns: 70px minmax(130px, 1.1fr) minmax(150px, 1.35fr) minmax(130px, 1fr) minmax(150px, 1.3fr) 120px 84px; grid-template-areas: "prio pat reason status next doc time"; gap: 12px; align-items: center; padding: 9px 16px; }
+.chead { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); border-bottom: 1px solid var(--line); padding-block: 7px; }
+.crow { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; font-size: .92rem; }
+.crow:hover { background: var(--accent-soft); }
+.crow > span { min-width: 0; }
+.c-prio { grid-area: prio; } .c-pat { grid-area: pat; } .c-reason { grid-area: reason; } .c-status { grid-area: status; } .c-next { grid-area: next; } .c-doc { grid-area: doc; } .c-time { grid-area: time; }
+.c-pat, .c-reason { display: grid; gap: 1px; }
+.c-pat b, .c-reason b, .c-pat small, .c-reason small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c-pat b, .c-reason b { font-weight: 600; }
+.c-pat small, .c-reason small { color: var(--muted); font-size: .8rem; }
+.c-status { display: flex; flex-wrap: wrap; gap: 4px; }
+.c-next { font-size: .82rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.c-doc { font-size: .86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c-time { font-size: .8rem; color: var(--muted); text-align: right; white-space: nowrap; }
+.cave-mini { font-size: .66rem; font-weight: 800; letter-spacing: .06em; color: var(--danger); border: 1px solid var(--danger); border-radius: 3px; padding: 0 4px; }
+@container (max-width: 860px) {
+  .chead { display: none; }
+  .crow { grid-template-columns: 64px minmax(0, 1fr) auto; grid-template-areas: "prio pat time" "prio reason reason" "prio status status" "prio next next"; row-gap: 3px; padding-block: 11px; }
+  .c-doc { display: none; }
+}
+.call-row { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; padding: 10px 16px; }
+.call-row:hover { background: var(--accent-soft); }
+
+/* Ärendefönster med patientlist */
+.drawer { width: min(860px, 100%); }
+.d-head { padding: 0 !important; gap: 0; border-bottom: 1px solid var(--line); }
+.pbar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; background: var(--bar); color: #fff; padding-block: calc(10px + env(safe-area-inset-top, 0px)) 10px; padding-left: 18px; padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+.pbar-main { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+.pbar .pt-av { background: rgba(255,255,255,.12); color: #fff; width: 40px; height: 40px; }
+.pbar-id { display: grid; min-width: 0; }
+.pbar-id b { font-size: 1.15rem; }
+.pbar-id > span { font-size: .86rem; opacity: .85; }
+.pbar-flags { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.flag-cave { background: var(--t-rod); color: #fff; font-weight: 700; font-size: .78rem; padding: 3px 8px; border-radius: 3px; letter-spacing: .02em; }
+.flag-news { background: rgba(255,255,255,.14); font-weight: 700; font-size: .78rem; padding: 3px 8px; border-radius: 3px; }
+.pbar-close { background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
+.pbar-close:hover { background: rgba(255,255,255,.12); }
+.d-sub { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; padding: 10px 18px; background: var(--surface); font-size: .9rem; }
+.d-sub b { font-size: 1rem; }
+.d-head > .d-tags, .d-head > .next { margin: 0 18px 10px; }
+.d-head > .d-tags { margin-top: 0; }
+.next { border-radius: 4px; }
+.d-tabs { background: var(--surface-2); }
+.d-tabs button { padding: 10px 14px 8px; }
+.d-body { background: var(--bg); }
+
+/* Signatur */
+.sig-wrap { position: relative; height: 150px; border: 1px dashed var(--muted); border-radius: 4px; background: #fff; overflow: hidden; transition: box-shadow .2s; }
+.sig-wrap.sig-need { box-shadow: 0 0 0 3px var(--danger); border-color: var(--danger); }
+.sig { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.sig-x { position: absolute; left: 14px; bottom: 32px; color: #8592a3; font-size: .9rem; pointer-events: none; }
+.sig-line { position: absolute; left: 34px; right: 14px; bottom: 30px; border-top: 1px solid #b5bfcc; padding-top: 4px; font-size: .78rem; color: #66717f; pointer-events: none; }
+.sig-ph { position: absolute; inset: 0 0 40px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #8b97a8; font-weight: 600; pointer-events: none; }
+.sig-ph svg { width: 18px; height: 18px; }
+.sig-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: .88rem; }
+.sig-ok { color: var(--ok); font-weight: 700; }
+.sig-show { display: block; background: #fff; border: 1px solid var(--line); border-radius: 3px; padding: 2px 6px; flex-shrink: 0; }
+.sig-show img { display: block; height: 46px; width: auto; max-width: 180px; }
+.doc-sign-ans { align-items: center; }
+@media (prefers-reduced-motion: reduce) { .sig-wrap { transition: none; } }
+
+/* Inloggning */
+.login-brand { background: var(--bar); color: #fff; }
+.login-brand .logo-mark { background: #fff; }
+.login-brand .logo-mark svg path { fill: #c8372b; }
+.tabs { border-radius: 4px; }
+.tabs button { border-radius: 3px; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .side { top: calc(52px + env(safe-area-inset-top, 0px)); height: auto; padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); }
+  .tb-brand { width: auto; }
+  .tb-brand > span:last-child, .tb-clock, .tb-user span { display: none; }
+  .me { display: none; }
+  .main { padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px)); }
+}
+#toast { top: calc(62px + env(safe-area-inset-top, 0px)); left: auto; right: max(16px, env(safe-area-inset-right, 0px)); transform: none; width: min(380px, calc(100% - 32px)); }
+.toast { border-radius: 4px; }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -1088,6 +1293,8 @@ var IC = {
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
   arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
   plusc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  pen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   hjalp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17h.01"/></svg>',
   belaggning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="10.5" r="2"/></svg>',
   chatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
@@ -1194,15 +1401,36 @@ function navItems() {
 function viewAllowed(v) { return v === 'profil' || navItems().some(function (i) { return i.id === v; }); }
 function renderShell() {
   $('#app').innerHTML =
+    '<header class="topbar">' +
+      '<div class="tb-brand"><span class="tb-mark">' + CROSS.replace('var(--accent)', '#c8372b') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
+      '<div class="tb-search">' + IC.search + '<input id="gsearch" type="search" placeholder="Sök patient, personnummer eller ärendenummer" autocomplete="off" aria-label="Sök patient eller ärende"><div class="gs-res" id="gs-res" hidden></div></div>' +
+      '<div class="tb-right"><span class="tb-clock" id="tb-clock"></span><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
+    '</header>' +
     '<div class="shell">' +
       '<aside class="side">' +
-        '<div class="logo"><span class="logo-mark">' + CROSS.replace('var(--accent)', 'var(--accent-ink)') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
         '<ul class="nav" id="nav"></ul>' +
         '<div class="me" id="me"></div>' +
       '</aside>' +
       '<main class="main"><div class="main-inner" id="main"></div></main>' +
     '</div>';
-  drawSide(); mountView();
+  drawSide(); mountView(); bindTopbar();
+}
+function bindTopbar() {
+  var tick = function () { var c = $('#tb-clock'); if (c) c.textContent = new Intl.DateTimeFormat('sv-SE', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date()); };
+  tick(); clearInterval(S.clockTimer); S.clockTimer = setInterval(tick, 15000);
+  var q = $('#gsearch'), res = $('#gs-res');
+  function draw() {
+    var t = q.value.trim().toLowerCase(); if (!t) { res.hidden = true; return; }
+    var hits = byNewest(S.cases.filter(function (c) { var p = c.patient || {}; return [p.name, p.pnr, c.caseNo, c.title].join(' ').toLowerCase().indexOf(t) !== -1; })).slice(0, 8);
+    res.innerHTML = hits.length ? hits.map(function (c, i) { var p = c.patient || {}, pi = pnrInfo(p.pnr); return '<button type="button" class="gs-hit" data-open="' + esc(c.id) + '"' + (i === 0 ? ' data-first' : '') + '><span class="tchip tri-' + esc(TRI[c.triage] ? c.triage : 'bla') + '">' + (TRI[c.triage] || TRI.bla).label + '</span><span class="gs-main"><b>' + esc(p.name || 'Okänd patient') + '</b><small><span class="mono">' + esc(p.pnr || '') + '</span>' + (pi ? ' · ' + pi.age + ' år' : '') + ' · ' + esc(c.title) + '</small></span>' + statusPill(c.status) + '</button>'; }).join('')
+      : '<p class="gs-none">Inget ärende matchar "' + esc(q.value.trim()) + '".</p>';
+    res.hidden = false;
+  }
+  q.addEventListener('input', draw);
+  q.addEventListener('focus', draw);
+  q.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var f = $('#gs-res [data-first]'); if (f) { openCase(f.dataset.open); q.value = ''; res.hidden = true; } } if (e.key === 'Escape') { res.hidden = true; q.blur(); } });
+  res.addEventListener('click', function () { setTimeout(function () { q.value = ''; res.hidden = true; }, 0); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.tb-search')) res.hidden = true; });
 }
 function drawSide() {
   var nav = $('#nav'); if (!nav) return;
@@ -1211,11 +1439,9 @@ function drawSide() {
     return navBtn(i);
   }).join('');
   var me = S.me, oc = onlineCount();
-  $('#me').innerHTML =
-    (oc ? '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' aktiv' : ' aktiva') + ' i portalen just nu</p>' : '') +
-    '<div class="me-row">' + avatarHtml(me) + '<div><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></div></div>' +
-    '<div class="me-actions"><button class="btn sm" type="button" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + IC.profil + '<span class="lbl">Min profil</span></button><button class="btn sm ghost" type="button" data-logout>' + IC.logout + '<span class="lbl">Logga ut</span></button></div>';
-  if (window.matchMedia('(max-width: 900px)').matches) { var b = $('[data-nav="profil"]', $('#me')); if (b) b.innerHTML = avatarHtml(me); b && b.classList.add('ghost'); }
+  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 4.2 · Los Santos Sjukvård</p>';
+  var tu = $('#tb-user');
+  if (tu) tu.innerHTML = '<button type="button" class="tb-user" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + avatarHtml(me) + '<span><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></span></button>';
 }
 function navBtn(i) {
   var badge = i.badge ? '<span class="badge' + (i.red ? ' red' : '') + '">' + i.badge + '</span>' : '';
@@ -1279,16 +1505,16 @@ function caseRow(c) {
   var t = TRI[c.triage] ? c.triage : 'bla', p = c.patient || {}, pi = pnrInfo(p.pnr), n = nextStep(c);
   var doc = c.doctorId ? personOf(c.doctorId) : null;
   return '<button type="button" class="crow" data-open="' + esc(c.id) + '">' +
-    '<span class="tri tri-' + t + '"></span>' +
-    '<span class="pt-av" data-tri="' + t + '" title="Prioritet ' + TRI[t].label.toLowerCase() + '">' + esc(initials(p.name || '?')) + '</span>' +
-    '<span class="crow-main">' +
-      '<span class="crow-top"><b>' + esc(c.title) + '</b><span class="mono muted crow-no">' + esc(c.caseNo) + '</span></span>' +
-      '<span class="crow-sub">' + esc(p.name || 'Okänd patient') + (pi ? ' · ' + pi.age + ' år, ' + pi.sex : '') + ' · från ' + esc(userName(c.createdBy)) + '</span>' +
-      '<span class="crow-tags">' + statusPill(c.status) + stayHtml(c) + '<span class="crow-next tone-' + n.tone + '">' + esc(n.text) + '</span></span>' +
-    '</span>' +
-    '<span class="crow-meta"><small>' + ago(c.createdAt) + '</small>' + (doc ? '<span class="crow-doc" title="Ansvarig läkare: ' + esc(doc.name) + '">' + avatarHtml(doc, 'xs', true) + '</span>' : '<span class="crow-nodoc">Ingen läkare</span>') + '</span>' +
+    '<span class="c-prio"><span class="tchip tri-' + t + '">' + TRI[t].label + '</span></span>' +
+    '<span class="c-pat"><b>' + esc(p.name || 'Okänd patient') + '</b><small><span class="mono">' + esc(p.pnr || '–') + '</span>' + (pi ? ' · ' + pi.age + ' år, ' + (pi.sex === 'man' ? 'M' : 'K') : '') + '</small></span>' +
+    '<span class="c-reason"><b>' + esc(c.title) + '</b><small><span class="mono">' + esc(c.caseNo) + '</span>' + (c.cave ? ' <span class="cave-mini">CAVE</span>' : '') + '</small></span>' +
+    '<span class="c-status">' + statusPill(c.status) + stayHtml(c) + '</span>' +
+    '<span class="c-next crow-next tone-' + n.tone + '">' + esc(n.text) + '</span>' +
+    '<span class="c-doc">' + (doc ? esc(doc.name) : '<span class="muted">Ej tilldelad</span>') + '</span>' +
+    '<span class="c-time">' + esc(ago(c.createdAt)) + '</span>' +
   '</button>';
 }
+function caseHead() { return '<div class="chead" aria-hidden="true"><span>Prio</span><span>Patient</span><span>Kontaktorsak</span><span>Status</span><span>Nästa steg</span><span>Ansvarig</span><span>Inkom</span></div>'; }
 function groupHtml(groups) {
   return groups.filter(function (g) { return g.items.length; }).map(function (g) {
     return '<div class="grp-head"' + (g.tone ? ' data-tone="' + g.tone + '"' : '') + '><span>' + esc(g.label) + '</span>' + (g.sub ? '<small>' + esc(g.sub) + '</small>' : '') + '<span class="grp-n">' + g.items.length + '</span></div>' + g.items.join('');
@@ -1475,14 +1701,14 @@ VIEWS.mina = {
     var resp = sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; }));
     var calls = upcomingCalls();
     $('#r-calls').innerHTML = w || (calls.length ? calls.map(callRow).join('') : emptyArt('calendar', 'Inga bokade samtal', 'Samtal i dina ärenden visas här.'));
-    if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? resp.map(caseRow).join('') : emptyArt('alla', 'Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
+    if ($('#r-resp')) $('#r-resp').innerHTML = w || (resp.length ? caseHead() + resp.map(caseRow).join('') : emptyArt('alla', 'Inga aktiva ärenden', 'Ärenden du tar från inkorgen hamnar här.'));
     $('#m-sc').textContent = sent.length ? sent.length + ' totalt' : '';
-    $('#r-sent').innerHTML = w || (sent.length ? sent.slice(0, 8).map(caseRow).join('') : emptyArt('send', 'Inga skickade remisser', can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : ''));
+    $('#r-sent').innerHTML = w || (sent.length ? caseHead() + sent.slice(0, 8).map(caseRow).join('') : emptyArt('send', 'Inga skickade remisser', can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : ''));
   }
 };
 function callRow(c) {
   var d = new Date(c.call.at);
-  return '<button type="button" class="call-row crow" style="grid-template-columns:64px minmax(0,1fr);padding:12px 18px" data-open="' + esc(c.id) + '">' +
+  return '<button type="button" class="call-row" data-open="' + esc(c.id) + '">' +
     '<span class="call-date"><small>' + esc(fmtMon.format(d)) + '</small><b>' + esc(fmtDay.format(d)) + '</b><small>' + esc(fmtT.format(d)) + '</small></span>' +
     '<span class="crow-main"><span class="crow-top"><b>' + esc(c.call.type || 'Samtal') + '</b><span class="mono muted">' + esc(c.caseNo) + '</span></span>' +
     '<span class="crow-sub">' + esc((c.patient && c.patient.name) || '') + ' · med ' + esc(c.call.withLabel || '') + '</span>' +
@@ -1507,7 +1733,7 @@ VIEWS.inkorg = {
     $('#ink-chips').innerHTML = Object.keys(labels).map(function (k) { return '<button type="button" class="chip" data-f="' + k + '" aria-pressed="' + (S.inkorgFilter === k) + '">' + labels[k] + ' (' + sets[k].length + ')</button>'; }).join('');
     var list = sortCases(sets[S.inkorgFilter] || all);
     var groups = Object.keys(TRI).map(function (k) { return { label: 'Prioritet ' + TRI[k].label.toLowerCase(), sub: TRI[k].desc, tone: k === 'rod' || k === 'orange' ? 'urgent' : '', items: list.filter(function (c) { return (TRI[c.triage] ? c.triage : 'bla') === k; }).map(caseRow) }; });
-    $('#r-inbox').innerHTML = waiting() || (list.length ? groupHtml(groups) : emptyBox('Inkorgen är tom', 'Nya konsultationer från sjuksköterskor och ambulanspersonal hamnar här.'));
+    $('#r-inbox').innerHTML = waiting() || (list.length ? caseHead() + groupHtml(groups) : emptyBox('Inkorgen är tom', 'Nya konsultationer från sjuksköterskor och ambulanspersonal hamnar här.'));
   }
 };
 
@@ -1699,7 +1925,8 @@ function renderSvar(c) {
       docRow('Ordination ' + termQ('ordination'), d && d.plan ? '<p class="prose">' + esc(d.plan) + '</p>' : '') +
       docRow('Uppföljning', follow) +
     '</dl>' +
-    '<footer class="doc-sign">' + avatarHtml(doc, '', true) + '<div><span>Signerat av <b>' + esc(doc.name) + '</b>' + (doc.title ? ', ' + esc(doc.title) : '') + '</span><small>' + esc(fmtFull.format(new Date(d ? d.at : call.at))) + '</small></div></footer>' +
+    '<footer class="doc-sign doc-sign-ans">' + (d && d.signature ? '<span class="sig-show"><img alt="Signatur av ' + esc(doc.name) + '" src="' + esc(d.signature) + '"></span>' : avatarHtml(doc, '', true)) +
+      '<div><span>' + (d && d.signature ? 'Elektroniskt signerat av ' : d ? 'Ej signerat · ' : 'Bokat av ') + '<b>' + esc(doc.name) + '</b>' + (doc.title ? ', ' + esc(doc.title) : '') + '</span><small>' + esc(fmtFull.format(new Date(d ? (d.signedAt || d.at) : call.at))) + '</small></div></footer>' +
   '</article>';
 }
 
@@ -1920,7 +2147,7 @@ VIEWS.alla = {
     list = byNewest(list);
     $('#a-count').textContent = list.length + (list.length === 1 ? ' ärende' : ' ärenden');
     var groups = Object.keys(STATUS).map(function (k) { return { label: { inkommen: 'Inkomna', bedoms: 'Under bedömning', diagnos: 'Diagnos satt', avslutad: 'Avslutade' }[k], items: list.filter(function (c) { return c.status === k; }).map(caseRow) }; });
-    $('#r-alla').innerHTML = waiting() || (list.length ? groupHtml(groups) : emptyBox(S.cases.length ? 'Inga träffar' : 'Inga ärenden ännu', S.cases.length ? 'Prova en annan sökning eller status.' : 'Ärenden som skickas in visas här.'));
+    $('#r-alla').innerHTML = waiting() || (list.length ? caseHead() + groupHtml(groups) : emptyBox(S.cases.length ? 'Inga träffar' : 'Inga ärenden ännu', S.cases.length ? 'Prova en annan sökning eller status.' : 'Ärenden som skickas in visas här.'));
   }
 };
 
@@ -2547,9 +2774,11 @@ function updateDrawer() {
   var c = S.cases.find(function (x) { return x.id === S.openCase; });
   if (!c) { if (S.loaded.cases) { closeDrawer(); toast('Ärendet finns inte längre.'); } return; }
   var nw = news2(c.vitals), v = c.vitals || {};
-  $('#d-head').innerHTML = '<div class="d-head-top"><span class="mono muted">' + esc(c.caseNo) + '</span><button class="btn sm" type="button" data-close>Stäng</button></div>' +
-    '<h2>' + esc(c.title) + '</h2>' +
-    '<div class="d-tags">' + triChip(c.triage) + statusPill(c.status) + stayHtml(c) + (nw ? '<span class="pill">NEWS2 ' + nw.s + '</span>' : '') + '<span class="muted" style="font-size:.86rem">' + esc((c.patient && c.patient.name) || '') + (c.patient && c.patient.pnr ? ' · <span class="mono">' + esc(c.patient.pnr) + '</span>' : '') + '</span></div>' +
+  var pp = c.patient || {}, ppi = pnrInfo(pp.pnr), tt = TRI[c.triage] ? c.triage : 'bla';
+  $('#d-head').innerHTML = '<div class="pbar"><div class="pbar-main"><span class="pt-av" data-tri="' + tt + '">' + esc(initials(pp.name || '?')) + '</span><div class="pbar-id"><b>' + esc(pp.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(pp.pnr || 'Personnummer saknas') + '</span>' + (ppi ? ' · ' + ppi.age + ' år · ' + ppi.sex : '') + (pp.phone ? ' · tel <span class="mono">' + esc(pp.phone) + '</span>' : '') + '</span></div></div>' +
+      '<div class="pbar-flags">' + (c.cave ? '<span class="flag-cave" title="Överkänslighet">CAVE: ' + esc(c.cave) + '</span>' : '') + triChip(c.triage) + (nw ? '<span class="flag-news">NEWS2 ' + nw.s + '</span>' : '') + '</div>' +
+      '<button class="btn sm pbar-close" type="button" data-close>Stäng</button></div>' +
+    '<div class="d-sub"><span class="mono">' + esc(c.caseNo) + '</span><b>' + esc(c.title) + '</b>' + statusPill(c.status) + stayHtml(c) + '<span class="muted">Inkom ' + esc(dt(c.createdAt)) + ' från ' + esc(userName(c.createdBy)) + '</span></div>' +
     (function () {
       var b = [];
       if (c.createdBy && c.createdBy !== S.me.id) b.push('<button type="button" class="btn sm" data-chat="' + esc(dmConv(c.createdBy)) + '" data-chat-case="' + esc(c.id) + '">Ge feedback till ' + esc(firstName(userName(c.createdBy))) + (S.online[c.createdBy] ? ' (aktiv)' : '') + '</button>');
@@ -2704,7 +2933,11 @@ function mountDoctorTools(c) {
         (canA ? taskBlock(false) : '') +
         '<label class="dx-toggle"><input type="checkbox" id="dx-close"> <b>Avsluta ärendet</b> <span class="muted">när bedömningen sparas</span></label>' +
       '</div></div>' +
-      '<div class="dx-foot"><p class="muted" id="dx-summary"></p><button class="btn primary" type="submit" id="dx-save">Spara bedömning</button></div>' +
+      '<div class="dx-sec dx-sign"><span class="dx-num">4</span><div class="dx-body"><h3>Signera</h3><p class="hint">Skriv din signatur med musen eller fingret i rutan. Krävs när du ställer eller ändrar en diagnos.</p>' +
+        '<div class="sig-wrap"><canvas class="sig" id="dx-sig" aria-label="Signaturfält. Rita din signatur med musen."></canvas><span class="sig-x" aria-hidden="true">✕</span><span class="sig-line">' + esc(S.me.name) + (S.me.title ? ', ' + esc(S.me.title) : '') + '</span><span class="sig-ph" id="dx-sig-ph">' + IC.pen + 'Signera här</span></div>' +
+        '<div class="sig-tools"><span class="muted" id="dx-sig-state">Inte signerad</span><button type="button" class="btn sm" id="dx-sig-clear">Rensa signatur</button></div>' +
+      '</div></div>' +
+      '<div class="dx-foot"><p class="muted" id="dx-summary"></p><button class="btn primary" type="submit" id="dx-save">' + IC.pen + 'Signera och spara</button></div>' +
     '</form></section>';
 
   var form = $('#f-dx');
@@ -2764,9 +2997,13 @@ function mountDoctorTools(c) {
     if ($('#dx-call-on').checked) parts.push('samtal');
     if ($('#dx-task-on') && $('#dx-task-on').checked) parts.push('uppdrag');
     if ($('#dx-close').checked) parts.push('avslutas');
+    if (typeof sig !== 'undefined' && sig && !sig.empty()) parts.push('signerad');
     $('#dx-summary').textContent = parts.length ? 'Sparas: ' + parts.join(', ') + '.' : 'Välj en diagnos eller en åtgärd att spara.';
   }
   if ($('#dx-t-to')) $('#dx-t-to').innerHTML = staffOptions('receive', '', 'Välj person');
+  var sig = sigPad($('#dx-sig'));
+  $('#dx-sig-clear').addEventListener('click', function () { sig.clear(); });
+  form.addEventListener('sigchange', function () { var ok = !sig.empty(); $('#dx-sig-ph').hidden = ok; $('#dx-sig-state').textContent = ok ? 'Signerad av ' + S.me.name + ' ' + fmtT.format(new Date()) : 'Inte signerad'; $('#dx-sig-state').className = ok ? 'sig-ok' : 'muted'; summary(); });
   pick(d.code || '', d.text || '');
   drawDispo(); summary();
 
@@ -2780,10 +3017,11 @@ function mountDoctorTools(c) {
     var callOn = $('#dx-call-on').checked, taskOn = $('#dx-task-on') && $('#dx-task-on').checked, close = $('#dx-close').checked;
     var dxChanged = text && (text !== (d.text || '') || code !== (d.code || '') || ass !== (d.assessment || '') || plan !== (d.plan || ''));
     if (!dxChanged && dispo === 'kvar' && !callOn && !taskOn && !close) { toast('Välj en diagnos eller en åtgärd innan du sparar.', true); return; }
+    if (dxChanged && sig.empty()) { toast('Signera bedömningen med musen innan du sparar.', true); $('.dx-sign').scrollIntoView({ behavior: 'smooth', block: 'center' }); $('.sig-wrap').classList.add('sig-need'); setTimeout(function () { var w = $('.sig-wrap'); if (w) w.classList.remove('sig-need'); }, 1600); return; }
     var patch = { doctorId: cur.doctorId || S.me.id }, evs = [];
     if (dxChanged) {
-      patch.diagnosis = { code: code, text: text, assessment: ass, plan: plan, by: S.me.id, at: nowIso() };
-      evs.push({ type: 'sys', text: (cur.diagnosis ? 'Diagnos uppdaterad: ' : 'Diagnos ställd: ') + (code ? code + ' ' : '') + text + '.' });
+      patch.diagnosis = { code: code, text: text, assessment: ass, plan: plan, by: S.me.id, at: nowIso(), signature: sig.data(), signedAt: nowIso() };
+      evs.push({ type: 'sys', text: (cur.diagnosis ? 'Diagnos uppdaterad: ' : 'Diagnos ställd: ') + (code ? code + ' ' : '') + text + '. Signerad elektroniskt.' });
     } else if (!text && (ass !== (d.assessment || '') || plan !== (d.plan || ''))) {
       evs.push({ type: 'note', text: [ass && 'Bedömning: ' + ass, plan && 'Plan: ' + plan].filter(Boolean).join('\n') });
     }
@@ -2815,6 +3053,33 @@ function mountDoctorTools(c) {
     } catch (x) { btn.disabled = false; btn.textContent = 'Spara bedömning'; }
   });
   drawDoctorState(c);
+}
+function sigPad(cv) {
+  var ctx = null, drawing = false, last = null, ink = 0, sized = false, INK = '#13233d';
+  function size() {
+    var r = cv.getBoundingClientRect(); if (!r.width) return false;
+    var d = window.devicePixelRatio || 1; cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
+    ctx = cv.getContext('2d'); ctx.setTransform(d, 0, 0, d, 0, 0); ctx.lineWidth = 2.3; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = INK; ctx.fillStyle = INK;
+    ink = 0; sized = true; return true;
+  }
+  function pt(e) { var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  function changed() { cv.dispatchEvent(new Event('sigchange', { bubbles: true })); }
+  cv.addEventListener('pointerdown', function (e) {
+    if (!sized && !size()) return;
+    drawing = true; try { cv.setPointerCapture(e.pointerId); } catch (x) {}
+    last = pt(e); ctx.beginPath(); ctx.arc(last.x, last.y, 1.1, 0, Math.PI * 2); ctx.fill(); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!drawing) return; var p = pt(e);
+    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+    ink += Math.hypot(p.x - last.x, p.y - last.y); last = p; e.preventDefault();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) { cv.addEventListener(ev, function () { if (drawing) { drawing = false; changed(); } }); });
+  return {
+    clear: function () { if (ctx) { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.restore(); } ink = 0; sized = false; changed(); },
+    empty: function () { return ink < 60; },
+    data: function () { var w = 420, h = Math.max(1, Math.round(w * cv.height / cv.width)), t = document.createElement('canvas'); t.width = w; t.height = h; t.getContext('2d').drawImage(cv, 0, 0, w, h); return t.toDataURL('image/png'); }
+  };
 }
 function bindTaskChips(root) {
   root.addEventListener('click', function (e) { var b = e.target.closest('[data-tsk]'); if (b) { $('#dx-t-title').value = b.dataset.tsk; var cb = $('#dx-task-on'); if (cb && !cb.checked) { cb.checked = true; $('#dx-task-box').hidden = false; } } });
