@@ -221,7 +221,7 @@ p { margin: 0; }
 .call-date b { display: block; font-size: 1.2rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .call-date small { display: block; font-size: .7rem; text-transform: uppercase; color: var(--muted); letter-spacing: .06em; }
 
-/* Ny konsultation */
+/* Ny patient */
 .form-sec { display: grid; gap: 14px; padding: 20px; border-bottom: 1px solid var(--line); }
 .form-sec:last-child { border-bottom: 0; }
 .form-sec h2 { font-size: 1rem; }
@@ -1939,6 +1939,148 @@ button.pp-vt:hover { border-color: var(--accent); box-shadow: 0 0 0 2px var(--ac
 .uppf-where .pp-mini { margin-left: auto; }
 .pp-where { position: relative; }
 .pp-where-edit { margin-left: 8px; border: 1px solid currentColor; background: #fff; color: inherit; font: inherit; font-size: .74rem; font-weight: 800; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
+/* ===== Enkelt läge: större text, större knappar ===== */
+html { font-size: 17px; }
+.btn { min-height: 44px; padding: 10px 18px; font-size: 1rem; }
+.btn.sm { min-height: 38px; padding: 7px 14px; font-size: .92rem; }
+.side .nav button { padding: 12px 14px !important; font-size: 1.02rem; gap: 12px; min-height: 48px; }
+.side .nav button svg { width: 22px; height: 22px; }
+.side .nav-label { font-size: .72rem; }
+.page-head h1 { font-size: 2.1rem !important; }
+.page-head .sub { font-size: 1.05rem; }
+.field > span { font-size: .95rem; }
+.field input, .field select, .field textarea { font-size: 1rem; min-height: 44px; }
+
+/* Startsidan */
+.td-hero .hero-btn { display: none !important; }
+.hero.td-hero p#m-sub { font-size: 1.15rem !important; }
+.home-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.home-tile { position: relative; display: grid; justify-items: start; gap: 4px; text-align: left; padding: 20px 18px 18px; border-radius: 18px; border: 2px solid transparent; background: var(--surface); box-shadow: var(--shadow); font: inherit; color: var(--fg); cursor: pointer; transition: transform .12s, border-color .12s; }
+.home-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.home-tile:active { transform: translateY(0); }
+.home-tile b { font-size: 1.2rem; font-weight: 800; margin-top: 8px; }
+.home-tile small { color: var(--muted); font-size: .9rem; line-height: 1.3; }
+.ht-ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.ht-ic svg { width: 28px; height: 28px; }
+.home-tile.pri { background: var(--accent); color: #fff; }
+.home-tile.pri small { color: rgba(255, 255, 255, .85); }
+.home-tile.pri .ht-ic { background: rgba(255, 255, 255, .18); color: #fff; }
+.ht-badge { position: absolute; top: 14px; right: 14px; min-width: 30px; height: 30px; padding: 0 8px; border-radius: 15px; background: var(--danger); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: .95rem; }
+@media (prefers-reduced-motion: reduce) { .home-tile { transition: none; } .home-tile:hover { transform: none; } }
+@media (max-width: 560px) { .home-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .home-tile { padding: 14px; } .ht-ic { width: 44px; height: 44px; } .home-tile b { font-size: 1.02rem; } .home-tile small { display: none; } }
+.td-explain, #td-filter { display: none !important; }
+.mina-side .panel:has(#r-quick) { display: none; }
+.td { padding: 18px 20px 18px 22px; gap: 16px; }
+.td-title { font-size: 1.14rem; }
+.td-how { font-size: .98rem; padding: 8px 12px; border-radius: 10px; background: var(--surface-2); margin-top: 6px !important; }
+.td-btns { min-width: 150px; }
+.td-btns .btn { min-height: 46px; font-size: 1rem; }
+.grp-head { font-size: .95rem !important; padding: 12px 20px !important; }
+
+/* Journalen: växla mellan enkel vy och hela journalen */
+.jr-view { display: flex; gap: 2px; background: rgba(255, 255, 255, .08); border-radius: 999px; padding: 3px; }
+.jr-view button { border: 0; background: transparent; color: #cfe3df; font: inherit; font-weight: 800; font-size: .9rem; padding: 8px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.jr-view button[aria-pressed="true"] { background: var(--mint); color: #062420; }
+.jr.easy .jr-toc { display: none; }
+.jr.easy .jr-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+@media (max-width: 960px) { .jr.easy .jr-layout { display: block; } }
+.jr.easy .pp-sec:not(#pp-log), .jr.easy .pp-glance, .jr.easy .pp-foot, .jr.easy .pp-stamps, .jr.easy .pp-letter { display: none !important; }
+.jr.easy #pp-log .pp-n { display: none; }
+.jr.easy .paper { font-size: 16px; }
+.jr:not(.easy) .pp-easy { display: none; }
+.pp-easy { display: grid; gap: 16px; padding: 4px 0 24px; font-family: var(--sans); }
+.ez-mood { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; padding: 18px 20px; border-radius: 16px; }
+.ez-mood > div { flex: 1; min-width: 180px; display: grid; }
+.ez-mood small { font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+.ez-mood b { font-size: 1.7rem; font-weight: 800; line-height: 1.15; }
+.ez-mood span { font-size: 1rem; }
+.ez-light { width: 54px; height: 54px; border-radius: 50%; background: currentColor; flex: none; box-shadow: 0 0 0 7px color-mix(in srgb, currentColor 22%, transparent); }
+.ez-mood.m-gron { background: #e1f4e8; color: #17643a; }
+.ez-mood.m-gul { background: #fff3d1; color: #8a5d00; }
+.ez-mood.m-rod { background: #fde3df; color: #a3241b; }
+.ez-mood.m-gra { background: #efeee8; color: #5e6a70; }
+.ez-mood-btn { display: inline-flex; gap: 8px; align-items: center; border: 2px solid currentColor; background: #fff; color: inherit; font: inherit; font-weight: 800; font-size: 1rem; padding: 10px 18px; border-radius: 12px; cursor: pointer; }
+.ez-mood-btn svg { width: 20px; height: 20px; }
+.ez-vit { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ez-vit-t { color: var(--muted); font-size: .9rem; margin-right: 4px; }
+.ez-chip { display: inline-flex; gap: 6px; align-items: baseline; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); font-weight: 700; font-size: .95rem; }
+.ez-chip small { color: var(--muted); font-weight: 600; font-size: .8rem; }
+.ez-chip.flag { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); }
+.ez-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.ez-fact { display: grid; gap: 3px; align-content: start; padding: 14px 16px; border-radius: 14px; background: #fff; border: 1.5px solid var(--line); }
+.ez-fact small { font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.ez-fact b { font-size: 1.15rem; line-height: 1.25; overflow-wrap: anywhere; }
+.ez-fact span { font-size: .88rem; color: var(--muted); }
+.ez-fact.alert { border-color: var(--danger); background: var(--danger-soft); }
+.ez-fact.alert b, .ez-fact.alert span { color: var(--danger); }
+.ez-fact.ok { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.ez-h { margin: 8px 0 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+.ez-todo { display: grid; gap: 8px; }
+.ez-ti { display: flex; gap: 14px; align-items: center; padding: 12px 14px; border-radius: 14px; background: #fff; border: 1.5px solid var(--line); }
+.ez-ti > div { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ez-ti b { font-size: 1.05rem; overflow-wrap: anywhere; }
+.ez-ti small { color: var(--muted); font-size: .86rem; }
+.ez-ti.akut { border-color: var(--danger); background: var(--danger-soft); }
+.ez-num { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+.ez-go { flex: none; min-height: 44px; padding: 8px 20px; border-radius: 12px; border: 0; background: var(--accent); color: #fff; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; }
+.ez-go:hover { filter: brightness(1.08); }
+.ez-go.soft { background: var(--accent-soft); color: var(--accent); }
+.ez-go:disabled { opacity: .5; }
+@media (max-width: 560px) { .ez-ti { flex-wrap: wrap; } .ez-go { width: 100%; } }
+.ez-done { display: flex; gap: 12px; align-items: center; padding: 16px; border-radius: 14px; background: #e1f4e8; color: #17643a; font-weight: 700; font-size: 1.05rem; }
+.ez-done svg { width: 26px; height: 26px; flex: none; }
+.ez-acts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.ez-act { display: grid; justify-items: center; align-content: start; text-align: center; gap: 5px; padding: 16px 10px 14px; border-radius: 16px; border: 1.5px solid var(--line); background: #fff; font: inherit; color: var(--ink); cursor: pointer; transition: border-color .12s, transform .12s; }
+.ez-act:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ez-act b { font-size: 1.02rem; }
+.ez-act small { color: var(--muted); font-size: .8rem; line-height: 1.25; }
+.ez-ai { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.ez-ai svg { width: 26px; height: 26px; }
+.ez-act.pri { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ez-act.pri small { color: rgba(255, 255, 255, .85); }
+.ez-act.pri .ez-ai { background: rgba(255, 255, 255, .18); color: #fff; }
+.ez-act.warn .ez-ai { background: var(--danger-soft); color: var(--danger); }
+@media (prefers-reduced-motion: reduce) { .ez-act { transition: none; } .ez-act:hover { transform: none; } }
+@media (max-width: 560px) { .ez-acts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ez-full { justify-self: center; border: 1.5px dashed var(--line); background: transparent; color: var(--accent); font: inherit; font-weight: 800; font-size: 1rem; padding: 12px 22px; border-radius: 12px; cursor: pointer; }
+.ez-full:hover { border-color: var(--accent); background: var(--accent-soft); }
+/* ===== Realistisk journal ===== */
+.jr-title > span .mono { color: #e6f2ef; }
+.jr-warn { display: inline-flex; align-items: center; gap: 6px; border: 0; background: #e2493c; color: #fff; font: inherit; font-weight: 800; font-size: .82rem; letter-spacing: .04em; padding: 6px 12px 6px 9px; border-radius: 8px; cursor: pointer; max-width: 260px; }
+.jr-warn svg { width: 17px; height: 17px; flex: none; }
+.jr-warn span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jr-unit { color: var(--nav-fg); font-size: .82rem; }
+.jn-writer .nw-head { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.jn-sok { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 760px) { .jn-sok { grid-template-columns: 1fr; } }
+.jn-sf { display: grid; gap: 4px; }
+.jn-sf > span { font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.jn-sf textarea { width: 100%; font: inherit; font-size: .98rem; padding: 9px 11px; border: 1px solid #d9d5c8; border-radius: 8px; resize: vertical; min-height: 64px; background: #fff; color: var(--ink); }
+.jn-sf textarea:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.jn-note { border: 1px solid #ddd8ca; border-radius: 6px; background: #fff; margin-bottom: 10px; overflow: hidden; }
+.jn-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; padding: 8px 14px; background: #f1efe6; border-bottom: 1px solid #ddd8ca; font-size: .88rem; }
+.jn-head time { font-family: var(--mono, 'IBM Plex Mono', monospace); font-weight: 600; font-size: .84rem; }
+.jn-head b { font-weight: 800; }
+.jn-head > span:not(.jn-signed) { color: var(--muted); }
+.jn-signed { margin-left: auto; display: inline-flex; gap: 4px; align-items: center; color: var(--ok); font-weight: 700; font-size: .78rem; }
+.jn-signed svg { width: 14px; height: 14px; }
+.jn-note.jk-lak .jn-head { background: #e8eff9; }
+.jn-note.jk-amb .jn-head { background: #fdf0e3; }
+.jn-note.jk-lm .jn-head { background: #efeafd; }
+.jn-note.jk-remiss .jn-head { background: #e3f1ed; }
+.jn-note.jk-anh .jn-head { background: #fbeaf1; }
+.jn-by { padding: 8px 14px 0; font-size: .82rem; color: var(--muted); font-style: italic; }
+.jn-kw { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 6px 14px; margin: 0; padding: 8px 14px 12px; }
+.jn-kw dt { font-weight: 800; font-size: .9rem; padding-top: 1px; }
+.jn-kw dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--serif); font-size: 1.02rem; line-height: 1.5; }
+@media (max-width: 560px) { .jn-kw { grid-template-columns: 1fr; gap: 0 0; } .jn-kw dd { margin-bottom: 8px; } }
+.jn-free { margin: 0; padding: 8px 14px 12px; white-space: pre-wrap; font-family: var(--serif); font-size: 1.02rem; line-height: 1.5; }
+.jn-att { margin: 0; padding: 0 14px 10px; font-size: .82rem; color: var(--muted); }
+.jn-sys { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 12px; padding: 6px 4px; border-bottom: 1px dotted #cfcabb; font-size: .86rem; color: var(--muted); }
+.jn-sys time { font-family: var(--mono, 'IBM Plex Mono', monospace); font-size: .8rem; }
+.jn-sys small { font-size: .78rem; }
+@media (max-width: 560px) { .jn-sys { grid-template-columns: 1fr; gap: 0; } }
+.jn-note mark, .jn-sys mark { background: #fff1a8; color: inherit; }
 </style>
 
 <style>body{margin:0}img{max-width:100%}</style>
@@ -2720,16 +2862,16 @@ function refreshMe() {
 var VIEWS = {};
 function navItems() {
   var items = [
-    { id: 'mina', label: 'Att göra', badge: todoCount(), red: true },
-    { id: 'inbokningar', label: 'Inbokningar', badge: bkCount(), red: true },
-    can('diagnose') && { id: 'inkorg', label: 'Läkarinkorg', badge: inboxCount(), red: true },
-    can('create') && { id: 'nytt', label: 'Ny konsultation' },
-    { id: 'belaggning', label: 'Patienter på sjukhuset', badge: inpatients().length, muted: true },
-    { id: 'alla', label: 'Alla ärenden' },
+    { id: 'mina', label: 'Hem', badge: todoCount(), red: true },
+    can('create') && { id: 'nytt', label: 'Ny patient' },
+    can('diagnose') && { id: 'inkorg', label: 'Nya remisser', badge: inboxCount(), red: true },
+    { id: 'alla', label: 'Alla patienter' },
+    { id: 'belaggning', label: 'På sjukhuset', badge: inpatients().length, muted: true },
+    { id: 'inbokningar', label: 'Bokningar', badge: bkCount(), red: true },
     { id: 'chatt', label: 'Chatt', badge: totalUnread(), red: true },
-    { id: 'personal', label: 'Personal' },
-    can('manage') && { id: 'roller', label: 'Roller och behörighet' },
-    { id: 'hjalp', label: 'Hjälp och ordlista' }
+    { id: 'personal', label: 'Kollegor' },
+    can('manage') && { id: 'roller', label: 'Roller' },
+    { id: 'hjalp', label: 'Hjälp' }
   ];
   return items.filter(Boolean);
 }
@@ -2738,8 +2880,8 @@ function renderShell() {
   $('#app').innerHTML =
     '<header class="topbar">' +
       '<div class="tb-brand"><span class="tb-mark">' + CROSS.replace('var(--accent)', '#c8372b') + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
-      '<div class="tb-search">' + IC.search + '<input id="gsearch" type="search" placeholder="Sök patient, personnummer eller ärendenummer" autocomplete="off" aria-label="Sök patient eller ärende"><div class="gs-res" id="gs-res" hidden></div></div>' +
-      '<div class="tb-right">' + (can('create') ? '<button type="button" class="btn primary sm tb-new" data-nav="nytt">' + IC.plusc + '<span>Ny konsultation</span></button>' : '') + '<span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
+      '<div class="tb-search">' + IC.search + '<input id="gsearch" type="search" placeholder="Sök patient (namn eller personnummer)" autocomplete="off" aria-label="Sök patient eller ärende"><div class="gs-res" id="gs-res" hidden></div></div>' +
+      '<div class="tb-right">' + (can('create') ? '<button type="button" class="btn primary sm tb-new" data-nav="nytt">' + IC.plusc + '<span>Ny patient</span></button>' : '') + '<span class="tb-clock" id="tb-clock"></span><button type="button" class="tb-btn" id="tb-sound" aria-label="Ljud för aviseringar"></button><span id="tb-user"></span><button type="button" class="tb-btn" data-logout title="Logga ut" aria-label="Logga ut">' + IC.logout + '</button></div>' +
     '</header>' +
     '<div class="shell">' +
       '<aside class="side"><div class="side-brand"><span class="sb-mark">' + CROSS + '</span><span><b>Vårdportalen</b><small>Los Santos Sjukvård</small></span></div>' +
@@ -2771,12 +2913,12 @@ function bindTopbar() {
 }
 function drawSide() {
   var nav = $('#nav'); if (!nav) return;
-  nav.innerHTML = '<li class="nav-label">Arbete</li>' + navItems().map(function (i) {
-    if (i.id === 'chatt') return '<li class="nav-label">Organisation</li>' + navBtn(i);
+  nav.innerHTML = '<li class="nav-label">Jobba</li>' + navItems().map(function (i) {
+    if (i.id === 'chatt') return '<li class="nav-label">Mer</li>' + navBtn(i);
     return navBtn(i);
   }).join('');
   var me = S.me, oc = onlineCount();
-  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 5.2 · Los Santos Sjukvård</p>';
+  $('#me').innerHTML = '<p class="online-line"><i></i>' + oc + (oc === 1 ? ' kollega aktiv' : ' kollegor aktiva') + ' i portalen</p><p class="side-ver">Vårdportalen 6.0 · Los Santos Sjukvård</p>';
   var tu = $('#tb-user');
   if (tu) tu.innerHTML = '<button type="button" class="tb-user" data-nav="profil"' + (S.view === 'profil' ? ' aria-current="page"' : '') + '>' + avatarHtml(me) + '<span><b>' + esc(me.name) + '</b><small>' + esc(me.title || roleName(me.role)) + '</small></span></button>';
 }
@@ -2948,7 +3090,7 @@ function todoItems() {
     S.cases.forEach(function (c) {
       var hot = c.triage === 'rod' || c.triage === 'orange';
       if (c.status === 'inkommen' && (!c.doctorId || c.doctorId === S.me.id) && c.createdBy !== S.me.id)
-        out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ny konsultation', ic: 'konsult', title: c.title, quote: c.question || '', meta: [pt(c), 'från ' + userName(c.createdBy), ago(c.createdAt)], tri: c.triage, at: c.createdAt,
+        out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ny patient', ic: 'konsult', title: c.title, quote: c.question || '', meta: [pt(c), 'från ' + userName(c.createdBy), ago(c.createdAt)], tri: c.triage, at: c.createdAt,
           btn: '<button type="button" class="btn sm primary" data-open="' + esc(c.id) + '" data-open-tab="remiss">Öppna remissen</button>' });
       else if (c.status === 'bedoms' && c.doctorId === S.me.id)
         out.push({ tone: hot ? 'urgent' : 'todo', kind: 'Ställ diagnos', ic: 'diagnos', title: c.title, quote: c.question || '', meta: [pt(c), 'tagen ' + ago(c.updatedAt || c.createdAt)], tri: c.triage, at: c.createdAt,
@@ -3014,7 +3156,7 @@ function todoHow(t) {
   if (k === 'Operation' || k === 'Möte') return 'Öppna för att se tid, plats, patient och din uppgift.';
   if (k === 'Svar från läkare') return 'Läs svaret, gör det läkaren ber om och tryck Uppfattat.';
   if (k === 'Diagnos ställd') return 'Läkaren har ställt diagnos. Öppna ärendet och läs svaret.';
-  if (k === 'Ny konsultation') return 'Läs remissen, ta ärendet och ställ diagnos.';
+  if (k === 'Ny patient') return 'Läs remissen, ta ärendet och ställ diagnos.';
   if (k === 'Ställ diagnos') return 'Du är ansvarig läkare. Tryck Ställ diagnos och följ de fyra stegen.';
   if (k === 'Klart att avsluta') return 'Diagnosen är satt. Avsluta ärendet om inget mer behövs.';
   if (/instruktion/i.test(k)) return 'Gör det som står och tryck Kvittera, så ser läkaren att du har läst.';
@@ -3042,12 +3184,12 @@ VIEWS.mina = {
     if (!S.todoFilter) S.todoFilter = 'alla';
     el.innerHTML =
       '<section class="hero td-hero"><div class="hero-text"><p class="eyebrow">' + esc(fmtWd.format(new Date())) + ' ' + esc(fmtD.format(new Date())) + '</p><h1>Hej ' + esc(firstName(S.me.name)) + '</h1><p id="m-sub"></p></div>' +
-        (can('create') ? '<button class="btn hero-btn" type="button" data-nav="nytt">' + IC.plusc + 'Ny konsultation</button>' : '') + '</section>' +
+        (can('create') ? '<button class="btn hero-btn" type="button" data-nav="nytt">' + IC.plusc + 'Ny patient</button>' : '') + '</section>' +
       welcomeCard() +
-      '<div class="td-stats" id="td-stats"></div>' +
+      '<div class="home-tiles" id="home-tiles"></div>' + '<div class="td-stats" id="td-stats" hidden></div>' +
       '<div class="mina-grid">' +
         '<div class="mina-main">' +
-          '<section class="panel td-panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.mina + '</span>Min att göra-lista</h2><div class="tseg" id="td-filter" role="tablist" aria-label="Visa"></div></div>' +
+          '<section class="panel td-panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.mina + '</span>Gör detta nu</h2><div class="tseg" id="td-filter" role="tablist" aria-label="Visa"></div></div>' +
             '<p class="td-explain">Listan sorteras åt dig: det viktigaste ligger överst. Tryck på knappen till höger för att göra saken. När den är klar försvinner den av sig själv.</p>' +
             '<div class="todos" id="r-todo"></div></section>' +
           '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.alla + '</span>Mina ärenden</h2>' + seeAll('alla') + '</div><div class="seg" id="mc-tabs" role="tablist"></div><div class="list" id="r-mycases"></div></section>' +
@@ -3063,6 +3205,7 @@ VIEWS.mina = {
     $('#mc-tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-mc]'); if (b) { S.minaTab = b.dataset.mc; VIEWS.mina.update(); } });
   },
   update: function () {
+    S.todoFilter = 'alla'; drawHomeTiles();
     var w = waiting(), items = todoItems(), cnt = { urgent: 0, todo: 0, info: 0 };
     items.forEach(function (t) { cnt[t.tone] = (cnt[t.tone] || 0) + 1; });
     var n = cnt.urgent + cnt.todo;
@@ -3078,7 +3221,7 @@ VIEWS.mina = {
       ? emptyArt('mina', 'Inget här', 'Det finns inget i den här gruppen. Tryck Alla för att se hela listan.')
       : '<div class="empty empty-art td-done"><span class="ea-ic">' + IC.ok + '</span><b>Allt är klart</b><span>Nya konsultationer, svar från läkare, instruktioner och samtal som gäller dig dyker upp här.</span></div>');
     var quick = [
-      can('create') && { nav: 'nytt', ic: 'steth', t: 'Ny konsultation', s: 'Skicka en remiss till läkare', k: 1 },
+      can('create') && { nav: 'nytt', ic: 'steth', t: 'Ny patient', s: 'Skicka en remiss till läkare', k: 1 },
       can('diagnose') && { nav: 'inkorg', ic: 'inkorg', t: 'Läkarinkorg', s: 'Bedöm nya remisser', b: inboxCount(), k: 2 },
       { nav: 'belaggning', ic: 'belaggning', t: 'Patienter på sjukhuset', s: 'Vilka ligger inne', b: inpatients().length, k: 3 },
       { nav: 'inbokningar', ic: 'inbokningar', t: 'Inbokningar', s: 'Boka uppföljning eller operation', b: bkCount(), k: 2 },
@@ -3099,7 +3242,7 @@ VIEWS.mina = {
     var sets = [];
     if (can('diagnose')) sets.push(['resp', 'Jag ansvarar för', sortCases(S.cases.filter(function (c) { return c.doctorId === S.me.id && c.status !== 'avslutad'; })), 'Ärenden du tar från inkorgen hamnar här.']);
     sets.push(['team', 'Jag är tilldelad', sortCases(S.cases.filter(function (c) { return c.status !== 'avslutad' && inTeam(c, S.me.id); })), 'När en läkare tilldelar dig ett ärende hörs ett pling och ärendet visas här.']);
-    sets.push(['sent', 'Jag har skickat', byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; })).slice(0, 12), can('create') ? 'Tryck Ny konsultation för att skicka en remiss till läkare.' : 'Remisser du skickar visas här.']);
+    sets.push(['sent', 'Jag har skickat', byNewest(S.cases.filter(function (c) { return c.createdBy === S.me.id; })).slice(0, 12), can('create') ? 'Tryck Ny patient för att skicka en remiss till läkare.' : 'Remisser du skickar visas här.']);
     if (!S.minaTab || !sets.some(function (s) { return s[0] === S.minaTab; })) S.minaTab = (sets.find(function (s) { return s[2].length; }) || sets[0])[0];
     $('#mc-tabs').innerHTML = sets.map(function (s) { return '<button type="button" role="tab" data-mc="' + s[0] + '" aria-selected="' + (S.minaTab === s[0]) + '">' + s[1] + ' <span class="tf-n">' + s[2].length + '</span></button>'; }).join('');
     var cur = sets.find(function (s) { return s[0] === S.minaTab; });
@@ -3118,7 +3261,7 @@ function callRow(c) {
 /* ---------- Vy: Läkarinkorg ---------- */
 VIEWS.inkorg = {
   mount: function (el) {
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Läkare</p><h1>Läkarinkorg</h1><p class="sub">Konsultationer som väntar på bedömning, sorterade efter prioritet.</p></div></header>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Läkare</p><h1>Nya remisser</h1><p class="sub">Konsultationer som väntar på bedömning, sorterade efter prioritet.</p></div></header>' +
       '<div class="chips" id="ink-chips"></div><section class="panel"><div class="list" id="r-inbox"></div></section>';
     $('#ink-chips').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (b) { S.inkorgFilter = b.dataset.f; VIEWS.inkorg.update(); } });
   },
@@ -3192,7 +3335,7 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clos
 
 /* ---------- Vy: Hjälp ---------- */
 var FLOW = [
-  ['konsult', 'Skicka en remiss', 'Sjuksköterskan eller ambulansen fyller i Ny konsultation: vem patienten är, vad som hänt och mätvärden. Remissen hamnar i Läkarinkorgen.'],
+  ['konsult', 'Skicka en remiss', 'Sjuksköterskan eller ambulansen fyller i Ny patient: vem patienten är, vad som hänt och mätvärden. Remissen hamnar i Läkarinkorgen.'],
   ['diagnos', 'Läkaren tar ärendet', 'En läkare öppnar remissen och trycker Ta ärendet. Då vet alla vem som ansvarar.'],
   ['svar', 'Läkaren svarar', 'Läkaren skickar ett snabbsvar, till exempel "Ge Paracetamol till patienten", och ställer diagnos med en plan.'],
   ['uppdrag', 'Vårdteamet arbetar', 'Läkaren tilldelar personal och ger instruktioner. Personalen hör ett pling, kvitterar att de läst och återrapporterar till läkaren.'],
@@ -3207,7 +3350,7 @@ VIEWS.hjalp = {
       }).join('') + '</ol></section>' +
       '<div class="cols2">' +
         '<section class="panel"><div class="panel-head"><h2>Vad gör jag?</h2></div><div class="panel-body roles">' +
-          '<div><b>Sjuksköterska, undersköterska eller ambulans</b><ul><li>Skicka remisser med <em>Ny konsultation</em>.</li><li>Kolla <em>Att göra</em> ofta. Där kommer svar och uppdrag.</li><li>Tryck <em>Uppfattat</em> när läkaren har svarat och <em>Kvittera</em> på instruktioner. Återrapportera när du är klar.</li><li>Uppdatera var patienten är under <em>Patientens vistelse</em>.</li></ul></div>' +
+          '<div><b>Sjuksköterska, undersköterska eller ambulans</b><ul><li>Skicka remisser med <em>Ny patient</em>.</li><li>Kolla <em>Att göra</em> ofta. Där kommer svar och uppdrag.</li><li>Tryck <em>Uppfattat</em> när läkaren har svarat och <em>Kvittera</em> på instruktioner. Återrapportera när du är klar.</li><li>Uppdatera var patienten är under <em>Patientens vistelse</em>.</li></ul></div>' +
           '<div><b>Läkare</b><ul><li>Öppna <em>Läkarinkorgen</em> och ta ärenden, de röda först.</li><li>Skicka snabbsvar och gör bedömningen i fliken <em>Läkarbedömning</em>.</li><li>Tilldela personal och ge instruktioner under <em>Vårdteam och instruktioner</em>.</li><li>Avsluta ärendet när patienten är klar.</li></ul></div>' +
           '<div><b>Administratör</b><ul><li>Skapa konton under <em>Personal</em>.</li><li>Bestäm vad varje roll får göra under <em>Roller och behörighet</em>.</li></ul></div>' +
         '</div></section>' +
@@ -3231,7 +3374,7 @@ function welcomeCard() {
   var doc = can('diagnose');
   return '<section class="welcome" id="welcome"><div><p class="eyebrow">Ny i portalen?</p><h2>Så kommer du igång</h2><ol>' +
     (doc ? '<li>Nya remisser hamnar i <b>Läkarinkorgen</b> och här under <b>Att göra</b>.</li><li>Öppna en remiss och tryck <b>Ta ärendet</b>.</li><li>Skicka ett <b>snabbsvar</b> och gör bedömningen. Allt sparas med en knapp.</li>'
-      : '<li>Tryck <b>Ny konsultation</b> för att skicka en remiss till läkaren.</li><li>Läkarens svar och dina uppdrag dyker upp här under <b>Att göra</b>.</li><li>Tryck <b>Uppfattat</b> på svar och <b>Klart</b> på uppdrag när du är färdig.</li>') +
+      : '<li>Tryck <b>Ny patient</b> för att skicka en remiss till läkaren.</li><li>Läkarens svar och dina uppdrag dyker upp här under <b>Att göra</b>.</li><li>Tryck <b>Uppfattat</b> på svar och <b>Klart</b> på uppdrag när du är färdig.</li>') +
     '</ol><p class="muted">Ser du ett <span class="term-q" style="display:inline-grid;cursor:default">?</span> kan du trycka på det för att få en term förklarad.</p></div>' +
     '<div class="welcome-btns"><button type="button" class="btn primary" data-nav="hjalp">Visa hela guiden</button><button type="button" class="btn ghost" id="welcome-hide">Jag fattar, dölj</button></div></section>';
 }
@@ -3335,7 +3478,7 @@ function renderSvar(c) {
   '</article>';
 }
 
-/* ---------- Vy: Ny konsultation ---------- */
+/* ---------- Vy: Ny patient ---------- */
 VIEWS.nytt = {
   mount: function (el) {
     el.innerHTML =
@@ -3540,7 +3683,7 @@ VIEWS.uppdrag = {
 /* ---------- Vy: Alla ärenden ---------- */
 VIEWS.alla = {
   mount: function (el) {
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Register</p><h1>Alla ärenden</h1><p class="sub">Sök på patient, personnummer, ärendenummer eller sökorsak.</p></div></header>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Register</p><h1>Alla patienter</h1><p class="sub">Sök på patient, personnummer, ärendenummer eller sökorsak.</p></div></header>' +
       '<div class="toolbar"><label class="field"><span>Sök</span><input id="a-q" type="search" value="' + esc(S.allaFilter.q) + '" placeholder="Sök i ärenden"></label>' +
       '<label class="field" style="flex:0 1 220px"><span>Status</span><select id="a-st"><option value="aktiva">Alla aktiva</option><option value="alla">Alla, även avslutade</option>' + Object.keys(STATUS).map(function (k) { return '<option value="' + k + '">' + STATUS[k] + '</option>'; }).join('') + '</select></label></div>' +
       '<section class="panel"><div class="panel-head"><h2 id="a-count">Ärenden</h2></div><div class="list" id="r-alla"></div></section>';
@@ -3567,7 +3710,7 @@ VIEWS.alla = {
 VIEWS.personal = {
   mount: function (el) {
     var admin = can('manage');
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Organisation</p><h1>Personal</h1><p class="sub">' + (admin ? 'Lägg till personal, ändra roller och hantera konton.' : 'Kollegor i tjänst och deras kontaktuppgifter.') + '</p></div>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Organisation</p><h1>Kollegor</h1><p class="sub">' + (admin ? 'Lägg till personal, ändra roller och hantera konton.' : 'Kollegor i tjänst och deras kontaktuppgifter.') + '</p></div>' +
       (admin ? '<button class="btn primary" type="button" id="p-add-btn">Lägg till personal</button>' : '') + '</header>' +
       '<div id="r-edit"></div>' +
       '<div class="toolbar"><label class="field"><span>Sök</span><input id="p-q" type="search" placeholder="Namn, titel eller avdelning"></label>' +
@@ -3660,7 +3803,7 @@ VIEWS.roller = {
   mount: function (el) {
     S.dirtyRoles = false;
     var list = roles();
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Administration</p><h1>Roller och behörighet</h1><p class="sub">Bestäm vilka roller som finns och vad varje roll får göra i portalen.</p></div></header>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Administration</p><h1>Roller</h1><p class="sub">Bestäm vilka roller som finns och vad varje roll får göra i portalen.</p></div></header>' +
       '<form class="panel" id="f-roles"><div class="table-wrap"><table><thead><tr><th>Roll</th>' + PERMS.map(function (p) { return '<th class="c">' + esc(p[1]) + '</th>'; }).join('') + '<th class="c">Personal</th><th></th></tr></thead><tbody id="r-roles">' +
       list.map(function (r) {
         var fixed = r.id === 'admin', count = S.users.filter(function (u) { return u.role === r.id; }).length;
@@ -3749,7 +3892,7 @@ VIEWS.profil = {
 /* ---------- Vy: Patienter på sjukhuset ---------- */
 VIEWS.belaggning = {
   mount: function (el) {
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Beläggning</p><h1>Patienter på sjukhuset</h1><p class="sub">Vilka patienter som är kvar, var de ligger och vilka som har lämnat.</p></div></header>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Beläggning</p><h1>På sjukhuset nu</h1><p class="sub">Vilka patienter som är kvar, var de ligger och vilka som har lämnat.</p></div></header>' +
       '<div class="stats" id="b-stats"></div><div class="wards" id="b-wards"></div>' +
       '<section class="panel"><div class="panel-head"><h2>På väg in</h2><span class="muted" style="font-size:.85rem">Prehospitalt</span></div><div class="list" id="b-pre"></div></section>' +
       '<section class="panel"><div class="panel-head"><h2>Har lämnat senaste dygnet</h2></div><div class="list" id="b-left"></div></section>';
@@ -4018,7 +4161,7 @@ function notify() {
   S.cases.forEach(function (c) {
     if (S.knownCases[c.id]) return; S.knownCases[c.id] = 1;
     if (c.createdBy === S.me.id) return;
-    if (can('diagnose') && (!c.doctorId || c.doctorId === S.me.id)) { toast('Ny konsultation: ' + c.title, false, { open: c.id, sub: 'Prioritet ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' · från ' + userName(c.createdBy) }); pling(c.triage === 'rod' ? 'alert' : ''); }
+    if (can('diagnose') && (!c.doctorId || c.doctorId === S.me.id)) { toast('Ny patient: ' + c.title, false, { open: c.id, sub: 'Prioritet ' + (TRI[c.triage] || TRI.bla).label.toLowerCase() + ' · från ' + userName(c.createdBy) }); pling(c.triage === 'rod' ? 'alert' : ''); }
   });
   S.cases.forEach(function (c) {
     (c.replies || []).forEach(function (r) {
@@ -4344,7 +4487,7 @@ function openVitals(caseId, focusKey) {
 
 /* ---------- Journalen: all information samlad på ett journalblad ---------- */
 var PP_ORDER = ['pat', 'olycka', 'kontakt', 'vit', 'dx', 'tx', 'uppf', 'team', 'svar', 'img', 'hist', 'log'];
-var PP_TITLE = { pat: 'Patientuppgifter', olycka: 'Olyckan och skadorna', kontakt: 'Kontaktorsak och anamnes', vit: 'Vitalparametrar', dx: 'Diagnos och bedömning', tx: 'Ordination och behandling', stay: 'Vistelse och uppföljning', uppf: 'Avslut och uppföljning', team: 'Vårdteam och instruktioner', svar: 'Läkarens svar till remittenten', img: 'Bilagor', hist: 'Tidigare vårdtillfällen', log: 'Journalanteckningar' };
+var PP_TITLE = { pat: 'Patientuppgifter', olycka: 'Olyckan och skadorna', kontakt: 'Kontaktorsak och anamnes', vit: 'Vitalparametrar', dx: 'Diagnos och bedömning', tx: 'Ordination och behandling', stay: 'Vistelse och uppföljning', uppf: 'Avslut och uppföljning', team: 'Vårdteam och instruktioner', svar: 'Läkarens svar till remittenten', img: 'Bilagor', hist: 'Tidigare vårdtillfällen', log: 'Journaltext' };
 var PP_GROUPS = [['Patient', ['pat']], ['Olyckan', ['olycka', 'kontakt']], ['Bedömning och behandling', ['vit', 'dx', 'tx']], ['Vård och kontakt', ['uppf', 'team', 'svar']], ['Underlag', ['img', 'hist', 'log']]];
 var ONSETS = ['Inom en timme', 'Idag', '1–3 dygn', 'Mer än 3 dygn', 'Okänt'];
 function canEditJ() { return !!S.me && (can('create') || can('diagnose') || can('manage') || can('receive')); }
@@ -4759,21 +4902,90 @@ var NOTE_TPL = {
 };
 var LM_ROUTES = ['iv', 'im', 'sc', 'per os', 'inhalation', 'nasalt', 'rektalt', 'lokalt'];
 var LM_COMMON = ['Paracetamol', 'Ibuprofen', 'Morfin', 'Fentanyl', 'Ketamin', 'Ringer-Acetat', 'Natriumklorid', 'Syrgas', 'Tetanusvaccin', 'Kåvepenin', 'Cefuroxim', 'Naloxon', 'Adrenalin', 'Diazepam', 'Midazolam', 'Ondansetron', 'Tranexamsyra', 'Salbutamol', 'Glukos 30 %'];
+/* ---------- Journaltext: anteckningar med sökord, som i ett riktigt journalsystem ---------- */
+var NOTE_LONG = { oms: 'Omvårdnadsanteckning', lak: 'Läkaranteckning', amb: 'Ambulansjournal', us: 'Undersökning', lm: 'Läkemedelsadministrering', anh: 'Anhörigkontakt', remiss: 'Inkomstanteckning (remiss)' };
+var SOKORD = [['Aktuellt', 'Vad har hänt sedan sist? Vad säger patienten?'], ['Status', 'Vad ser du? T.ex. vaken, blek, såret torrt'], ['Bedömning', 'Vad tror du? T.ex. stabil, smärtan minskar'], ['Åtgärd', 'Vad har du gjort och vad ska göras?']];
+function pad2(n) { return (n < 10 ? '0' : '') + n; }
+function ehrDate(iso) { var d = new Date(iso); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
 function writerHtml() {
   var k = S.noteKind || (can('diagnose') ? 'lak' : 'oms');
-  return '<form id="f-note" class="pp-note">' +
-    '<div class="nw-head"><span class="nw-t">Ny anteckning</span><div class="nw-kinds" role="radiogroup" aria-label="Typ av anteckning">' + NOTE_KINDS.map(function (x) { return '<label class="nk-pick nkp-' + x[0] + '"><input type="radio" name="nk" value="' + x[0] + '"' + (x[0] === k ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div></div>' +
+  return '<form id="f-note" class="pp-note jn-writer">' +
+    '<div class="nw-head"><span class="nw-t">Ny journalanteckning</span><div class="nw-kinds" role="radiogroup" aria-label="Typ av anteckning">' + NOTE_KINDS.map(function (x) { return '<label class="nk-pick nkp-' + x[0] + '"><input type="radio" name="nk" value="' + x[0] + '"' + (x[0] === k ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div></div>' +
     '<div class="nw-lm" id="nw-lm"' + (k === 'lm' ? '' : ' hidden') + '><div class="grid4">' + fld('Läkemedel *', '<input id="lm-drug" list="lm-list" autocomplete="off" placeholder="T.ex. Morfin">') + fld('Dos', '<input id="lm-dose" placeholder="T.ex. 5 mg">') +
-      fld('Sätt', '<select id="lm-route">' + opts(LM_ROUTES, 'iv') + '</select>') + fld('Klockslag', '<input id="lm-time" type="time">') + '</div><datalist id="lm-list">' + LM_COMMON.map(function (x) { return '<option value="' + esc(x) + '">'; }).join('') + '</datalist></div>' +
-    '<div class="nw-tpl"><span>Mallar:</span>' + Object.keys(NOTE_TPL).map(function (t) { return '<button type="button" class="qchip" data-tpl="' + t + '">' + NOTE_TPL[t][0] + '</button>'; }).join('') + '</div>' +
-    '<textarea id="d-note" rows="4" placeholder="Skriv vad du har sett och gjort. Använd en mall om du vill ha rubriker."></textarea>' +
+      fld('Sätt', '<select id="lm-route">' + opts(LM_ROUTES, 'iv') + '</select>') + fld('Klockslag', '<input id="lm-time" type="time">') + '</div><datalist id="lm-list">' + LM_COMMON.map(function (x) { return '<option value="' + esc(x) + '">'; }).join('') + '</datalist>' +
+      fld('Kommentar', '<input id="d-note" placeholder="T.ex. effekt eller varför läkemedlet gavs (valfritt)">') + '</div>' +
+    '<div class="jn-sok" id="nw-sok"' + (k === 'lm' ? ' hidden' : '') + '>' + SOKORD.map(function (x, i) { return '<label class="jn-sf"><span>' + x[0] + '</span><textarea data-sok="' + x[0] + '" rows="2" placeholder="' + esc(x[1]) + '"></textarea></label>'; }).join('') + '</div>' +
     '<div id="d-npick">' + PICKER_HTML + '</div>' +
-    '<div class="pp-form-acts nw-foot"><small class="muted" id="nw-count">Ctrl + Enter signerar</small><button class="btn primary" type="submit">' + IC.pen + 'Signera anteckning</button></div></form>';
+    '<div class="pp-form-acts nw-foot"><small class="muted" id="nw-count">Fyll i det du vet. Tomma rutor hoppas över. Ctrl + Enter signerar.</small><button class="btn primary" type="submit">' + IC.pen + 'Signera anteckning</button></div></form>';
+}
+function bindWriter(id) {
+  var form = $('#f-note'); if (!form) return;
+  var notePicker = imagePicker($('#d-npick'), 6);
+  function kind() { return (form.querySelector('input[name=nk]:checked') || {}).value || 'oms'; }
+  function sync() { var lm = kind() === 'lm'; $('#nw-lm').hidden = !lm; $('#nw-sok').hidden = lm; if (lm && !$('#lm-time').value) { var d = new Date(); $('#lm-time').value = pad2(d.getHours()) + ':' + pad2(d.getMinutes()); } }
+  form.addEventListener('change', function (e) { if (e.target.name === 'nk') { S.noteKind = e.target.value; sync(); } });
+  form.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); form.requestSubmit(); } });
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var k = kind(), cur = curCase(); if (!cur) return;
+    var patch = {}, ev;
+    if (k === 'lm') {
+      var drug = $('#lm-drug').value.trim(), dose = $('#lm-dose').value.trim(), route = $('#lm-route').value, tm = $('#lm-time').value, com = $('#d-note').value.trim();
+      if (!drug) { toast('Skriv vilket läkemedel som gavs.', true); $('#lm-drug').focus(); return; }
+      var at = new Date(); if (tm) { var hm = tm.split(':'); at.setHours(+hm[0], +hm[1], 0, 0); if (at.getTime() > Date.now() + 60000) at.setDate(at.getDate() - 1); }
+      patch.medLog = (cur.medLog || []).concat([{ id: 'm' + uid(), drug: drug, dose: dose, route: route, at: at.toISOString(), by: S.me.id }]).slice(-100);
+      ev = { type: 'note', kind: 'lm', text: 'Läkemedel: ' + drug + (dose ? ' ' + dose : '') + ' ' + route + '\nTidpunkt: kl ' + fmtT.format(at) + (com ? '\nKommentar: ' + com : '') };
+    } else {
+      var parts = $$('[data-sok]', form).map(function (t) { var v = t.value.trim(); return v ? t.dataset.sok + ': ' + v : ''; }).filter(Boolean);
+      if (!parts.length && !notePicker.list.length) { toast('Skriv något i minst en ruta.', true); $('[data-sok]', form).focus(); return; }
+      ev = { type: 'note', kind: k, text: parts.join('\n') || 'Åtgärd: Bilder tillagda.' };
+    }
+    var btn = $('button[type=submit]', form); btn.disabled = true;
+    try {
+      var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
+      if (imgs.length) { patch.imageIds = (cur.imageIds || []).concat(imgs); ev.imageIds = imgs; }
+      await updateCase(id, patch, ev);
+      $$('[data-sok]', form).forEach(function (t) { t.value = ''; }); notePicker.reset();
+      if (k === 'lm') { $('#lm-drug').value = ''; $('#lm-dose').value = ''; $('#lm-time').value = ''; $('#d-note').value = ''; sync(); }
+      S.logFilter = k === 'lm' ? S.logFilter : 'notes'; var cc = curCase(); if (cc) drawLog(cc);
+      toast(k === 'lm' ? 'Läkemedlet är registrerat och signerat.' : 'Anteckningen är signerad och sparad i journalen.');
+    } catch (x) {}
+    btn.disabled = false;
+  });
+  sync();
+}
+/* Gör om text med "Sökord: text" till rader som i en riktig journal */
+function kwRows(text, hl) {
+  var rows = [], cur = null;
+  String(text || '').split('\n').forEach(function (line) {
+    var m = line.match(/^([A-ZÅÄÖ][A-Za-zÅÄÖåäö0-9 ()\-]{1,32}):\s?(.*)$/);
+    if (m) { cur = { k: m[1], v: m[2] }; rows.push(cur); }
+    else if (cur) cur.v += (cur.v ? '\n' : '') + line;
+    else { cur = { k: '', v: line }; rows.push(cur); }
+  });
+  rows = rows.filter(function (r) { return r.k || r.v.trim(); });
+  if (rows.length === 1 && !rows[0].k) return '<p class="jn-free">' + hl(rows[0].v) + '</p>';
+  return '<dl class="jn-kw">' + rows.map(function (r) { return '<dt>' + esc(r.k || 'Text') + '</dt><dd>' + hl(r.v.trim()) + '</dd>'; }).join('') + '</dl>';
+}
+function remissEntry(c) {
+  var inc = c.incident || {}, v = c.vitals0 || c.vitals || {}, lines = ['Kontaktorsak: ' + c.title];
+  var mech = c.mechanism && c.mechanism !== MECH[0] ? c.mechanism : '';
+  var hand = [mech, inc.at ? ehrDate(inc.at) : '', inc.place || ''].filter(Boolean).join(', ');
+  if (hand) lines.push('Händelse: ' + hand + (inc.conscious && inc.conscious !== 'nej' ? '. Medvetslös: ' + consLabel(inc.conscious).toLowerCase() : ''));
+  if (c.symptoms) lines.push('Aktuellt: ' + c.symptoms);
+  var vl = easyVitals(v).replace(/<small>/g, '').replace(/<\/small>/g, ' ').replace(/<[^>]+>/g, '|').split('|').map(function (x) { return x.trim(); }).filter(Boolean).join(', ');
+  if (vl) lines.push('Status: ' + vl + (news2(v) ? '. NEWS2 ' + news2(v).s : ''));
+  if ((c.injuries || []).length) lines.push('Skador: ' + c.injuries.map(injLabel).join('; '));
+  if (c.cave) lines.push('Överkänslighet: ' + c.cave);
+  if (c.meds) lines.push('Aktuella läkemedel: ' + c.meds);
+  if (c.given) lines.push('Given behandling: ' + c.given);
+  if (c.question) lines.push('Frågeställning: ' + c.question);
+  return { type: 'note', kind: 'remiss', at: c.createdAt, by: c.createdBy, text: lines.join('\n'), unit: personOf(c.createdBy).dept || 'Prehospital vård' };
 }
 function drawLog(c) {
   var lg = $('#d-log'); if (!lg) return;
-  var f = S.logFilter || 'alla', q = (S.logQ || '').trim().toLowerCase();
-  var all = (c.events || []).slice().reverse();
+  var f = S.logFilter || 'notes', q = (S.logQ || '').trim().toLowerCase();
+  var all = (c.events || []).concat([remissEntry(c)]).sort(function (a, b) { return new Date(b.at) - new Date(a.at); });
   var evs = all.filter(function (e) {
     if (f === 'notes' && e.type !== 'note') return false;
     if (f === 'lm' && e.kind !== 'lm') return false;
@@ -4783,54 +4995,15 @@ function drawLog(c) {
   });
   var cnt = { alla: all.length, notes: all.filter(function (e) { return e.type === 'note'; }).length, lm: all.filter(function (e) { return e.kind === 'lm'; }).length, sys: all.filter(function (e) { return e.type !== 'note'; }).length };
   $$('#lg-f [data-lf]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lf === f)); var n = b.querySelector('.tf-n'); if (n) n.textContent = cnt[b.dataset.lf]; });
-  var hl = function (t) { var s = esc(t); if (!q) return s; var i = s.toLowerCase().indexOf(esc(q)); return i === -1 ? s : s.slice(0, i) + '<mark>' + s.slice(i, i + esc(q).length) + '</mark>' + s.slice(i + esc(q).length); };
+  var hl = function (t) { var s = esc(t); if (!q) return s; var eq = esc(q), i = s.toLowerCase().indexOf(eq); return i === -1 ? s : s.slice(0, i) + '<mark>' + s.slice(i, i + eq.length) + '</mark>' + s.slice(i + eq.length); };
+  var unit = (c.stay && c.stay.status === 'inne' && c.stay.ward) || 'Akutmottagningen';
   lg.innerHTML = evs.length ? evs.map(function (e) {
-    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) }), d = new Date(e.at), ni = e.imageIds ? e.imageIds.length : 0, note = e.type === 'note';
-    return '<div class="pp-entry ' + (note ? 'note' : 'sys') + '"><time>' + esc(fmtD.format(d)) + '<br>' + esc(fmtT.format(d)) + '</time><div><div class="pe-top">' + (note ? '<span class="nk nk-' + esc(e.kind || 'x') + '">' + esc(e.kind ? noteKindLabel(e.kind) : 'Anteckning') + '</span>' : '<span class="nk nk-sys">Händelse</span>') + '<b>' + esc(u.name) + '</b>' + (u.title ? '<small> · ' + esc(u.title) + '</small>' : '') + '</div>' +
-      '<p>' + hl(e.text) + '</p>' + (ni ? '<small>' + ni + (ni > 1 ? ' bilder bifogade' : ' bild bifogad') + '</small>' : '') + '</div></div>';
-  }).join('') : '<p class="pp-muted pp-m0">' + (all.length ? 'Inget matchar filtret.' : 'Inga anteckningar.') + '</p>';
-}
-function bindWriter(id) {
-  var form = $('#f-note'); if (!form) return;
-  var notePicker = imagePicker($('#d-npick'), 6), ta = $('#d-note');
-  function kind() { return (form.querySelector('input[name=nk]:checked') || {}).value || 'oms'; }
-  function sync() { var lm = kind() === 'lm'; $('#nw-lm').hidden = !lm; ta.placeholder = lm ? 'Kommentar, t.ex. effekt eller varför läkemedlet gavs (valfritt)' : 'Skriv vad du har sett och gjort. Använd en mall om du vill ha rubriker.'; if (lm && !$('#lm-time').value) { var d = new Date(); $('#lm-time').value = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); } }
-  form.addEventListener('change', function (e) { if (e.target.name === 'nk') { S.noteKind = e.target.value; sync(); } });
-  form.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-tpl]'); if (!t) return;
-    var tpl = NOTE_TPL[t.dataset.tpl][1], s0 = ta.selectionStart || ta.value.length, pre = ta.value.slice(0, s0), post = ta.value.slice(s0);
-    var ins = (pre && !/\n$/.test(pre) ? '\n' : '') + tpl;
-    ta.value = pre + ins + post; ta.focus(); var pos = (pre + ins).indexOf(': ', pre.length) + 2; ta.setSelectionRange(pos, pos); count();
-  });
-  function count() { var n = ta.value.trim().length; $('#nw-count').textContent = n ? n + ' tecken · Ctrl + Enter signerar' : 'Ctrl + Enter signerar'; }
-  ta.addEventListener('input', count);
-  form.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); form.requestSubmit(); } });
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var k = kind(), text = ta.value.trim(), cur = curCase(); if (!cur) return;
-    var patch = {}, ev;
-    if (k === 'lm') {
-      var drug = $('#lm-drug').value.trim(), dose = $('#lm-dose').value.trim(), route = $('#lm-route').value, tm = $('#lm-time').value;
-      if (!drug) { toast('Skriv vilket läkemedel som gavs.', true); $('#lm-drug').focus(); return; }
-      var at = new Date(); if (tm) { var hm = tm.split(':'); at.setHours(+hm[0], +hm[1], 0, 0); if (at.getTime() > Date.now() + 60000) at.setDate(at.getDate() - 1); }
-      patch.medLog = (cur.medLog || []).concat([{ id: 'm' + uid(), drug: drug, dose: dose, route: route, at: at.toISOString(), by: S.me.id }]).slice(-100);
-      ev = { type: 'note', kind: 'lm', text: 'Givet: ' + drug + (dose ? ' ' + dose : '') + ' ' + route + ' kl ' + fmtT.format(at) + (text ? '\n' + text : '') };
-    } else {
-      if (!text && !notePicker.list.length) { toast('Skriv en anteckning först.', true); ta.focus(); return; }
-      ev = { type: 'note', kind: k, text: text || 'Bilder tillagda.' };
-    }
-    var btn = $('button[type=submit]', form); btn.disabled = true;
-    try {
-      var imgs = notePicker.list.length ? await saveImages(notePicker.list, id) : [];
-      if (imgs.length) { patch.imageIds = (cur.imageIds || []).concat(imgs); ev.imageIds = imgs; }
-      await updateCase(id, patch, ev);
-      ta.value = ''; notePicker.reset(); count();
-      if (k === 'lm') { $('#lm-drug').value = ''; $('#lm-dose').value = ''; $('#lm-time').value = ''; sync(); }
-      toast(k === 'lm' ? 'Läkemedlet registrerades i journalen.' : 'Anteckningen signerades och sparades.');
-    } catch (x) {}
-    btn.disabled = false;
-  });
-  sync();
+    var u = userById(e.by) || (e.by === 'admin' ? adminSelf() : { name: userName(e.by) }), ni = e.imageIds ? e.imageIds.length : 0;
+    if (e.type !== 'note') return '<div class="jn-sys"><time>' + esc(ehrDate(e.at)) + '</time><span>' + hl(e.text) + '</span><small>' + esc(u.name) + '</small></div>';
+    var kind = e.kind || (can('diagnose', u) ? 'lak' : 'oms'), where = e.unit || (kind === 'amb' ? 'Ambulanssjukvården' : unit);
+    return '<article class="jn-note jk-' + esc(kind) + '"><header class="jn-head"><time>' + esc(ehrDate(e.at)) + '</time><b>' + esc(NOTE_LONG[kind] || 'Journalanteckning') + '</b><span>' + esc(where) + '</span><span class="jn-signed">' + IC.ok + 'Signerad</span></header>' +
+      '<div class="jn-by">' + esc(u.name) + (u.title ? ', ' + esc(u.title) : '') + '</div>' + kwRows(e.text, hl) + (ni ? '<p class="jn-att">Bilaga: ' + ni + (ni > 1 ? ' bilder' : ' bild') + '</p>' : '') + '</article>';
+  }).join('') : '<p class="pp-muted pp-m0">' + (all.length ? 'Inget matchar.' : 'Inga anteckningar.') + '</p>';
 }
 
 /* ---------- Inbokningar: operationer, uppföljningar och möten ---------- */
@@ -5056,7 +5229,7 @@ function mountBkForm(box, st, onDone) {
 /* ---------- Vy: Inbokningar ---------- */
 VIEWS.inbokningar = {
   mount: function (el) {
-    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Planering</p><h1>Inbokningar</h1><p class="sub">Boka operationer, uppföljningar och möten. Alla som bokas in får ett möte under Att göra och kvitterar sin plats.</p></div></header>' +
+    el.innerHTML = '<header class="page-head"><div><p class="eyebrow">Planering</p><h1>Bokningar</h1><p class="sub">Boka operationer, uppföljningar och möten. Alla som bokas in får ett möte under Att göra och kvitterar sin plats.</p></div></header>' +
       '<section class="bk-types" id="bk-types">' + BK_TYPES.map(function (t) { return '<button type="button" class="bk-tile" data-bknew="' + t[0] + '" style="--bk:' + t[4] + '"><span class="bk-tic">' + bkIcon(t[0]) + '</span><span><b>' + t[2] + '</b><small>' + t[3] + '</small></span></button>'; }).join('') + '</section>' +
       '<div id="bk-formbox"></div>' +
       '<section class="panel"><div class="panel-head"><h2 class="ph"><span class="ph-ic">' + IC.calendar + '</span>Bokningar</h2><div class="tseg" id="bk-tabs" role="tablist"></div></div><div class="bk-list" id="bk-list"></div></section>';
@@ -5226,6 +5399,84 @@ PP.uppf = {
       '<div class="pp-sub">Var är patienten?</div><div class="uppf-where"><b>' + esc(w.t) + '</b><span>' + esc(w.d) + '</span>' + (ed ? '<button type="button" class="pp-mini" data-stayedit>Ändra plats</button>' : '') + '</div>';
   }
 };
+/* ---------- Enkel vy: det viktigaste i journalen med vanliga ord ---------- */
+var HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></svg>';
+var AVPU_WORD = { A: 'Vaken', C: 'Förvirrad', V: 'Svarar på tilltal', P: 'Svarar bara på smärta', U: 'Medvetslös' };
+function jEasy() { var v = S.jView || load('lsvp.jview') || 'easy'; return v === 'easy'; }
+function setJView(v) {
+  S.jView = v; store('lsvp.jview', v);
+  var jr = $('.jr'); if (jr) jr.classList.toggle('easy', v === 'easy');
+  var c = curCase(); if (c) drawJournalBar(c);
+  var b = $('#d-body'); if (b) b.scrollTo({ top: 0 });
+}
+function easyMood(c) {
+  var nw = news2(c.vitals);
+  if (!nw) return ['gra', 'Inte mätt än', 'Tryck Ny mätning så vet alla hur patienten mår.'];
+  if (nw.risk === 'hog') return ['rod', 'Mår dåligt', 'Agera nu. Se till att en läkare kommer direkt.'];
+  if (nw.risk === 'medel') return ['rod', 'Mår sämre', 'Läkaren ska titta på patienten snart.'];
+  if (nw.risk === 'lagmedel') return ['gul', 'Håll koll', 'Ett värde är dåligt. Mät igen snart.'];
+  return ['gron', 'Mår bra', 'Värdena ser bra ut.'];
+}
+function easyVitals(v) {
+  v = v || {};
+  var list = [['puls', 'Puls', v.puls ? v.puls + ' slag/min' : ''], ['spo2', 'Syre', v.spo2 ? v.spo2 + ' %' + (v.o2 ? ' (med syrgas)' : '') : ''], ['bts', 'Blodtryck', v.bts ? v.bts + (v.btd ? '/' + v.btd : '') : ''],
+    ['af', 'Andning', v.af ? v.af + ' andetag/min' : ''], ['temp', 'Temp', v.temp ? v.temp + ' °C' : ''], ['vas', 'Smärta', v.vas ? v.vas + ' av 10' : ''], ['avpu', 'Medvetande', v.avpu ? AVPU_WORD[v.avpu] || v.avpu : '']];
+  return list.filter(function (x) { return x[2]; }).map(function (x) { return '<span class="ez-chip' + (vitFlag(x[0], v) ? ' flag' : '') + '"><small>' + x[1] + '</small>' + esc(x[2]) + '</span>'; }).join('');
+}
+function drawEasy(c) {
+  var el = $('#pp-easy'); if (!el) return;
+  var me = S.me.id, ed = canEditJ(), open = c.status !== 'avslutad', mood = easyMood(c), w = whereNow(c), d = c.diagnosis, inc = c.incident || {}, inj = c.injuries || [];
+  var last = vitLog(c); last = last[last.length - 1];
+  var mech = c.mechanism && c.mechanism !== MECH[0] ? c.mechanism : '';
+  var facts = [
+    ['Vad hände?', esc(c.title || 'Ej angivet'), [mech, inc.at ? agoLong(inc.at) : '', inj.length ? inj.length + (inj.length === 1 ? ' skada' : ' skador') + ' markerade' : ''].filter(Boolean).map(esc).join(' · '), ''],
+    ['Var är patienten nu?', esc(w.t), esc(w.d), w.k === 'larm' ? 'alert' : ''],
+    ['Vad är det för fel?', d ? esc(d.text) : 'Inte bestämt än', d ? esc((certLabel(d.cert) || 'Bestämt') + ' · av ' + userName(d.by)) : esc(c.doctorId ? userName(c.doctorId) + ' tittar på det' : 'Väntar på en läkare'), d ? 'ok' : ''],
+    ['Tål inte (allergi)', c.cave ? esc(c.cave) : 'Inget känt', c.cave ? 'Ge inte det här till patienten' : '', c.cave ? 'alert' : ''],
+    ['Vem har hand om patienten?', c.doctorId ? esc(userName(c.doctorId)) : 'Ingen läkare än', teamOf(c).length ? teamOf(c).length + ' i vårdteamet' : 'Ingen i vårdteamet', '']
+  ];
+  var todo = [];
+  if (!d && open) todo.push(can('diagnose') ? ['Bestäm vad patienten har för fel', 'Du är läkare. Ställ diagnos.', '<button type="button" class="ez-go" data-dxopen="' + esc(c.id) + '">Ställ diagnos</button>'] : ['Väntar på att läkaren bestämmer felet', 'Du behöver inte göra något här.', '']);
+  unackedInstr(c, me).forEach(function (i) { todo.push([i.text, (i.prio === 'akut' ? 'AKUT · ' : '') + 'Från ' + userName(i.by) + '. Gör det och tryck Jag har läst.', '<button type="button" class="ez-go" data-iack="' + esc(c.id) + '|' + esc(i.id) + '">Jag har läst</button>', i.prio === 'akut']); });
+  if (c.createdBy === me) unackedReplies(c).forEach(function (r) { todo.push(['Läkaren svarar: ' + r.text, 'Från ' + userName(r.by), '<button type="button" class="ez-go" data-ack="' + esc(c.id) + '">Uppfattat</button>']); });
+  if (isCaseDoctor(c)) unreadReports(c).forEach(function (r) { todo.push([userName(r.by) + ': ' + r.text, reportKind(r.kind)[1], '<button type="button" class="ez-go" data-rread="' + esc(c.id) + '|' + esc(r.id) + '">Läst</button>', r.kind === 'hjalp']); });
+  txItems(c).filter(function (t) { return !txDoneOf(c, t); }).forEach(function (t) { todo.push([t, 'Behandling från läkaren', ed && open ? '<button type="button" class="ez-go" data-txdone="' + esc(t) + '">Klar</button>' : '']); });
+  bookings().filter(function (b) { return b.caseId === c.id && bkOpen(b); }).forEach(function (b) { var st = bkState(b); todo.push([bkType(b.type)[1] + ' ' + bkWhen(b), st === 'sen' ? 'Tiden har passerat. Bocka av.' : st === 'pagar' ? 'Pågår nu.' : bkTitle(b), '<button type="button" class="ez-go' + (st === 'sen' || st === 'pagar' ? '' : ' soft') + '" data-bk="' + esc(b.id) + '">Öppna</button>']); });
+  var acts = [
+    ed && [HEART, 'Ny mätning', 'Puls, syre, blodtryck', 'data-vit-edit=""', ''],
+    ed && [IC.pen, 'Skriv i journalen', 'Vad har du sett och gjort?', 'data-ezwrite', ''],
+    can('diagnose') && open && [IC.steth, d ? 'Ändra diagnos' : 'Ställ diagnos', 'Vad har patienten?', 'data-dxopen="' + esc(c.id) + '"', d ? '' : 'pri'],
+    ed && [PIN, 'Markera skador', 'Tryck på kroppen', 'data-injmap', ''],
+    ed && [bkIcon('uppfoljning'), 'Boka tid', 'Uppföljning eller operation', 'data-bkfrom="uppfoljning"', ''],
+    [IC.chatt, 'Chatta', 'Skriv till kollegor', 'data-ezchat', ''],
+    ed && [IC.pin || PIN, 'Flytta patienten', 'Ändra var hen är', 'data-stayedit', ''],
+    canDischarge(c) && [HOME, 'Skicka hem', 'Skriv ut patienten', 'data-discharge', 'warn']
+  ].filter(Boolean);
+  el.innerHTML =
+    '<div class="ez-mood m-' + mood[0] + '"><span class="ez-light" aria-hidden="true"></span><div><small>Hur mår patienten?</small><b>' + mood[1] + '</b><span>' + mood[2] + '</span></div>' +
+      (ed ? '<button type="button" class="ez-mood-btn" data-vit-edit="">' + HEART + 'Ny mätning</button>' : '') + '</div>' +
+    (last && last.v && Object.keys(last.v).length ? '<div class="ez-vit"><span class="ez-vit-t">Senast mätt ' + esc(agoLong(last.at)) + ':</span>' + easyVitals(last.v) + '</div>' : '') +
+    '<div class="ez-facts">' + facts.map(function (f) { return '<div class="ez-fact ' + f[3] + '"><small>' + f[0] + '</small><b>' + f[1] + '</b>' + (f[2] ? '<span>' + f[2] + '</span>' : '') + '</div>'; }).join('') + '</div>' +
+    '<h3 class="ez-h">Det här ska göras</h3>' +
+    (todo.length ? '<div class="ez-todo">' + todo.map(function (t, i) { return '<div class="ez-ti' + (t[3] ? ' akut' : '') + '"><span class="ez-num">' + (i + 1) + '</span><div><b>' + esc(t[0]) + '</b><small>' + esc(t[1]) + '</small></div>' + t[2] + '</div>'; }).join('') + '</div>'
+      : '<div class="ez-done">' + IC.ok + '<span>Allt är gjort. Det finns inget som väntar.</span></div>') +
+    '<h3 class="ez-h">Vad vill du göra?</h3>' +
+    '<div class="ez-acts">' + acts.map(function (a) { return '<button type="button" class="ez-act ' + a[4] + '" ' + a[3] + '><span class="ez-ai">' + a[0] + '</span><b>' + a[1] + '</b><small>' + a[2] + '</small></button>'; }).join('') + '</div>' +
+    '<button type="button" class="ez-full" data-jview="full">Visa hela journalen med alla detaljer →</button>';
+}
+function drawHomeTiles() {
+  var el = $('#home-tiles'); if (!el) return;
+  var t = [
+    can('create') && ['nytt', IC.plusc, 'Ny patient', 'Skicka en patient till läkaren', 0, 'pri'],
+    can('diagnose') && ['inkorg', IC.inkorg, 'Nya remisser', 'Patienter som väntar på läkare', inboxCount(), ''],
+    ['alla', IC.alla, 'Alla patienter', 'Hitta en patient', 0, ''],
+    ['belaggning', IC.belaggning, 'På sjukhuset', 'Vilka ligger inne nu', 0, ''],
+    ['inbokningar', IC.inbokningar, 'Bokningar', 'Operationer och möten', bkCount(), ''],
+    ['chatt', IC.chatt, 'Chatt', 'Prata med kollegor', totalUnread(), '']
+  ].filter(Boolean);
+  el.innerHTML = t.map(function (x) { return '<button type="button" class="home-tile ' + x[5] + '" data-nav="' + x[0] + '"><span class="ht-ic">' + x[1] + '</span><b>' + x[2] + '</b><small>' + x[3] + '</small>' + (x[4] ? '<span class="ht-badge">' + x[4] + '</span>' : '') + '</button>'; }).join('');
+}
+
 function ppFormHtml(c, k) {
   var P = PP[k];
   return '<form class="pp-form" data-pp-form="' + k + '">' + P.form(c) + '<div class="pp-form-acts"><button type="button" class="btn" data-pp-cancel>Avbryt</button><button type="submit" class="btn primary">' + (P.saveLabel ? P.saveLabel(c) : 'Spara ändringen') + '</button></div></form>';
@@ -5325,8 +5576,10 @@ function drawJournalBar(c) {
   if (canD) b.push(c.status === 'avslutad' ? '<button type="button" class="btn sm" data-next="reopen">Återöppna</button>' : '<button type="button" class="btn sm" data-next="close">Avsluta ärendet</button>');
   if (canDischarge(c)) b.push('<button type="button" class="btn sm jr-dis" data-discharge>' + HOME + 'Skriv ut patienten</button>');
   $('#jr-bar').innerHTML = '<button type="button" class="jr-back" data-close aria-label="Stäng journalen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Tillbaka</button>' +
-    '<div class="jr-title"><b>' + esc(p.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(c.caseNo) + '</span> · ' + esc(c.title) + '</span></div>' +
+    '<div class="jr-title"><b>' + esc(p.name || 'Okänd patient') + '</b><span><span class="mono">' + esc(p.pnr || 'Personnummer saknas') + '</span>' + (pnrInfo(p.pnr) ? ' · ' + pnrInfo(p.pnr).age + ' år · ' + pnrInfo(p.pnr).sex : '') + ' · <span class="jr-unit">Vårdkontakt ' + esc(c.caseNo) + '</span></span></div>' +
+    (c.cave ? '<button type="button" class="jr-warn" data-goto="pat" title="Varning: överkänslighet mot ' + esc(c.cave) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>CAVE: ' + esc(c.cave) + '</span></button>' : '') +
     '<div class="jr-tags">' + statusPill(c.status) + '<span class="jr-where w-' + whereNow(c).k + '" title="Befinner sig nu">' + PIN + esc(whereNow(c).t) + '</span></div>' +
+    '<div class="jr-view" role="group" aria-label="Visa journalen"><button type="button" data-jview="easy" aria-pressed="' + jEasy() + '">Översikt</button><button type="button" data-jview="full" aria-pressed="' + !jEasy() + '">Hela journalen</button></div>' +
     '<div class="jr-acts">' + b.join('') + '</div>';
 }
 function drawToc(c) {
@@ -5385,7 +5638,7 @@ function openCase(id) {
   S.openCase = id; var wrap = $('#drawer');
   var c = S.cases.find(function (x) { return x.id === id; });
   wrap.hidden = false;
-  if (S.drawerCase !== id) { S.drawerCase = id; S.ppEdit = null; S.ppMode = null; S.logFilter = 'alla'; S.logQ = ''; }
+  if (S.drawerCase !== id) { S.drawerCase = id; S.ppEdit = null; S.ppMode = null; S.logFilter = 'notes'; S.logQ = ''; }
   wrap.innerHTML = '<section class="drawer jr" role="dialog" aria-modal="true" aria-label="Patientjournal">' +
     '<header class="jr-bar" id="jr-bar"></header>' +
     '<div class="jr-layout">' +
@@ -5394,10 +5647,11 @@ function openCase(id) {
         '<article class="paper" id="jr-paper">' +
           '<header class="pp-head" id="pp-head"></header>' +
           '<section class="pp-glance" id="pp-glance" aria-label="Snabböversikt"></section>' +
+          '<section class="pp-easy" id="pp-easy" aria-label="Enkel vy"></section>' +
           PP_ORDER.filter(function (k) { return k !== 'log'; }).map(function (k) { return '<section class="pp-sec" id="pp-' + k + '"></section>'; }).join('') +
           '<section class="pp-sec" id="pp-log"><header class="pp-h"><span class="pp-n"></span><h2>' + PP_TITLE.log + '</h2><span class="pp-count" id="ppn-log"></span></header><div class="pp-b">' +
             (canEditJ() ? writerHtml() : '') +
-            '<div class="lg-bar"><div class="lg-f" id="lg-f" role="group" aria-label="Visa">' + [['alla', 'Allt'], ['notes', 'Anteckningar'], ['lm', 'Läkemedel'], ['sys', 'Händelser']].map(function (x) { return '<button type="button" data-lf="' + x[0] + '" aria-pressed="false">' + x[1] + ' <span class="tf-n"></span></button>'; }).join('') + '</div><input type="search" id="lg-q" placeholder="Sök i journalen" aria-label="Sök i journalen" autocomplete="off"></div>' +
+            '<div class="lg-bar"><div class="lg-f" id="lg-f" role="group" aria-label="Visa">' + [['notes', 'Journaltext'], ['lm', 'Läkemedel'], ['sys', 'Händelselogg'], ['alla', 'Allt']].map(function (x) { return '<button type="button" data-lf="' + x[0] + '" aria-pressed="false">' + x[1] + ' <span class="tf-n"></span></button>'; }).join('') + '</div><input type="search" id="lg-q" placeholder="Sök i journalen" aria-label="Sök i journalen" autocomplete="off"></div>' +
             '<div class="pp-log" id="d-log"></div></div></section>' +
           '<footer class="pp-foot" id="pp-foot"></footer>' +
         '</article>' +
@@ -5413,11 +5667,14 @@ function openCase(id) {
     '</div></section>';
   if (!c) { $('#jr-bar').innerHTML = '<div class="jr-title"><b>Ärendet hittades inte</b></div><div class="jr-acts"><button class="btn sm" data-close type="button">Stäng</button></div>'; return; }
   bindComposer($('#cc-form'), function () { return 'case.' + id; }, function () { return null; });
-  var jr = $('.jr', wrap);
+  var jr = $('.jr', wrap); jr.classList.toggle('easy', jEasy());
   jr.addEventListener('click', function (e) {
     var t = e.target;
     var ed = t.closest('[data-pp-edit]'); if (ed) { ppEdit(ed.dataset.ppEdit, ed.dataset.mode, { kind: ed.dataset.kind, instr: ed.dataset.instr }); return; }
     if (t.closest('[data-pp-cancel]')) { ppCancel(); return; }
+    var jv = t.closest('[data-jview]'); if (jv) { setJView(jv.dataset.jview); return; }
+    if (t.closest('[data-ezwrite]')) { var fn = $('#f-note'); if (fn) { fn.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(function () { $('#d-note').focus({ preventScroll: true }); }, 350); } return; }
+    if (t.closest('[data-ezchat]')) { var sc = $('#sec-chat'); if (sc) { sc.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(function () { var ta = $('#cc-form textarea'); if (ta) ta.focus({ preventScroll: true }); }, 350); } return; }
     var ve = t.closest('[data-vit-edit]'); if (ve) { openVitals(id, ve.dataset.vitEdit); return; }
     if (t.closest('[data-injmap]')) { openInjuries(id); return; }
     if (t.closest('[data-stayedit]')) { openStay(id); return; }
@@ -5470,7 +5727,7 @@ function updateDrawer() {
   drawRail(c);
   var ccv = 'case.' + c.id, ccm = $('#cc-msgs');
   if (ccm) { fillMsgs(ccm, ccv); var ty = typingIn(ccv); $('#cc-typing').textContent = ty.length ? ty.map(function (u) { return firstName(userName(u)); }).join(', ') + ' skriver…' : ''; if (document.visibilityState === 'visible') markRead(ccv); }
-  drawLog(c); drawGlance(c);
+  drawLog(c); drawGlance(c); drawEasy(c);
   markSeen(c);
 }
 function drawTabs(c) {
@@ -5488,6 +5745,7 @@ function showPane(tab) {
   var map = { oversikt: 'top', bedomning: 'uppf', remiss: 'kontakt', team: 'team', chat: 'chat', journal: 'log' };
   var k = map[tab] || tab;
   if (k === 'stay') { openStay(S.openCase); return; }
+  if (jEasy() && ['top', 'chat', 'log'].indexOf(k) === -1) setJView('full');
   if (k === 'top') { var b = $('#d-body'); if (b) b.scrollTo({ top: 0, behavior: 'smooth' }); return; }
   var el = k === 'chat' ? $('#sec-chat') : $('#pp-' + k); if (!el || el.hidden) return;
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
